@@ -3,8 +3,6 @@ created_at: 2009-08-27 08:18:00 -05:00
 layout: post
 typo_id: 23
 title: "Project Euler - Problem 230: Fibonacci Words"
-tags: 
-- projecteuler problem mathematics fibonacci goldenratio
 ---
 <p>I wrote a Python script to solve <a href="http://projecteuler.net/index.php?section=problems&id=230">Problem 230</a> on Project Euler. You can read the problem via the link. It involves a sequence known as <a href="http://en.wikipedia.org/wiki/Fibonacci_word">Fibonacci Word</a>. The sequences goes as follows:</p>
 <pre>

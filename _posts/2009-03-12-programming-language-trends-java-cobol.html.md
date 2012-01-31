@@ -3,8 +3,6 @@ created_at: 2009-03-12 20:13:00 -05:00
 layout: post
 typo_id: 13
 title: Programming Language Trends (Java==Cobol?)
-tags: 
-- programming languages trends python java ruby erlang cobol
 ---
 <p>I ran some queries through <a href="http://www.google.com/insights">Google Insights</a>, just for fun. One of the queries I ran was <a href="http://www.google.com/insights/search/#cat=31&q=python%2Cjava%2Cruby%2Cerlang%2Ccobol&cmpt=q">python vs. java vs. ruby vs. erlang vs. cobol</a>, under the Programming category. Here's the resulting graph of growth relative to category.</p>
 <p><img height="169" width="710" alt="" src="/files/Image/google-lang-trends.png" /></p>

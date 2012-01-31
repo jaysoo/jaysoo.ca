@@ -3,8 +3,6 @@ created_at: 2009-04-13 12:49:00 -05:00
 layout: post
 typo_id: 16
 title: Displaying URIs In Print CSS
-tags: 
-- css
 ---
 <p>One of the fundamental features of webpages is the ability to link resources together. However, whenever you print a page, you lose all the URI information on that page. Fortunately, there is a easy way to retain these URIs even when the page is printed on paper: CSS.</p>
 <p>A lot of websites already use print CSS files, and with a few extra styles you can have the page print with the <code>href</code> attributes.</p>

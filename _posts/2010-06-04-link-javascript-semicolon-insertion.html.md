@@ -3,8 +3,6 @@ created_at: 2010-06-04 08:55:00 -05:00
 layout: post
 typo_id: 37
 title: "Link: JavaScript Semicolon Insertion"
-tags: 
-- javascript semicolon grammar
 ---
 <p>Read a really good post on automatic semicolon insertion (ASI) in JavaScript. I highly recommend reading it if you're not familiar with how ASI works.</p>
 <p><a href="http://inimino.org/~inimino/blog/javascript_semicolons">http://inimino.org/~inimino/blog/javascript_semicolons</a></p>

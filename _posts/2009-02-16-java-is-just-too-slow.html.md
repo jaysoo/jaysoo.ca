@@ -3,8 +3,6 @@ created_at: 2009-02-16 22:13:00 -06:00
 layout: post
 typo_id: 6
 title: Java Is Just Too Slow
-tags: 
-- java, python, json, web
 ---
 <p>Java is <em>slow</em>. And by slow I don't mean it's execution speed. I'm talking about development speed.</p>
 <p><strong>Java forces you to plan too much</strong>. Don't get me wrong, there's nothing inherently bad about planning. The problem is that innovation and planning don't always go hand-in-hand. When you're making yet another boring spreadsheet application that's been done a million times before, you can plan out exactly what needs to be done before writing code because you know exactly what you need However, when you're innovating you need to code as you go. Your ideas may just work, it might need some tweaking, or it may turn out to be horrible. The point is, you won't know until you start hacking away at the code.</p>

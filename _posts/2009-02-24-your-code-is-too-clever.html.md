@@ -3,8 +3,6 @@ created_at: 2009-02-24 22:40:00 -06:00
 layout: post
 typo_id: 8
 title: Your Code Is Too Clever
-tags: 
-- clever c graphics mathematics approximation
 ---
 <p>As programmers we are often to <a href="http://en.wikipedia.org/wiki/KISS_principle">keep things simple</a>, and not to be too clever. While I agree with these principles most of the time, I hope that they are not used as an excuse to avoid finding better solutions for our problems.</p>
 <p>How do we define <em>too clever</em>? If we read a code that we can't understand right away, does it mean it's too clever?</p>

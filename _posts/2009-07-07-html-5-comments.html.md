@@ -3,8 +3,6 @@ created_at: 2009-07-07 10:51:00 -05:00
 layout: post
 typo_id: 21
 title: HTML 5 Comments
-tags: 
-- html5 comments html
 ---
 <p>One change that I think most people are overlooking is the change to HTML comments in HTML 5. If you read the <a href="http://dev.w3.org/html5/spec/#comments">working draft</a> of the HTML 5 spec, you'll notice that previously valid comment markup may no longer be valid in HTML 5.</p>
 <p>Here is definition from HTML 5:</p>

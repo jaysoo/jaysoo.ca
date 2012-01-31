@@ -3,8 +3,6 @@ created_at: 2010-07-26 19:40:00 -05:00
 layout: post
 typo_id: 40
 title: Kissette.com launched
-tags: []
-
 ---
 <p>I'm happy to announce the launch of Kissette's website: <a href="http://kissette.com">kissette.com</a>. The design was done by Sandra (of Kissette), while I worked on the web stuff. This is the first website I've built with HTML5 in mind. The audio players on the website are fully functional on the iPhone and iPad (via the <audio> tag). Some notable JavaScript libraries I used:</p>
 <ul>

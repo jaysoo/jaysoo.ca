@@ -83,7 +83,7 @@ module Jekyll
           f.puts({ 'layout'   => layout,
                    'title'    => clean_entities(post[:title].to_s),
                    'created_at' => post[:date],
-                   'tags'     => tags,
+                   # 'tags'     => tags,
                    'typo_id'  => post[:id]
                  }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'

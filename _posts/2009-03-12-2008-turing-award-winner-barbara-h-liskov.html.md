@@ -3,8 +3,6 @@ created_at: 2009-03-12 19:25:00 -05:00
 layout: post
 typo_id: 12
 title: "2008 Turing Award Winner: Barbara H. Liskov"
-tags: 
-- turing acm 2008 award
 ---
 <p>Congratulations to Barbara Liskov for being the receipient of the <a href="http://awards.acm.org/citation.cfm?id=1108679&srt=year&year=2008&aw=140&ao=AMTURING">2008 Turing Award</a>, the first woman receipient.</p>
 <p>Exerpt taken from the ACM award citation:</p>

@@ -3,8 +3,6 @@ created_at: 2011-03-20 18:39:00 -05:00
 layout: post
 typo_id: 41
 title: CSS3 for Internet Explorer
-tags: 
-- css3 css
 ---
 <p>I have been using a lot of CSS3 in my projects this past year. CSS3 makes it much easier to implement design elements such as rounded corners, non-native fonts, etc.</p>
 <p>The only problem with the CSS3 approach is that support for it differs among the major browsers. In most cases, it's just a matter of using different vendor prefixes (<code>-webkit</code> vs. <code>-moz</code> vs <code>-o</code>). Internet Explorer (IE 6-8) though, is a whole other story.</p>

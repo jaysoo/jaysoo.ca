@@ -3,8 +3,6 @@ created_at: 2009-09-18 08:42:00 -05:00
 layout: post
 typo_id: 29
 title: Java control flow exercises
-tags: 
-- java controlflow
 ---
 <p>I came upon an interesting <a href="http://www.eiffelroom.org/blog/manus_eiffel/and_people_are_still_using_java">blog post about Java control flow</a>. The author listed six examples (from <a href="http://se.inf.ethz.ch/laser/2009/">LASER 2009</a> summer school on Software Testing) of pseudo Java code, and you have to determine what the value of the <code>int b</code> is, as well as whether an <code>Exception</code> is thrown or not. You can assume the program will execute with proper syntax, and proper <code>throws Exception</code> on the method signature.</p>
 <p>&nbsp;Here are my answers, and explanations. The actual answers will be posted in the author's next blog entry.</p>

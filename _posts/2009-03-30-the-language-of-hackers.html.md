@@ -3,8 +3,6 @@ created_at: 2009-03-30 23:34:00 -05:00
 layout: post
 typo_id: 14
 title: The Language Of Hackers
-tags: 
-- languages hackers culture english programming ruby
 ---
 <p>Today, Jeff Atwood made a post on his blog titled <a href="http://www.codinghorror.com/blog/archives/001248.html"><em>The Ugly American Programming</em></a>. In this post, Jeff talks about the the ugly american attitude, in which one presumes that everyone else should speak English. He asserts that while this attitude is unacceptable in all other areas of modern societies, we as programmers are exempt from such scrutiny. He ends his post by saying that,</p>
 <blockquote>Advocating the adoption of English as the de-facto standard language of software development is simple pragmatism, the most virtuous of all hacker traits. If that makes me an ugly American programmer, so be it. </blockquote>

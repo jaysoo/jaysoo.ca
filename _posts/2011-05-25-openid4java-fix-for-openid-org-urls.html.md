@@ -3,8 +3,6 @@ created_at: 2011-05-25 09:52:00 -05:00
 layout: post
 typo_id: 44
 title: openid4java Fix For openid.org URLs
-tags: 
-- openid openid4java java
 ---
 <p>We were having trouble at work with our OpenID login. When a user tried to sign in with an openid.org URL, openid4java would try an YadisException.</p>
 <p>After trying other OpenID RPs like <a href="http://stackoverflow.com/">StackOverflow</a> or Disqus, it seems it's not a common problem for most people. So I started digging through the openid4java source code, and I found a solution for this.</p>

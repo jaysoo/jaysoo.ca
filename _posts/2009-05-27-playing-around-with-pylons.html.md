@@ -3,8 +3,6 @@ created_at: 2009-05-27 10:39:00 -05:00
 layout: post
 typo_id: 19
 title: Playing around with Pylons
-tags: 
-- django pylons python framework
 ---
 <p>I started playing with a Python web framework called <a href="http://www.sqlalchemy.org/">Pylons</a>. I've been using <a href="http://djangoproject.com">Django</a> for the last little while, but after hearing many positive feedback about the Pylons, so I decided it's time to get my hands dirty.</p>
 <p>Although I've barely scratched the surface of Pylons, but here are some things I like about it.</p>
