@@ -22,9 +22,9 @@ title: The Language Of Hackers
 <h3>English keywords in programming languages</h3>
 <p>Jeff states rightly that most programming languages use English keywords. I don't really see this as a reason to learn English though. If I showed a non-programmer a peice of code, most likely this person will not understand what it does, even though the keywords are in English.</p>
 <p>Take, for example, this piece of Ruby code.</p>
-<pre class="brush: ruby">
-puts "Hello World!"
-</pre>
+
+	puts "Hello World!"
+
 <p>If you're not a programmer, you will not have a clue as to what the above code does. Actually, even if you are a programmer you might not know if you don't know Ruby -- but you might be able to guess simply because of the "Hello World!" string. And why is the string encapsulated between two quotation marks? Try explaining that without talking about compilers.</p>
 <p>Another example are the logical operators. If I say, "I'm going to church or I'm sleeping in on Sunday," in English I am implicitly using the exclusive <em>or</em> (XOR). In programming, however, the <em>or</em> operator always implies the inclusive or, which stems from boolean logic.</p>
 <p>I think being fluent in English may give someone a slight advantage, but programming languages are so grammatically different from English that it does require a different kind of thinking.</p>
