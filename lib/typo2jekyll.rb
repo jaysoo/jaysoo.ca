@@ -77,7 +77,7 @@ module Jekyll
 
 		content = post[:body].delete("\r").decode_entities
 
-		content = content.gsub('{%', '{___ raw ___}{%').gsub('%}', '%}{___ endraw ___}').gsub('{___', '{%').gsub('___}', '%}')
+		content = content.gsub('{%', '{{ "{%').gsub('%}', '" }}%}')
 
         File.open("#{dir}/#{name}.md", 'w') do |f|
           f.puts({ 'layout'   => layout,
