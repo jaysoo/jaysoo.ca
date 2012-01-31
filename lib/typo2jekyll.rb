@@ -4,14 +4,7 @@ require 'fileutils'
 require 'rubygems'
 require 'sequel'
 require 'htmlentities'
-
-begin
-  require 'ya2yaml'
-  $KCODE = 'u'
-  YAML_METHOD = :ya2yaml
-rescue LoadError
-  YAML_METHOD = :to_yaml
-end
+require 'yaml'
 
 class String
   def decode_entities
@@ -71,7 +64,7 @@ module Jekyll
                    'created_at' => post[:date],
                    'tags'     => post[:tags],
                    'typo_id'  => post[:id]
-                 }.delete_if { |k, v| v.nil? || v == '' }.send(YAML_METHOD))
+                 }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'
           f.puts post[:body].delete("\r").decode_entities
           if post[:extended]
