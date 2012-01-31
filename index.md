@@ -1,7 +1,7 @@
 ---
 layout: page
 
-title: Jay Soo
+title: Home
 ---
 {% include JB/setup %}
 
