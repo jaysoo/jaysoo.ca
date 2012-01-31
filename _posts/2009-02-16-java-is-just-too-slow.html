@@ -4,10 +4,7 @@ layout: post
 typo_id: 6
 title: Java Is Just Too Slow
 tags: 
-- java,
-- python,
-- json,
-- web
+- java, python, json, web
 ---
 <p>Java is <em>slow</em>. And by slow I don't mean it's execution speed. I'm talking about development speed.</p>
 <p><strong>Java forces you to plan too much</strong>. Don't get me wrong, there's nothing inherently bad about planning. The problem is that innovation and planning don't always go hand-in-hand. When you're making yet another boring spreadsheet application that's been done a million times before, you can plan out exactly what needs to be done before writing code because you know exactly what you need However, when you're innovating you need to code as you go. Your ideas may just work, it might need some tweaking, or it may turn out to be horrible. The point is, you won't know until you start hacking away at the code.</p>
@@ -60,7 +57,7 @@ print(json['phrase']) #-> Hello World!
 print(json['myArray'][1]) #--> 2
 </pre>
 <p>By the way, the above python code is 100% executable using the interactive shell assuming simplejson is installed (<code>easy_install simple-json</code>). The Java code will need some main method with whatever else, I just didn't bother -- usually my IDE at work writes all the skeleton code for me.</p>
-<p>So which do you think is simpler? If you knew you'll be dealing with a lot of JSON would you go with Python or Java? Another thing to keep in mind is that if I change the JSON string, the Python code would require virtually no effort, whereas the Java code will need class changes, recompiling, etc. Not to mention if I changed the array to something like <code>["I'm a string", 1234,  {"a": 1, "b": 2}, 3, 4, 5]</code>. Sure you can do it in Java, but WHY? You can probably see why Java developers are forced into so many hour-long planning meetings. If you get the wrong the first time you really pay the price.</p>
+<p>So which do you think is simpler? If you knew you'll be dealing with a lot of JSON would you go with Python or Java? Another thing to keep in mind is that if I change the JSON string, the Python code would require virtually no effort, whereas the Java code will need class changes, recompiling, etc. Not to mention if I changed the array to something like <code>["I'm a string", 1234,&nbsp; {"a": 1, "b": 2}, 3, 4, 5]</code>. Sure you can do it in Java, but WHY? You can probably see why Java developers are forced into so many hour-long planning meetings. If you get the wrong the first time you really pay the price.</p>
 <p>To be successful on the Web you need a platform that allows you to be innovative. Traditionally, software development involves a long period of planning before any code is written. You go through iterations of UML diagrams before typing a sinlge line of code. This just won't cut it on the Web.</p>
 <p>Traditional software is like cartoon drawing. You usually start with some <a href="http://en.wikipedia.org/wiki/Storyboard">storyboard</a> sketches of the overall story. This gives the artists a way to previsualize the motion graphic before starting on the real thing. Web applications, on the other hand, is more like a bunch of sketches that are never quite finished. That is, web applications are always evolving, and this evolution happens in smaller steps, and more frequently. You need a language that can allow you to take these smaller steps, and I don't believe Java is the right tool for this.</p>
 

@@ -33,6 +33,21 @@ module Jekyll
                         ON c.text_filter_id = tf.id
     EOS
 
+    def self.clean_entities( text )
+      if text.respond_to?(:force_encoding)
+        text.force_encoding("UTF-8")
+      end
+      text = HTMLEntities.new.encode(text, :named)
+      # We don't want to convert these, it would break all
+      # HTML tags in the post and comments.
+      text.gsub!("&amp;", "&")
+      text.gsub!("&lt;", "<")
+      text.gsub!("&gt;", ">")
+      text.gsub!("&quot;", '"')
+      text.gsub!("&apos;", "'")
+      text
+    end
+
     def self.process dbname, user, pass, host='localhost'
       FileUtils.mkdir_p '_posts'
       db = Sequel.postgres(dbname, :user => user, :password => pass, :host => host, :encoding => 'utf8')
@@ -56,17 +71,25 @@ module Jekyll
         # the first one for this
         name += '.' + post[:filter].split(' ')[0]
 
+		tags = []
+
+		if post[:tags]
+			post[:tags].each do |tag|
+				tags << clean_entities(tag)
+			end
+		end
+
         File.open("#{dir}/#{name}", 'w') do |f|
           f.puts({ 'layout'   => layout,
-                   'title'    => post[:title].to_s,
+                   'title'    => clean_entities(post[:title].to_s),
                    'created_at' => post[:date],
-                   'tags'     => post[:tags] ? post[:tags].split(' ') : [],
+                   'tags'     => tags,
                    'typo_id'  => post[:id]
                  }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'
-          f.puts post[:body].delete("\r").decode_entities
+          f.puts clean_entities(post[:body].delete("\r").decode_entities)
           if post[:extended]
-            f.puts post[:extended].delete("\r").decode_entities
+            f.puts clean_entities(post[:extended].delete("\r").decode_entities)
           end
         end
       end

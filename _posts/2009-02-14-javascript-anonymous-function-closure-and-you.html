@@ -4,15 +4,12 @@ layout: post
 typo_id: 5
 title: JavaScript, Anonymous Function, Closure, and You
 tags: 
-- javascript,
-- closure,
-- anonymousfunction,
-- partialapplication
+- javascript, closure, anonymousfunction, partialapplication
 ---
 <p>There are many things that web developers <em>should</em> know about JavaScript, but the most basic of things are <a href="http://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a> and <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">closure</a>. Both are very powerful tools for anyone working with JavaScript.</p>
 <p>So what's so great about them you ask? Well, I think that's best explained using some examples.</p>
 <p>Let's say we want to implement a function that will take an integer representing a month, and return it's name as a string.<br />
-e.g. 1 -> 'January', 2 -->  'February', 9 --> 'September'</p>
+e.g. 1 -> 'January', 2 -->&nbsp; 'February', 9 --> 'September'</p>
 <p>We'll start out with a naive implementation, but perhaps one that first comes to mind.</p>
 <pre class="brush: js">
 function monthName(i) {
@@ -81,7 +78,7 @@ var monthName = function() {
 }();
 </pre>
 <p>So how does this work?</p>
-<p>First, you'll notice the block of code inside the outter function is similar to our second solution, except that the function name has been dropped, and it is now the return value of the outter function. The outter function is executed immediately,  and is assigned to the variable <em>monthName</em>. Thus <em>monthsName</em> is really the inner function. Sort of.</p>
+<p>First, you'll notice the block of code inside the outter function is similar to our second solution, except that the function name has been dropped, and it is now the return value of the outter function. The outter function is executed immediately,&nbsp; and is assigned to the variable <em>monthName</em>. Thus <em>monthsName</em> is really the inner function. Sort of.</p>
 <p>Here is where closure comes in. The inner function refers to the <em>months</em> array declared outside of it, but because of closure, that array is bound to the function. So when we call the function <em>monthName</em> we are really calling the returned result of an anonymous function (which itself is an anonymous function). And this returned function has the <em>months</em> array bound to it.</p>
 <p>Here's another example using anonymous functions and closure to implement <a href="http://www.haskell.org/haskellwiki/Partial_application">Partial Application</a> in Javascript.</p>
 <pre class="brush: js">

@@ -4,10 +4,7 @@ layout: post
 typo_id: 18
 title: Cheating on Speed Sudoku -- How to Prevent Greasemonkey Scripts
 tags: 
-- javascript
-- sudoku
-- artificial-intelligence
-- greasemonkey
+- javascript sudoku artificial-intelligence greasemonkey
 ---
 <p>I recently read about <a href="http://www.speedsudoku.com">Speed Sudoku</a> in a <a href="http://globeandmail.com">Globe and Mail</a> article. It's a website that allows player to compete against each other in a race to solve Sudoku puzzles. Players are given points based on their performance in a game -- I'm unsure how the point system works -- and these points are used to rank them on the scoreboard. As of this writing, the top player is named "WaterlooMathie" (woot for <a href="http://uwaterloo.ca/">Waterloo</a>).</p>
 <p>Anyway. I decided to write a Greasemonkey script to automatically solve these puzzles. The technique I chose is a simple <a href="http://en.wikipedia.org/wiki/Backtracking">Backtracking</a> algorithm with cells chosen based on the Most Restrained Variable. *Disclaimer: I'm not planning on climbing to the top of the scoreboard using this script, it's just for fun.</p>
