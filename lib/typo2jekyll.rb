@@ -67,10 +67,6 @@ module Jekyll
           layout = 'default'
         end
 
-        # Can have more than one text filter in this field, but we just want
-        # the first one for this
-        name += '.' + post[:filter].split(' ')[0]
-
 		tags = []
 
 		if post[:tags]
@@ -78,7 +74,6 @@ module Jekyll
 				tags << clean_entities(tag)
 			end
 		end
-
         File.open("#{dir}/#{name}.md", 'w') do |f|
           f.puts({ 'layout'   => layout,
                    'title'    => clean_entities(post[:title].to_s),
