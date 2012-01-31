@@ -38,4 +38,3 @@ print sum([10**i * D((127 + 19*i) * 7**i) for i in range(18)])
 </pre>
 <p>Another good read about this topic is the <a href="http://en.wikipedia.org/wiki/L-System">L-system</a>, and also the <a href="http://mathforum.org/dr.math/faq/faq.golden.ratio.html">Fibonacci Rectangle</a>.</p>
 <p>Math rocks! :)</p>
-

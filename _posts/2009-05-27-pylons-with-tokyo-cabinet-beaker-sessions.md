@@ -96,4 +96,3 @@ beaker.session.type = ext:tcjson
 beaker.session.url = 127.0.0.1:1978
 </pre>
 <p>Fire up your app and it should be using Tokyo Cabinet for your sessions! :)</p>
-

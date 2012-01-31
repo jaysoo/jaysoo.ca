@@ -21,4 +21,3 @@ title: Playing around with Pylons
 </ol>
 <p>&nbsp;So here are my not-so final thoughts.</p>
 <p>I'll continue to use Django for the many&nbsp; web applications that are basically just <a href="http://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> applications. For anything that you need to have fine-grained control over, Pylons seems to be the better choice. It also allows you do use</p>
-

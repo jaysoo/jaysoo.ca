@@ -30,4 +30,3 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
 </pre>
 <p>The <code>GradientType</code> can be <code>0</code> for horizontal or <code>1</code> for vertical. Notice that you can only specify linear gradients.</p>
 <p>&nbsp;</p>
-

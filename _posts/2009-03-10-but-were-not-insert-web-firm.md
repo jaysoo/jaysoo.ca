@@ -17,4 +17,3 @@ title: But We're Not [Insert Web Firm]
 </ol>
 <p>As for growth, it goes without saying that a good programmer is one that never stops learning. Growth in the workplace usually comes in the form of open communcation among developers, paired programming, and code reviews. These are important not only for growth, but it also produces higher quality products. Double win!</p>
 <br />
-

@@ -84,4 +84,3 @@ int foo () {
 </pre>
 <p><em>My answer:</em> <code>b</code> is incremented in the <code>try</code> block, then returned; <strong>return value is 1</strong> from the method. Then the <code>finally</code> block executes and increments <strong><code>b</code>, so it is 2</strong> at the end (but return value is still 1).</p>
 <p>I think that made sense. <em>Nes pas?</em></p>
-

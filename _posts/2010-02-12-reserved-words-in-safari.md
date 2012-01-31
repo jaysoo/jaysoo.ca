@@ -26,4 +26,3 @@ var myObject = {
 };
 </pre>
 <p>I'm not sure if SquirrelFish is correct, or the other engines. The inconsistency is a bit annoying though.</p>
-

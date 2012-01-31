@@ -55,4 +55,3 @@ function namespace(ns, obj) {
 }
 </pre>
 <div>&nbsp;</div>
-

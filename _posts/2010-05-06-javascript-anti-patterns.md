@@ -152,4 +152,3 @@ for (var item in arr) {
 </pre> 
  
 <p>You may think you&rsquo;ll get the values of the array above, but you actually get the indices inside the array. It&rsquo;s easier just to stick to normal for loops.</p> 
-

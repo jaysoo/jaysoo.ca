@@ -19,4 +19,3 @@ document.addEventListener("DOMContentLoaded", function(ev) {
 <p>This will attach your anonymous function to the same event listener (which will execute first), and we simply need to stop the event from propagating.</p>
 <p>You might run into cases where you <em>do</em> want your own functions (attached to <code>DOMContentLoaded</code> event) to fire. In these cases, you could create your own custom events, listen on those, and fire them in the anonymous function after.</p>
 <p>Of course, users can still cheat by other means, but at least this can prevent Greasemonkey cheats. That said, I'm against prevent Greasemonkey scripts. I love the addon, and it adds functionality to websites that I can't live without.</p>
-

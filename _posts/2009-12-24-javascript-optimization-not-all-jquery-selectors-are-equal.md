@@ -12,4 +12,3 @@ title: Not all jQuery selectors are created equal
 <p>So instead of doing $('.someClass'), use $('div.someClass'), or whichever HTML tag name you want to use. This selector is faster because instead of checking the entire DOM, now it only needs to check against elements with that particular tag name. That is, it first does a document.getElementsByTagName('div'), then iterates through that list.</p>
 <p>Or why not make it even faster by specifying an ancestor element by its ID? (e.g. $('#ancestor div.someClass'))</p>
 <p>The thing to keep in mind is, no matter what abstractions come about, it's still a very good idea to understand what happens underneath the hood. :)</p>
-

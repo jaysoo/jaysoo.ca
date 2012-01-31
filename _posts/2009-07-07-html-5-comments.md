@@ -26,4 +26,3 @@ title: HTML 5 Comments
 <p>In HTML 5, the first comment would be invalid markup. I don't think any browsers implement this yet, and I'm not sure how invalid comment markup would be handled.</p>
 <p>Note: I only saw this behaviour in Firefox, and not in IE nor Safari. It's actually a bug in those browsers to not parse the comment tag properly.</p>
 <p>&nbsp;</p>
-

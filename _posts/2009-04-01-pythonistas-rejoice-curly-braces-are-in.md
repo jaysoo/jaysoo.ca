@@ -17,4 +17,3 @@ from __future__ import braces
 def foo() { print 'Hello Braces!' } # Only one line!!!11!!11
 </pre>
 <p style="color: white;">April Fools!</p>
-

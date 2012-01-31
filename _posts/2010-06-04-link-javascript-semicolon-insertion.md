@@ -8,4 +8,3 @@ title: "Link: JavaScript Semicolon Insertion"
 <p><a href="http://inimino.org/~inimino/blog/javascript_semicolons">http://inimino.org/~inimino/blog/javascript_semicolons</a></p>
 <p>The author even includes the <a href="http://boshi.inimino.org/3box/PanPG/ECMAScript_unified.peg">parser expression grammar</a> for ECMAScript for those interested.</p>
 <p>Enjoy!</p>
-

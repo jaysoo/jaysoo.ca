@@ -17,4 +17,3 @@ a[href^="/"]:after {
     content: " (http://www.mywebsite.com" attr(href) ") ";
 }	
 </pre>
-

@@ -25,4 +25,3 @@ if (result.getXrdsLocation() != null)
 </pre>
 <p>&nbsp;I also made a repo on github for this, which also includes a download for the JAR file.: <a href="https://github.com/jaysoo/openid4java-openidorgfix">https://github.com/jaysoo/openid4java-openidorgfix</a>.</p>
 <p>&nbsp;</p>
-

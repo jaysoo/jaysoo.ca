@@ -74,6 +74,11 @@ module Jekyll
 				tags << clean_entities(tag)
 			end
 		end
+
+		content = post[:body].delete("\r").decode_entities
+
+		content = content.gsub('{%', '{___ raw ___}{%').gsub('%}', '%}{___ endraw ___}').gsub('{___', '{%').gsub('___}', '%}')
+
         File.open("#{dir}/#{name}.md", 'w') do |f|
           f.puts({ 'layout'   => layout,
                    'title'    => clean_entities(post[:title].to_s),
@@ -82,10 +87,10 @@ module Jekyll
                    'typo_id'  => post[:id]
                  }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'
-          f.puts clean_entities(post[:body].delete("\r").decode_entities)
-          if post[:extended]
-            f.puts clean_entities(post[:extended].delete("\r").decode_entities)
-          end
+          f.puts clean_entities(content)
+          # if post[:extended]
+          #   f.puts clean_entities(post[:extended].delete("\r").decode_entities)
+          # end
         end
       end
     end

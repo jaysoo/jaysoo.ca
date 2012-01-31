@@ -22,4 +22,3 @@ title: Programming Language Trends (Java==Cobol?)
     <li>Japan is pretty lukewarm to Python, and it has a pretty high search volume index for Cobol compared to most every other country.</li>
 </ol>
 <p>&nbsp;</p>
-

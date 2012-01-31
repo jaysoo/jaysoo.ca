@@ -65,4 +65,3 @@ file1	file3
 </pre>
 <p>You can also use the :0 modifier to match the command name, but I don't really see the use in that.</p>
 <p>One last thing about history. You can start an interactive search through history by press Ctrl+r (^R), which will interactively display commands matching what you are typing (in reverse history order).</p>
-

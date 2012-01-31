@@ -89,4 +89,3 @@ Function.prototype.papply= function() {
 }	
 </pre>
 <p>Of course, you can probably achieve everything I've shown here without anonymous functions or closure, but why make it hard for yourself? Learn these tools, use them to your advantage!</p>
-

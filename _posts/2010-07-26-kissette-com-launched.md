@@ -10,4 +10,3 @@ title: Kissette.com launched
     <li><a href="http://code.google.com/p/html5shiv/">html5shiv</a>: Force Internet Explorer to recognize HTML5 elements.</li>
     <li><a href="http://www.modernizr.com/">Modernizr</a>: Adds classes to the <html> elements to allow you to target specific browser features in your stylesheets.</li>
 </ul>
-

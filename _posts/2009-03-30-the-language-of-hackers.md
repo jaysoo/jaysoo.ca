@@ -32,4 +32,3 @@ puts "Hello World!"
 <p>It's a nice idea that the hackers transcend cultural norms. We'd like to think that we are special, that we have our own special community in which everyone's interests are not bound to any culture or country. However, this is not reality. We are just as bounded to social structures as people in any other field.</p>
 <p>Sure, we can say that we advocate English as the common language only because it makes it easier for us to get stuff done. But isn't that the same for everything else in life? If everyone in the world spoke English, that would certainly make it easier for us when we travel. If every physicist in the world spoke English, they'd get a lot more work done. We makes us so special?</p>
 <p>The world is not flat. You can pretend it is flat and ignore the diversity of programming communities. However, doing so won't do you any good, and will simply make you <em>The Ugly American</em>.</p>
-
