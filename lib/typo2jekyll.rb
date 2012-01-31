@@ -35,11 +35,9 @@ module Jekyll
 
     def self.process dbname, user, pass, host='localhost'
       FileUtils.mkdir_p '_posts'
-      db = Sequel.postgres dbname, :user => user, :password => pass, :host => host
+      db = Sequel.postgres(dbname, :user => user, :password => pass, :host => host, :encoding => 'utf8')
       db[SQL].each do |post|
-		if not post[:date]
-			next
-		end
+		next unless post[:state] =~ /published/
 
         puts "#{post[:type]}: #{post[:title]}"
 
@@ -50,7 +48,7 @@ module Jekyll
           layout = 'post'
         else
           post[:filter] = "html"
-          dir = '_import'
+          dir = '_pages'
           layout = 'default'
         end
 
@@ -62,7 +60,7 @@ module Jekyll
           f.puts({ 'layout'   => layout,
                    'title'    => post[:title].to_s,
                    'created_at' => post[:date],
-                   'tags'     => post[:tags],
+                   'tags'     => post[:tags] ? post[:tags].split(' ') : [],
                    'typo_id'  => post[:id]
                  }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'
