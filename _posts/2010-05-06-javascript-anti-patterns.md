@@ -3,6 +3,7 @@ created_at: 2010-05-06 21:26:00 -05:00
 layout: post
 typo_id: 36
 title: JavaScript Anti-Patterns
+tags: [javascript, anti-patterns]
 ---
 <p>There are plenty of posts discussing anti-patterns in other languages, like <a href="http://www.google.ca/search?q=java+antipatterns">Java</a> or <a href="http://www.google.ca/search?q=python+antipatterns">Python</a>. However, I haven&rsquo;t really seen much regarding JavaScript besides this <a href="http://stackoverflow.com/questions/377999/what-anti-patterns-exist-for-javascript">question</a> on StackOverflow. And most of the ones I found don&rsquo;t separate the DOM API and the JavaScript language itself.</p> 
  

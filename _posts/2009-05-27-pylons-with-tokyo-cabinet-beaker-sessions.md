@@ -3,6 +3,7 @@ created_at: 2009-05-27 15:20:00 -05:00
 layout: post
 typo_id: 20
 title: Pylons with Tokyo Cabinet Beaker Sessions
+tags: [pylons, python, tokyocabinet, beaker]
 ---
 <p>Maintaining a session is something most web apps need to do, and all web frameworks implement some sort of session management system.</p>
 <p><a href="http://pylonshq.com/">Pylons</a> allows you to specify the type of session your web app should use: database, file, memcached, etc. The great thing about it is that you can easily implement your own session manager and plug it right in.</p>

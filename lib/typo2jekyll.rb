@@ -69,8 +69,8 @@ module Jekyll
 
 		tags = []
 
-		if post[:tags]
-			post[:tags].each do |tag|
+		if not post[:tags].nil?
+			post[:tags].split(' ').each do |tag|
 				tags << clean_entities(tag)
 			end
 		end
@@ -79,11 +79,11 @@ module Jekyll
 
 		content = content.gsub('{%', '{{ "{%').gsub('%}', '" }}%}')
 
-        File.open("#{dir}/#{name}.md", 'w') do |f|
+        File.open("#{dir}/#{name}.html", 'w') do |f|
           f.puts({ 'layout'   => layout,
                    'title'    => clean_entities(post[:title].to_s),
                    'created_at' => post[:date],
-                   # 'tags'     => tags,
+                   'tags'     =>  ("[" + tags.join(', ') + "]"),
                    'typo_id'  => post[:id]
                  }.delete_if { |k, v| v.nil? || v == '' }.to_yaml)
           f.puts '---'

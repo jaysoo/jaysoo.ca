@@ -3,6 +3,7 @@ created_at: 2009-08-20 08:16:00 -05:00
 layout: post
 typo_id: 22
 title: Launched Morris Lum's Photography Website
+tags: [django, website]
 ---
 <p>I just recently helping a friend launch his photography website, done entirely in Django 1.1.</p>
 <p>I'm pretty impressed by how much Django has improved since the 0.96 days. The best new feature IMO is the addition of <code>annotate</code> and <code>aggregate</code> in the db models. (see documentation)</p>

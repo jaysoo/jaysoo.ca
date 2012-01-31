@@ -3,6 +3,7 @@ created_at: 2009-04-21 11:11:00 -05:00
 layout: post
 typo_id: 17
 title: Not Another IE6 Rant
+tags: [ie6, browsers, compatibility, javascript]
 ---
 <p>For the last few months I've seen some aggressive campaigning to rid the online world of <a href="http://en.wikipedia.org/wiki/Internet_Explorer_6">Internet Explorer 6</a>. Many web developers and designers have been supporting this browser for what seems like forever, and now that IE6 is losing market shares fast, it seems like a good time to make the final push to kill it.</p>
 <p>While I whole-heartedly agree that we'll all be better off without IE6, I don't agree with providing zero support for the browser. Let's face it, the whole "browser X is outdated" thing isn't new and will always be here to haunt us -- remember Netscape 4?</p>

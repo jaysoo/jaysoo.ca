@@ -3,6 +3,7 @@ created_at: 2010-02-12 11:35:00 -06:00
 layout: post
 typo_id: 33
 title: Reserved JavaScript Words in Safari
+tags: [javascript, safari, squirrelfish, error]
 ---
 <p>I ran into a problem today where the RIA I'm building works for all browsers except Safari -- specifically Safari 4, not sure about 3.</p>
 <p>The error happens when a certain page loads, and all I'm greeted with in Safar is `SyntaxError: Parser Error`. Nice.</p>

@@ -3,6 +3,7 @@ created_at: 2009-02-14 19:35:00 -06:00
 layout: post
 typo_id: 5
 title: JavaScript, Anonymous Function, Closure, and You
+tags: [javascript,, closure,, anonymousfunction,, partialapplication]
 ---
 <p>There are many things that web developers <em>should</em> know about JavaScript, but the most basic of things are <a href="http://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a> and <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">closure</a>. Both are very powerful tools for anyone working with JavaScript.</p>
 <p>So what's so great about them you ask? Well, I think that's best explained using some examples.</p>

@@ -3,6 +3,7 @@ created_at: 2009-12-23 14:35:00 -06:00
 layout: post
 typo_id: 31
 title: "JavaScript: Optimizing loops"
+tags: [javascript, optimization]
 ---
 <p>When looping through very large arrays, you may find this tip useful: it's much fast to use a while loop to iterate through an array than a for loop.</p>
 <p>For example, if you take this code:</p>

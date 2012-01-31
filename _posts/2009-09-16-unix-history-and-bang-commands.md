@@ -3,6 +3,7 @@ created_at: 2009-09-16 11:07:00 -05:00
 layout: post
 typo_id: 28
 title: Unix history and bang commands
+tags: [unix, linux, shell, tips, history]
 ---
 <p>The Unix bash shell provides many useful tools, one of them being then <code>history</code> command.</p>
 <p>To see a list of previously executed commands, execute history into your shell. You can also supply an integer argument to limit the number of commands to show.</p>

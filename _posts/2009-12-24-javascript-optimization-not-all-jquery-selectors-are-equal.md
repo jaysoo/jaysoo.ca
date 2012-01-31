@@ -3,6 +3,7 @@ created_at: 2009-12-24 08:36:00 -06:00
 layout: post
 typo_id: 32
 title: Not all jQuery selectors are created equal
+tags: [javascript, jquery, optimization]
 ---
 <p>The good thing about JavaScript libraries such as jQuery is that developers can focus on functionality without having to worry too much about cross-browser compatibility. However, often times it is still very useful to know why happens behind the abstractions.</p>
 <p>The most used feature in jQuery is the CSS selector. Instead of selecting elements using pure DOM (e.g. document.getElementById('myId')), you're able to use jQuery's CSS selector (e.g. $('#myId')). This makes life much, much easier.</p>

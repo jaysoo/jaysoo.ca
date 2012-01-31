@@ -3,6 +3,7 @@ created_at: 2010-03-24 09:48:00 -05:00
 layout: post
 typo_id: 34
 title: JavaScript Namespacing
+tags: [javascript, modules, organization, jquery, namespace]
 ---
 <p>One of the first things you learn programming in JavaScript is, "<a href="http://yuiblog.com/blog/2006/06/01/global-domination/">Global variables are evil</a>." This is especially true when writing a JavaScript library, but I'd take that advise even otherwise to avoid unnecessary headaches.</p>
 <p>As an avid jQuery user, one thing I do in almost every project is define a namespace function on the <code>jQuery</code> object.</p>

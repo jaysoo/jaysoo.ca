@@ -3,6 +3,7 @@ created_at: 2009-03-10 22:45:00 -05:00
 layout: post
 typo_id: 11
 title: But We're Not [Insert Web Firm]
+tags: [work, environment, programmers, growth, creativity]
 ---
 <p>I've heard on a few occasions where someone tells me, "You know that's a great idea but we just can't do it. We're not Google." It can also be subsituted with Amazon, Yahoo, or any other big web firms. Actually, once I've even heard the excuse, "But we're not a tech firm." </p>
 <p>The problem with these kinds of excuses is that by using them you form a preconceived notion that you just aren't as good as other companies -- including your competitors. Thisdoesn't have to be true</p>
