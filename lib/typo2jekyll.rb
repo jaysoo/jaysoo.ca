@@ -75,7 +75,7 @@ module Jekyll
 			end
 		end
 
-		content = post[:body].delete("\r").decode_entities
+		content = clean_entities( post[:body].delete("\r").decode_entities )
 
 		content = content.gsub('{%', '{{ "{%').gsub('%}', '" }}%}')
 
