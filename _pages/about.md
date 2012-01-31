@@ -3,8 +3,6 @@ created_at: 2009-02-11 20:03:52.250417 -06:00
 layout: default
 typo_id: 3
 title: About
-tags: []
-
 ---
 <h2>A little about me</h2>
 <p>I graduated from the <a href="http://www.uwaterloo.ca/">University of Waterloo</a> with a Bachelor of Mathematics (Honours Computer Science) in May 2007. I'm a programmer both on and off the job.&nbsp; Career-wise I've been mostly involved in web development, but as a hobby I do all sorts of stuff -- including image processing, data visualization, and solving problems on <a href="http://projecteuler.net/">Project Euler</a>. And of course, I do web development for fun on my own time too. ;)</p>
