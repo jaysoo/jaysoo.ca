@@ -79,7 +79,7 @@ module Jekyll
 			end
 		end
 
-        File.open("#{dir}/#{name}", 'w') do |f|
+        File.open("#{dir}/#{name}.md", 'w') do |f|
           f.puts({ 'layout'   => layout,
                    'title'    => clean_entities(post[:title].to_s),
                    'created_at' => post[:date],
