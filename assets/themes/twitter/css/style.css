@@ -4,9 +4,46 @@ html, body {
 }
 body {
   padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
+  font-size: 15px;
 }
-.container > footer p {
-  text-align: center; /* center align it with the container */
+
+p, blockquote {
+  font-size: 15px;
+  line-height: 18px;
+  font-family: Georgia, Times, serif;
+}
+
+li { line-height: 24px; }
+
+#intro {
+  max-width: 940px;
+}
+
+.page-footer {
+  margin-top: 40px;
+  background-color: #444;
+  color: #ccc;
+  padding: 10px 5px;
+}
+
+.page-footer h3 {
+  color: #999;
+}
+
+.page-footer div {
+  max-width: 940px;
+}
+
+.page-footer a {
+  color: #f5e102;
+}
+
+.page-footer a:hover {
+  color: #a89200;
+}
+
+.hero-unit {
+  padding: 20px;
 }
 
 /* The white background content wrapper */
@@ -66,6 +103,12 @@ body {
 	color:#FFF;
 }
 	
-blockquote, .post-body {
-  font-family: Georgia, Times, serif;
+/* 
+ * Responsive designs
+ */
+@media (min-width: 1200px) {
+  .container-fluid {
+    width: 940px;
+    margin: 0 auto;
+  }
 }
