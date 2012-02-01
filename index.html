@@ -14,7 +14,7 @@ title: Home
     <h2>Recent blog posts</h2>
 
     <ul class="posts">
-      {% for post in site.posts limit:10 %}
+      {% for post in site.posts limit:20 %}
       <li>
         <time>{{ post.date | date_to_string }}</time> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
         {% if post.category != null %}
@@ -31,7 +31,7 @@ title: Home
     <h2>Recent bookmarks</h2>
 
     <ul class="delicious-links">
-      {% delicious username:i2hsu tag:programming,web,javascript,python,code,java,linux count:10 ttl:3600 %}
+      {% delicious username:i2hsu tag:programming,web,javascript,python,code,java,linux count:20 ttl:3600 %}
       <li><a href="{{ item.link }}" title="{{ item.description }}" rel="external">{{ item.title }}</a></li>
       {% enddelicious %}
     </ul>

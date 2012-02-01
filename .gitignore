@@ -1,4 +1,5 @@
 _site/*
+_delicious_cache
 
 Thumbs.db
 .DS_Store

@@ -102,6 +102,18 @@ li { line-height: 24px; }
 	border:1px solid #4C964D;
 	color:#FFF;
 }
+
+#recent-posts header {
+  font-weight: bold;
+
+}
+
+#recent-posts article {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
 	
 /* 
  * Responsive designs
@@ -112,3 +124,5 @@ li { line-height: 24px; }
     margin: 0 auto;
   }
 }
+
+
