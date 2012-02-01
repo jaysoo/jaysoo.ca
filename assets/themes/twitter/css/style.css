@@ -11,8 +11,10 @@ pre code {
   border: 0;
 }
 
-.ie7 p, .ie6 p,
-p:not(.info), blockquote {
+.post-body ul,
+.post-body ol,
+.post-body p,
+.page-footer p:not(.info) {
   font-size: 15px;
   line-height: 24px;
   font-family: Georgia, Times, serif;
