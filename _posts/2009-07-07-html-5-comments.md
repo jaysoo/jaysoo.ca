@@ -19,9 +19,9 @@ tags: [html5, comments, html]
 <p>The main difference is that having dash-dash (--) within a comment is longer acceptable. In HTML 4, you can nest any number of opening and closing delimeters (--), which can cause unwanted behavious for web authors who do not know the comment definition that well.</p>
 <p>For example, take a look at this chunk of HTML:</p>
 <pre>
-<!-- bad comment -- -->
-<p>Hello, World</p>
-<!--p>Hide me!</p-->
+&lt;!-- bad comment -- --&gt;
+&lt;p&gt;Hello, World&lt;/p&gt;
+&lt;!--p&gt;Hide me!&lt;/p--&gt;
 </pre>
 <p>&nbsp;It seems to show the paragraph "Hello, World" and hide the second "Hide me!" paragraph. However, because the first comment contains two consecutive dashes within it's text, the --> no longer closes the entire comment. Rather, it treats the second paragraph as part of the comment text, and once it parses <!--p-->, those two dashes finally closes the initial comment block.</p>
 <p>In HTML 5, the first comment would be invalid markup. I don't think any browsers implement this yet, and I'm not sure how invalid comment markup would be handled.</p>
