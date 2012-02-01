@@ -69,6 +69,6 @@ body {
 	color:#FFF;
 }
 	
-.post-body {
+blockquote, .post-body {
   font-family: Georgia, Times, serif;
 }
