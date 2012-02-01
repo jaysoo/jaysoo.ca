@@ -8,7 +8,7 @@ tags: [html5, comments, html]
 <p>One change that I think most people are overlooking is the change to HTML comments in HTML 5. If you read the <a href="http://dev.w3.org/html5/spec/#comments">working draft</a> of the HTML 5 spec, you'll notice that previously valid comment markup may no longer be valid in HTML 5.</p>
 <p>Here is definition from HTML 5:</p>
 <blockquote>
-<p><dfn title="syntax-comments" id="syntax-comments">Comments</dfn> must start with the four character sequence U+003C LESS-THAN SIGN, U+0021 EXCLAMATION MARK, U+002D HYPHEN-MINUS, U+002D HYPHEN-MINUS (<code title=""><!--</code>). Following this sequence, the comment may   have <a title="syntax-text" href="http://dev.w3.org/html5/spec/#syntax-text">text</a>, with the additional restriction that the text must not start with a single U+003E GREATER-THAN SIGN ('>') character, nor start with a U+002D HYPHEN-MINUS (<code title="">-</code>) character followed by a   U+003E GREATER-THAN SIGN ('>') character, nor contain two   consecutive U+002D HYPHEN-MINUS (<code title="">-</code>)   characters, nor end with a U+002D HYPHEN-MINUS (<code title="">-</code>) character. Finally, the comment must be ended by the three character sequence U+002D HYPHEN-MINUS, U+002D HYPHEN-MINUS, U+003E GREATER-THAN SIGN (<code title="">--></code>).</p>
+<p><dfn title="syntax-comments" id="syntax-comments">Comments</dfn> must start with the four character sequence U+003C LESS-THAN SIGN, U+0021 EXCLAMATION MARK, U+002D HYPHEN-MINUS, U+002D HYPHEN-MINUS (&lt;!--). Following this sequence, the comment may   have <a title="syntax-text" href="http://dev.w3.org/html5/spec/#syntax-text">text</a>, with the additional restriction that the text must not start with a single U+003E GREATER-THAN SIGN ('>') character, nor start with a U+002D HYPHEN-MINUS (-) character followed by a   U+003E GREATER-THAN SIGN ('>') character, nor contain two   consecutive U+002D HYPHEN-MINUS (-)   characters, nor end with a U+002D HYPHEN-MINUS (-) character. Finally, the comment must be ended by the three character sequence U+002D HYPHEN-MINUS, U+002D HYPHEN-MINUS, U+003E GREATER-THAN SIGN (--&gt;).</p>
 </blockquote>
 <p>Compared to HTML 4:</p>
 <blockquote>
@@ -23,7 +23,7 @@ tags: [html5, comments, html]
 &lt;p&gt;Hello, World&lt;/p&gt;
 &lt;!--p&gt;Hide me!&lt;/p--&gt;
 </pre>
-<p>You'd probably assume the output to be <strong>Hello, World</strong> (with "Hide me!" being comented out). However, because the first comment contains two consecutive dashes within it's text, the --> no longer closes the entire comment. Rather, it treats the second paragraph as part of the comment text, and once it parses <!--p-->, those two dashes finally closes the initial comment block.</p>
-<p>In HTML 5, the first comment would be invalid markup. I don't think any browsers implement this yet, and I'm not sure how invalid comment markup would be handled.</p>
+<p>You'd probably assume the output to be <strong>Hello, World</strong> (with "Hide me!" being comented out). However, because the first comment contains two consecutive dashes within it's text, the --> no longer closes the entire comment. Rather, it treats the second paragraph as part of the comment text, and once it parses &lt;!--p--&gt;, those two dashes finally closes the initial comment block.</p>
+<p>In HTML 5, the first comment would be invalid markup. I don't think any browser has implement this yet, and I'm not sure how invalid comment markup would be handled.</p>
 <p>Note: I only saw this behaviour in Firefox, and not in IE nor Safari. It's actually a bug in those browsers to not parse the comment tag properly.</p>
 <p>&nbsp;</p>
