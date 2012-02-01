@@ -1,0 +1,37 @@
+---
+layout: default
+
+title: Home
+---
+{% include JB/setup %}
+
+<div class="hero-unit well">
+  <p>Ohai! You've stumbled upon the personal website of <strong>Jack Hsu</strong>.</p>
+  <p>Have a look around and enjoy your stay. :)</p>
+</div>
+
+<div class="row">
+  <section class="span8">
+    <h2>Recent Posts</h2>
+
+    <ul class="posts">
+      {% for post in site.posts limit:10 %}
+      <li><time>{{ post.date | date_to_string }}</time> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
+      {% endfor %}
+    </ul>
+
+    <a class="btn primary" href="{{ BASE_PATH }}archive.html">View archive &raquo;</a>
+  </section>
+
+  <section class="span8">
+    <h2>Recent Bookmarks</h2>
+
+    <ul class="delicious-links">
+      {% delicious username:i2hsu tag:programming,web,javascript,python,code,java,linux count:10 ttl:3600 %}
+      <li><a href="{{ item.link }}" title="{{ item.description }}" rel="external">{{ item.title }}</a></li>
+      {% enddelicious %}
+    </ul>
+
+    <a class="btn" href="http://delicious.com/i2hsu" rel="external">Visit my Delicious page &raquo;</a>
+  </section>
+</div>

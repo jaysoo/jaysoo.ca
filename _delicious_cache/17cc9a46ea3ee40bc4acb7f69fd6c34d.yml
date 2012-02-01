@@ -1,0 +1,51 @@
+--- 
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://sna-projects.com/blog/2010/11/clojure-at-backtype/
+    :title: "SNA Projects Blog : Tech Talk: Nathan Marz \xE2\x80\x94 \xE2\x80\x9CClojure at BackType\xE2\x80\x9D"
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://steve-yegge.blogspot.com/2006/03/execution-in-kingdom-of-nouns.html
+    :title: "Stevey&#39;s Blog Rants: Execution in the Kingdom of Nouns"
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://software-carpentry.org/
+    :title: "Software Carpentry: Index"
+    :description: Software course for scientists.
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://djangopackages.com/
+    :title: "Django Packages : django reusable apps, sites and tools directory"
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://www.mayin.org/ajayshah/KB/R/index.html
+    :title: R by example
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://sites.google.com/site/murmurhash/
+    :title: home (murmurhash)
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://en.wikipedia.org/wiki/Unusual_software_bug
+    :title: Unusual software bug - Wikipedia, the free encyclopedia
+    :description: List of unusual programming bugs.
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://www.slideshare.net/jallspaw/10-deploys-per-day-dev-and-ops-cooperation-at-flickr
+    :title: "10+ Deploys Per Day: Dev and Ops Cooperation at Flickr"
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://docs.sun.com/source/806-3568/ncg%5Fgoldberg.html
+    :title: What Every Computer Scientist Should Know About Floating-Point Arithmetic
+    :description: ""
+- !ruby/object:OpenStruct 
+  table: 
+    :link: http://www.reportlab.org/
+    :title: ReportLab.org Home
+    :description: ""
