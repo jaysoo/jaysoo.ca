@@ -1,0 +1,23 @@
+{
+  "cnv": {
+    "_id": {
+      "path": "id"
+    },
+    "properties": {
+      "url": {
+        "type": "string",
+        "index" : "not_analyzed"
+      },
+      "body": {
+        "type": "string",
+        "search_analyzer" : "standard", 
+        "index_analyzer" : "standard"
+      },
+      "tags": {
+        "type": "string",
+        "search_analyzer" : "keyword", 
+        "index_analyzer" : "keyword"
+      }
+    }
+  }
+}

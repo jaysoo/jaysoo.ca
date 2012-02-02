@@ -2,6 +2,8 @@
 # For more see: https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink: /:year/:month/:day/:title 
 
+elasticsearch_url: 127.0.0.1:9200
+
 exclude: [".rbenv-version", "README.md", "Rakefile"]
 auto: true
 pygments: true
