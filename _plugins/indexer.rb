@@ -25,7 +25,7 @@ module Jekyll
 		}
 
 		if post.tags
-		  document['tags'] = post.tags.join(' ')
+		  document['tags'] = post.tags
 		end
 
 		client.index(document, :id => post.url)
