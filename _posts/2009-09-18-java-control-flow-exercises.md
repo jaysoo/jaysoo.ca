@@ -96,4 +96,10 @@ int foo () {
 {% endhighlight %}
 
 <p><em>My answer:</em> <code>b</code> is incremented in the <code>try</code> block, then returned; <strong>return value is 1</strong> from the method. Then the <code>finally</code> block executes and increments <strong><code>b</code>, so it is 2</strong> at the end (but return value is still 1).</p>
-<p>I think that made sense.</p>
+
+<div class="hero-unit well">
+<h4>Update: Feb 2, 2012</h4>
+<p>Looks like I was write on all the parts. :)</p>
+<a href="http://www.eiffelroom.org/blog/manus_eiffel/and_people_are_still_using_java_answers" rel="external">Read the answers post</a>
+</div>
+
