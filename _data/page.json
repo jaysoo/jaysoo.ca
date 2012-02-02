@@ -11,7 +11,8 @@
       "body": {
         "type": "string",
         "search_analyzer" : "standard", 
-        "index_analyzer" : "standard"
+        "index_analyzer" : "standard",
+		"char_filter": "html_strip"
       },
       "tags": {
         "type": "string",
