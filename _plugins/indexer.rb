@@ -10,6 +10,8 @@ module Jekyll
     def generate(site)
       raise ArgumentError.new 'Missing elasticsearch_url.' unless site.config['elasticsearch_url']
 
+	  return unless site.config['doindex']
+
 	  base_url = site.config['production_url']
 
       client = ElasticSearch.new(site.config['elasticsearch_url'], :index => "jaysoo", :type => "page")
