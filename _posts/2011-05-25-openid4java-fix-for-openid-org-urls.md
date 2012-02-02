@@ -24,6 +24,6 @@ if (result.getXrdsLocation() != null)
         }
     }
 }
-{% endhighlight}
+{% endhighlight %}
 
 <p>I also made a repo on github for this, which also includes a download for the JAR file.: <a href="https://github.com/jaysoo/openid4java-openidorgfix">https://github.com/jaysoo/openid4java-openidorgfix</a>.</p>
