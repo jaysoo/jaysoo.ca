@@ -15,9 +15,9 @@ module Jekyll
       client = ElasticSearch.new(site.config['elasticsearch_url'], :index => "jaysoo", :type => "page")
 
       puts 'Indexing posts...'
-			      
+
       site.posts.each do |post|
-        text = post.to_s
+        text = post.content
 
 		document = {
 		  :body => text,
@@ -39,8 +39,7 @@ module Jekyll
 	  puts 'Indexing pages...'
 
       pages.each do |page|
-        page.render({}, site.site_payload)
-        text = page.output
+        text = page.content
 
 		url = '/' + page.name
 
