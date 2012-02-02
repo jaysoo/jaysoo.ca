@@ -158,7 +158,7 @@ function foo(x) {
 <p>Arrays in JavaScript are special objects, so a for-in loop doesn&rsquo;t do what you think it does.</p> 
  
 {% highlight javascript %}
-var arr = ['foo', bar', 'faz', baz']'
+var arr = ['foo', bar', 'faz', baz'];
 for (var item in arr) {
    // what is item here?
 }
