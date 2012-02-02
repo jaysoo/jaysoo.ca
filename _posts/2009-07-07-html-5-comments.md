@@ -12,7 +12,7 @@ tags: [html5, comments, html]
 </blockquote>
 <p>Compared to HTML 4:</p>
 <blockquote>
-<p>White space is not permitted between the markup declaration open delimiter("&lt;") and the comment open delimiter ("--"), but is permitted between the comment close delimiter ("--") and the markup declaration close delimiter ("&gt;"). A common error is to include a string of hyphens ("---") within a comment. Authors should avoid putting two or more adjacent hyphens inside comments.</p>
+<p>White space is not permitted between the markup declaration open delimiter("&lt;!") and the comment open delimiter ("--"), but is permitted between the comment close delimiter ("--") and the markup declaration close delimiter ("&gt;"). A common error is to include a string of hyphens ("---") within a comment. Authors should avoid putting two or more adjacent hyphens inside comments.</p>
 <p>Information that appears between comments has no special meaning (e.g., <a href="http://www.w3.org/TR/html4/intro/sgmltut.html#character-entities">character references</a> are not interpreted as such).</p>
 <p>Note that comments are markup.</p>
 </blockquote>
