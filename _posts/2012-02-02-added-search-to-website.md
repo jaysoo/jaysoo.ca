@@ -8,14 +8,18 @@ tags: [search, javascript, elasticsearch, facet, search, nodejs]
 I added searching capabilities to this static website. 
 I don't think any website is useful these days without some basic search functionality.
 
-
-I am using [elasticsearch](http://elasticsearch.org/) on the backend for the actual searching. 
-
-I created a Jekyll plugin that will go through the posts and pages, and index them in elasticsearch.
+I created a Jekyll plugin that will go through the posts and pages, and index them in [elasticsearch](http://elasticsearch.org/).
 You can find the source code for the [indexer plugin](https://github.com/jaysoo/jaysoo.ca/blob/master/_plugins/indexer.rb)
- on my GitHub account.
+ on my GitHub account. Right now it indexes all of the documents (posts and pages) each time the website is generated -- the whole 
+process is about 7 seconds each. 
 
-I implemented a simple search service usign node.js, which will perform faceted queries 
+I will eventually have to check the last modified date on the document files, and only
+index the ones that are either **1)** new or **2)** have been modified since last indexed.
+
+BTW, my elasticsearch index settings (including mapping) can be viewed [here](https://github.com/jaysoo/jaysoo.ca/blob/master/_data/jaysoo.json) 
+-- this is for the **jaysoo** index, with only one type (**page**).
+
+I implemented a simple search service using [node.js](http://nodejs.org), which will perform faceted queries 
 against elasticsearch. The results are returned in JSON format (unchanged from elasticsearc's response).
 You can view my node.js server code by view the [Gist](https://gist.github.com/1727561)
 
