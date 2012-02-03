@@ -17,7 +17,8 @@
         "title": {
           "type": "string",
           "search_analyzer": "keyword", 
-          "index_analyzer": "keyword"
+          "index_analyzer": "keyword",
+          "boost": 2.0
         },
         "url": {
           "type": "string",
