@@ -33,7 +33,7 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
           <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
@@ -44,15 +44,15 @@
           </ul>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <div class="container-fluid">
-
-      <div class="content">
-        {{ content }}
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          {{ content }}
+        </div>
       </div>
-
-    </div> <!-- /container -->
+    </div> <!-- /#main -->
 
 
     <footer class="page-footer">
