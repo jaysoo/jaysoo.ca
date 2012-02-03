@@ -11,6 +11,8 @@ pre code {
   border: 0;
 }
 
+blockquote,
+blockquote p,
 .post-body ul,
 .post-body ol,
 .post-body p,
