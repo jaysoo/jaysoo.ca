@@ -130,6 +130,19 @@ li { line-height: 24px; }
   padding: 5px;
 }
 
+#results article {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#results article:last-child {
+  border-bottom: 0;
+}
+
+#begin {
+  margin-top: 20px;
+}
+
 	
 /* 
  * Responsive designs

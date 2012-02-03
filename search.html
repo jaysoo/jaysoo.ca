@@ -9,6 +9,10 @@ noindex: true
 
 <div id="search"></div>
 
+<div id="begin" class="hero-unit well">
+  <p>Please type in a query and hit enter to perform a search.</p>
+</div>
+
 <div id="results"></div>
 
 <script>
@@ -22,13 +26,17 @@ $(function() {
 
     $searchBox = $('#search'),
 
+    $begin = $('#begin'),
+
     $searchResults = $('#results'),
 
     info = _.template('<p class="info hero-unit well">I found <%= count %> document<%= s %> matching your query</p>'),
 
     article =  _.template(['<article>',
       '<h4><a href="<%= url %>"><%= title %></a></h4>',
-    '</article>'].join(''));
+      '</article>'].join('')),
+
+    posted = _.template('<p class="pubdate"><time><%= date %></time></p>');
 
   if ((/\?q=/).test(initialQuery)) {
     initialQuery = initialQuery.split('?q=')[1];
@@ -94,8 +102,12 @@ $(function() {
   function doSearch(query) {
     $searchResults.empty();
 
-    if (!query)
+    if (!query) {
+      $begin.show();
       return;
+    }
+
+    $begin.hide();
 
     $.when(
       $.ajax({
@@ -114,7 +126,11 @@ $(function() {
         ).appendTo($searchResults);
 
         _.each(documents, function(doc) {
-          $( article(doc) ).appendTo($searchResults);
+          var $item = $( article(doc) ).appendTo($searchResults);
+
+          if ('date' in doc) {
+            $( posted({ date: doc.date }) ).appendTo($item);
+          }
         });
       });
   }
