@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-12-23 14:35:00 -06:00
+created_at: 2009-12-23 14:35Z
 layout: post
 typo_id: 31
 title: "JavaScript: Optimizing loops"

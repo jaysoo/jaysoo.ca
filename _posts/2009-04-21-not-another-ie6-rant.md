@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-04-21 11:11:00 -05:00
+created_at: 2009-04-21 11:11Z
 layout: post
 typo_id: 17
 title: Not Another IE6 Rant

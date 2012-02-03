@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-06-16 19:35:00 -05:00
+created_at: 2010-06-16 19:35Z
 layout: post
 typo_id: 38
 title: New site address and new website

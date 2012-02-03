@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-03-12 19:25:00 -05:00
+created_at: 2009-03-12 19:25Z
 layout: post
 typo_id: 12
 title: "2008 Turing Award Winner: Barbara H. Liskov"

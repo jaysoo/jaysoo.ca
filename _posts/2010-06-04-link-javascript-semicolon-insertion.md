@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-06-04 08:55:00 -05:00
+created_at: 2010-06-04 08:55Z
 layout: post
 typo_id: 37
 title: "Link: JavaScript Semicolon Insertion"

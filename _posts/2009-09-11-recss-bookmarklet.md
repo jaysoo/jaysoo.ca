@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-09-11 09:04:00 -05:00
+created_at: 2009-09-11 09:04Z
 layout: post
 typo_id: 26
 title: ReCSS Bookmarklet

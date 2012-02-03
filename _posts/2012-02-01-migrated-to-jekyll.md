@@ -1,5 +1,5 @@
 ---
-created_at: 2011-02-01 00:49:00 -05:00
+created_at: 2011-02-01 00:49Z
 layout: post
 title: Migrated to Jekyll
 tags: [jekyll, blog]

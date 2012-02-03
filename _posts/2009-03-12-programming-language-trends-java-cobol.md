@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-03-12 20:13:00 -05:00
+created_at: 2009-03-12 20:13Z
 layout: post
 typo_id: 13
 title: Programming Language Trends (Java==Cobol?)

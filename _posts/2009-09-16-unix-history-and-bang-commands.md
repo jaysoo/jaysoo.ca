@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-09-16 11:07:00 -05:00
+created_at: 2009-09-16 11:07Z
 layout: post
 typo_id: 28
 title: Unix history and bang commands

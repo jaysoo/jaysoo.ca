@@ -1,5 +1,5 @@
 --- 
-created_at: 2011-05-25 09:52:00 -05:00
+created_at: 2011-05-25 09:52Z
 layout: post
 typo_id: 44
 title: openid4java Fix For openid.org URLs

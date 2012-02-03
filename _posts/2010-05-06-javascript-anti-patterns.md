@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-05-06 21:26:00 -05:00
+created_at: 2010-05-06 21:26Z
 layout: post
 typo_id: 36
 title: JavaScript Anti-Patterns

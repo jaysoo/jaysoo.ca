@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-08-27 08:18:00 -05:00
+created_at: 2009-08-27 08:18Z
 layout: post
 typo_id: 23
 title: "Project Euler - Problem 230: Fibonacci Words"

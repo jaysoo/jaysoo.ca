@@ -125,6 +125,11 @@ li { line-height: 24px; }
   padding-bottom: 10px;
 }
 
+#results .info {
+  margin-top: 20px;
+  padding: 5px;
+}
+
 	
 /* 
  * Responsive designs

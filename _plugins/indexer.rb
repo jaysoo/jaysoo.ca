@@ -20,14 +20,21 @@ module Jekyll
 
       site.posts.each do |post|
         text = post.content
+		date_str = post.data['created_at'] || post.date.strftime('%Y-%m-%d %H:%MZ')
 
 		document = {
-		  :body => text,
+		  :title => post.data['title'],
+		  :text => text,
+		  :date => date_str,
 		  :url => base_url + post.url
 		}
 
 		if post.tags
 		  document['tags'] = post.tags
+		end
+
+		if post.data.has_key?('category')
+		  document['category'] = post.data['category']
 		end
 
 		client.index(document, :id => post.url)
@@ -46,7 +53,8 @@ module Jekyll
 		url = '/' + page.name
 
 		client.index({
-		  :body => text,
+		  :title => page.data['title'],
+		  :text => text,
 		  :url => base_url + url
 		}, :id => url)
       end

@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-05-27 10:39:00 -05:00
+created_at: 2009-05-27 10:39Z
 layout: post
 typo_id: 19
 title: Playing around with Pylons

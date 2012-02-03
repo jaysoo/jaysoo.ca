@@ -1,5 +1,5 @@
 --- 
-created_at: 2011-03-25 23:04:00 -05:00
+created_at: 2011-03-25 23:04Z
 layout: post
 typo_id: 43
 title: Toki Underground and The Queen Vic

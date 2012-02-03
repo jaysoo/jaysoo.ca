@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-04-01 11:09:00 -05:00
+created_at: 2009-04-01 11:09Z
 layout: post
 typo_id: 15
 title: Pythonistas Rejoice! Curly Braces Are In

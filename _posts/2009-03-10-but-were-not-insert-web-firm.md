@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-03-10 22:45:00 -05:00
+created_at: 2009-03-10 22:45Z
 layout: post
 typo_id: 11
 title: But We're Not [Insert Web Firm]

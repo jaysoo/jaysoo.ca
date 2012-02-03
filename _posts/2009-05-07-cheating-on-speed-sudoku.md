@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-05-07 10:24:00 -05:00
+created_at: 2009-05-07 10:24Z
 layout: post
 typo_id: 18
 title: Cheating on Speed Sudoku -- How to Prevent Greasemonkey Scripts

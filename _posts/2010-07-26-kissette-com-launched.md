@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-07-26 19:40:00 -05:00
+created_at: 2010-07-26 19:40Z
 layout: post
 typo_id: 40
 title: Kissette.com launched

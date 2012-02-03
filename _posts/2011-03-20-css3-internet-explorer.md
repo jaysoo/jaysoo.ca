@@ -1,5 +1,5 @@
 --- 
-created_at: 2011-03-20 18:39:00 -05:00
+created_at: 2011-03-20 18:39Z
 layout: post
 typo_id: 41
 title: CSS3 for Internet Explorer

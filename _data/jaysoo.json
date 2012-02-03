@@ -1,32 +1,46 @@
 {
-  "settings" : {
-    "analysis" : {
+  "settings": {
+    "analysis": {
       "analyzer": {
         "html_analyzer":{
           "type":"custom",
           "tokenizer":"standard",
           "filter":["standard", "lowercase", "stop", "snowball"],
-          "char_filter" : "html_strip"
+          "char_filter": "html_strip"
         }
       }
     }
   },
-  "mappings" : {
-    "page" : {
-      "properties" : {
+  "mappings": {
+    "page": {
+      "properties": {
+        "title": {
+          "type": "string",
+          "search_analyzer": "keyword", 
+          "index_analyzer": "keyword"
+        },
         "url": {
           "type": "string",
-          "index" : "not_analyzed"
+          "index": "not_analyzed"
         },
-        "body": {
+        "text": {
           "type": "string",
-		  "analyzer" :  "html_analyzer",
-		  "search_analyzer" : "html_analyzer"
+		  "analyzer":  "html_analyzer",
+		  "search_analyzer": "html_analyzer"
         },
         "tags": {
           "type": "string",
-          "search_analyzer" : "standard", 
-          "index_analyzer" : "standard"
+          "search_analyzer": "keyword", 
+          "index_analyzer": "keyword"
+        },
+		"date": {
+          "type": "date",
+          "index": "not_analyzed",
+		  "format": "yyyy-MM-dd HH:mm'Z'"
+        },
+        "category": {
+          "type": "string",
+          "index": "not_analyzed"
         }
       }
     }

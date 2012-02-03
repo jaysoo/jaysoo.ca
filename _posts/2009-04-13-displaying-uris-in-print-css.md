@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-04-13 12:49:00 -05:00
+created_at: 2009-04-13 12:49Z
 layout: post
 typo_id: 16
 title: Displaying URIs In Print CSS

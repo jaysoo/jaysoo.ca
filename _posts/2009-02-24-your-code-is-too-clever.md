@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-02-24 22:40:00 -06:00
+created_at: 2009-02-24 22:40Z
 layout: post
 typo_id: 8
 title: Your Code Is Too Clever

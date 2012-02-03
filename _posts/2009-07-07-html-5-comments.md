@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-07-07 10:51:00 -05:00
+created_at: 2009-07-07 10:51Z
 layout: post
 typo_id: 21
 title: HTML 5 Comments

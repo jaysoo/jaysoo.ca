@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-09-15 15:07:00 -05:00
+created_at: 2009-09-15 15:07Z
 layout: post
 typo_id: 27
 title: Sub-pixel Art and Typeface

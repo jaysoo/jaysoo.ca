@@ -3,7 +3,7 @@
 permalink: /:year/:month/:day/:title 
 
 elasticsearch_url: 127.0.0.1:9200
-doindex: false
+doindex: true
 
 exclude: [".rbenv-version", "README.md", "Rakefile"]
 auto: true

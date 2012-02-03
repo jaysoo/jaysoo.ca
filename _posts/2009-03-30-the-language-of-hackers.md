@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-03-30 23:34:00 -05:00
+created_at: 2009-03-30 23:34Z
 layout: post
 typo_id: 14
 title: The Language Of Hackers

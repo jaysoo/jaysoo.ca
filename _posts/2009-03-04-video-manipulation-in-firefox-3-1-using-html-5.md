@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-03-04 14:34:00 -06:00
+created_at: 2009-03-04 14:34Z
 layout: post
 typo_id: 9
 title: Video manipulation in Firefox 3.1 using HTML 5

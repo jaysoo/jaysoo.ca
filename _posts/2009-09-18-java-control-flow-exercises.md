@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-09-18 08:42:00 -05:00
+created_at: 2009-09-18 08:42Z
 layout: post
 typo_id: 29
 title: Java control flow exercises

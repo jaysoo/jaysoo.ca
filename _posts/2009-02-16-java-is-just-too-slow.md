@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-02-16 22:13:00 -06:00
+created_at: 2009-02-16 22:13Z
 layout: post
 typo_id: 6
 title: Java Is Just Too Slow

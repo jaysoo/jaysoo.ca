@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-03-24 09:48:00 -05:00
+created_at: 2010-03-24 09:48Z
 layout: post
 typo_id: 34
 title: JavaScript Namespacing

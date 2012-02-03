@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-12-24 08:36:00 -06:00
+created_at: 2009-12-24 08:36Z
 layout: post
 typo_id: 32
 title: Not all jQuery selectors are created equal

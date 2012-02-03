@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-02-14 19:35:00 -06:00
+created_at: 2009-02-14 19:35Z
 layout: post
 typo_id: 5
 title: JavaScript, Anonymous Function, Closure, and You

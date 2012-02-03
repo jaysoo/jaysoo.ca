@@ -1,5 +1,5 @@
 --- 
-created_at: 2010-02-12 11:35:00 -06:00
+created_at: 2010-02-12 11:35Z
 layout: post
 typo_id: 33
 title: Reserved JavaScript Words in Safari

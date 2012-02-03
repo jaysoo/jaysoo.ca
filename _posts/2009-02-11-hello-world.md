@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-02-11 20:03:00 -06:00
+created_at: 2009-02-11 20:03Z
 layout: post
 typo_id: 1
 title: Hello Interweb!

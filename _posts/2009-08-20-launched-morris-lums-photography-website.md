@@ -1,5 +1,5 @@
 --- 
-created_at: 2009-08-20 08:16:00 -05:00
+created_at: 2009-08-20 08:16Z
 layout: post
 typo_id: 22
 title: Launched Morris Lum's Photography Website
