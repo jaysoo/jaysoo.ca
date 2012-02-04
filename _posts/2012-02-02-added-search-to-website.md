@@ -2,7 +2,7 @@
 created_at: 2012-02-03 03:37Z
 layout: post
 title: Added Search to Website
-tags: [search, javascript, elasticsearch, facet, search, nodejs]
+tags: [search, javascript, elasticsearch, facet, search, nodejs, ruby]
 ---
 
 I added searching capabilities to this static website. 
