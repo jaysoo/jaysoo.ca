@@ -35,12 +35,12 @@ $(function() {
     info = _.template('<p class="info hero-unit well">I found <%= count %> document<%= s %> matching your query</p>'),
 
     article = _.template(['<article>',
-      '<h4><a href="<%= url %>"><%= title %></a></h4>',
+      '<h3><a href="<%= url %>"><%= title %></a></h3>',
       '</article>'].join('')),
 
     blurb = _.template('<p class="blurb"><%= text%></p>'),
 
-    posted = _.template('<p class="pubdate"><time><%= date %></time></p>');
+    posted = _.template('<p class="pubdate"><time class="label" datetime="<%= date %>"><%= text %></time></p>');
 
   if ((/\?q=/).test(initialQuery)) {
     initialQuery = initialQuery.split('?q=')[1];
@@ -139,7 +139,10 @@ $(function() {
           $( blurb({ text: highlights }) ).appendTo($item);
 
           if ('date' in doc) {
-            $( posted({ date: doc.date }) ).appendTo($item);
+            $( posted({ 
+              date: doc.date,
+              text: Date.parse(doc.date.substr(0, doc.date.length - 1)).toString('dddd MMMM d, yyyy')
+            }) ).appendTo($item);
           }
         });
       });
