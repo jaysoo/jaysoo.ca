@@ -34,9 +34,11 @@ $(function() {
 
     info = _.template('<p class="info hero-unit well">I found <%= count %> document<%= s %> matching your query</p>'),
 
-    article =  _.template(['<article>',
+    article = _.template(['<article>',
       '<h4><a href="<%= url %>"><%= title %></a></h4>',
       '</article>'].join('')),
+
+    blurb = _.template('<p class="blurb"><%= text%></p>'),
 
     posted = _.template('<p class="pubdate"><time><%= date %></time></p>');
 
@@ -55,7 +57,7 @@ $(function() {
 
       facetMatches: function(callback) {
         // Only do this once :)
-        ensureFacetReq();
+      ensureFacetReq();
 
          facetReq.success(function(data) {
             var facets = [];
@@ -93,8 +95,13 @@ $(function() {
   });
 
   function ensureFacetReq() {
-    if (!facetReq)
-      facetReq = $.ajax(SEARCH_URL);
+    if (!facetReq) {
+      facetReq = $.ajax({
+        url: SEARCH_URL,
+        type: 'GET',
+        data: { facet: true }
+      });
+    }
   }
 
   function doSearch(query) {
@@ -116,7 +123,9 @@ $(function() {
       ).then(function(data) {
 
         var total = data.hits.total,
-          documents = _.pluck(data.hits.hits, '_source');
+          documents = $.map(data.hits.hits, function(hit) {
+            return $.extend({}, hit._source, { highlight: hit.highlight.text });
+          });
 
         $(info({ 
           count: total > 0 ? total : 'no', 
@@ -124,7 +133,10 @@ $(function() {
         ).appendTo($searchResults);
 
         _.each(documents, function(doc) {
-          var $item = $( article(doc) ).appendTo($searchResults);
+          var $item = $( article(doc) ).appendTo($searchResults),
+            highlights = doc.highlight.join('... ');
+
+          $( blurb({ text: highlights }) ).appendTo($item);
 
           if ('date' in doc) {
             $( posted({ date: doc.date }) ).appendTo($item);

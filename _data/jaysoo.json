@@ -27,7 +27,9 @@
         "text": {
           "type": "string",
 		  "analyzer":  "html_analyzer",
-		  "search_analyzer": "html_analyzer"
+		  "search_analyzer": "html_analyzer",
+		  "term_vector": "with_positions_offsets", 
+          "store": "yes" 
         },
         "tags": {
           "type": "string",
