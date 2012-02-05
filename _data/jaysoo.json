@@ -18,7 +18,7 @@
           "type": "string",
           "search_analyzer": "keyword", 
           "index_analyzer": "keyword",
-          "boost": 2.0
+          "boost": 1.5
         },
         "url": {
           "type": "string",
@@ -32,7 +32,8 @@
         "tags": {
           "type": "string",
           "search_analyzer": "keyword", 
-          "index_analyzer": "keyword"
+          "index_analyzer": "keyword",
+          "boost": 1.2
         },
 		"date": {
           "type": "date",
