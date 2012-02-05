@@ -10,51 +10,59 @@ tags: [java, python, json, web]
 <p>Java is so verbose that in order to really work with it you need to plan ahead. You need to know what Objects you need to create, what methods and variables (private or public?) it should have, and how they need to interact with each other. Oh, and after all that you need to compile your code before seeing the result. As a simple demonstration of this, let's work with a JSON object in Java (using <a href="http://code.google.com/p/google-gson/">Gson</a>), then in Python (using <a href="http://pypi.python.org/pypi/simplejson/">simplejson</a>).</p>
 <p>Let's use the following JSON object:</p>
 
-	{
-		'foo': {
-			'bar': 10,
-			'baz': 20
-		},
-		'phrase': 'Hello World!',
-		'myArray': [1, 2, 3, 4, 5]
-	}
+{% highlight javascript %}
+{
+  'foo': {
+    'bar': 10,
+    'baz': 20
+  },
+  'phrase': 'Hello World!',
+  'myArray': [1, 2, 3, 4, 5]
+}
+{% endhighlight %}
 
 <p>Let's access some data in Java. Wait, first we need to create some Objects to deserialize the JSON string to.</p>
 
-	class MyObj1 {
-		private int bar;
-		private int baz;
-		MyObj1() {}
-	}
+{% highlight javascript %}
+class MyObj1 {
+  private int bar;
+  private int baz;
+  MyObj1() {}
+}
 
-	class MyObj2 {
-		private MyObj1 foo;
-		private String phrase;
-		private int[] myArray;
-		MyObj2() {}
-	}
+class MyObj2 {
+  private MyObj1 foo;
+  private String phrase;
+  private int[] myArray;
+  MyObj2() {}
+}
+{% endhighlight %}
 
 <p>Now we can deserialize the JSON string and get some properties from it.</p>
 
-	String json = "{'foo': {'bar': 10, 'baz': 20}," +
-				"'phrase': 'Hello World!'," +
-			"'myArray': [1, 2, 3, 4, 5]}";
-	MyObj2 json = gson.fromJson(json, MyObj2 .class);
+{% highlight java %}
+String json = "{'foo': {'bar': 10, 'baz': 20}," +
+      "'phrase': 'Hello World!'," +
+    "'myArray': [1, 2, 3, 4, 5]}";
+MyObj2 json = gson.fromJson(json, MyObj2 .class);
 
-	system.out.println(json.foo.bar); //--> 10
-	system.out.println(json.phrase); //--> Hello World!
-	system.out.println(json.myArray[1]); //--> 2
+system.out.println(json.foo.bar); //--> 10
+system.out.println(json.phrase); //--> Hello World!
+system.out.println(json.myArray[1]); //--> 2
+{% endhighlight %}
 
 <p>Now let's try the same thing in Python.</p>
 
-	import simplejson
-			
-	json = simplejson.loads('{"foo": {"bar": 10,' +
-			'"baz": 20}, "phrase": "Hello World!",' +
-			'"myArray": [1, 2, 3, 4, 5]}')
-	print(json['foo']['bar']) #--> 10
-	print(json['phrase']) #-> Hello World!
-	print(json['myArray'][1]) #--> 2
+{% highlight python %}
+import simplejson
+    
+json = simplejson.loads('{"foo": {"bar": 10,' +
+    '"baz": 20}, "phrase": "Hello World!",' +
+    '"myArray": [1, 2, 3, 4, 5]}')
+print(json['foo']['bar']) #--> 10
+print(json['phrase']) #-> Hello World!
+print(json['myArray'][1]) #--> 2
+{% endhighlight %}
 
 <p>By the way, the above python code is 100% executable using the interactive shell assuming simplejson is installed (<code>easy_install simple-json</code>). The Java code will need some main method with whatever else, I just didn't bother -- usually my IDE at work writes all the skeleton code for me.</p>
 <p>So which do you think is simpler? If you knew you'll be dealing with a lot of JSON would you go with Python or Java? Another thing to keep in mind is that if I change the JSON string, the Python code would require virtually no effort, whereas the Java code will need class changes, recompiling, etc. Not to mention if I changed the array to something like <code>["I'm a string", 1234,&nbsp; {"a": 1, "b": 2}, 3, 4, 5]</code>. Sure you can do it in Java, but WHY? You can probably see why Java developers are forced into so many hour-long planning meetings. If you get the wrong the first time you really pay the price.</p>
