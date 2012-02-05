@@ -217,7 +217,7 @@ $(function() {
           if ('date' in doc) {
             $( posted({ 
               date: doc.date,
-              text: Date.parse(doc.date.substr(0, doc.date.length - 1)).toString('dddd MMMM d, yyyy')
+              text: Date.parse(doc.date.substr(0, doc.date.length - 1)).toString('MMMM d, yyyy')
             }) ).appendTo($item);
           }
         });
