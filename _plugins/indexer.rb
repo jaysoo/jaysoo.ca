@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'nokogiri'
 require 'rubberband'
 
 # Adapted from https://raw.github.com/PascalW/jekyll_indextank/master/indexer.rb
@@ -19,7 +20,7 @@ module Jekyll
       puts 'Indexing posts...'
 
       site.posts.each do |post|
-        text = post.content
+        text = extract_text(site, post)
 		date_str = post.data['created_at'] || post.date.strftime('%Y-%m-%d %H:%MZ')
 
 		document = {
@@ -48,9 +49,9 @@ module Jekyll
 	  puts 'Indexing pages...'
 
       pages.each do |page|
-        text = page.content
+        text = extract_text(site, page)
 
-		url = '/' + page.name
+		url = page.url()
 
 		client.index({
 		  :title => page.data['title'],
@@ -60,6 +61,13 @@ module Jekyll
       end
 
       puts 'Indexing done!'
+    end
+
+    def extract_text(site, page)
+  	  page.render(site.layouts, site.site_payload)
+  	  doc = Nokogiri::HTML(page.output)
+	  main = doc.css("#main")
+  	  page_text = main.text.gsub("\r"," ").gsub("\n"," ").gsub(/\s+/, " ")
     end
 
   end 
