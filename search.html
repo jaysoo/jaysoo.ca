@@ -66,7 +66,7 @@ $(function() {
               }
             }
 
-            callback(facets);
+            callback(facets, { preserveOrder: true });
           })
       },
 
@@ -81,20 +81,16 @@ $(function() {
 
           switch (obj._type) {
           case 'terms':
-            callback(_.pluck( obj.terms, 'term' ));
+            callback(_.pluck( obj.terms, 'term' ), { preserveOrder: true });
             break;
           case 'date_histogram':
-            callback(_.pluck( obj.entries, 'time' ));
+            callback(_.pluck( obj.entries, 'time' ), { preserveOrder: true });
             break;
           }
         });
       }
     }
   });
-
-  if (initialQuery) {
-    doSearch(initialQuery);
-  }
 
   function ensureFacetReq() {
     if (!facetReq)
@@ -136,6 +132,11 @@ $(function() {
         });
       });
   }
+
+  initialQuery && doSearch(initialQuery);
+
+  $searchBox.find('input').focus();
+
 });
 
 </script>
