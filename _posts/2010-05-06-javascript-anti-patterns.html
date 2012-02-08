@@ -36,16 +36,16 @@ bar();
 {% highlight javascript %}
 // Don't do this
 function foo() {
-	var x = 1;
-	var y = 2;
-	var z = 3;
+    var x = 1;
+    var y = 2;
+    var z = 3;
 }
  
 // Do this
 function foo() {
-	var x = 1,
-		y = 2,
-		z = 3;
+    var x = 1,
+        y = 2,
+        z = 3;
 }
 {% endhighlight %}
 
@@ -54,7 +54,7 @@ function foo() {
 
 {% highlight javascript %}
 var arr = new Array(),
-	hash = new Object();
+    hash = new Object();
 hash.a = 1;
 hash.b = 2;
 {% endhighlight %}
@@ -63,7 +63,7 @@ hash.b = 2;
  
 {% highlight javascript %}
 var arr = [],
-	hash = { a: 1, b: 2 };
+    hash = { a: 1, b: 2 };
 {% endhighlight %}
 
 <h3>Not making use of truthy/falsey values: undefined, null, false, &rdquo;, [], etc.</h3> 
@@ -100,7 +100,7 @@ var arr = ['a', 'b', ..., 'z'];
  
 // don't do this
 for (var i=0; i<arr.length; i++) {
-	// do something with arr[i]
+    // do something with arr[i]
 }
  
 // do this
@@ -116,32 +116,32 @@ for (var i=0, curr; curr=arr[i]; i++) {
 {% highlight javascript %}
 // you may want to do this
 function foo(x) {
-	var a;
-	switch (x) {
-		case 0:
-			a = 'foo';
-			break;
-		case 1:
-			a = 'bar';
-			break;
-		case 2:
-			a = 'faz';
-	}
-	return a;
+    var a;
+    switch (x) {
+    case 0:
+            a = 'foo';
+            break;
+     case 1:
+            a = 'bar';
+            break;
+     case 2:
+            a = 'faz';
+    }
+    return a;
 }
  
 // but you should do this instead
 // Note: some anonymous function magic here... 
 //       but it's pretty much same as above!
 (function(scope) {
-	var handlers = [
-		function() { return 'foo'; },
-		function() { return 'bar'; },
-		function() { return 'faz'; }
-	];
-	scope.foo = function(x) {
-		return handlers[x]();
-	};
+    var handlers = [
+        function() { return 'foo'; },
+        function() { return 'bar'; },
+        function() { return 'faz'; }
+    ];
+    scope.foo = function(x) {
+        return handlers[x]();
+    };
 })(this);
 {% endhighlight %}
  
