@@ -8,13 +8,17 @@ tags: [python, braces, future]
 <p>Finally, we can do without the annoying "whitespace is signigicant" crap. You can import a new feature called <code>braces</code> from the <code>__future__</code> module. For those who don't know, the <code>__future__</code> module contains new features that are not yet included in the current Python version.</p>
 <p>Now, instead of doing this:</p>
 
-	def foo():
-		# Ugh, I hate whitespace indents
-		print 'Hello Braces!'
+{% highlight python %}
+def foo():
+    # Ugh, I hate whitespace indents
+    print 'Hello Braces!'
+{% endhighlight %}
 
 <p>You can do this:</p>
 
-	from __future__ import braces
-	def foo() { print 'Hello Braces!' } # Only one line!!!11!!11
+{% highlight python %}
+from __future__ import braces
+def foo() { print 'Hello Braces!' } # Only one line!!!11!!11
+{% endhighlight %}
 
 <p style="color: white;">April Fools!</p>
