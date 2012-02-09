@@ -63,6 +63,11 @@ li { line-height: 24px; }
   max-width: 940px;
 }
 
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+  background-color: #222028;
+  background-color: rgba(34, 32, 40, 0.4);
+}
+
 .navbar .nav > li > a,
 .page-footer a {
   color: #FFF8D3;
