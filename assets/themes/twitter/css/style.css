@@ -11,7 +11,10 @@ pre code {
   border: 0;
 }
 
-h3, h4, h5, h6 {
+.post-body h3, 
+.post-body h4, 
+.post-body h5, 
+.post-body h6 {
   margin: 20px 0 10px 0;
 }
 
@@ -226,6 +229,16 @@ li { line-height: 24px; }
 
 #begin {
   margin-top: 20px;
+}
+
+#latest-post .blurb {
+  font-family: Georgia, Times, serif;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+#latest-post time {
+  font-weight: bold;
 }
 
 	

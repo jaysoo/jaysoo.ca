@@ -11,11 +11,31 @@ noindex: true
 </div>
 
 <div class="row">
-  <section class="span6">
-    <h2>Recent blog posts</h2>
+  <section class="span7">
+    {% assign first_post = site.posts[0] %}
+
+    <div id="latest-post">
+      <header>
+        <h2>
+          Latest &raquo;
+          <a href="{{ first_post.url }}">{{ first_post.title }}</a>
+        </h2>
+        <p><time pubdate>{{ first_post.date | date:'%A, %B %d, %Y' }}</time></p>
+      </header>
+      <p class="blurb">
+      {% if first_post.blurb %}
+        {{ first_post.blurb }}
+      {% else %}
+        {{ first_post.content | strip_html | truncatewords:40 }}
+      {% endif %}
+      <strong><a href="{{ first_post.url }}">continue reading...</a></strong>
+      </p>
+    </div>
+
+    <h2>More blog posts</h2>
 
     <ul class="posts">
-      {% for post in site.posts limit:20 %}
+      {% for post in site.posts limit:20 offset:2 %}
       <li>
         <time>{{ post.date | date_to_string }}</time> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
         {% if post.category != null %}
@@ -28,7 +48,7 @@ noindex: true
     <a class="btn btn-primary" href="{{ BASE_PATH }}archive.html">View archive &raquo;</a>
   </section>
 
-  <section class="span6">
+  <section class="span5">
     <h2>Recent bookmarks</h2>
 
     <ul class="delicious-links">
