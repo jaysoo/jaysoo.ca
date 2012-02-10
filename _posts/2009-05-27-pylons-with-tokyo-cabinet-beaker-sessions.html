@@ -95,7 +95,9 @@ class TokyoCabinetContainer(Container):
 
 <p>You can then specify <em>ext:tcjson</em> as your beaker session in your INI file (e.g. development.ini).</p>
 
-	beaker.session.type = ext:tcjson
-	beaker.session.url = 127.0.0.1:1978
+{% highight bash %}
+beaker.session.type = ext:tcjson
+beaker.session.url = 127.0.0.1:1978
+{% endhighight %}
 
 <p>Fire up your app and it should be using Tokyo Cabinet for your sessions! :)</p>
