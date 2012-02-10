@@ -7,7 +7,7 @@ created_at: 2012-02-10 15:13Z
 
 I recently started working on pipelines using Hadoop to run MapReduce jobs. 
 One of the pipelines I need to setup involves reading in two or more text-delimited 
-files (e.g. CSV), join (inner, outer, left, or right) them on one or more fields, 
+files (e.g. CSV), join them on one or more fields (inner, outer, left, or right), 
 then write out the resulting text-delimited file.
 
 For example:
@@ -36,7 +36,7 @@ I am using [Cascading](http://www.cascading.org/) for building the pipeline, and
 However, the output file did not contain the header as the first line, which was part of
 the requirement.
 
-For small files, it's not a big deal to use prepend the header afterwards, but with very large files (&gt; 5GB),
+For small files, it's not a big deal to prepend the header afterwards, but for very large files (&gt; 5GB),
 it becomes too slow to do a prepend.
 
 Luckily, building a pipeline with custom workflow is not that hard using Cascading. And with the help of
