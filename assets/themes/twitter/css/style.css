@@ -241,6 +241,10 @@ li { line-height: 24px; }
   font-weight: bold;
 }
 
+.box {
+  margin-bottom: 20px;
+}
+
 	
 /* 
  * Responsive designs

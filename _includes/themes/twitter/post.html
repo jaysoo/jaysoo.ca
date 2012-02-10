@@ -32,22 +32,24 @@
     {% include JB/comments %}
   </div>
   
-  <div class="span4">
+  <aside class="span4">
     <h4>Published</h4>
-    <div class="date"><span>{{ page.date | date_to_long_string }}</span></div>
+    <div class="box date"><span>{{ page.date | date_to_long_string }}</span></div>
 
   {% unless page.tags == empty %}
     <h4>Tags</h4>
-    <ul class="tag_box">
+    <ul class="box tag_box">
     {% assign tags_list = page.tags %}
     {% include JB/tags_list %}
     </ul>
   {% endunless %}  
 
     <h4>Share</h4>
-    <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    <div class="box">
+      <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-    <div class="fb-like" data-href="{{ page.url }}" data-send="false" data-layout="button_count" data-width="300" data-show-faces="false" data-action="recommend"></div>
-  </div>
+      <div class="fb-like" data-href="{{ page.url }}" data-send="false" data-layout="button_count" data-width="300" data-show-faces="false" data-action="recommend"></div>
+    </div>
+  </aside>
 </div>
