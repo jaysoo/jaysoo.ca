@@ -245,6 +245,10 @@ li { line-height: 24px; }
   margin-bottom: 20px;
 }
 
+.box-centered {
+  text-align: center;
+}
+
 	
 /* 
  * Responsive designs
