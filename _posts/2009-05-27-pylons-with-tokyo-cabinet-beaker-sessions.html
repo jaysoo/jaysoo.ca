@@ -89,15 +89,17 @@ class TokyoCabinetContainer(Container):
 
 <p>Now, put this in your <em>[project path]/config/environment.py</em> file.</p>
 
-	import investor.lib.tcjson as tcjson 
-	import beaker
-	beaker.cache.clsmap['ext:tcjson'] = tcjson.TokyoCabinetManager
+{% highlight python %}
+import investor.lib.tcjson as tcjson 
+import beaker
+beaker.cache.clsmap['ext:tcjson'] = tcjson.TokyoCabinetManager
+{% endhighlight %}
 
 <p>You can then specify <em>ext:tcjson</em> as your beaker session in your INI file (e.g. development.ini).</p>
 
-{% highight bash %}
+{% highlight bash %}
 beaker.session.type = ext:tcjson
 beaker.session.url = 127.0.0.1:1978
-{% endhighight %}
+{% endhighlight %}
 
 <p>Fire up your app and it should be using Tokyo Cabinet for your sessions! :)</p>

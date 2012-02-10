@@ -35,7 +35,7 @@ noindex: true
     <h2>More blog posts</h2>
 
     <ul class="posts">
-      {% for post in site.posts limit:20 offset:2 %}
+      {% for post in site.posts limit:20 offset:1 %}
       <li>
         <time>{{ post.date | date_to_string }}</time> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
         {% if post.category != null %}
