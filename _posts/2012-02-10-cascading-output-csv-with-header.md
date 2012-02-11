@@ -49,23 +49,6 @@ the [mailing list](http://groups.google.com/group/cascading-user/topics) I was a
 public class TextDelimitedWithHeader extends TextDelimited {
   // ...
 
-  @SuppressWarnings("unchecked")
-  public void sinkPrepare(HadoopFlowProcess flowProcess, SinkCall<Object[], OutputCollector> sinkCall) {
-    super.sinkPrepare(flowProcess, sinkCall);
-
-    Fields fields = this.getSinkFields();
-    Tuple tuple = new Tuple();
-
-    for(int i = 0; i < fields.size(); i++)
-      tuple.add(fields.get(i));
-
-    try {
-      sinkCall.getOutput().collect(null, tuple);
-    } catch(IOException e) {
-      throw new IllegalStateException("failed to write header");
-    }
-  }
-  @SuppressWarnings("unchecked")
   public void sinkPrepare(HadoopFlowProcess flowProcess, SinkCall<Object[], OutputCollector> sinkCall) {
     super.sinkPrepare(flowProcess, sinkCall);
 
