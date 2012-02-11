@@ -110,45 +110,42 @@ for (var i=0, curr; curr=arr[i]; i++) {
 {% endhighlight %}
 
 <p>The second for loop works because <code>arr[i]</code> is undefined if <code>i</code> is an out-of-bounds index, and <code>undefined</code> is falsey. Also, this method performs better (especially in IE 6/7 where <code>arr.length</code> lookup can be costly). <strong>Be careful</strong> not to use this approach if you know an array may contain a zero (0), or any other falsey values you don&rsquo;t want to prematurely exit from.</p> 
-<h3>Using switch statements</h3> 
-<p>A lot of times when you use a switch statement in JavaScript, you really should be using anonymous functions. This is because switch statements in JavaScript don&rsquo;t perform as well as you&rsquo;re probably used to in other languages.</p> 
+
+<h3><s>Using switch statements</s></h3> 
+
+<div class="well">
+  <p><strong>Update: 2012-02-11</strong></p>
+  <p>Switch statements have been optimized in modern JavaScript engines. Function hashes are still very useful when you need code reuse, or when to refactor a complex function into smaller, simpler ones.</p>
+</div>
+<p><s>A lot of times when you use a switch statement in JavaScript, you really should be using function hashes. This is because switch statements in JavaScript don&rsquo;t perform as well as you&rsquo;re probably used to in other languages.</s></p> 
 
 {% highlight javascript %}
-// you may want to do this
-function foo(x) {
-    var a;
-    switch (x) {
-    case 0:
-            a = 'foo';
-            break;
-     case 1:
-            a = 'bar';
-            break;
-     case 2:
-            a = 'faz';
-    }
-    return a;
+
+// switch statement
+var x;
+
+switch (something) {
+case 'foo':
+  x = 1;
+  break;
+case 'bar':
+  x = 2;
+  break;
+default:
+  x = 3;
 }
- 
-// but you should do this instead
-// Note: some anonymous function magic here... 
-//       but it's pretty much same as above!
-(function(scope) {
-    var handlers = [
-        function() { return 'foo'; },
-        function() { return 'bar'; },
-        function() { return 'faz'; }
-    ];
-    scope.foo = function(x) {
-        return handlers[x]();
-    };
-})(this);
+
+// function hashes
+var handlers = {
+  foo: function() { return 1; },
+  bar: function() { return 2; },
+  _default: function() { return 3; }
+};
+
+var x = ( handlers[something] || handlers._default )();
+
 {% endhighlight %}
- 
-<p>This method can always be used when you want to switch on a string by using an hash instead of an array.</p> 
- 
-<p><strong>NB:</strong> there are times when a switch statement is appropriate, or even necessary. Control flow similar to<a href="http://en.wikipedia.org/wiki/Duff%27s_device"> Duff&rsquo;s device</a>, for example, needs the switch statement. Also, sometimes you don&rsquo;t need to worry about performance too much, and may think switch statements are clearer. I rarely use them though.</p> 
-  
+
 <h3>Not making use of truthy/falsey values (part 3): Converting a value using Boolean(x)</h3> 
  
 <p>Okay, I&rsquo;m not sure if this counts a an anti-pattern but it&rsquo;s more of a personal preference. Of course we should <em>never</em> use <code>Boolean('')</code> inside an if-check, but sometimes we want to convert any value into an actual boolean. What you should do instead of using <code>Boolean(x)</code> is to use <code>!!x</code>. This works because !x returns true if x is falsey, and false otherwise. We then negate that boolean again to get what we want.&nbsp;</p> 
