@@ -126,20 +126,20 @@ var x;
 
 switch (something) {
 case 'foo':
-  x = 1;
-  break;
+    x = 1;
+    break;
 case 'bar':
-  x = 2;
-  break;
+    x = 2;
+    break;
 default:
-  x = 3;
+    x = 3;
 }
 
 // function hashes
 var handlers = {
-  foo: function() { return 1; },
-  bar: function() { return 2; },
-  _default: function() { return 3; }
+    foo: function() { return 1; },
+    bar: function() { return 2; },
+    _default: function() { return 3; }
 };
 
 var x = ( handlers[something] || handlers._default )();
