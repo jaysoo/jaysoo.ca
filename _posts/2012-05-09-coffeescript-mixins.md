@@ -23,15 +23,40 @@ include = (mixins...) ->
 
     for mixin in mixins
       for own key, value of mixin
-        @::[key] = value
+        this::[key] = value
 
       included = mixin.included
       included.apply(this) if included
-    @
+
+    this
 
   Backbone.Model.include = Backbone.Collection.include = Backbone.View.include = Backbone.Router.include = include
                       
 {% endhighlight %}
 
-I use it with [RequireJS](http://requirejs.org/) and the facade pattern, so all my modules will load Backbone from the 
-facade, thus everything is setup nicely. :)
+You can now use this to add properties and methods to your classes.
+
+
+{% highlight coffeescript %}
+# Define our mixin
+Modal =
+  open: ->
+    # Create the modal and open (e.g. using Bootstrap modal)
+
+  close: ->
+    # Close the modal and destroy it
+
+
+# Define our class that uses the mixin
+class WelcomeMessage extends Backbone.View
+  @include Modal
+
+
+# Now we can instantiate the WelcomeMessage and open it as a modal
+welcome = new WelcomeMessage({
+  el: $('#welcome-message')
+})
+
+# The open() method is from the mixin
+welcome.open()
+{% endhighlight %}

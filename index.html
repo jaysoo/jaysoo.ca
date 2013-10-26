@@ -6,7 +6,7 @@ noindex: true
 {% include JB/setup %}
 
 <div id="intro" class="hero-unit well">
-  <p>Ohai! You've stumbled upon the personal website of <strong>Jack Hsu</strong>.</p>
+  <p>Hi there! You've stumbled upon the personal website of <strong>Jack Hsu</strong>.</p>
   <p>Have a look around and enjoy your stay. :)</p>
 </div>
 
@@ -49,10 +49,20 @@ noindex: true
   </section>
 
   <section class="span5">
+    <h2>Jack on the Web</h2>
+
+    <ul class="other-links">
+      <li><a href="http://coderwall.com/jaysoo">Coderwall</a></li>
+      <li><a href="https://github.com/jaysoo">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/jackhsu83">LinkedIn</a></li>
+    </ul>
+  </section>
+
+  <section class="span5">
     <h2>Recent bookmarks</h2>
 
     <ul class="delicious-links">
-      {% delicious username:i2hsu tag:programming count:20 ttl:60 %}
+      {% delicious username:i2hsu tag:programming count:15 ttl:60 %}
       <li><a href="{{ item.link }}" title="{{ item.description }}" rel="external">{{ item.title }}</a></li>
       {% enddelicious %}
     </ul>
