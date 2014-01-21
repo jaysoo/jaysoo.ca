@@ -15,6 +15,7 @@ In this post we'll cover:
 * How to provide communication between directives via controllers.
 * How to provide basic animations using the `$animate` service.
 
+This post assume you have some experience with Angular directives.
 
 ## Motivation
 
@@ -23,24 +24,25 @@ question with a simple example of a view switcher.
 
 Here, we are using `ng-show` and `ng-click` to provide a view switcher between "show" and "edit" modes.
 
-{% highlight html %}
-<div ng-init="mode = 'show'">
-  <div ng-show="mode == 'show'">
-    <p>Hi, {{ user.name }}</p>
-    <button ng-click="mode = 'edit'">
-      Edit
-    </button>
-  </div>
-  <div ng-show="mode == 'edit'">
-    <p>
-      <input ng-model="user.name">
-    </p>
-    <button ng-click="mode = 'show'">
-      Done
-    </button>
-  </div>
-</div>
-{% endhighlight %}
+{% assign open = '{{' %}
+{% assign close = '}}' %}
+
+    <div ng-init="mode = 'show'">
+      <div ng-show="mode == 'show'">
+        <p>Hi, {{open}} user.name {{close}}</p>
+        <button ng-click="mode = 'edit'">
+          Edit
+        </button>
+      </div>
+      <div ng-show="mode == 'edit'">
+        <p>
+          <input ng-model="user.name">
+        </p>
+        <button ng-click="mode = 'show'">
+          Done
+        </button>
+      </div>
+    </div>
 
 Wow, we've just created a view switcher without writing any JavaScript! We could be happy with this and call it a day,
 but let's take a look at a few issues that I see in the preceeding example.
@@ -63,7 +65,7 @@ might introduce more problems rather than solve existing problems. So let's move
 
 ### 3. Imperative vs Declarative Views
 
-I will argue that our little HTML is somewhat imperative in that we are changing the program state (read mode) through
+Our little HTML is imperative in that we are changing the program state (read mode) through
 the expression inside the `ng-click` attribute. This is going against the spirit of Angular, which encourages
 declarative programming over imperative programming.
 
@@ -72,24 +74,22 @@ declarative programming over imperative programming.
 
 Let's now take a look at a better potential markup for our view switcher.
 
-{% highlight html %}
-<views>
-  <view name="show" initial>
-    <p>Hi, {{ user.name }}</p>
-    <button view-target="edit">
-      Edit
-    </button>
-  </view>
-  <view name="edit">
-    <p>
-      <input ng-model="user.name" />
-    </p>
-    <button view-target="show">
-      Done
-    </button>
-  </view>
-</views>
-{% endhighlight %}
+    <views>
+      <view name="show" initial>
+        <p>Hi, {{open}} user.name {{close}}</p>
+        <button view-target="edit">
+          Edit
+        </button>
+      </view>
+      <view name="edit">
+        <p>
+          <input ng-model="user.name" />
+        </p>
+        <button view-target="show">
+          Done
+        </button>
+      </view>
+    </views>
 
 From this new HTML we see that there is an outer `views` component which holds multiple child `view` components.
 The `initial` attribute  of a `<view>` denotes the default, and the elements with a `view-target` attribute will
@@ -115,7 +115,7 @@ m.directive('views', function() {
         registeredViews[ctrl.$name] = ctrl;
       };
       
-      // viewName matches the `name` attribute on <view>
+      // viewName matches the `name` attribute on &lt;view&gt;
       this.$switchTo = function(viewName) {
         for (var k in registeredViews) {
           if (k == viewName) {
@@ -167,7 +167,7 @@ m.directive('view', function() {
 We've created two directives:
 
 * `views` - outer component responsible for registration of views and switching between different views.
-* `view` - inner component responsible for showing and hiding the corresponding <view> DOM element.
+* `view` - inner component responsible for showing and hiding the corresponding &lt;view&gt; DOM element.
 
 #### The Outer Directive
 
@@ -191,7 +191,7 @@ angular.module('my-app', []).controller('MyCtrl', function($scope, AsyncService)
     });
   };
 });
-
+{% endhighlight %}
 
 #### The Inner Directive
 
@@ -212,6 +212,8 @@ animation framework.
 To make animations work, we can simply switch out the `.show()` and `.hide()` method calls in the inner `view` directive
 with `$animate.addClass()` and `$animate.removeClass()`. We will also need to provide CSS animations for showing and
 hiding.
+
+JavaScript:
 
 {% highlight javascript %}
 // Must require the ngAnimate module
@@ -234,62 +236,76 @@ m.directive('view', function($animate) {
 });
 {% endhighlight %}
 
-{% highlight css %}
-views { position: relative; }
+CSS:
 
-view {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+    views { position: relative; }
 
-view.view-hide { display: none; }
+    view {
+      position: absolute;
+      top: 0;
+      width: 500px;
+    }
 
-view.view-hide-remove, view.view-hide-add { display: block !important; }
+    view.view-hide { display: none; }
 
-view.view-hide-add {
-  animation: .3s hide;
-  -webkit-animation: .3s hide;
-}
+    view.view-hide-remove, view.view-hide-add { display: block !important; }
 
-@keyframes hide {
-  from { opacity:1; }
-  to { opacity:0; }
-}
+    view.view-hide-add {
+      animation: .3s hide;
+      -webkit-animation: .3s hide;
+    }
 
-@-webkit-keyframes hide {
-  from { opacity:1; }
-  to { opacity:0; }
-}
+    @keyframes hide {
+      from { opacity:1; }
+      to { opacity:0; }
+    }
 
-view.view-hide-remove {
-  animation: .3s show;
-  -webkit-animation: .3s show;
-}
+    @-webkit-keyframes hide {
+      from { opacity:1; }
+      to { opacity:0; }
+    }
 
-@keyframes show {
-  from { opacity:0; }
-  to { opacity:1; }
-}
+    view.view-hide-remove {
+      animation: .3s show;
+      -webkit-animation: .3s show;
+    }
 
-@-webkit-keyframes show {
-  from { opacity:0; }
-  to { opacity:1; }
-}
-{% endhighlight %}
+    @keyframes show {
+      from { opacity:0; }
+      to { opacity:1; }
+    }
 
+    @-webkit-keyframes show {
+      from { opacity:0; }
+      to { opacity:1; }
+    }
 
 With very little JavaScript changes, and a bit of CSS we've just added animations to our directive!
 
-The full exampel can be found on [Plunker](http://embed.plnkr.co/N5Sj7gMg9bpCTFtPBXV9/preview).
+The full example can be found on [Plunker](http://embed.plnkr.co/N5Sj7gMg9bpCTFtPBXV9/preview).
 
 
-## Future-Proofing Your Components, Wrap-Up
+## Wrap-Up, Future-Proofing Your Components
 
 We've learned how to extend HTML through the use of Angular directives. You may notice that the final HTML of our
 component contains almost no Angular (with the exception of `ng-model`). This fits very well with AngularJS 2.0's goal
 of integrating with [Web Components](http://w3c.github.io/webcomponents/spec/custom/) and other frameworks, such as
 [Polymer](http://www.polymer-project.org/).
+
+Also note that our final solution allows us to use an arbitrary number of views within our HTML without any hassle!
+
+    <views>
+        <ul>
+          <li><a view-target="foo">Foo</a></li>
+          <li><a view-target="bar">Bar</a></li>
+          <li><a view-target="faz">Faz</a></li>
+          <li><a view-target="baz">Baz</a></li>
+        </ul>
+        <view name="foo" initial>...</view>
+        <view name="bar">...</view>
+        <view name="faz">...</view>
+        <view name="baz">...</view>
+    </views>
 
 Please keep in mind that the examples shown here are not production-ready, and are missing a lot of pieces, such
 cleaning up on scope's `$destroy` event.
