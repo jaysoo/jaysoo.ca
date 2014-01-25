@@ -24,6 +24,7 @@ question with a simple example of a view switcher.
 
 Here, we are using `ng-show` and `ng-click` to provide a view switcher between "show" and "edit" modes.
 
+<<<<<<< HEAD
 <pre>
 &lt;div ng-init="mode = 'show'"&gt;
   &lt;div ng-show="mode == 'show'"&gt;
@@ -42,6 +43,27 @@ Here, we are using `ng-show` and `ng-click` to provide a view switcher between "
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
+=======
+{% assign open = '{{' %}
+{% assign close = '}}' %}
+
+    <div ng-init="mode = 'show'">
+      <div ng-show="mode == 'show'">
+        <p>Hi, {{open}} user.name {{close}}</p>
+        <button ng-click="mode = 'edit'">
+          Edit
+        </button>
+      </div>
+      <div ng-show="mode == 'edit'">
+        <p>
+          <input ng-model="user.name">
+        </p>
+        <button ng-click="mode = 'show'">
+          Done
+        </button>
+      </div>
+    </div>
+>>>>>>> dev
 
 Wow, we've just created a view switcher without writing any JavaScript! We could be happy with this and call it a day,
 but let's take a look at a few issues that I see in the preceeding example.
@@ -73,6 +95,7 @@ declarative programming over imperative programming.
 
 Let's now take a look at a better potential markup for our view switcher.
 
+<<<<<<< HEAD
 <pre>
 &lt;views&gt;
   &lt;view name="show" initial&gt;
@@ -91,6 +114,24 @@ Let's now take a look at a better potential markup for our view switcher.
   &lt;/view&gt;
 &lt;/views&gt;
 </pre>
+=======
+    <views>
+      <view name="show" initial>
+        <p>Hi, {{open}} user.name {{close}}</p>
+        <button view-target="edit">
+          Edit
+        </button>
+      </view>
+      <view name="edit">
+        <p>
+          <input ng-model="user.name" />
+        </p>
+        <button view-target="show">
+          Done
+        </button>
+      </view>
+    </views>
+>>>>>>> dev
 
 From this new HTML we see that there is an outer `views` component which holds multiple child `view` components.
 The `initial` attribute  of a `<view>` denotes the default, and the elements with a `view-target` attribute will
