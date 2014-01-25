@@ -5,6 +5,7 @@ html, body {
 body {
   padding-top: 40px; /* 40px to make the container go all the way to the bottom of the topbar */
   font-size: 15px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 pre code {
