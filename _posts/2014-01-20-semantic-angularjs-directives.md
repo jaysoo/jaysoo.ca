@@ -1,4 +1,4 @@
---- 
+---
 created_at: 2014-01-20 19:33Z
 layout: post
 title: Creating Semantic, Reusable Directives in AngularJS
@@ -24,7 +24,6 @@ question with a simple example of a view switcher.
 
 Here, we are using `ng-show` and `ng-click` to provide a view switcher between "show" and "edit" modes.
 
-<<<<<<< HEAD
 <pre>
 &lt;div ng-init="mode = 'show'"&gt;
   &lt;div ng-show="mode == 'show'"&gt;
@@ -43,41 +42,20 @@ Here, we are using `ng-show` and `ng-click` to provide a view switcher between "
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
-=======
-{% assign open = '{{' %}
-{% assign close = '}}' %}
-
-    <div ng-init="mode = 'show'">
-      <div ng-show="mode == 'show'">
-        <p>Hi, {{open}} user.name {{close}}</p>
-        <button ng-click="mode = 'edit'">
-          Edit
-        </button>
-      </div>
-      <div ng-show="mode == 'edit'">
-        <p>
-          <input ng-model="user.name">
-        </p>
-        <button ng-click="mode = 'show'">
-          Done
-        </button>
-      </div>
-    </div>
->>>>>>> dev
 
 Wow, we've just created a view switcher without writing any JavaScript! We could be happy with this and call it a day,
 but let's take a look at a few issues that I see in the preceeding example.
 
 ### 1. Unsemantic Attributes In The HTML
 
-The three attributes, `ng-init`, `ng-show`, and `ng-click` have no semantic meaning in the HTML. While this may not 
+The three attributes, `ng-init`, `ng-show`, and `ng-click` have no semantic meaning in the HTML. While this may not
 seem like a huge issue, I would argue that in a larger application semantics allow you more easily discern the
 intent of the added behaviours -- in this case, view switching.
 
 ### 2. Limited Reusability Of The Component
 
 Because our HTML is wired for a very specific use-case, it is hard to reuse the component in other contexts.
-You could use `ng-include` to encapsulate the "show" and "edit" partials within the HTML, then use a controller to 
+You could use `ng-include` to encapsulate the "show" and "edit" partials within the HTML, then use a controller to
 provide the `templateUrl` to each includes. Doing so is fragile at best, and still prevents reuse in the case
 where we have more than two modes.
 
@@ -95,7 +73,6 @@ declarative programming over imperative programming.
 
 Let's now take a look at a better potential markup for our view switcher.
 
-<<<<<<< HEAD
 <pre>
 &lt;views&gt;
   &lt;view name="show" initial&gt;
@@ -114,24 +91,6 @@ Let's now take a look at a better potential markup for our view switcher.
   &lt;/view&gt;
 &lt;/views&gt;
 </pre>
-=======
-    <views>
-      <view name="show" initial>
-        <p>Hi, {{open}} user.name {{close}}</p>
-        <button view-target="edit">
-          Edit
-        </button>
-      </view>
-      <view name="edit">
-        <p>
-          <input ng-model="user.name" />
-        </p>
-        <button view-target="show">
-          Done
-        </button>
-      </view>
-    </views>
->>>>>>> dev
 
 From this new HTML we see that there is an outer `views` component which holds multiple child `view` components.
 The `initial` attribute  of a `<view>` denotes the default, and the elements with a `view-target` attribute will
@@ -152,11 +111,11 @@ m.directive('views', function() {
     restrict: 'E',
     controller: function() {
       var registeredViews = {};
-      
+
       this.$registerView = function(ctrl) {
         registeredViews[ctrl.$name] = ctrl;
       };
-      
+
       // viewName matches the `name` attribute on &lt;view&gt;
       this.$switchTo = function(viewName) {
         for (var k in registeredViews) {
@@ -173,7 +132,7 @@ m.directive('views', function() {
         var viewName = angular.element(this).attr('view-target');
         viewsCtrl.$switchTo(viewName);
       });
-      
+
       // Make the view controls available on the scope
       scope.$views = viewsCtrl;
     }
@@ -193,9 +152,9 @@ m.directive('view', function() {
     link: function(scope, el, attrs, ctrls) {
       var viewCtrl = ctrls[0];
       var viewsCtrl = ctrls[1];
-      
+
       viewsCtrl.$registerView(viewCtrl);
-      
+
       if (attrs.initial !== undefined) {
         viewCtrl.$show();
       } else {
@@ -352,7 +311,7 @@ Also note that our final solution allows us to use an arbitrary number of views 
 Please keep in mind that the examples shown here are not production-ready, and are missing a lot of pieces, such
 cleaning up on scope's `$destroy` event.
 
-I've touched a little bit on animations in Angular. If you want to learn more, please do read 
+I've touched a little bit on animations in Angular. If you want to learn more, please do read
 [Year of Moo's post on animations in AngularJS 2.0](http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html),
 and also refer to the official [$animate docs](http://docs.angularjs.org/api/ngAnimate.$animate).
 
