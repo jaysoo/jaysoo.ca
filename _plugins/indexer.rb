@@ -15,36 +15,41 @@ module Jekyll
 
 	  base_url = site.config['production_url']
 
+    begin
       client = ElasticSearch.new(site.config['elasticsearch_url'], :index => "jaysoo", :type => "page")
+    rescue
+      return
+    end
 
-      puts 'Indexing posts...'
 
-      site.posts.each do |post|
-        text = extract_text(site, post)
-		date_str = post.data['created_at'] || post.date.strftime('%Y-%m-%d %H:%MZ')
+    puts 'Indexing posts...'
 
-		document = {
-		  :title => post.data['title'],
-		  :text => text,
-		  :date => date_str,
-		  :url => base_url + post.url
-		}
+    site.posts.each do |post|
+      text = extract_text(site, post)
+      date_str = post.data['created_at'] || post.date.strftime('%Y-%m-%d %H:%MZ')
 
-		if post.tags
-		  document['tags'] = post.tags
-		end
+      document = {
+        :title => post.data['title'],
+        :text => text,
+        :date => date_str,
+        :url => base_url + post.url
+      }
 
-		if post.data.has_key?('category')
-		  document['category'] = post.data['category']
-		end
-
-		client.index(document, :id => post.url)
+      if post.tags
+        document['tags'] = post.tags
       end
+
+      if post.data.has_key?('category')
+        document['category'] = post.data['category']
+      end
+
+      client.index(document, :id => post.url)
+    end
 
 	  pages = site.pages
 
-	  pages = pages.find_all {|p| p.output_ext == '.html' } 
-	  pages.reject! {|p| p.data['noindex'] } 
+	  pages = pages.find_all {|p| p.output_ext == '.html' }
+	  pages.reject! {|p| p.data['noindex'] }
 
 	  puts 'Indexing pages...'
 
@@ -70,5 +75,5 @@ module Jekyll
   	  page_text = main.text.gsub("\r"," ").gsub("\n"," ").gsub(/\s+/, " ")
     end
 
-  end 
+  end
 end

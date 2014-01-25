@@ -57,17 +57,5 @@ noindex: true
       <li><a href="https://linkedin.com/in/jackhsu83">LinkedIn</a></li>
     </ul>
   </section>
-
-  <section class="span5">
-    <h2>Recent bookmarks</h2>
-
-    <ul class="delicious-links">
-      {% delicious username:i2hsu tag:programming count:15 ttl:60 %}
-      <li><a href="{{ item.link }}" title="{{ item.description }}" rel="external">{{ item.title }}</a></li>
-      {% enddelicious %}
-    </ul>
-
-    <a class="btn" href="http://delicious.com/i2hsu" rel="external">Visit my Delicious page &raquo;</a>
-  </section>
 </div>
 
