@@ -5,19 +5,14 @@ noindex: true
 ---
 {% include JB/setup %}
 
-<div id="intro" class="hero-unit well">
-  <p>Hi there! You've stumbled upon the personal website of <strong>Jack Hsu</strong>.</p>
-  <p>Have a look around and enjoy your stay. :)</p>
-</div>
-
 <div class="row">
-  <section class="span7">
+  <section class="span12">
     {% assign first_post = site.posts[0] %}
 
     <div id="latest-post">
       <header>
         <h2>
-          Latest &raquo;
+          Latest Post &raquo;
           <a href="{{ first_post.url }}">{{ first_post.title }}</a>
         </h2>
         <p><time pubdate>{{ first_post.date | date:'%A, %B %d, %Y' }}</time></p>
@@ -26,9 +21,8 @@ noindex: true
       {% if first_post.blurb %}
         {{ first_post.blurb }}
       {% else %}
-        {{ first_post.content | strip_html | truncatewords:40 }}
+        {{ first_post.content }}
       {% endif %}
-      <strong><a href="{{ first_post.url }}">continue reading...</a></strong>
       </p>
     </div>
 
@@ -46,16 +40,6 @@ noindex: true
     </ul>
 
     <a class="btn btn-primary" href="{{ BASE_PATH }}archive.html">View archive &raquo;</a>
-  </section>
-
-  <section class="span5">
-    <h2>Jack on the Web</h2>
-
-    <ul class="other-links">
-      <li><a href="http://coderwall.com/jaysoo">Coderwall</a></li>
-      <li><a href="https://github.com/jaysoo">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/jackhsu83">LinkedIn</a></li>
-    </ul>
   </section>
 </div>
 

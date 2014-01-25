@@ -12,7 +12,7 @@ pygments: true
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Jay Soo
+title : Jack Hsu
 author :
   name : Jack Hsu
   email : jack.hsu@gmail.com
@@ -43,7 +43,7 @@ JB :
   # Leave this blank if you have defined a CNAME for your site (pages.github.com)
   # NOTE: When in localhost, your site will run from root "/" regardless of BASE_PATH
   #
-  BASE_PATH : "http://jaysoo.github.com"
+  BASE_PATH : "http://jaysoo.ca"
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
