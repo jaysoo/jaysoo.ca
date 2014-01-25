@@ -47,7 +47,7 @@ blockquote p,
   font-family: Georgia, Times, serif;
 }
 
-li { line-height: 50px; }
+li { line-height: 24px; }
 
 .brand img {
   border-radius: 50%;
@@ -55,10 +55,12 @@ li { line-height: 50px; }
   margin-right: 5px;
 }
 
+.nav li {
+  line-height: 50px;
+}
 .navbar-search {
   margin-top: 20px;
 }
-
 .navbar .btn-navbar {
   margin-top: 20px;
 }
@@ -287,6 +289,9 @@ li { line-height: 50px; }
   .navbar-fixed-top {
     margin-bottom: 0;
   }
+    .nav li {
+      line-height: 24px;
+    }
 }
 @media (min-width: 980px) {
   .container-fluid {
