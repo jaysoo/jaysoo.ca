@@ -7,39 +7,30 @@ noindex: true
 
 <div class="row">
   <section class="span12">
-    {% assign first_post = site.posts[0] %}
-
-    <div id="latest-post">
-      <header>
-        <h2>
-          Latest Post &raquo;
-          <a href="{{ first_post.url }}">{{ first_post.title }}</a>
-        </h2>
-        <p><time pubdate>{{ first_post.date | date:'%A, %B %d, %Y' }}</time></p>
-      </header>
-      <p class="blurb">
-      {% if first_post.blurb %}
-        {{ first_post.blurb }}
-      {% else %}
-        {{ first_post.content }}
-      {% endif %}
-      </p>
+    <div class="posts">
+      {% for post in site.posts limit:10 %}
+      <article class="post">
+        <header>
+          <h2>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </h2>
+          <p><time pubdate>{{ post.date | date:'%A, %B %d, %Y' }}</time></p>
+        </header>
+        <p class="blurb">
+        {% if post.blurb %}
+          {{ post.blurb }}
+        {% else %}
+          {{ post.content | strip_html | truncatewords:144 }}
+        {% endif %}
+        </p>
+        <p>
+          <a href="{{ post.url }}">Continue reading...</a>
+        </p>
+      </article>
+      {% endfor %}
     </div>
 
-    <h2>More blog posts</h2>
-
-    <ul class="posts">
-      {% for post in site.posts limit:20 offset:1 %}
-      <li>
-        <time>{{ post.date | date_to_string }}</time> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
-        {% if post.category != null %}
-          <span class="label label-info">{{ post.category }}</span>
-        {% endif %}
-      </li>
-      {% endfor %}
-    </ul>
-
-    <a class="btn btn-primary" href="{{ BASE_PATH }}archive.html">View archive &raquo;</a>
+    <a class="btn btn-primary btn-large" href="{{ BASE_PATH }}archive.html">View full archive <i class="fa fa-chevron-right"></i></a>
   </section>
 </div>
 
