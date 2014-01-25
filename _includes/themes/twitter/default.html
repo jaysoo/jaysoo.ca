@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!--[if IE 8 ]>    <html class="no-js ie8" lang="en" > <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>{{ page.title }} &mdash; {{ site.title }}</title>
@@ -19,17 +18,13 @@
     <script src="{{ ASSET_PATH }}/js/modernizr-1.7.min.js"></script>
 
 
-  <!-- Update these with your own images
-    <link rel="shortcut icon" href="images/favicon.ico">
-  -->
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="{{ ASSET_PATH }}/js/underscore-min.js"></script>
     <script src="{{ ASSET_PATH }}/js/backbone-min.js"></script>
   </head>
-
   <body>
     <div id="fb-root"></div>
+
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
@@ -42,11 +37,14 @@
       <div class="navbar-inner">
         <div class="container-fluid">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <i class="fa fa-arrow-down"></i>
           </button>
-          <a class="brand" href="{{ HOME_PATH }}">{{ site.title }}</a>
+          <div class="brand" >
+            <img src="https://s.gravatar.com/avatar/571cd899248d35ac14382559520a570b?s=50" alt="" />
+            <a href="{{ HOME_PATH }}">
+              {{ site.title }}
+            </a>
+          </div>
           <div class="nav-collapse collapse">
             <ul class="nav">
               {% assign pages_list = site.pages %}
@@ -68,7 +66,6 @@
         </div>
       </div>
     </div> <!-- /#main -->
-
 
     <footer class="page-footer">
       <div class="container-fluid">
@@ -92,29 +89,21 @@
             <a href="http://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
           </li>
         </ul>
-
-
-
-        <p class="info"><small>&copy; Jack Hsu 2014 &mdash; powered by <a href="https://github.com/mojombo/jekyll" rel="external">Jekyll</a> and <a href="http://twitter.github.com/bootstrap" rel="external">Bootstrap</a></small></p>
+        <p class="info"><small>&copy; Jack Hsu 2014 &mdash;</p>
       </div>
     </footer>
 
-{% include JB/analytics %}
+    {% include JB/analytics %}
 
-<script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<!-- libraries -->
-<script src="{{ ASSET_PATH }}/js/jquery.ui.core.js"></script>
-<script src="{{ ASSET_PATH }}/js/jquery.ui.widget.js"></script>
-<script src="{{ ASSET_PATH }}/js/jquery.ui.position.js"></script>
-<script src="{{ ASSET_PATH }}/js/jquery.ui.autocomplete.js"></script>
-<script src="{{ ASSET_PATH }}/js/visualsearch.js"></script>
-<script src="{{ ASSET_PATH }}/js/bootstrap.min.js"></script>
-<script src="{{ ASSET_PATH }}/js/bootstrap-button.js"></script>
-<script src="{{ ASSET_PATH }}/js/date.js"></script>
-
-<!-- website scripts -->
-<script src="{{ ASSET_PATH }}/js/script.js" charset="utf-8"></script>
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="{{ ASSET_PATH }}/js/jquery.ui.core.js"></script>
+    <script src="{{ ASSET_PATH }}/js/jquery.ui.widget.js"></script>
+    <script src="{{ ASSET_PATH }}/js/jquery.ui.position.js"></script>
+    <script src="{{ ASSET_PATH }}/js/jquery.ui.autocomplete.js"></script>
+    <script src="{{ ASSET_PATH }}/js/visualsearch.js"></script>
+    <script src="{{ ASSET_PATH }}/js/bootstrap.min.js"></script>
+    <script src="{{ ASSET_PATH }}/js/date.js"></script>
+    <script src="{{ ASSET_PATH }}/js/script.js" charset="utf-8"></script>
 
   </body>
 </html>
