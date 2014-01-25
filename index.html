@@ -17,11 +17,7 @@ noindex: true
           <p><time pubdate>{{ post.date | date:'%A, %B %d, %Y' }}</time></p>
         </header>
         <p class="blurb">
-        {% if post.blurb %}
-          {{ post.blurb }}
-        {% else %}
-          {{ post.content | strip_html | truncatewords:144 }}
-        {% endif %}
+          {{ post.excerpt }}
         </p>
         <p>
           <a href="{{ post.url }}">Continue reading...</a>
