@@ -191,8 +191,8 @@ li { line-height: 24px; }
 /* tag_box ======================================================== */
 
 .tag-header {
-  padding-top: 60px;
-  margin-top: -60px;
+  padding-top: 70px;
+  margin-top: -70px;
 }
 
 .tag_box {
@@ -322,9 +322,13 @@ li { line-height: 24px; }
   .navbar-fixed-top {
     margin-bottom: 0;
   }
-    .nav li {
-      line-height: 24px;
-    }
+  .nav li {
+    line-height: 24px;
+  }
+  .tag-header {
+    padding-top: 0;
+    margin-top: 0;
+  }
 }
 @media (min-width: 980px) {
   .container-fluid {
