@@ -190,6 +190,11 @@ li { line-height: 24px; }
 
 /* tag_box ======================================================== */
 
+.tag-header {
+  padding-top: 60px;
+  margin-top: -60px;
+}
+
 .tag_box {
   list-style:none;
   margin:0;
