@@ -174,5 +174,5 @@ with Gulp. Otherwise, stick with Grunt.
 - [GulpJS](http://gulpjs.com/)
 - [GruntJS](http://gruntjs.com/)
 - [Gulp, Grunt, Whatever](http://blog.ponyfoo.com/2014/01/09/gulp-grunt-whatever)
-- [And just like that Grunt and RequireJS are out, it’s all about Gulp and Browserify now](http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/)
+- [And just like that Grunt and RequireJS are out, it's all about Gulp and Browserify now](http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/)
 - [Speedtesting gulp.js and Grunt](http://labs.tmw.co.uk/2014/01/speedtesting-gulp-and-grunt/)
