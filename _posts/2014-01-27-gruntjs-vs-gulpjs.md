@@ -27,7 +27,7 @@ differences between Grunt and Gulp, beyond superficial speed comparisons.
 
 In this post we'll cover:
 - A shallow dive into Gulp, and how it compares with Grunt.
-- Things to think about when choosing between the two tools.
+- Things to consider when choosing between the two tools.
 
 ## First Impression
 
