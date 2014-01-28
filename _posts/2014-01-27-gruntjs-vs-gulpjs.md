@@ -18,7 +18,7 @@ the new build system that has already garnered praise amongst many
 web developers.
 
 After spending some time reading the docs and playing around with
-Gulp, I've finally decideded to test its adoption in an existing
+Gulp, I've finally decided to test its adoption in an existing
 project that currently uses Grunt. From what I've seen so far,
 Gulp is blazingly fast when compared to Grunt for similar tasks.
 
