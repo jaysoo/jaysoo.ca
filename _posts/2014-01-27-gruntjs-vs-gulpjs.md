@@ -169,7 +169,7 @@ like a build system that prefers *code* over *configuration*? If so, then you ma
 with Gulp. Otherwise, stick with Grunt.
 
 
-## Further Readings & Information
+## Further Reading & Information
 
 - [GulpJS](http://gulpjs.com/)
 - [GruntJS](http://gruntjs.com/)
