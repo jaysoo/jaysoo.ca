@@ -23,9 +23,9 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
-.post-body h3, 
-.post-body h4, 
-.post-body h5, 
+.post-body h3,
+.post-body h4,
+.post-body h5,
 .post-body h6 {
   margin: 20px 0 10px 0;
 }
@@ -49,9 +49,30 @@ blockquote p,
 .post-body ol,
 .post-body p,
 .page-footer p:not(.info) {
+  font-family: Georgia, Times, serif;
   font-size: 15px;
   line-height: 24px;
-  font-family: Georgia, Times, serif;
+}
+
+blockquote {
+  font-style: italic;
+}
+
+cite {
+  color: #999;
+}
+
+blockquote cite {
+  font-style: italic;
+  font-size: 11px;
+}
+blockquote cite:before {
+  content: "\2014 \2009";
+}
+
+figcaption {
+  font-size: 12px;
+  font-style: italic;
 }
 
 li { line-height: 24px; }
@@ -285,8 +306,8 @@ li { line-height: 24px; }
   margin-right: 10px;
 }
 
-  
-/* 
+
+/*
  * Responsive designs
  */
 @media (max-width: 979px) {
