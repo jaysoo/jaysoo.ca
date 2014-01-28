@@ -13,6 +13,10 @@ tags: [javascript, gruntjs, gulpjs]
   <p><cite> OK Go - Here It Goes Again</cite></p>
 </blockquote>
 
+
+<small>*Edited on 2014/01/28: I added timing numbers for comparison, although it's not my real
+focus of this post.*</small>
+
 And so the evolution of front-end development continues with Gulp,
 the new build system that has already garnered praise amongst many
 web developers.
@@ -94,6 +98,29 @@ As you can see, in Gulp we do not need the intermediary `.tmp` folder to
 store the compiled, unprefixed CSS files. This means a little bit less configuration,
 and saves on I/O.
 
+Now for some time comparisons. Gulp reported that it was able to process file changes
+in **2.13ms** on my machine, versus the **1.825s** it took Grunt.
+
+<figure>
+  <figcaption>
+    Timing numbers reported by Grunt
+  </figcaption>
+  <img src="/images/grunt-compile.png" alt="Grunt timing">
+</figure>
+
+<span></span>
+
+<figure>
+  <figcaption>
+    Timing numbers reported by Gulp
+  </figcaption>
+  <img src="/images/gulp-compile.png" alt="Gulp timing">
+</figure>
+
+The timing reported by both tools are *not comparable* though because they use different mechanisms.
+If I use `time` on both tasks (SASS compile + autoprefixer), then the numbers are much closer:
+**0.641ms** for Gulp and **1.718s** for Grunt.
+
 ## Streams all the way down
 
 To understand Gulp you need to understand Node Streams. All Gulp plugins are
@@ -101,7 +128,8 @@ just duplex streams that read in data and output data. Everything can be process
 in memory, with the output of one stream piped as input to another. Much like Unix pipes.
 
 This gives Gulp a huge speed advantage over Grunt, because I/O is very expensive when
-compared to in-memory operations.
+compared to in-memory operations. On top of that, Grunt has to compile all the files even if
+only one has changed, which adds additional build time.
 
 <figure>
   <figcaption>
