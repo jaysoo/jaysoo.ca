@@ -6,7 +6,6 @@ elasticsearch_url: 127.0.0.1:9200
 doindex: true
 
 exclude: [".rbenv-version", "README.md", "Rakefile"]
-auto: true
 pygments: true
 
 # Themes are encouraged to use these universal variables 
