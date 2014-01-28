@@ -119,7 +119,8 @@ in **2.13ms** on my machine, versus the **1.825s** it took Grunt.
 
 The timing reported by both tools are *not comparable* though because they use different mechanisms.
 If I use `time` on both tasks (SASS compile + autoprefixer), then the numbers are much closer:
-**0.641ms** for Gulp and **1.718s** for Grunt.
+**0.641ms** for Gulp and **1.718s** for Grunt. Of course, this includes boot times for both tools as
+well so it isn't a perfect comparison either!
 
 ## Streams all the way down
 
