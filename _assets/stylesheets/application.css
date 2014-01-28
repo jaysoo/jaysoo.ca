@@ -70,7 +70,7 @@ blockquote cite:before {
   content: "\2014 \2009";
 }
 
-figcaption {
+caption, figcaption {
   font-size: 12px;
   font-style: italic;
 }

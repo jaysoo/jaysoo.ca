@@ -39,8 +39,6 @@ each time my source files change.
 
 Here's how I might accomplish this task in both Grunt and Gulp.
 
-**Grunt:**
-
 *Gruntfile.js*
 
 {% highlight javascript %}
@@ -76,8 +74,6 @@ grunt.initConfig({
 grunt.registerTask('default', ['compass:dist', 'concat:styles', 'watch']);
 {% endhighlight %}
 
-**Gulp**
-
 *Gulpfile.js*
 {% highlight javascript %}
 gulp.task('sass', function () {
@@ -111,14 +107,16 @@ compared to in-memory operations.
   <figcaption>
     In Grunt, we must write intermediary files to disk
   </figcaption>
-  <img src="/images/grunt-flow.png" alt="Grunt flow" />
+  <img src="/images/grunt-flow.png" alt="Grunt flow">
 </figure>
+
+<span></span>
 
 <figure>
   <figcaption>
     In Gulp, we pipe the intermediary files in-memory to other streams
   </figcaption>
-  <img src="/images/gulp-flow.png" alt="Gulp flow" />
+  <img src="/images/gulp-flow.png" alt="Gulp flow">
 </figure>
 
 This also means that Gulp plugins are really just map-streams. Compare this with Grunt, which has
