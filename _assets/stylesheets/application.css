@@ -311,6 +311,10 @@ li { line-height: 24px; }
   margin-right: 10px;
 }
 
+.twitter-follow {
+  padding: 15px 15px 10px;
+}
+
 
 /*
  * Responsive designs
@@ -324,6 +328,9 @@ li { line-height: 24px; }
   }
   .nav li {
     line-height: 24px;
+  }
+  .nav .twitter-follow {
+    padding: 9px 15px;
   }
   .tag-header {
     padding-top: 0;
