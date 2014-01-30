@@ -13,10 +13,6 @@ tags: [javascript, gruntjs, gulpjs]
   <p><cite> OK Go - Here It Goes Again</cite></p>
 </blockquote>
 
-
-<small>*Edited on 2014/01/28: I added timing numbers for comparison, although it's not my real
-focus of this post.*</small>
-
 And so the evolution of front-end development continues with Gulp,
 the new build system that has already garnered praise amongst many
 web developers.
@@ -47,12 +43,15 @@ Here's how I might accomplish this task in both Grunt and Gulp.
 
 {% highlight javascript %}
 grunt.initConfig({
- compass: {
+  sass: {
     dist: {
-      options: {
-        sassDir: 'app/styles',
-        cssDir: '.tmp/styles'
-      }
+      files: [{
+        cwd: 'app/styles',
+        src: '**/*.scss',
+        dest: '../.tmp/styles',
+        expand: true,
+        ext: '.css'
+      }]
     }
   },
   autoprefixer: {
@@ -99,13 +98,13 @@ store the compiled, unprefixed CSS files. This means a little bit less configura
 and saves on I/O.
 
 Now for some time comparisons. Gulp reported that it was able to process file changes
-in **2.13ms** on my machine, versus the **1.825s** it took Grunt.
+in **2.13ms** on my machine, versus the **1.298s** it took Grunt.
 
 <figure>
   <figcaption>
     Timing numbers reported by Grunt
   </figcaption>
-  <img src="/images/grunt-compile.png" alt="Grunt timing">
+  <img src="/images/grunt-compile-2.png" alt="Grunt timing">
 </figure>
 
 <span></span>
@@ -119,7 +118,7 @@ in **2.13ms** on my machine, versus the **1.825s** it took Grunt.
 
 The timing reported by both tools are *not comparable* though because they use different mechanisms.
 If I use `time` on both tasks (SASS compile + autoprefixer), then the numbers are much closer:
-**0.641ms** for Gulp and **1.718s** for Grunt. Of course, this includes boot times for both tools as
+**0.641ms** for Gulp and **1.235** for Grunt. Of course, this includes boot times for both tools as
 well so it isn't a perfect comparison either!
 
 ## Streams all the way down
@@ -136,7 +135,7 @@ only one has changed, which adds additional build time.
   <figcaption>
     In Grunt, we must write intermediary files to disk
   </figcaption>
-  <img src="/images/grunt-flow.png" alt="Grunt flow">
+  <img src="/images/grunt-flow-2.png" alt="Grunt flow">
 </figure>
 
 <span></span>
@@ -197,7 +196,6 @@ The **most important question** to ask yourself is which philosophy do you subsc
 like a build system that prefers *code* over *configuration*? If so, then you may feel right at home
 with Gulp. Otherwise, stick with Grunt.
 
-
 ## Further Reading & Information
 
 - [GulpJS](http://gulpjs.com/)
@@ -205,3 +203,10 @@ with Gulp. Otherwise, stick with Grunt.
 - [Gulp, Grunt, Whatever](http://blog.ponyfoo.com/2014/01/09/gulp-grunt-whatever)
 - [And just like that Grunt and RequireJS are out, it's all about Gulp and Browserify now](http://www.100percentjs.com/just-like-grunt-gulp-browserify-now/)
 - [Speedtesting gulp.js and Grunt](http://labs.tmw.co.uk/2014/01/speedtesting-gulp-and-grunt/)
+
+<small class="muted">*Edit #1 on 2014/01/28: I added timing numbers for comparison, although it's not my real
+focus of this post.*</small>
+
+<small class="muted">*Edit #2 on 2014/01/30: A reader pointed out that `grunt-sass` would be a better comparison than `grunt-contrib-compass`,
+  because the former uses node-sass, which is what `gulp-sass` uses. I've updated the timing numbers to reflect this change.*</small>
+
