@@ -57,24 +57,22 @@ grunt.initConfig({
   autoprefixer: {
     options: ['last 1 version'],
     dist: {
-      files: [
-        {
-          expand: true,
-          cwd: '.tmp/styles',
-          src: '{,*/}*.css',
-          dest: 'dist/styles'
-        }
-      ]
+      files: [{
+        expand: true,
+        cwd: '.tmp/styles',
+        src: '{,*/}*.css',
+        dest: 'dist/styles'
+      }]
     }
   },
   watch: {
     styles: {
       files: ['app/styles/{,*/}*.scss'],
-      tasks: ['compass:dist', 'autoprefixer:dist']
+      tasks: ['sass:dist', 'autoprefixer:dist']
     }
   }
 });
-grunt.registerTask('default', ['compass:dist', 'concat:styles', 'watch']);
+grunt.registerTask('default', ['sass:dist', 'concat:styles', 'watch']);
 {% endhighlight %}
 
 *Gulpfile.js*

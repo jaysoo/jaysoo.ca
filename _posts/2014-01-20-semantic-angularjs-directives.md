@@ -27,18 +27,18 @@ Here, we are using `ng-show` and `ng-click` to provide a view switcher between "
 <pre>
 &lt;div ng-init="mode = 'show'"&gt;
   &lt;div ng-show="mode == 'show'"&gt;
-	&lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
-	&lt;button ng-click="mode = 'edit'"&gt;
-	  Edit
-	&lt;/button&gt;
+  &lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
+  &lt;button ng-click="mode = 'edit'"&gt;
+    Edit
+  &lt;/button&gt;
   &lt;/div&gt;
   &lt;div ng-show="mode == 'edit'"&gt;
-	&lt;p&gt;
-	  &lt;input ng-model="user.name"&gt;
-	&lt;/p&gt;
-	&lt;button ng-click="mode = 'show'"&gt;
-	  Done
-	&lt;/button&gt;
+  &lt;p&gt;
+    &lt;input ng-model="user.name"&gt;
+  &lt;/p&gt;
+  &lt;button ng-click="mode = 'show'"&gt;
+    Done
+  &lt;/button&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 </pre>
@@ -76,18 +76,18 @@ Let's now take a look at a better potential markup for our view switcher.
 <pre>
 &lt;views&gt;
   &lt;view name="show" initial&gt;
-	&lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
-	&lt;button view-target="edit"&gt;
-	  Edit
-	&lt;/button&gt;
+  &lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
+  &lt;button view-target="edit"&gt;
+    Edit
+  &lt;/button&gt;
   &lt;/view&gt;
   &lt;view name="edit"&gt;
-	&lt;p&gt;
-	  &lt;input ng-model="user.name" /&gt;
-	&lt;/p&gt;
-	&lt;button view-target="show"&gt;
-	  Done
-	&lt;/button&gt;
+  &lt;p&gt;
+    &lt;input ng-model="user.name" /&gt;
+  &lt;/p&gt;
+  &lt;button view-target="show"&gt;
+    Done
+  &lt;/button&gt;
   &lt;/view&gt;
 &lt;/views&gt;
 </pre>
