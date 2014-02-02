@@ -72,7 +72,7 @@ grunt.initConfig({
     }
   }
 });
-grunt.registerTask('default', ['sass:dist', 'concat:styles', 'watch']);
+grunt.registerTask('default', ['sass:dist', 'autoprefixer:dist', 'watch']);
 {% endhighlight %}
 
 *Gulpfile.js*
