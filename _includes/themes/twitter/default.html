@@ -14,8 +14,6 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
 
     {% stylesheet application %}
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   </head>
   <body>
     <div id="fb-root"></div>
@@ -106,6 +104,10 @@
     {% include JB/analytics %}
 
     <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     {% javascript application %}
+    {% for js_path in page.extra_js %}
+      <script src="{{ js_path }}"></script>
+    {% endfor %}
   </body>
 </html>

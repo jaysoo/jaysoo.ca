@@ -1,12 +1,6 @@
 //= require underscore-min
 //= require backbone-min
-//= require jquery.ui.core
-//= require jquery.ui.widget
-//= require jquery.ui.position
-//= require jquery.ui.autocomplete
-//= require visualsearch
 //= require bootstrap.min
-//= require date
 
 $(function() {
     // Clear and blur of search box on Esc press
