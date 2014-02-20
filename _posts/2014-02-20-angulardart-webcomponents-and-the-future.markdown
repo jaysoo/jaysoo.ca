@@ -5,12 +5,11 @@ title: AngularDart, Web Components, and the Future
 tags: [javascript, angular, dart]
 ---
 
-No matter what my stance has been in the past, or are in the present, there are three things that are currently
-true about myself.
-
-1. I love JavaScript
-2. I love Angular
-3. I love web technologies
+**AngularJS** has been instrumental in changing the way I develop web applications. From building imperative views where
+both business logic and user interaction live, to separate controllers and directives that handle both requirements
+respectively. From sharing components through jQuery plugins, the usual common denominator, to sharing components
+through declarative HTML. From reacting to model changes through events, to wiring up the HTML to react to model
+changes. The list goes on.
 
 This post is intended for:
 
@@ -19,13 +18,7 @@ This post is intended for:
 
 ## Overview
 
-**AngularJS** has been instrumental in changing the way I develop web applications. From building imperative views where
-both business logic and user interaction live, to separate controllers and directives that handle both requirements
-respectively. From sharing components through jQuery plugins, the usual common denominator, to sharing components
-through declarative HTML. From reacting to model changes through events, to wiring up the HTML to react to model
-changes. The list goes on.
-
-However, as much joy as I've derived from developing with AngularJS, there are a few bumps. Firstly, I may have a
+As much joy as I've derived from developing with AngularJS, there are a few bumps. Firstly, I may have a
 component written as a nice directive in AngularJS, but I cannot use it in projects that aren't built in AngularJS. In
 these cases, the default fallback is still jQuery. Secondly, even though I absolutely love working in JavaScript, the
 version that I and most developers have to work with is greatly outdated -- ES3.
