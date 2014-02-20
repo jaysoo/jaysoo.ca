@@ -2,7 +2,7 @@
 created_at: 2014-01-20 19:33Z
 layout: post
 title: Creating Semantic, Reusable Directives in AngularJS
-tags: [javascript, angularjs, directives]
+tags: [javascript, angular, directives]
 ---
 
 One of the main benefits of Angular is the ability to easily extend HTML with new behaviours through the use
