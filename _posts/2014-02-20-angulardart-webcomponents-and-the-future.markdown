@@ -35,7 +35,7 @@ forward-looking.
 I've shyed away from Dart for the longest time because it felt very Java-esque, and there wasn't much practicality in
 using it for a real product due to its lack of legacy browser support. However, after using Dart for a bit, I realized
 that although Dart and Java share similar syntax, that's where the commonality ends. You still have a
-dynamically-typed language, with optional type declarations. All of "The Bad Parts" of JavaScript are gone, and you 
+dynamically-typed language, with optional type declarations. All of "The Bad Parts" of JavaScript are gone, and you
 are left with the good parts, so to speak.
 
 Legacy browsers are still important for businesses that need to support them. This should not, however, discourage us
@@ -98,7 +98,7 @@ m.directive('myDirective', function() {
 });
 {% endhighlight %}
 
-This allows to build our application using an unified API, rather than having to build controllers and directives
+This allows us to build our application using an unified API, rather than having to build controllers and directives
 in completely different manners.
 
 More importantly, AngularJS 2.0 is drawing a lot of inspiration from AngularDart, and many of the APIs will be changed
