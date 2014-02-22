@@ -91,6 +91,10 @@ li { line-height: 24px; }
 .navbar .btn-navbar {
   margin-top: 20px;
 }
+.navbar .nav > li > a {
+  font-size: 14px;
+  padding: 13px 15px 12px;
+}
 
 #main {
   background-color: #C5C7B6;
