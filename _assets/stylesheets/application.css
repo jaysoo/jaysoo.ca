@@ -75,11 +75,14 @@ caption, figcaption {
 
 li { line-height: 24px; }
 
+.navbar .brand {
+  padding-top: 14px;
+}
 .brand img {
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
-  width: 50px;
+  width: 48px;
 }
 
 .nav li {
