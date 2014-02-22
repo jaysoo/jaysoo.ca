@@ -11,12 +11,12 @@ html, body {
 }
 body {
   padding-top: 60px; /* to make the container go all the way to the bottom of the topbar */
-  font-size: 15px;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font: 16px/26px "Open Sans", Helvetica, Arial, sans-serif;
 }
 
 pre code {
   border: 0;
+  font: 16px/26px Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,9 +49,7 @@ blockquote p,
 .post-body ol,
 .post-body p,
 .page-footer p:not(.info) {
-  font-family: Georgia, Times, serif;
-  font-size: 15px;
-  line-height: 24px;
+  font: 16px/26px Georgia, Times, serif;
 }
 
 blockquote {
