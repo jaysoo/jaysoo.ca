@@ -10,7 +10,7 @@ html, body {
   background-color: #2F3837;
 }
 body {
-  padding-top: 60px; /* to make the container go all the way to the bottom of the topbar */
+  padding-top: 40px; /* to make the container go all the way to the bottom of the topbar */
   font: 16px/26px "Open Sans", Helvetica, Arial, sans-serif;
 }
 
@@ -81,18 +81,18 @@ li { line-height: 24px; }
 .brand img {
   border-radius: 50%;
   display: inline-block;
-  margin-right: 5px;
+  margin: -11px 0 -10px 5px;
   width: 48px;
 }
 
 .nav li {
-  line-height: 50px;
+  line-height: 30px;
 }
 .navbar-search {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 .navbar .btn-navbar {
-  margin-top: 20px;
+  margin-top: 8px;
 }
 .navbar .nav > li > a {
   font-size: 14px;
