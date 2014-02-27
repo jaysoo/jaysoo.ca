@@ -17,7 +17,7 @@ body {
 
 pre code {
   border: 0;
-  font: 16px/26px Monaco, Menlo, Consolas, "Courier New", monospace;
+  font: 14px/24px Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -352,5 +352,3 @@ li { line-height: 24px; }
     margin: 0 auto;
   }
 }
-
-
