@@ -1,6 +1,7 @@
 /*
  *= require 2.3.2/bootstrap.min
  *= require 2.3.2/bootstrap-responsive.min
+ *= require animate
  *= require pygments
  *= require visualsearch-datauri
 */
@@ -76,6 +77,8 @@ caption, figcaption {
 li { line-height: 24px; }
 
 .navbar .brand {
+  -webkit-animation: flipInX 2s;
+  animation: flipInX 2s;
   padding-top: 14px;
 }
 .brand img {
