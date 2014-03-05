@@ -27,7 +27,7 @@ Here is a typical way you may handle form validations in Angular.
 HTML:
 
 {% highlight html %}
-<form ng-controller="SignUpCtrl" name="signupForm" ng-submit="c.signup(user)" novalidate>
+<form ng-controller="SignUpCtrl as c" name="signupForm" ng-submit="c.signup(user)" novalidate>
   <fieldset>
     <label>Username:</label>
     <input name="username" type="text" ng-model="user.username" required />
@@ -195,7 +195,7 @@ The exposed service function will set field errors for a given form name.
 {% highlight javascript %}
 m.factory('setFormErrors', function() {
   // Registered withErrors controllers
-  var withErrorCtrls = [];
+  var withErrorCtrls = {};
 
   // The exposed service
   var setFormErrors = function(opts) {
