@@ -122,7 +122,7 @@ well so it isn't a perfect comparison either!
 ## Streams all the way down
 
 To understand Gulp you need to understand Node Streams. All Gulp plugins are
-just duplex streams that read in data and output data. Everything can be processed
+just through streams that read in data and output data. Everything can be processed
 in memory, with the output of one stream piped as input to another. Much like Unix pipes.
 
 This gives Gulp a huge speed advantage over Grunt, because I/O is very expensive when
