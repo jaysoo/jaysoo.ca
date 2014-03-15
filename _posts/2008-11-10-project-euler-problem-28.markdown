@@ -21,9 +21,8 @@ After my answer was submitted I read through some of the solutions that have bee
 It seems that most of them are using brute-force to attack this problem, so I will
 show how I devised a more efficient method to solving it.
 
-== The Problem
+## The Problem
 
-<blockquote>
     Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
 
     21 22 23 24 25
@@ -34,9 +33,8 @@ show how I devised a more efficient method to solving it.
     It can be verified that the sum of both diagonals is 101.
 
     What is the sum of both diagonals in a 1001 by 1001 spiral formed in the same way?
-</blockquote>
 
-== Solution
+## Solution
 
 The first thing to notice is that you don't have to actually construct the spiral in order to solve this problem.
 In an `nxn` spiral, the values of the four corners are as follows:
@@ -51,7 +49,7 @@ Adding all that up yields `4n^2 -6n + 6`.
 At this point you can loop through from 3 to 1001 (in increments of 2) and add up the results.
 Just make sure you add a 1 to the results for the base case. :)
 
-== Further Generalization
+## Further Generalization
 
 Of course, we can take this generalization even further.
 The result for an `nxn` spiral can be expressed by a formula.
