@@ -1,8 +1,8 @@
 ---
 created_at: 2008-11-10 20:03Z
 layout: post
-title: Thinking Analytically: Project Euler Problem 28
-tags: [projecteuler python]
+title: Thinking Analytically - Project Euler Problem 28
+tags: [projecteuler, python]
 ---
 
 In this post, I will show a method for analyzing Problem 28 on [Project Euler](http://projecteuler.net/)
