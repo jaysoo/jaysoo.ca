@@ -8,24 +8,25 @@ draft: true
 
 One of the new features coming to EcmaScript 6 (ES6), the next version of JavaScript standards, is the template string.
 
+{% highlight javascript %}
 function i10n(literals, ...values) {
   var result = [];
-  
+
   literals.forEach(function(literal) {
     result.push(literal + localize(values.shift()));
   });
-  
+
   return result.join('');
 }
 
 function localize(value) {
   if (value === undefined) return '';
-  
+
   if (value instanceof Date) return new Intl.DateTimeFormat().format(value);
-  
+
   if (value instanceof Number) return new Intl.NumberFormat().format(value);
-  
-  return value; 
+
+  return value;
 }
 
 var name = 'Bob';
@@ -35,3 +36,5 @@ var date = new Date();
 var x = i10n`Hello ${name}! You have ${amount} as of ${date}.`;
 
 console.log(x);
+
+{% endhighlight %}
