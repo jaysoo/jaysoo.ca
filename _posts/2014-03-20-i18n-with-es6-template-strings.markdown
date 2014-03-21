@@ -96,10 +96,10 @@ tag function.
 
 {% highlight javascript %}
 var I18n = {
-  use({lang, currency, messages}) {
+  use({lang, defaultCurrency, messageBundle}) {
     I18n.lang = lang;
-    I18n.currency = currency;
-    I18n.messages = messages;
+    I18n.defaultCurrency = defaultCurrency;
+    I18n.messageBundle = messageBundle;
     return I18n.translate;
   },
 
