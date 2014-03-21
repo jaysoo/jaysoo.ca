@@ -149,7 +149,6 @@ var I18n = {
       let localizedValues = [for ([i, v] of values.entries())
                                     I18n._localize(v, typeInfoForValues[i])];
       return I18n._buildMessage(translationString, ...localizedValues);
-
     }
 
     return 'Error: translation missing!';
