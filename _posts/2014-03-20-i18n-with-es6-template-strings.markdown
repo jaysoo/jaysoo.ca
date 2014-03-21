@@ -170,7 +170,7 @@ var I18n = {
     )
   },
 
-  // e.g. I18n._buildKey(['', ' has ', ':c in the']) == '{0} has {1} in the bank'
+  // e.g. I18n._buildKey(['', ' has ', ':c in the bank']) == '{0} has {1} in the bank'
   _buildKey(literals) {
     var stripType = s => s.replace(typeInfoRegex, '');
     var lastPartialKey = stripType(literals[literals.length - 1]);
