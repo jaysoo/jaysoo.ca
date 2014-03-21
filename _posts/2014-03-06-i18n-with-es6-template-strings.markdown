@@ -251,3 +251,6 @@ i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: me
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 // => '你好Bob，你有￥1,234.56在您的銀行帳戶。'
 {% endhighlight %}
+
+
+Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/ht0zursd/) for a live demo.
