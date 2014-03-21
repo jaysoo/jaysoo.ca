@@ -246,4 +246,8 @@ i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 i18n = I18n.use({locale: 'de-DE', defaultCurrency: 'EUR', messageBundle: messages_de});
 i18n`Hello ${name}, you have ${amount}:c(CAD) in your bank account.`;
 // => 'Hallo Bob, müssen Sie 1.234,56 CA$ in Ihrem Bankkonto.''
+
+i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: messages_zh_Hant});
+i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
+// => '你好Bob，你有￥1,234.56在您的銀行帳戶。'
 {% endhighlight %}
