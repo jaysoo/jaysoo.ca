@@ -174,7 +174,7 @@ var I18n = {
   _buildKey(literals) {
     var stripType = s => s.replace(typeInfoRegex, '');
     var lastPartialKey = stripType(literals[literals.length - 1]);
-    var prependPartialKey = (memo, curr, i) => `${stripType(curr)}{${i}}${memo}`;
+    var prependPartialKey = (memo, curr, index) => `${stripType(curr)}{${index}}${memo}`;
 
     return literals.slice(0, -1).reduceRight(prependPartialKey, lastPartialKey);
   },
