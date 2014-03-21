@@ -239,18 +239,18 @@ var messageBundle_zh_Hant = {
   'Hello {0}, you have {1} in your bank account.': '你好{0}，你有{1}在您的銀行帳戶。'
 };
 
-i18n = I18n.use({locale: 'fr-CA', defaultCurrency: 'CAD', messageBundle: messages_fr});
+i18n = I18n.use({locale: 'fr-CA', defaultCurrency: 'CAD', messageBundle: messageBundle_fr});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 // => 'Bonjour Bob, vous avez 1 234,56 $CA dans votre compte bancaire.''
 
-i18n = I18n.use({locale: 'de-DE', defaultCurrency: 'EUR', messageBundle: messages_de});
+i18n = I18n.use({locale: 'de-DE', defaultCurrency: 'EUR', messageBundle: messageBundle_de});
 i18n`Hello ${name}, you have ${amount}:c(CAD) in your bank account.`;
 // => 'Hallo Bob, müssen Sie 1.234,56 CA$ in Ihrem Bankkonto.''
 
-i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: messages_zh_Hant});
+i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: messageBundle_zh_Hant});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 // => '你好Bob，你有￥1,234.56在您的銀行帳戶。'
 {% endhighlight %}
 
 
-Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/ht0zursd/) for a live demo.
+Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/ht103tun/) for a live demo.
