@@ -76,7 +76,7 @@ We'll allow configuration of our `i18n` tag through `I18n.use`.
 
 {% highlight javascript %}
 var messageBundle_de = {
-  'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, müssen Sie {1} in Ihrem Bankkonto.'
+  'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto.'
 };
 
 var i18n = I18n.use({
@@ -87,7 +87,7 @@ var i18n = I18n.use({
 // Now we can translate our string to German, with the Euro being the default currency
 
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`
-// => Hallo Bob, müssen Sie 1.234,56 € in Ihrem Bankkonto.
+// => Hallo Bob, Sie haben 1.234,56 CA$ auf Ihrem Bankkonto.
 {% endhighlight %}
 
 Let's start with implementing the `I18n.use` method, which should return the
@@ -232,7 +232,7 @@ var messageBundle_fr = {
   'Hello {0}, you have {1} in your bank account.': 'Bonjour {0}, vous avez {1} dans votre compte bancaire.'
 };
 var messageBundle_de = {
-  'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, müssen Sie {1} in Ihrem Bankkonto.'
+  'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto'
 };
 var messageBundle_zh_Hant = {
   'Hello {0}, you have {1} in your bank account.': '你好{0}，你有{1}在您的銀行帳戶。'
@@ -252,4 +252,20 @@ i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 {% endhighlight %}
 
 
-Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/ht103tun/) for a live demo.
+Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/ht25opni/) for a live demo.
+
+## Concluding thoughts
+
+The tagged template string can be used to provide powerful DSL to JavaScript libraries.
+I chose to try my hand at adding simple i18n support. There are still a lot of pieces
+missing to provide a comprehensive i18n solution, but I hope to have shown how one
+may go about building out this framework.
+
+Pluralization can be a very tricky thing to tackle, and I am not qualified as of this
+writing to understand all the nuances of implementing this feature. Perhaps with
+a little more thinking, there may be some hope to add it in as well.
+
+In any case, I do see a lot of potential in tagged template strings to add clean, clear
+syntax for library functionalities.
+
+<small>Edit (2014/03/21): Fixed German translation and added a conclusion section.</small>
