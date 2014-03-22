@@ -67,7 +67,7 @@ We are also adding optional annotations to the substitutions. In this case, the
 that is in Canadian Dollars (CAD).
 
 If we translated this string to German, for example, we expect the result to be
-`'Hallo Bob, müssen Sie 1.234,56 CA$ in Ihrem Bankkonto.'` Note that the currency
+`'Hallo Bob, Sie haben 1.234,56 € auf Ihrem Bankkonto.'` Note that the currency
 amount has thousands and decimal separator as per German locale.
 
 ## Implementation
@@ -87,7 +87,7 @@ var i18n = I18n.use({
 // Now we can translate our string to German, with the Euro being the default currency
 
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`
-// => Hallo Bob, Sie haben 1.234,56 CA$ auf Ihrem Bankkonto.
+// => Hallo Bob, Sie haben 1.234,56 € auf Ihrem Bankkonto.
 {% endhighlight %}
 
 Let's start with implementing the `I18n.use` method, which should return the
@@ -243,8 +243,8 @@ i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
 // => 'Bonjour Bob, vous avez 1 234,56 $CA dans votre compte bancaire.''
 
 i18n = I18n.use({locale: 'de-DE', defaultCurrency: 'EUR', messageBundle: messageBundle_de});
-i18n`Hello ${name}, you have ${amount}:c(CAD) in your bank account.`;
-// => 'Hallo Bob, müssen Sie 1.234,56 CA$ in Ihrem Bankkonto.''
+i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
+// => 'Hallo Bob, müssen Sie 1.234,56 € in Ihrem Bankkonto.''
 
 i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: messageBundle_zh_Hant});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
