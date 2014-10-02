@@ -11,15 +11,15 @@ template strings are creating multiline strings, and doing string interpolation.
 
 Multiline string:
 {% highlight javascript %}
-var s = `This is
+let s = `This is
 a multiline
 string`;
 {% endhighlight %}
 
 String interpolation:
 {% highlight javascript %}
-var firstName = 'Bob', lastName = 'Smith';
-var msg = `Hello ${firstName} ${lastName}!`; // 'Hello Bob Smith!'
+let firstName = 'Bob', lastName = 'Smith';
+let msg = `Hello ${firstName} ${lastName}!`; // 'Hello Bob Smith!'
 {% endhighlight %}
 
 You can also **tag** a template string by adding an expression before it.
@@ -56,8 +56,8 @@ basics. I found Ariya's [posts on ES6](http://ariya.ofilabs.com/tag/es6) to be u
 Let's start with an example of how we want to use the `i18n` tag.
 
 {% highlight javascript %}
-var name = 'Bob';
-var amount = 100;
+let name = 'Bob';
+let amount = 100;
 i18n`Hello ${name}, you have ${amount}:c(CAD) in your bank account.`
 {% endhighlight %}
 
@@ -75,11 +75,11 @@ amount has thousands and decimal separator as per German locale.
 We'll allow configuration of our `i18n` tag through `I18n.use`.
 
 {% highlight javascript %}
-var messageBundle_de = {
+let messageBundle_de = {
   'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto.'
 };
 
-var i18n = I18n.use({
+let i18n = I18n.use({
   locale: 'de-DE',
   defaultCurrency: 'EUR',
   messageBundle: messageBundle_de});
@@ -95,7 +95,7 @@ tag function.
 
 
 {% highlight javascript %}
-var I18n = {
+let I18n = {
   use({lang, defaultCurrency, messageBundle}) {
     I18n.lang = lang;
     I18n.defaultCurrency = defaultCurrency;
@@ -104,8 +104,8 @@ var I18n = {
   },
 
   translate(literals, ...values) {
-    var translationKey = ...;
-    var translationString = I18n.messages[translationKey];
+    let translationKey = ...;
+    let translationString = I18n.messages[translationKey];
 
     if (translationString) {
       let localizedValues = ...;
@@ -248,27 +248,27 @@ Now, we can translate our original string into different languages by configurin
 the `I18n` object using corresponding locales and message bundle.
 
 {% highlight javascript %}
-var name = 'Bob';
-var amount = 1234.56;
-var i18n;
+let name = 'Bob';
+let amount = 1234.56;
+let i18n;
 
-var messageBundle_fr = {
+let messageBundle_fr = {
   'Hello {0}, you have {1} in your bank account.': 'Bonjour {0}, vous avez {1} dans votre compte bancaire.'
 };
-var messageBundle_de = {
+let messageBundle_de = {
   'Hello {0}, you have {1} in your bank account.': 'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto'
 };
-var messageBundle_zh_Hant = {
+let messageBundle_zh_Hant = {
   'Hello {0}, you have {1} in your bank account.': '你好{0}，你有{1}在您的銀行帳戶。'
 };
 
 i18n = I18n.use({locale: 'fr-CA', defaultCurrency: 'CAD', messageBundle: messageBundle_fr});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
-// => 'Bonjour Bob, vous avez 1 234,56 $CA dans votre compte bancaire.''
+// => 'Bonjour Bob, vous avez 1 234,56 $CA dans votre compte bancaire.'
 
 i18n = I18n.use({locale: 'de-DE', defaultCurrency: 'EUR', messageBundle: messageBundle_de});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
-// => 'Hallo Bob, Sie haben 1.234,56 € auf Ihrem Bankkonto.''
+// => 'Hallo Bob, Sie haben 1.234,56 € auf Ihrem Bankkonto.'
 
 i18n = I18n.use({locale: 'zh-Hant-CN', defaultCurrency: 'CNY', messageBundle: messageBundle_zh_Hant});
 i18n`Hello ${name}, you have ${amount}:c in your bank account.`;
@@ -293,3 +293,5 @@ In any case, I do see a lot of potential in tagged template strings to add clean
 syntax for library functionalities.
 
 <small>Edit (2014/03/21): Fixed German translation and added a conclusion section.</small>
+
+<small>Edit (2014/10/01): Updated examples to not use array comprehension since they were removed in ES6</small>
