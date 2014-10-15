@@ -6,7 +6,6 @@ tags: [javascript, angular]
 ---
 
 Angular 1.3.0 (superluminal-fudge) has been [released](http://angularjs.blogspot.ca/2014/10/angularjs-130-superluminal-nudge.html)!
-
 In a [previous post]({% post_url 2014-02-27-designing-angularjs-directives %}), I presented a framework on top
 of AngularJS 1.2 to handle asynchronous form validations and error message display concerns. This has been made
 much easier in AngularJS 1.3!
