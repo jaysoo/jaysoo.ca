@@ -1,0 +1,16 @@
+{
+  "name": "ngMessage",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jaysoo/jaysoo.ca",
+  "authors": [
+    "Jack Hsu <jackh@nulogy.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
