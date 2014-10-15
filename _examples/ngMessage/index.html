@@ -56,11 +56,8 @@
         return {
           restrict: 'A',
           require: 'ngModel',
-          link: function(scope, element, attrs, ngModelCtrl) {
-            ngModelCtrl.$asyncValidators.unique = function(modelValue, viewValue) {
-              var value = modelValue || viewValue;
-              return isUsernameAvailable(value);
-            }
+          link: function(scope, element, attrs, ngModel) {
+            ngModel.$asyncValidators.unique = isUsernameAvailable;
           }
         };
       });

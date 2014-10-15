@@ -20,6 +20,11 @@ directives. And finally, I will show an implementation for these directives.
 
 <span class="muted">*Note: This is a repost from the [Nulogy Engineering Blog](http://engineering.nulogy.com/posts/designing-angularjs-directives/)*</span>
 
+<span class="muted">Since the introduction of ngMessages and asyncValidators in AngularJS 1.3, I've written a 
+[new post]({% post_url 2014-10-14-async-form-errors-and-messages-in-angularjs %})
+to cover form validations. The designing process in this post is still valid, but I would recommend using the new
+AngularJS features to handle error messages and async validations.</span>
+
 ## The problem at hand
 
 Here is a typical way you may handle form validations in Angular.
