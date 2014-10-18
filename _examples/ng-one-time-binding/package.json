@@ -1,0 +1,11 @@
+{
+  "name": "ng-one-time-binding",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jack Hsu <jack.hsu@gmail.com> (http://jaysoo.ca/)",
+  "license": "BSD-2-Clause"
+}
