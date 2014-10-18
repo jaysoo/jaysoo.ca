@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat example</title>
+  </head>
+  <body ng-app="app">
+    <ul ng-controller="MessagesCtrl as messages">
+      <li ng-repeat="message in messages.messages">
+        {{::message.title}}
+      </li>
+    </ul>
+
+    <script src="https://jspm.io/system@0.6.js"></script>
+    <script>
+      System.config({
+        baseURL: '/js/lib',
+
+        paths: {
+          'app/*': '/js/app/*.js'
+        }
+      });
+
+      System.import('app/app').
+        catch(function(e) {
+          console.error(e.stack);
+        });
+    </script>
+  </body>
+</html>
