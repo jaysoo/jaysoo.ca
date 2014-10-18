@@ -1,7 +1,23 @@
-import EventEmitter from '~/events';
+// import EventEmitter from '~/events';
 import { Dispatcher } from '~/flux/dist/Flux';
 import angular from 'angular';
 
+class EventEmitter {
+  constructor() {
+    this.listeners = [];
+  }
+
+  emit(event) {
+    this.listeners.forEach((listener) => {
+      listener(event);
+    });
+  }
+
+  addListener(listener) {
+    this.listeners.push(listener);
+    return this.listeners.length - 1;
+  }
+};
 
 var m = angular.module('app', []);
 
@@ -13,17 +29,15 @@ m.service('dispatcher', Dispatcher);
 // CONTROLLERS
 
 class MessagesCtrl {
-  constructor(messageActionCreators, messageStore) {
-    this.actions = messageActionCreators;
+  constructor(messageStore) {
     this.store = messageStore;
     this.messages = [];
   }
 
   resetMessages() {
-    this.messages = this.store.messages();
+    this.messages = this.store.getMessages();
   }
 }
-MessagesCtrl.$inject = ['messageActionCreators', 'messageStore'];
 m.controller('MessagesCtrl', MessagesCtrl);
 
 
