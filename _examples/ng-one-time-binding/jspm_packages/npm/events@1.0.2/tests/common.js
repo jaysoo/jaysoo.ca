@@ -1,0 +1,3 @@
+/* */
+"format cjs";function runCallChecks(){for(var e=0,t=0;t<mustCallChecks.length;++t){var s=mustCallChecks[t];s.actual!==s.expected&&(e++,console.log("Mismatched %s function calls. Expected %d, actual %d.",s.name,s.expected,s.actual),console.log(s.stack.split("\n").slice(2).join("\n")))}assert(0===e)}var assert=require("github:jspm/nodelibs@0.0.3/assert"),mustCallChecks=[];after(runCallChecks),exports.mustCall=function(e,t){"number"!=typeof t&&(t=1);var s={expected:t,actual:0,stack:(new Error).stack,name:e.name||"<anonymous>"};return mustCallChecks.push(s),function(){return s.actual++,e.apply(this,arguments)}};
+//# sourceMappingURL=common.js.map

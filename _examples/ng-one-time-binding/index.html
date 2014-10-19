@@ -11,16 +11,11 @@
     </ul>
 
     <script src="https://jspm.io/system@0.6.js"></script>
+    <script src="config.js"></script>
     <script>
-      System.config({
-        baseURL: '/js/lib',
-
-        paths: {
-          'app/*': '/js/app/*.js'
-        }
-      });
-
       System.import('app/app').
+        then(function(m) {
+        }).
         catch(function(e) {
           console.error(e.stack);
         });

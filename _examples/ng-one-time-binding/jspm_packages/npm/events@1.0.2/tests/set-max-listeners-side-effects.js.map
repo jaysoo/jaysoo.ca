@@ -1,0 +1,1 @@
+{"version":3,"file":"set-max-listeners-side-effects.js","sources":["set-max-listeners-side-effects.src.js"],"names":["assert","require","events","e","EventEmitter","deepEqual","_events","setMaxListeners"],"mappings":";AACA,YACA,IAAIA,QAASC,QAAQ,qCACjBC,OAASD,QAAQ,YACjBE,EAAI,GAAID,QAAOE,YACnBJ,QAAOK,UAAUF,EAAEG,YACnBH,EAAEI,gBAAgB,GAClBP,OAAOK,UAAUF,EAAEG"}
