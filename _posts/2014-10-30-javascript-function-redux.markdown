@@ -5,79 +5,91 @@ title: JavaScript Function Redux (+ ES6!)
 tags: [javascript, es6]
 ---
 
+JavaScript functions can be confusing sometimes. There are many ways to define
+them and many ways to invoke them. Throw in `this`, and things really starts to
+get fun.
+
+In this post, we will re-examine plain-old functions in JavaScript. We'll also
+introduce the new **arrow function** that is coming in ES6, and how their
+behaviour differs from traditional functions.
+
+## Defining a function
+
 In JavaScript, you can define a function through either a **function declaration**
 or a **function expression**.
 
-{% highlight javascript %}
+```javascript
 function f() {} // declaration
 
 var g = function () {}; // expression and assignment
-{% endhighlight %}
+```
 
-With ES6 comes the new arrow function.
-
-{% highlight javascript %}
-var h = x => x;
-var h = (x) => { return x };
-{% endhighlight %}
+## What is `this`?
 
 The `this` in a function depends on how it is defined, and how it is called.
 
 Take this function for example.
 
-{% highlight javascript %}
+```javascript
 function f(b) {
   return this.a + b;
 }
-{% endhighlight %}
+```
 
 You can call it in the following ways.
 
-{% highlight javascript %}
+```javascript
 f(1); // window.a + b = undefined + 1 = NaN
 f.apply({a: 1}, [2]); // this.a + b = 1 + 2 = 3
 f.call({a: 1}, 2); // this.a + b = 1 + 2 = 3
-{% endhighlight %}
+```
 
 You can also use it as a method, which will bind `this` to the object.
 
-{% highlight javascript %}
+```javascript
 var obj = { a: 10, f: f }
 obj.f(1); // this.a + 1 = 10 + 1 = 11
-{% endhighlight %}
+```
 
 Yet, its `this` can still be changed using `.apply()` and `.call()`.
 
-{% highlight javascript %}
+```javascript
 obj.f.apply({a: 1}, [2]); // 3
 obj.f.call({a: 1}, 2); // 3
-{% endhighlight %}
+```
 
 Another way we can change the `this` of a function is through `.bind(…)`, which
 returns a new function with the same body, but binds `this` to the new object.
 
-{% highlight javascript %}
+```javascript
 var g = f.bind({a: 100});
 g(1); // 101
-{% endhighlight %}
+```
 
 This `this` cannot be changed through `.apply()` and `.call()`.
 
-{% highlight javascript %}
+```javascript
 g.apply({a: 1}, [1]); // 101
 g.call({a: 1}, 1); // 101
-{% endhighlight %}
+```
 
 Nor through method call.
 
-{% highlight javascript %}
+```javascript
 obj = { g: g };
 obj.g(1); // 101
-{% endhighlight %}
+```
 
-Back to **arrow functions**, they cannot be rebound in anyway whatsoever!
+## Arrow functions
 
-{% highlight javascript %}
+With ES6 comes the new arrow function.
+
+```javascript
+var h = x => x;
+var h = (x) => { return x };
+```
+
+```javascript
 window.who = 'Bob';
 
 var h = () => this.who;
@@ -89,12 +101,12 @@ h.bind({who: 'Mary'})(); // 'Bob'
 
 var obj = { who: 'Sue', h };
 obj.h(); // 'Bob'
-{% endhighlight %}
+```
 
 If you feel like using arrow functions as methods, *don't*! Use the **function
 short form** instead.
 
-{% highlight javascript %}
+```javascript
 var obj = {
   a: 1,
 
@@ -108,35 +120,34 @@ var obj = {
     return this.a + b;
   }
 }
-{% endhighlight %}
+```
 
 BTW, I left out one more way a function can be invoked: the `new` operator. The
 `this` in a constructor function is the newly created instance.
 
-{% highlight javascript %}
+```javascript
 function F() {
   this.greeting = 'Hello!';
 }
 
 new F().greeting; // 'Hello!'
-{% endhighlight %}
+```
 
 If you try the same with an arrow function, `this` is still whatever it was
 during declaration.
 
-{% highlight javascript %}
+```javascript
 var G = () => {
   this.greeting = 'Hello!';
 };
 
 new G().greeting; // undefined
 window.greeting; // 'Hello!'
-{% endhighlight %}
-
+```
 
 So why the different behaviour in arrow functions? Why bother with them at all?
 
-{% highlight javascript %}
+```javascript
 class TodosView {
   todos: [],
 
@@ -151,7 +162,7 @@ class TodosView {
     // Do something with this.todos
   }
 };
-{% endhighlight %}
+```
 
 Because the success arrow function is declared in the scope of `initialize()`,
 it takes on the same `this`, which is of course the `TodosView` instance.
@@ -161,7 +172,7 @@ else (maybe `window` or `undefined`). Without the arrow function, we'd have to
 resort to this.
 
 
-{% highlight javascript %}
+```javascript
 initialize() {
   var self = this;
 
@@ -170,22 +181,22 @@ initialize() {
     self.render();
   });
 }
-{% endhighlight %}
+```
 
 Or this.
 
-{% highlight javascript %}
+```javascript
 initialize() {
-  fetch('/todos.json').then(function() {
+  fetch('/todos.json').then((function() {
     this.todos = response.json();
     this.render();
-  }.bind(this));
+  }).bind(this));
 }
-{% endhighlight %}
+```
 
 And arrow functions just make your code look more awesome!
 
-{% highlight javascript %}
+```javascript
 var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 var isEven = x => x % 2 === 0;
@@ -196,4 +207,4 @@ numbers.map(square); // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100];
 
 var dot = prop => obj => obj[prop];
 dot('x')({ x: 1 }); // 1
-{% endhighlight %}
+```
