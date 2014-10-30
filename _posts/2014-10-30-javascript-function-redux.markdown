@@ -134,7 +134,7 @@ window.greeting; // 'Hello!'
 {% endhighlight %}
 
 
-So why the different behaviour in arrow functions?
+So why the different behaviour in arrow functions? Why bother with them at all?
 
 {% highlight javascript %}
 class TodosView {
@@ -157,5 +157,43 @@ Because the success arrow function is declared in the scope of `initialize()`,
 it takes on the same `this`, which is of course the `TodosView` instance.
 
 If this were done with normal `function`, then `this` would have been something
-else (e.g. `window`, `undefined`, etc.).
+else (maybe `window` or `undefined`). Without the arrow function, we'd have to
+resort to this.
 
+
+{% highlight javascript %}
+initialize() {
+  var self = this;
+
+  fetch('/todos.json').then(function() {
+    self.todos = response.json();
+    self.render();
+  });
+}
+{% endhighlight %}
+
+Or this.
+
+{% highlight javascript %}
+initialize() {
+  fetch('/todos.json').then(function() {
+    this.todos = response.json();
+    this.render();
+  }.bind(this));
+}
+{% endhighlight %}
+
+And arrow functions just make your code look more awesome!
+
+{% highlight javascript %}
+var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+var isEven = x => x % 2 === 0;
+numbers.filter(isEven); // [2, 4, 6, 8, 10]
+
+var square = x => x * x;
+numbers.map(square); // [1, 4, 9, 16, 25, 36, 49, 64, 81, 100];
+
+var dot = prop => obj => obj[prop];
+dot('x')({ x: 1 }); // 1
+{% endhighlight %}
