@@ -1,0 +1,3 @@
+/* */
+"format cjs";var ieee754=require("../index"),test=require("tape"),EPSILON=1e-5;test("read float",function(e){var t=new Buffer(4);t.writeFloatLE(42.42,0);var s=ieee754.read(t,0,!0,23,4);e.ok(Math.abs(s-42.42)<EPSILON),e.end()}),test("write float",function(e){var t=new Buffer(4);ieee754.write(t,42.42,0,!0,23,4);var s=t.readFloatLE(0);e.ok(Math.abs(s-42.42)<EPSILON),e.end()});
+//# sourceMappingURL=basic.js.map

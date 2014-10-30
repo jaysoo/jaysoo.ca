@@ -1,0 +1,1 @@
+export * from "github:firebase/angularFire@0.8.2/dist/angularfire.min";

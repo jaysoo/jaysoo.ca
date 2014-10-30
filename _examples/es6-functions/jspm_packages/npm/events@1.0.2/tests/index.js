@@ -1,0 +1,3 @@
+/* */
+"format cjs";require("./legacy-compat");var orig_require=require,require=function(e){test(e,function(){orig_require(e)})};require("./add-listeners"),require("./check-listener-leaks"),require("./listeners-side-effects"),require("./listeners"),require("./max-listeners"),require("./modify-in-emit"),require("./num-args"),require("./once"),require("./set-max-listeners-side-effects"),require("./subclass"),require("./remove-all-listeners"),require("./remove-listeners");
+//# sourceMappingURL=index.js.map

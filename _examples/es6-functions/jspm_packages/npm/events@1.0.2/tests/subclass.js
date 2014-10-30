@@ -1,0 +1,3 @@
+/* */
+"format cjs";function MyEE(e){this.once(1,e),this.emit(1),this.removeAllListeners(),EventEmitter.call(this)}function ErrorEE(){this.emit("error",new Error("blerg"))}var assert=require("github:jspm/nodelibs@0.0.3/assert"),EventEmitter=require("../index").EventEmitter,util=require("github:jspm/nodelibs@0.0.3/util");util.inherits(MyEE,EventEmitter);var called=!1,myee=new MyEE(function(){called=!0});util.inherits(ErrorEE,EventEmitter),assert.throws(function(){new ErrorEE},/blerg/),assert(called),assert.deepEqual(myee._events,{});
+//# sourceMappingURL=subclass.js.map

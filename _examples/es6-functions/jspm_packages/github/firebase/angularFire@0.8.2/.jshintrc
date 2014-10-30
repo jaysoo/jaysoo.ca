@@ -1,0 +1,20 @@
+{
+  "predef": [
+    "angular",
+    "Firebase",
+    "FirebaseSimpleLogin"
+  ],
+  "bitwise": true,
+  "browser": true,
+  "curly": true,
+  "forin": true,
+  "indent": 2,
+  "latedef": true,
+  "maxlen": 115,
+  "noempty": true,
+  "nonbsp": true,
+  "strict": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
+}
