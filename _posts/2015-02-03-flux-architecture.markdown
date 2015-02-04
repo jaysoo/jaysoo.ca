@@ -272,7 +272,7 @@ class CartTotalStore {
   handleItemAdded({cartId: cartId, cartItem: cartItem}) {
     var total = this.totals[cartId] || 0;
     var newTotal = total + cartItem.price * cartItem.quantity
-      this.totals[cartId] = newTotal;
+    this.totals[cartId] = newTotal;
   }
   handleItemRemoved({cartId: cartId, cartItem: cartItem}) {
     var total = this.totals[cartId] || 0;
