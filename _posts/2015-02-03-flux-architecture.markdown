@@ -337,7 +337,7 @@ e.g. `ShoppingCartActionCreators.addItem(…)`
 
 As you see, the canonical Flux architecture is only one way of implementing
 CQRS in a system. It also adds a lot of objects into a system, compared with
-a normal DDD approach. Is added bloat worth it?
+a normal DDD approach. Is added overhead worth it?
 
 ## When should I Flux?
 
