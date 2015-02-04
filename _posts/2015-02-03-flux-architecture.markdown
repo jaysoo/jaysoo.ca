@@ -23,8 +23,8 @@ In this post I will:
 1. Look at how Flux applies the concepts from CQRS.
 1. Share some thoughts on when Flux is needed.
 
-A basic understanding of DDD will help, though it is not required. To learn more
-about DDD, I recommend this [free ebook](http://www.infoq.com/minibooks/domain-driven-design-quickly)
+Knowledge of DDD is assumed, though the article still provides value without it.
+To learn more about DDD, I recommend this [free ebook](http://www.infoq.com/minibooks/domain-driven-design-quickly)
 from InfoQ on the subject.
 
 ## What is Flux?
@@ -78,7 +78,10 @@ In a CQRS system, you will find a few objects not found in normal DDD.
 
 The *query model* is a pure data model, and is not meant to deliver domain
 behaviour. These models are denormalized, and meant for display and reporting.
-They can be backed by a database, or exist in memory.
+
+Query models are usually retrieved by performing a query. The queries can be
+handled by a *query processor* that knows how to look up data, say from a database
+table.
 
 ### Command handling
 
