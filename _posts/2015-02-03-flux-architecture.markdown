@@ -14,7 +14,7 @@ There are several implementations of Flux. Frameworks like [Fluxxor](fluxxor.com
 keep to the original Facebook Flux pattern, but reduces the amount of boilerplate
 code. While other frameworks like [Reflux](https://github.com/spoike/refluxjs)
 and [Barracks](https://github.com/yoshuawuyts/barracks) stray from the canonical
-Flux implementation by getting rid of the Dispatcher (Reflux) or ActionCreators
+Flux architecture by getting rid of the Dispatcher (Reflux) or ActionCreators
 (Barracks). So which framework should you choose?
 
 Before we get too wrapped up about what is canon, and whether we should be
@@ -30,7 +30,7 @@ to learn from these older concepts, and see what they may tell us about the pres
 1. Give an overview of the Flux architecture.
 1. Present the CQRS pattern.
 1. Look at how Flux applies the concepts from CQRS.
-1. Close with some thoughts on Flux implementations, and when Flux is needed.
+1. Discuss when Flux is useful for a JavaScript application.
 
 <div class="alert alert-info">
   <p>Knowledge of DDD is assumed, though the article still provides value without it.
@@ -50,7 +50,7 @@ Controllers. In a large application, this results in highly complex interactions
 where a single update to a Model can cause Views to notify their Controllers,
 which may trigger even more Model updates.
 
-**INSERT GRAPHIC**
+![mvc-diagram](/images/mvc-diagram.png)
 
 Flux attempts to solve this complexity by forcing a unidirectional data flow.
 In this architecture, Views query Stores (not Models), and user interactions
@@ -58,7 +58,7 @@ result in Actions that are submitted to a centralized Dispatcher. When the Actio
 are dispatched, Stores can then update themselves accordingly and notify Views
 of any changes. These changes in the Store prompts Views to query for new data.
 
-**INSERT GRAPHIC**
+![flux-diagram](/images/flux-diagram.png)
 
 The main difference between MVC and Flux is the separation of queries and updates.
 In MVC, the Model is both updated by the Controller *and* queried by the View.
@@ -308,7 +308,7 @@ Let's see how the different types of object in Flux map to the CQRS pattern.
 
 ### Actions
 
-Actions are exactly the same as  Domain Events. They should represent events
+Actions are exactly the same as Domain Events. They should represent events
 that have happened in the past, and will cause updates to Query Models in the system.
 
 ### Dispatcher
@@ -335,3 +335,59 @@ exist as a separate object.
 
 e.g. `ShoppingCartActionCreators.addItem(…)`
 
+As you see, the canonical Flux architecture is only one way of implementing
+CQRS in a system. It also adds a lot of objects into a system, compared with
+a normal DDD approach. Is added bloat worth it?
+
+## When should I Flux?
+
+I don't think this architectural pattern is appropriate for all situations. Like
+other tools under our belt, don't use mindlessly apply the same patterns everywhere.
+
+In particular, Flux *may be inappropriate* if your views map well to your domain
+models. For example, in a simple CRUD application, you may have exactly three
+views for each model: index, show, and edit + delete. In this system, you will
+likely have just one controller and one view for each CRUD operation on your model,
+making the data flow very simple.
+
+Where Flux *shines* is in a system where you present multiple views that don't map
+directly to your domain models. The views may be presenting data aggregated across
+multiple models and model classes.
+
+In our shopping cart example, we may have:
+
+1. A view that lists out items in the cart.
+1. A view that handles displaying subtotals, taxes, shipping & handling, and totals.
+1. A view that displays amount of items in cart, with a detailed dropdown.
+
+![flux](/images/flux.png)
+
+In this system, we don't want to tie different views and controllers directly
+to a ShoppingCart model because changes to the model causes a complex data
+flow that is hard to reason about.
+
+## Closing thoughts
+
+As you have seen, the canonical Flux architecture is one way of implementing
+CQRS in a system.
+
+There are several object roles in CQRS.
+
+- Query Model
+- Query Processor
+- Command Model (Aggregate)
+- Commands
+- Command Handler
+- Domain Event
+- Domain Event Publisher
+- Event Subscriber
+
+In Facebook Flux some objects take on more than one role.  This is perfectly
+reasonable to do! When we encounter other Flux implementations, we can also
+discuss them using the different object roles in CQRS.
+
+### Further Readings
+
+- [The State of Flux](https://reactjsnews.com/the-state-of-flux/)
+- [Domain-Driven Design Quicky](http://www.infoq.com/minibooks/domain-driven-design-quickly) (ebook)
+- [CQRS writeup by Martin Fowler](http://martinfowler.com/bliki/CQRS.html)
