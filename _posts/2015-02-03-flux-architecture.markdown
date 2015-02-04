@@ -342,7 +342,7 @@ a normal DDD approach. Is added overhead worth it?
 ## When should I Flux?
 
 I don't think this architectural pattern is appropriate for all situations. Like
-other tools under our belt, don't use mindlessly apply the same patterns everywhere.
+other tools under our belt, don't mindlessly apply the same patterns everywhere.
 
 In particular, Flux *may be inappropriate* if your views map well to your domain
 models. For example, in a simple CRUD application, you may have exactly three
