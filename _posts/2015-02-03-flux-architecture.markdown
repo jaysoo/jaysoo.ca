@@ -7,8 +7,7 @@ tags: [javascript, flux, architecture, ddd, cqrs]
 
 [Flux](http://facebook.github.io/flux/docs/overview.html) is an application
 architecture designed by Facebook for their JavaScript applications. It was
-first introduced by Facebook in May 2014, and it (along with along with the
-complementary [React.js](http://facebook.github.io/react/) library) has since
+first introduced by Facebook in May 2014, and it has since
 garnered much interest in the JavaScript community.
 
 It is important to note, however, that while these concepts may have found a new
@@ -20,8 +19,8 @@ to learn from the past, and see how they may relate to the present.
 In this post I will:
 
 1. Give an overview of the Flux architecture.
-1. Examine DDD and CQRS in more detail.
-1. Look at how Flux applies the concepts from DDD + CQRS.
+1. Present the CQRS pattern.
+1. Look at how Flux applies the concepts from CQRS.
 1. Share some thoughts on when Flux is needed.
 
 A basic understanding of DDD will help, though it is not required. To learn more
@@ -73,69 +72,70 @@ Aggregates would have no query methods, only command methods. Repositories would
 now only have a single query method (e.g. `find`), and a single persist method
 (e.g. `save`).
 
-## The query processor
+In a CQRS system, you will find a few objects not found in normal DDD.
 
-The *query model* is a pure data model, and is not meant to deliver domain behaviour.
+### The query model
 
-## Command processing
+The *query model* is a pure data model, and is not meant to deliver domain
+behaviour. These models are denormalized, and meant for display and reporting.
+They can be backed by a database, or exist in memory.
 
-The client submits commands by creating new actions. These actions are the commands
-that can be submitted to the server, or an application services as the
-means of executing behaviour on Aggregates.
+### Command handling
 
-The command model has designed contracts and behaviours, so matching the commands
-to the contracts should be straightforward.
+*Commands* are submitted as the means of executing behaviour on Aggregates. A
+command contains the name of the behaviour to execute and a payload
+necessary to carry it out. The submission is received by a *command handler*,
+which usually fetches an Aggregate from its repository, and executes a command
+method on it.
 
-Each command is sent as an asynchronous message, and delivered to a handler designed
-with the dedicated style.
+As the command method completes, it publishes a Domain Event. This is crucial
+for updating the query model with the most recent changes to the command model.
 
-??? Stores and services here are the command processors.
+Note that commands are always in imperative tense since they describe behaviours that
+need to be executed. e.g. `'ADD_ITEM_TO_CART'`
 
-The asynchonouscity approach provides temporal decoupling.
+### Event subscriber
 
-As command methods on the command model is executed, it completes by publishing
-and Event -- the Store event. This is the linchpin for updating the query model
-with the most recent changes to the command model.
+An event subscriber receives all Domain Events published by the command model.
+When an event occurs, it updates the query model accordingly. Each event contain
+enough information to correctly update the query model.
 
-
-## Event subscriber
-
-Updates query model according to Domain Events. Each event must be rich enough
-to supply all the data necessary to update the query model.
-
-## When to use Flux?
-
-When the UI had complex interactions
-
+Note that Domain Events are always in past tense since they describe what has
+already occurred. e.g. `'ITEM_ADDED_TO_CART'`
 
 ## An example in e-commerce
 
-Let's compare MVC to Flux using an example.
+Let's compare normal DDD with CQRS in the context of an e-commerce system with
+a shopping cart.
 
-In an ecommerce system, we may find an aggregate ShoppingCart that contains multiple
-CartItems, along with a corresponding repository.
+### Shopping cart with normal DDD
+
+In normal DDD, we may find an Aggregate `ShoppingCart` that contains multiple `CartItems`,
+as well as a corresponding repository.
 
 {% highlight javascript %}
 class ShoppingCart {
-  constructor ({id: id, cartItems: cartItems}) {
+  constructor({id: id, cartItems: cartItems, taxPercentage: taxPercentage,
+                shippingAndHandling: shippingAndHandling}) {
     this.id = id;
     this.cartItems = cartItems || [];
+    this.taxPercentage = this.taxPercentage;
+    this.shippingAndHandling = shippingAndHandling;
   }
-  addItem (cartItem) {
+  addItem(cartItem) {
     this.cartItems.push(cartItem);
   }
-  removeItem (cartItem) {
+  removeItem(cartItem) {
     this.cartItems = _.without(cartItems, cartItem);
   }
-  totalPrice () {
+  total() {
     var prices = this.shoppingCart.cartItems.map((item) => item.price);
-    var total = prices.reduce((total, price) => total + price, 0);
-    return total;
+    return prices.reduce((total, price) => total + price, 0);
   }
 }
 
 class CartItem {
-  constructor ({sku: sku, description: description, price: price, quantity: quantity}) {
+  constructor({sku: sku, description: description, price: price, quantity: quantity}) {
     this.sku = sku;
     this.description = description;
     this.price = price;
@@ -144,55 +144,150 @@ class CartItem {
 }
 
 class ShoppingCartRepository {
-  findById (shoppingCartId) { /* … */ }
-  create (product) { /* … */ }
-  update (product) { /* … */ }
-  destroy (product) { /* … */ }
+  constructor(store) {
+    this.store = store;
+  }
+  all() {
+    return this.store.all();
+  }
+  findById(id) {
+    return this.store.find(id);
+  }
+  create(cart) { /* … */ }
+  update(cart) { /* … */ }
+  destroy(cart) { /* … */ }
 }
 {% endhighlight %}
 
-Let's say we are creating two views:
+Here, the `ShoppingCart` is responsible for both queries (`cartItems` and`total()`),
+and updates (`addItem()`, `removeItem()`, and normal property setters). The
+`ShoppingCartRepository` is used to perform CRUD operations on `ShoppingCart`.
 
-1. A ShoppingCartView to display current contents of the ShoppingCart.
-1. A TotalPriceView that will sum up all CartItems, and present a total.
+### Shopping cart with CQRS
 
-This may look something like:
+In CQRS the `ShoppingCart` command model would not have any query methods, only command
+methods. For reads, we can create a query model that would be returned by
+running a query.
+
+This can simply be a plain JavaScript object.
 
 {% highlight javascript %}
-class ShoppingCartView extends View {
-  constructor (element, shoppingCart) {
-    this.element = element;
-    this.shoppingCart = ShoppingCart;
-    this.shoppingCart.on('changed', this.render);
-  }
-  render () {
-    var html = this.shoppingCart.cartItems.map((item) => {
-      `<li class="cart-item">
-        Sku: ${item.sku}
-        Description: ${item.description}
-        Price: ${item.price}
-        Quanity: ${item.quantity}
-      </li>`
-    }).join('');
-
-    this.element.innerHTML = html;
-  }
+{
+  cartId: 123,
+  total: 129.95
 }
+{% endhighlight %}
 
-class TotalPriceView() {
-  constructor (element, shoppingCart) {
-    this.element = element;
-    this.shoppingCart = ShoppingCart;
-    this.shoppingCart.on('changed', this.render);
+In this example, let's say we have a `CartTotalStore` that holds
+the query models in memory.
+
+{% highlight javascript %}
+class CartTotalStore {
+  constructor() {
+    this.totals = {};
   }
-
-  render () {
-    this.element.innerHTML = `<div class="cart-total">
-                                ${this.shoppingCart.total()}
-                              </div>`;
-
+  forCart(cartId) {
+    return {
+      cartId: cartId,
+      total: this.totals[id]
+    };
   }
 }
 {% endhighlight %}
 
+Obviously this would always return `undefined` for now. We'll look at how to
+update it later.
+
+We also change the `ShoppingCart` command model to publish Domain Events when
+its methods are completed.
+
+{% highlight javascript %}
+class ShoppingCart {
+  constructor(/* … */) {
+    // …
+  }
+  addItem(cartItem) {
+    // …
+    DomainEventPublisher.publish('CART_ITEM_ADDED', {
+      cartId: this.id,
+      sku: cartItem.sku,
+      price: cartItem.price,
+      quantity: cartItem.quantity
+    });
+  }
+  removeItem(cartItem) {
+    // …
+    DomainEventPublisher.publish('CART_ITEM_REMOVED', {
+      cartId: this.id,
+      sku: cartItem.sku,
+      price: cartItem.price,
+      quantity: cartItem.quantity
+    });
+  }
+}
+{% endhighlight %}
+
+Now, in order to execute behaviour on the command model, we must create a command
+handler `ShoppingCartCommandHandler` that handles both `AddItemToCart` and
+`RemoveItemFromCart` commands.
+
+Note that we are creating a handler that is responsible for multiple commands.
+In practice, we may choose to create one handler for each command.
+
+{% highlight javascript %}
+class ShoppingCartCommandHandler extends CommandHandler {
+  constructor(repo) {
+    this.repo = repo;
+
+    // Assumes commands implement subscribe that appends the handler to themselves.
+    AddItemToCart.subscribe(this.addItemToCart);
+    RemoveItemFromCart.subscribe(this.removeItemFromCart);
+  }
+  addItemToCart(payload) {
+    var cart = this.repo.find(payload.cartId);
+    cart.addItem(payload.cartItem); // This publishes a Domain Event
+  }
+  removeItemToCart(payload) {
+    var cart = this.repo.find(payload.cartId);
+    cart.removeItem(payload.cartItem); // This publishes a Domain Event
+  }
+}
+{% endhighlight %}
+
+And finally, we must keep our query models updated in our `CartTotalStore`.
+To do this, we need it to be an event subscriber that handles Domain Events. Of
+course, the handler doesn't necessarily need to be the store, but it makes this
+example much simpler.
+
+{% highlight javascript %}
+class CartTotalStore {
+  constructor() {
+    // …
+    DomainEventPublisher.subscribeTo('ITEM_ADDED_TO_CART', this.handleItemAdded);
+    DomainEventPublisher.subscribeTo('ITEM_REMOVED_FROM_CART', this.handleItemRemoved);
+  }
+  handleItemAdded({cartId: cartId, cartItem: cartItem}) {
+    var total = this.totals[cartId] || 0;
+    var newTotal = total + cartItem.price * cartItem.quantity
+      this.totals[cartId] = newTotal;
+  }
+  handleItemRemoved({cartId: cartId, cartItem: cartItem}) {
+    var total = this.totals[cartId] || 0;
+    var newTotal = total - cartItem.price * cartItem.quantity
+    this.totals[cartId] = newTotal;
+  }
+}
+{% endhighlight %}
+
+I hope you now have basic understanding of CQRS. Now we will examine how Flux
+relates to CQRS.
+
+## Flux and CQRS
+
+Actions are the Domain Events. Dispatcher is the domain event publisher, and
+Stores update themselves based on actions dispatched through the Dispatcher.
+
+ActionCreators are the command handlers. In this case, though, submitting commands
+just means calling methods on the ActionCreator.
+e.g. `shoppingCartActionCreators.addItem(…)`
 
