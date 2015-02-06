@@ -1,7 +1,7 @@
 ---
-created_at: 2015-02-03 15:38Z
+created_at: 2015-02-06 15:38Z
 layout: post
-title: What the Flux?
+title: What the Flux? (On Flux, DDD, and CQRS)
 tags: [javascript, flux, architecture, ddd, cqrs]
 ---
 
