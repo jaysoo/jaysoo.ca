@@ -402,8 +402,12 @@ There are several object roles in CQRS.
 - Event Subscriber
 
 In Facebook Flux some objects take on more than one role.  This is perfectly
-reasonable to do! When we encounter other Flux implementations, we can also
+reasonable to do! When we encounter other Flux implementations, we could also
 discuss them using the different object roles in CQRS.
+
+Does this mean we should buy books and materials about CQRS and become experts
+on that? Not necessarily. But I think it is interesting to see how some of these
+old concepts are becoming new again.
 
 ### Further Readings
 
