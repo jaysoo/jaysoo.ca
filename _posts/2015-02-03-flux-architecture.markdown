@@ -32,11 +32,17 @@ to learn from these older concepts, and see what they may tell us about the pres
 1. Look at how Flux applies the concepts from CQRS.
 1. Discuss when Flux is useful for a JavaScript application.
 
-Knowledge of DDD is assumed, though the article still provides value without it.
-To learn more about DDD, I recommend this [free ebook](http://www.infoq.com/minibooks/domain-driven-design-quickly)
-from InfoQ on the subject.:
+<div class="alert alert-info">
+  <p>
+    Knowledge of DDD is assumed, though the article still provides value without it.
+    To learn more about DDD, I recommend this <a href="http://www.infoq.com/minibooks/domain-driven-design-quickly">free ebook</a>
+    from InfoQ on the subject.:
+  </p>
+  <p>
+    Examples will be shown in JavaScript, though the language isn't the focus of this post.
+  </p>
+</div>
 
-Examples will be shown in JavaScript, though the language isn't the focus of this post.
 
 ## What is Flux?
 
@@ -114,8 +120,10 @@ Domain Events lets Event Subscribers know that something has changed in the
 corresponding Command Model. They contain the *name* of the event, and a *payload*
 containing sufficient information for subscribers to correctly update Query Models.
 
-**Note:** Domain Events are always in past tense since they describe what has
-already occurred (e.g. `'ITEM_ADDED_TO_CART'`).
+<div class="alert">
+  <strong>Note:</strong> Domain Events are always in past tense since they describe what has
+  already occurred (e.g. <code>'ITEM_ADDED_TO_CART'</code>).
+</div>
 
 ### Event Subscriber
 
@@ -128,8 +136,10 @@ When an event occurs, it updates the Query Model accordingly.
 command contains the *name* of the behaviour to execute and a *payload*
 necessary to carry it out.
 
-**Note:** Commands are always in imperative tense since they describe behaviours that
-need to be executed (e.g. `AddItemToCart`).
+<div class="alert">
+  <strong>Note:</strong> Commands are always in imperative tense since they describe behaviours that
+  need to be executed (e.g. <code>AddItemToCart</code>).
+</div>
 
 ### 7. Command Handler
 
