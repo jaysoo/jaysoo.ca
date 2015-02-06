@@ -157,7 +157,7 @@ a shopping cart.
 In normal DDD, we may find an Aggregate `ShoppingCart` that contains multiple `CartItems`,
 as well as a corresponding Repository.
 
-```
+{% highlight javascript %}
 // The Aggregate model
 class ShoppingCart {
   constructor({id: id, cartItems: cartItems, taxPercentage: taxPercentage,
@@ -201,7 +201,7 @@ class ShoppingCartRepository {
   update(cart) { /* … */ }
   destroy(cart) { /* … */ }
 }
-```
+{% endhighlight %}
 
 Here, the `ShoppingCart` is responsible for both queries (`cartItems` and`total()`),
 and updates (`addItem()`, `removeItem()`, and normal property setters). The
@@ -218,12 +218,12 @@ In CQRS, we can do the following:
 1. Create a Query Model for reading the shopping cart total (replacing the original
    `.total()` method). This Query Model can simply be a plain JavaScript object.
 
-    ```
+    {% highlight javascript %}
     {
       cartId: 123,
       total: 129.95
     }
-    ```
+    {% endhighlight %}
 
 1. Create `CartTotalStore` that holds the query models in memory. This object
    acts like a Query Processor in that it knows how to look up out Query Models.
@@ -240,7 +240,7 @@ In CQRS, we can do the following:
 **Note:** We are creating a Command Handler that is responsible for multiple Commands.
 In practice, we may choose to create one handler for each command.
 
-```
+{% highlight javascript %}
 // The Command Model publishes Domain Events.
 class ShoppingCart {
   constructor(/* … */) {
@@ -316,7 +316,7 @@ class ShoppingCartCommandHandler extends CommandHandler {
     cart.removeItem(payload.cartItem); // This publishes a Domain Event
   }
 }
-```
+{% endhighlight %}
 
 You should now have an understanding of CQRS. Next, we will examine how Flux
 relates to CQRS.
