@@ -379,7 +379,7 @@ In our shopping cart example, we may have:
 1. A view that handles displaying subtotals, taxes, shipping & handling, and totals.
 1. A view that displays amount of items in cart, with a detailed dropdown.
 
-![flux](/images/flux.png)
+![shopping-cart](/images/shopping-cart.png)
 
 In this system, we don't want to tie different views and controllers directly
 to a ShoppingCart model because changes to the model causes a complex data
