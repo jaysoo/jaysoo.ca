@@ -36,7 +36,7 @@ to learn from these older concepts, and see what they may tell us about the pres
   <p>
     Knowledge of DDD is assumed, though the article still provides value without it.
     To learn more about DDD, I recommend this <a href="http://www.infoq.com/minibooks/domain-driven-design-quickly">free ebook</a>
-    from InfoQ on the subject.:
+    from InfoQ on the subject.
   </p>
   <p>
     Examples will be shown in JavaScript, though the language isn't the focus of this post.
