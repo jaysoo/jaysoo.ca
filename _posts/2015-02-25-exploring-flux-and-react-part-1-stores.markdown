@@ -1,7 +1,7 @@
 ---
 created_at: 2015-02-25 22:48Z
 layout: post
-title: Exploring Flux and React Part 1: Stores
+title: On Stores and Domain Events- Exploring Flux and React Part 1
 tags: [javascript, flux]
 ---
 
@@ -21,6 +21,8 @@ I will be releasing each post separately in the next week or so:
 3. [React] Late-Binding Through Contexts
 
 Of course, I welcome all feedback on the subject, so please leave a comment at the end if you have one.
+
+And without further ado, here is the first post of the series: **On Stores and Domain Events**.
 
 ## What are Stores?
 
