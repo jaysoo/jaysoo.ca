@@ -16,7 +16,7 @@ Although I will be sharing examples using both Flux and React, they are actually
 
 I will be releasing each post separately in the next week or so:
 
-1. [Flux] On Stores and Domain Events
+1. [Flux] On Stores and Event Sourcing
 2. [React] A Tale of Two Components
 3. [React] Late-Binding Through Contexts
 
