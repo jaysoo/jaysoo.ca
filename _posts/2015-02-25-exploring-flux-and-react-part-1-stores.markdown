@@ -1,7 +1,7 @@
 ---
 created_at: 2015-02-25 22:48Z
 layout: post
-title: On Stores and Domain Events- Exploring Flux and React Part 1
+title: On Stores and Event Sourcing - Exploring Flux and React Part 1
 tags: [javascript, flux]
 ---
 
