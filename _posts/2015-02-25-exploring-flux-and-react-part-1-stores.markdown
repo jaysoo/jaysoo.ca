@@ -1,0 +1,25 @@
+---
+created_at: 2015-02-25 22:48Z
+layout: post
+title: Exploring Flux and React Part 1: Stores
+tags: [javascript, flux]
+---
+
+There's been a lot of discussion on what Flux is, the different variations, and how the pattern can be improved upon.
+I've even blogged about Flux [here](http://jaysoo.ca/2015/02/06/what-the-flux/) on this blog!
+
+I've spent significant amount of time in the last little while researching and building applications in Flux and React,
+so I thought I would share some of the things I've learned.
+
+Although I will be sharing examples using both Flux and React, they are actually orthogonal to each other. You could, for example,
+use Angular with Flux, Backbone with React, and so forth.
+
+I welcome all feedback on the subject, so please leave a comment at the end if you have one.
+
+## What are Stores?
+
+## Populating Store data
+
+## Testing Stores
+
+## Final thoughts
