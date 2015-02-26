@@ -26,6 +26,8 @@ And without further ado, here is the first post of the series: **On Stores and D
 
 ## What are Stores?
 
+- Event stream per aggregate
+
 ## Populating Store data
 
 ## Testing Stores
