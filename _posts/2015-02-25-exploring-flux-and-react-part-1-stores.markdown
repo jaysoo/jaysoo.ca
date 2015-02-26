@@ -30,4 +30,11 @@ And without further ado, here is the first post of the series: **On Stores and D
 
 ## Testing Stores
 
+### Unit tests
+
+### Smoke tests
+
+Run through commands and make sure our stores are in the correct state.
+
 ## Final thoughts
+
