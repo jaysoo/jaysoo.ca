@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat example</title>
+  </head>
+  <body ng-app="app">
+    <script src="https://jspm.io/system@0.6.js"></script>
+    <script src="config.js"></script>
+    <script>
+      System.import('app/app').
+        then(function(m) {
+        }).
+        catch(function(e) {
+          console.error(e.stack);
+        });
+    </script>
+  </body>
+</html>

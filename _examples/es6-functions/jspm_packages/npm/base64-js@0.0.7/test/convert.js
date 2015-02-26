@@ -1,0 +1,3 @@
+/* */
+"format cjs";function map(e,t){for(var r,s,n=[],o=0,i=e.length;i>o;o++)"string"==typeof e&&e.charAt(o)?(r=e.charAt(o),s=t(r,o,e),n[o]=s):"string"!=typeof e&&o in e&&(r=e[o],s=t(r,o,e),n[o]=s);return n}var test=require("tape"),b64=require("../lib/b64"),checks=["a","aa","aaa","hi","hi!","hi!!","sup","sup?","sup?!"];test("convert to base64 and back",function(e){e.plan(checks.length);for(var t=0;t<checks.length;t++){var r,s,n,o=checks[t];r=b64.fromByteArray(map(o,function(e){return e.charCodeAt(0)})),s=b64.toByteArray(r),n=map(s,function(e){return String.fromCharCode(e)}).join(""),e.equal(o,n,"Checked "+o)}});
+//# sourceMappingURL=convert.js.map

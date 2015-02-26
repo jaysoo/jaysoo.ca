@@ -1,0 +1,72 @@
+==================================================================
+https://keybase.io/jaysoo
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://jaysoo.ca
+  * I am jaysoo (https://keybase.io/jaysoo) on keybase.
+  * I have a public key with fingerprint BFC9 808A 5899 4F0E 0A99  2E53 49CC D477 8776 E138
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "bfc9808a58994f0e0a992e5349ccd4778776e138",
+            "host": "keybase.io",
+            "key_id": "49ccd4778776e138",
+            "uid": "ea999f7481fefc91b4e4f357c2d6e200",
+            "username": "jaysoo"
+        },
+        "revoke": {
+            "sig_ids": [
+                "be114e341bbdf61342abd28f288c48bb545a6b09267d1f1fc56c3144bb282a3d0f"
+            ]
+        },
+        "service": {
+            "hostname": "jaysoo.ca",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1413397499,
+    "expire_in": 157680000,
+    "prev": "a06216160f370b75764099cb4cd6b728964ccbb6c75d8c6796b0c1a0d8e6dbc9",
+    "seqno": 12,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v1.1.3
+Comment: https://keybase.io/crypto
+
+yMImAnicbZJrbAxRFMd3KWKT1iNopP2gE6KNZedxZ+beDUuIeH0gHkW7tebeubMd
+dGY7+6DdVMQjJIgESb9ohKUJIZakkZLQlqIIIgiNxCN8UOKRNE1jtXWn4YPE/XJz
+z/mf3/+cm3M7f6TH5z3hL2sO9V+e533QvizpWRu6nktz2NbruGCa20qHL8O0otSJ
+OaaV4IIcNgiCPNRkiBAweMprCIlUlgAiRAeqClVVoYIEOT9XbcfdCobBWpzOMW0W
+Y4+IqbPof/TJ4QRlQGSoAAoGZV4CBhQYkqwSUVeoyPOuME4dS6uhTL1Fq4vbNtfg
+5xyasrdSt+G4GWUecS5YyWEqCIBKQMBYNxRBAqKGdREaIoQEQIxlIGsK5pGoqLpg
+CAaRFSIJAGAsQlGTdN7gqhib+aVMMgx3h/rHew7RWEsxx07YxN7GwtWJRCzodpSo
+i7my7RRH/gAi2LR09p2sIEWduGlbXFBgSpIwXaIABElCKkDIz9EdMdOhEdNVyKoC
+eXZcG5piSI1XREERFN6QVB6rLA94hAgGRFewKkKkAEIwVogq65AoKmIzEkHjdUgV
+HRPEuSPVWjZji6xPLcqY7NcsLZF0KNfQ0RbO83h9ntGjRrgb4fGNHf93T3qGxgxM
+6NoArYPTH9+YdmWgPFNBftxDQ8+nfNJE766Li9b0FKQ+n1x5rAmODY0vWvEsmrv+
+8+i6zat7Cz+W0ksdfeuzxYU1syfB3adKKq15z6affXox86Lfe2bEtXCuUWsed7aq
+9/vgrNaHkwMLFxjLz78ciL0IdTdov7J99QVFVl5j9lvobatRRT3ZsDhh5p5bXZn5
+9dWNzX1l15IbSS686arlP1fW8gotLW+/E9g363hkc6rp5rt0UUtpW7L2wvaOzvcV
+E+d2Hmx6GijZt3bLo1K6ZNSq2gN7ezY8GFqz8/Ob0V+Lpx7q/jLjdWfsyeDpdOTI
+/K4Pkf3ldw/ff30v5ctfmPEGFv8GTqcvCQ==
+=BRPw
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/jaysoo
+
+==================================================================
+

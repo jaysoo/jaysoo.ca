@@ -1,0 +1,3 @@
+/* */
+"format cjs";var random=require("crypto").pseudoRandomBytes,b64=require("../index"),fs=require("github:jspm/nodelibs@0.0.3/fs"),path=require("github:jspm/nodelibs@0.0.3/path"),data=random(1e6).toString("base64"),start=Date.now(),raw=b64.toByteArray(data),middle=Date.now(),data=b64.fromByteArray(raw),end=Date.now();console.log("decode ms, decode ops/ms, encode ms, encode ops/ms"),console.log(middle-start,data.length/(middle-start),end-middle,data.length/(end-middle));
+//# sourceMappingURL=bench.js.map

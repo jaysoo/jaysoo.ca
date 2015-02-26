@@ -1,0 +1,1 @@
+export * from "github:firebase/firebase-bower@1.1.3/firebase-bower";

@@ -1,0 +1,3 @@
+/* */
+"format cjs";"use strict";var invariant=function(r,e,n,i,o,a,t,f){if(!r){var s;if(void 0===e)s=new Error("Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.");else{var d=[n,i,o,a,t,f],l=0;s=new Error("Invariant Violation: "+e.replace(/%s/g,function(){return d[l++]}))}throw s.framesToPop=1,s}};module.exports=invariant;
+//# sourceMappingURL=invariant.js.map

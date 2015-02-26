@@ -25,7 +25,7 @@ module Jekyll
     def initialize(tag_name, text, tokens)
       super
       @text           = text
-      @cache_disabled = false
+      @cache_disabled = true
       @cache_folder   = File.expand_path "../.tweet-cache", File.dirname(__FILE__)
       FileUtils.mkdir_p @cache_folder
     end

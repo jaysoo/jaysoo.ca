@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/foundation/5.0.0/css/normalize.css" />
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/foundation/5.0.0/css/foundation.css" />
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <style>
+      body { padding: 20px }
+      ng-message.error {
+        display: block;
+        padding: 0.33333rem 0.5rem 0.5rem;
+        margin-top: -17px;
+        margin-bottom: 0.88889rem;
+        font-size: 0.66667rem;
+        font-weight: normal;
+        font-style: italic;
+        background: #f04124;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body ng-app="app">
+    <form novalidate name="signUpForm" >
+      <label>
+        Username:
+        <input type="text" ng-model="user.username" name="username"
+          ng-model-options="{ debounce: 50 }"
+          required
+          unique-username />
+      </label>
+
+      <ng-messages for="signUpForm.username.$error" ng-if="signUpForm.username.$dirty">
+        <ng-message when="unique" class="error">This is taken</ng-message>
+        <ng-message when="required" class="error">This is required</ng-message>
+      </ng-messages>
+
+      <label>
+        Password:
+        <input type="password" ng-model="user.password" name="password" required minlength="8" />
+      </label>
+
+      <button>Sign Up</button>
+    </form>
+
+    <ng-messages for="messages" ng-init="messages = {foo: true}">
+      <ng-message when="foo">Boo-urns</ng-message>
+    </ng-messages>
+
+    <script>
+      var m = angular.module('app', ['ngMessages']);
+
+      m.directive('uniqueUsername', function(isUsernameAvailable) {
+        return {
+          restrict: 'A',
+          require: 'ngModel',
+          link: function(scope, element, attrs, ngModel) {
+            ngModel.$asyncValidators.unique = isUsernameAvailable;
+          }
+        };
+      });
+
+      // Fake unique check with hardcoded values.
+      m.factory('isUsernameAvailable', function($q, $timeout) {
+        var usernames = ['bob', 'mary', 'steve', 'sue'];
+
+        return function(username) {
+          var deferred = $q.defer();
+
+          $timeout(function() {
+            if (usernames.indexOf(username) === -1) {
+              return deferred.resolve();
+            }
+            return deferred.reject();
+          }, 100);
+
+          return deferred.promise;
+        }
+      });
+    </script>
+  </body>
+</html>
