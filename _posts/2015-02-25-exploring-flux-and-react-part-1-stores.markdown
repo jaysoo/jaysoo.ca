@@ -12,10 +12,15 @@ I've spent significant amount of time in the last little while researching and b
 to learn has much as I can from what people have done. I thought I would contribute back by presenting my own thoughts and
 learnings.
 
-Although I will be sharing examples using both Flux and React, they are actually orthogonal to each other. You could, for example,
-use Angular with Flux, Backbone with React, and so forth.
+Although I will be sharing examples using both Flux and React, they are actually orthogonal to each other. You could, for example, use Angular with Flux, Backbone with React, and so forth.
 
-I welcome all feedback on the subject, so please leave a comment at the end if you have one.
+I will be releasing each post separately in the next week or so:
+
+1. [Flux] On Stores and Domain Events
+2. [React] A Tale of Two Components
+3. [React] Late-Binding Through Contexts
+
+Of course, I welcome all feedback on the subject, so please leave a comment at the end if you have one.
 
 ## What are Stores?
 
