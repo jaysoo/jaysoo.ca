@@ -72,9 +72,9 @@ class ShoppingCartStore extends Store {
 }
 ```
 
-Okay, cool. Now we have some data about what Items are in the use's ShoppingCart. But what if I told you that research has shown that Items *recently removed* by the user have a high chance to be purchased by said user?
+Okay, cool. We have some data about what Items are in the user's ShoppingCart. But, what if I told you that research has shown that Items *recently removed* by the user have a high chance to be purchased by said user?
 
-As the product owner, I want you (the engineering) to also display a list of Items removed by the user.
+As the product owner, I want you to also display a list of Items removed by the user.
 
 No problem! Let's just add another Store.
 
@@ -96,7 +96,7 @@ class RecentlyRemovedItemStore extends Store {
 }
 ```
 
-Notice that we still have the same `ITEM_REMOVED` Action, but now we project two states out of it?
+Notice that we still have the same `ITEM_REMOVED` Action, but now we project two states from them?
 
 ## Event Sourcing
 
