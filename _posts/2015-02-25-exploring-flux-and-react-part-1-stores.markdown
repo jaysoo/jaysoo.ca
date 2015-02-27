@@ -16,15 +16,59 @@ Although I will be sharing examples using both Flux and React, they are actually
 
 I will be releasing each post separately in the next week or so:
 
-1. [Flux] On Stores and Event Sourcing
-2. [React] A Tale of Two Components
-3. [React] Late-Binding Through Contexts
+1. On Stores and Event Sourcing (Flux)
+2. A Tale of Two Components (React)
+3. Late-Binding Through Contexts (React)
 
 Of course, I welcome all feedback on the subject, so please leave a comment at the end if you have one.
 
-And without further ado, here is the first post of the series: **On Stores and Domain Events**.
+And without further ado, here is the first post of the series: **On Stores and Event Sourcing**.
 
 ## What are Stores?
+
+In Flux, Stores are simply a place where data is read out from. More specifically, Views within a Flux architecture will be notified of changes within Stores via the [Observer patter](http://en.wikipedia.org/wiki/Observer_pattern) and query for those data in order to update their own states.
+
+So then, what in the system can affect Store states? The answer is of course, Actions.
+
+### Actions aka Domain Events
+
+I like to think about Actions as Domain Events (in the CQRS sense). They are things that have already happened in our application. For example, in an e-commerce system we may have Actions such as **3 Items added to Cart**, **1 Item removed from Cart**, **User checks out**, etc.
+
+Of course, Actions are rarely are what we display in the UI, to the user. When a user is buying books in our e-commerce system, they want to see the *current state* of their shopping cart, not a history log of everything they've added or removed.
+
+This is where our Stores come in.
+
+### Updating Stores from Actions
+
+There is a concept called *Projections*. A Projection is a piece of code that take a series of Actions and produces a transient state from them. In Flux, we put both the Projections and the transient state within a Store.
+
+```js
+class ShoppingCartStore extends Store {
+  constructor(Publisher) {
+    // This is the transient state.
+    this._items = [];
+    
+    // Subscribe to Actions and run them through our Projections.
+    Publisher.register('ITEM_ADDED', this.onItemAdded);
+    Publisher.register('ITEM_ADDED', this.onItemRemoved);
+  }
+  
+  // Project item added to our transient state.
+  onItemAdded(item) {
+    this._items.push(item);
+  }
+  
+  // Project item removed to our transient state.
+  onItemRemoved(item) {
+    this._items = this._items.filter(i => i.id !== item.id);
+  }
+  
+  // Our read method that Views will call.
+  items() {
+    return this._items;
+  }
+}
+```
 
 - Event stream per aggregate
 
