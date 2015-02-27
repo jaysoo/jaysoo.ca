@@ -34,9 +34,9 @@ So then, what in the system can affect Store states? The answer is of course, Ac
 
 I like to think about Actions as Domain Events (in the CQRS sense). They are things that have already happened in our application. For example, in an e-commerce system we may have Actions such as **3 Items added to Cart**, **1 Item removed from Cart**, **User checks out**, etc.
 
-Of course, Actions are rarely are what we display in the UI, to the user. When a user is buying books in our e-commerce system, they want to see the *current state* of their shopping cart, not a history log of everything they've added or removed.
+Of course, Actions are rarely are what we display in the UI, to the user. When a user is buying books in our e-commerce system, they want to see the *current state* of their shopping cart, not a history of everything they've added or removed.
 
-This is where our Stores come in.
+This is where Stores come in.
 
 ### Updating Stores from Actions
 
