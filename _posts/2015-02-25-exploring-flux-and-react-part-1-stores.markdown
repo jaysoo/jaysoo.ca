@@ -26,7 +26,7 @@ And without further ado, here is the first post of the series: **On Stores and E
 
 ## What are Stores?
 
-In Flux, Stores are simply a place where data is read out from. More specifically, Views within a Flux architecture will be notified of changes within Stores via the [Observer patter](http://en.wikipedia.org/wiki/Observer_pattern) and query for those data in order to update their own states.
+In Flux, Stores are simply a place where data is read out from. More specifically, Views within a Flux architecture will be notified of changes within Stores via the [Observer pattern](http://en.wikipedia.org/wiki/Observer_pattern) and query for those data in order to update their own states.
 
 So then, what in the system can affect Store states? The answer is of course, Actions.
 
@@ -98,7 +98,11 @@ class RecentlyRemovedItemStore extends Store {
 
 Notice that we still have just one `ITEM_REMOVED` Action, but now project two states from them? Furthermore, the two states are completely decoupled from one another.
 
+In a sense, the Actions are our single source of truth within the system. The transient states within the Stores can change over time, but *Actions can neither be updated nor destroyed*.
+
 ## Event Sourcing
+
+Event Sourcing is often discussed within the contexts of a CQRS system.
 
 ## Testing Stores
 
