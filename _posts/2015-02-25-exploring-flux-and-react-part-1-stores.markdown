@@ -50,17 +50,19 @@ class ShoppingCartStore extends Store {
     
     // Subscribe to Actions and run them through our Projections.
     Dispatcher.register('ITEM_ADDED', this.onItemAdded);
-    Dispatcher.register('ITEM_ADDED', this.onItemRemoved);
+    Dispatcher.register('ITEM_REMOVED', this.onItemRemoved);
   }
   
   // Project item added to our transient state.
   onItemAdded(item) {
     this._items.push(item);
+    this.emit('change');
   }
   
   // Project item removed to our transient state.
   onItemRemoved(item) {
     this._items = this._items.filter(i => i.id !== item.id);
+    this.emit('change');
   }
   
   // Our read method that Views will call.
@@ -70,88 +72,33 @@ class ShoppingCartStore extends Store {
 }
 ```
 
-Okay, that's pretty cool. But, why go through all the ceremony of Stores and Actions? I could have done something much simpler in MVC *without* all the boilerplate. 
+Okay, cool. Now we have some data about what Items are in the use's ShoppingCart. But what if I told you that research has shown that Items *recently removed* by the user have a high chance to be purchased by said user?
 
-### MVC, keep it simple!
+As the product owner, I want you (the engineering) to also display a list of Items removed by the user.
 
-In MVC, all I would need is a **ShoppingCart** model that has many **Items**. When the user adds an Item I will simply add it to the ShoppingCart and re-render.
+No problem! Let's just add another Store.
 
 ```js
-class ShoppingCartView extends View {
-  constructor(shoppingCart) {
-    this.shoppingCart = shoppingCart;
-    this.shoppingCart.on('change', this.render);
-    
-    this.$element.on('click', '.add', this.addItem);
-    this.$element.on('click', '.remove', this.removeItem);
+class RecentlyRemovedItemStore extends Store {
+  constructor(Dispatcher) {
+    this._removedItems = [];
+    Dispatcher.register('ITEM_REMOVED', this.onItemRemoved);
   }
   
-  addItem(item) {
-    this.shoppingCart.addItem(item);
+  onItemRemoved(item) {
+    this._removedItems.push(item);
+    this.emit('change');
   }
   
-  removeItem(item) {
-    this.shoppingCart.removeItem(item);
-  }
-  
-  render() {
-    // ...
+  recentlyRemovedItems() {
+    this._removedItems;
   }
 }
 ```
 
-See? Easy! And we only have a two types of objects (View + Model) as opposed to four (View, Actions, Store, Dispatcher).
+Notice that we still have the same `ITEM_REMOVED` Action, but now we project two states out of it?
 
-Fine. But what if I told you that I  conducted a study which shows that Items removed within the last  5 minutes by a user has a 90% chance to be purchased by the same user within the same period?
-
-As a product owner, I want you to also **display** a list of Items the user has **removed** in the last **5 minutes**.
-
-If we were to use MVC, we could maintain a separate **RemovedItemsCollections** and have the ShoppingCartView also update that collection. And of course, we will need a separate View to display that list.
-
-```js
-class ShoppingCartView extends View {
-  constructor(shoppingCart, removedItems) {
-    // ...
-    this.removedItems = removedItems;
-  }
-  
-  /// ...
-  
-  removeItem(item) {
-    this.shoppingCart.removeItem(item);
-    this.removedItems.add(item);
-  }
-}
-
-class RemovedItemsView extends View {
-  constructor(removedItems) {
-    this.removedItems = removedItems;
-    this.removedItems.on('change', this.render);
-  }
-  
-  render() {
-    // ...
-  }
-}
-```
-
-Come to think of it, we also need a timer to remove the Item from `removedItems` after 5 minutes.
-
-```js
-removeItem(item) {
-    this.shoppingCart.removeItem(item);
-    this.removedItems.add(item);
-    
-    // Remove this item after 5 minutes.
-    setTimeout(=> this.removedItems.remove(item), 5000);
-}
-```
-
-### Okay, maybe it's not so simple
-
-I've only presented you with one small tweak in what we display to the user, and yet you can see how complex our MVC system became. Imgagine an ever growing list of display requirements, all driven by the same Actions. This is where MVC breaks down.
-
-## Populating Store data
+## Event Sourcing
 
 ## Testing Stores
 
