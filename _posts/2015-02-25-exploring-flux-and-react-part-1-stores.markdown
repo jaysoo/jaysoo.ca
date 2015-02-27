@@ -96,7 +96,7 @@ class RecentlyRemovedItemStore extends Store {
 }
 ```
 
-Notice that we still have the same `ITEM_REMOVED` Action, but now we project two states from them?
+Notice that we still have just one `ITEM_REMOVED` Action, but now project two states from them? Furthermore, the two states are completely decoupled from one another.
 
 ## Event Sourcing
 
