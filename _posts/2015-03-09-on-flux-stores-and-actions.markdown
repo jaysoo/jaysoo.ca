@@ -42,6 +42,7 @@ about the Action. For example, for `ITEM_REMOVED` we may have this payload:
 {
   id: 'ITEM_REMOVED',
   payload: {
+    cartId: 999,
     itemId 888,
     name: 'Functional JavaScript',
     description: 'Introducing Functional Programming with Underscore.js',
@@ -147,23 +148,23 @@ describe('ShoppingCartStore', () => {
     // Dispatch actions.
     dispatcher.dispatch({
       id: 'ITEMS_LOADED',
-      payload: [ { itemId: 777, quantity: 2 } ]
+      payload: [ { cartId: 999, itemId: 777, quantity: 2 } ]
     });
 
     dispatcher.dispatch({
       id: 'ITEM_ADDED',
-      payload: { itemId: 888, quantity: 1 }
+      payload: { cartId: 999, itemId: 888, quantity: 1 }
     });
 
     dispatcher.dispatch({
       id: 'ITEM_REMOVED',
-      payload: { itemId: 777, quantity: 1 }
+      payload: { cartId: 999, itemId: 777, quantity: 1 }
     });
 
     // Based on sequence of Actions above, we assert the following.
     expect(store.items()).to.eql([
-      { id: 888, quantity: 1},
-      { id: 777, quantity: 1}
+      { cartId: 999, itemId: 888, quantity: 1},
+      { cartId: 999, itemId: 777, quantity: 1}
     ]);
   });
 {% endhighlight %}
