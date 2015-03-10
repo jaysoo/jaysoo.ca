@@ -11,7 +11,7 @@ how the pattern can be improved upon.  I've even blogged about Flux
 
 I've been doing a lot of work with React and Flux in the past month. In that time,
 I learned a lot about architecture, patterns, and community best practices. I
-want to share a few things that I've been thinking about here.
+want to share some ideas that I've been thinking about here.
 
 In this post, I want to focus on Flux Stores. I will cover:
 
@@ -27,7 +27,7 @@ Views within a Flux architecture will be notified of changes within Stores via
 the [Observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), and then
 query for those data in order to update their own states.
 
-What exactly do Stores observe to update their states? The answer is Actions.
+So what in the system causes Stores to update their state? The answer is Actions.
 
 ### Actions
 
@@ -168,8 +168,8 @@ describe('ShoppingCartStore', () => {
   });
 {% endhighlight %}
 
-We can also unit test on one particular Action instead of smoke tests like shown above.
-Unit testing is especially helpful if the business logic in our Stores are complex.
+We can also write unit tests for one particular Action instead of the smoke test shown above.
+Unit testing is especially helpful if the business logic in our Stores are more complex.
 
 One useful property of Stores is that given a **starting state** and a
 **sequence of Actions**, we should always end up with the **same resulting state**
