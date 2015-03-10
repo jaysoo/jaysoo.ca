@@ -18,7 +18,7 @@ In this post, I want to focus on Flux Stores and Actions. I will cover:
 1. What Stores are.
 2. How they interact with Actions.
 3. How we can test Stores.
-4. Action replays.
+4. Action replay.
 
 ## What are Stores?
 
@@ -178,7 +178,7 @@ after playing the Actions. This makes testing a lot easier, and can also help us
 *debug* our application.
 
 
-## Action Replays
+## Action Replay
 
 ![](/images/Action_Replay_Amiga500.jpg)
 
