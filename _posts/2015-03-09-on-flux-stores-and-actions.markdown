@@ -13,7 +13,7 @@ I've been doing a lot of work with React and Flux in the past month. In that tim
 I learned a lot about architecture, patterns, and community best practices. I
 want to share some ideas that I've been thinking about here.
 
-In this post, I want to focus on Flux Stores. I will cover:
+In this post, I want to focus on Flux Stores and Actions. I will cover:
 
 1. What Stores are.
 2. How they interact with Actions.
