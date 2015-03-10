@@ -2,7 +2,7 @@
 created_at: 2015-03-09 22:48Z
 layout: post
 title: On Flux Stores and Actions
-tags: [javascript, flux]
+tags: [javascript, flux, architecture]
 ---
 
 There's been a lot of discussion on what Flux is, the different variations, and
