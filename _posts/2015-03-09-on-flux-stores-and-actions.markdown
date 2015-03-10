@@ -194,7 +194,8 @@ under our belt.
 
 Let's say that we noticed a Store contains **bad data**, but we're not sure how
 it got to that state. If we knew its initial state, and all the Actions played
-since initialization, then we can pinpoint exactly when the state became bad.
+since initialization, then we can pinpoint when the state became bad by replaying
+each Action and checking the state for correctness.
 
 ### Persisting Actions
 
