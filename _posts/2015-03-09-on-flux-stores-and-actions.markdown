@@ -27,13 +27,13 @@ Views within a Flux architecture will be notified of changes within Stores via
 the [Observer pattern](http://en.wikipedia.org/wiki/Observer_pattern), and then
 query for those data in order to update their own states.
 
-So, how exactly do Stores update their states? The answer is Actions.
+What exactly do Stores observe to update their states? The answer is Actions.
 
 ### Actions
 
 I like to think about Actions as things that have occurred in our domain. For
-example, in an e-commerce system we may have Actions such as **3 Items added to Cart**,
-**1 Item removed from Cart**, **Cart checked out**, etc.
+example, in an e-commerce system we may have Actions such as "3 Items added to Cart",
+"1 Item removed from Cart", "Cart checked out", etc.
 
 Actions carry a payload with them that contain all the information needed
 about the Action. For example, for `ITEM_REMOVED` we may have this payload:
@@ -50,7 +50,7 @@ about the Action. For example, for `ITEM_REMOVED` we may have this payload:
 }
 {% endhighlight %}
 
-Of course, Actions are rarely what we display in the UI. When a user is buying
+Of course, Actions are rarely what we display in the UI. When an user is buying
 books in our e-commerce system, they want to see the *current state*
 of their shopping cart, not a history of everything they've added or removed.
 
@@ -92,11 +92,11 @@ class ShoppingCartStore extends Store {
 }
 {% endhighlight %}
 
-At this point, the Store has data about what Items are in the user's ShoppingCart.
+At this point, the Store has data about what Items are in the user's `ShoppingCart`.
 Now imagine that research has shown that Items *recently removed* by the user
 have a high chance to be purchased by said user.
 
-A new requirement is added to display a list of Items removed by the user.
+A **new requirement** is added to display a list of Items removed by the user.
 
 In Flux, we'll just add another Store.
 
@@ -126,7 +126,7 @@ In a sense, the Actions are our sources of truth within the system. The transien
 states within the Stores can change over time, but *Actions can neither be
 updated nor destroyed* -- they should be immutable.
 
-This is a nice property of Stores, and allows them to be tested rather easily.
+This is a nice property of Flux , and allows Stores to be tested rather easily.
 
 ## Testing Stores
 
@@ -173,8 +173,8 @@ Unit testing is especially helpful if the business logic in our Stores are compl
 
 One useful property of Stores is that given a **starting state** and a
 **sequence of Actions**, we should always end up with the **same resulting state**
-after playing the Actions. This makes testing a lot easier, and can also help us debug
-our application.
+after playing the Actions. This makes testing a lot easier, and can also help us
+*debug* our application.
 
 
 ## Action Replays
@@ -188,7 +188,8 @@ our application.
 No, not *that* Action replay! ;)
 
 Recall that we can re-create a Store's transient state by replaying
-all Actions up to a certain point in time. This gives us another tool under our belt.
+all Actions up to a certain point in time. This gives us another debugging tool
+under our belt.
 
 Let's say that we noticed a Store contains **bad data**, but we're not sure how
 it got to that state. If we knew its initial state, and all the Actions played
@@ -196,9 +197,9 @@ since initialization, then we can pinpoint exactly when the state became bad.
 
 ### Persisting Actions
 
-Practically speaking, we may want to **persist our Actions** and Store state
+Practically speaking, we may want to **persist our Actions and Store state**
 somewhere accessible for debugging purposes. This might be a bounded cached
-stored in [localStorage](https://developer.mozilla.org/en/docs/Web/Guide/API/DOM/Storage#localStorage).
+in [localStorage](https://developer.mozilla.org/en/docs/Web/Guide/API/DOM/Storage#localStorage).
 
 There is an idea called [Event Sourcing](http://martinfowler.com/eaaDev/EventSourcing.html)
 that describes a system where all changes to the application state is captured
@@ -227,6 +228,6 @@ In this post, I presented some ideas that I've been playing around with regardin
 Flux Stores. I think Flux is a powerful pattern, and can help make client-side
 applications more robust and easier to reason about.
 
-Stores aren't terribly all that interesting on their own. Yet, there are some cool
+Stores aren't terribly interesting on their own. Yet, there are some cool
 concepts that can be tried with Stores within our own client-side applications.
 
