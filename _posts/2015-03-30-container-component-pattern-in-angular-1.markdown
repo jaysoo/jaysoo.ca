@@ -74,7 +74,7 @@ The idea is simple. A *container* is responsible for data fetching and passing d
 down to its child components to render. The *components* are concerned with
 rendering the UI based on the data passed down. They can also handle UI interactions.
 
-![](/images/container-components.svg)
+![](/images/container-components-2.svg)
 
 Notice that services only interact with containers and never components. Essentially,
 containers are the data layers of the application.
