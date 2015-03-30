@@ -1,7 +1,7 @@
 ---
 created_at: 2015-03-30 00:01Z
 layout: post
-title: Container Component Pattern in Angular 1
+title: Containers and  Components in Angular 1
 tags: [javascript, angular]
 ---
 
@@ -18,7 +18,7 @@ Since I've been working heavily with [React](https://facebook.github.io/react/in
 recently, I want to see how we can borrow some ideas from there and apply them
 to Angular 1 directives.
 
-In particular, I want to explore the idea of **[Container Components](https://www.youtube.com/watch?v=KYzlpRvWZ6c&t=1351)**
+In particular, I want to explore the idea of **[Containers and Components](https://www.youtube.com/watch?v=KYzlpRvWZ6c&t=1351)**
 in Angular 1.
 
 ### Before We Begin...
@@ -68,15 +68,16 @@ m.directive('hello', () => ({
 
 So without further ado, let's begin.
 
-## The Container Component
+## The Container
 
 The idea is simple. A *container* is responsible for data fetching and passing data
-down to its child components to render. The *UI components* are concerned with
+down to its child components to render. The *components* are concerned with
 rendering the UI based on the data passed down. They can also handle UI interactions.
 
 ![](/images/container-components.svg)
 
-Notice that services only interact with containers and never UI components.
+Notice that services only interact with containers and never components. Essentially,
+containers are the data layers of the application.
 
 *Why* is this pattern useful? Separation of concerns of course!
 
@@ -107,9 +108,9 @@ but they are not always necessary nor the best solution.
 We can instead separate the data fetching concern with the rendering concern.
 
 {% highlight javascript %}
-// 1. The container component that talks to userService.
-m.directive('userGreeting', () => ({
-  template: '<user-greeting-message user="ctrl.user"></user-gretting-message>',
+// 1. The container that talks to userService.
+m.directive('userGreetingContainer', () => ({
+  template: '<user-greeting user="ctrl.user"></user-greeting>',
   controller: class {
     constructor(userService) {
       this.userService = userService;
@@ -122,8 +123,8 @@ m.directive('userGreeting', () => ({
   controllerAs: 'ctrl'
 }));
 
-// 2. The UI component that renders UI based on the user data passed into it.
-m.directive('userGreetingMessage', () => ({
+// 2. The component that renders UI based on the user data passed into it.
+m.directive('userGreeting', () => ({
   scope: {
     user: '='
   },
@@ -139,11 +140,11 @@ here though is that we can easily test the message rendering without having
 to provide test doubles.
 
 {% highlight javascript %}
-describe('userGreetingMessage', () => {
+describe('userGreeting', () => {
   it('greets user', () => {
     const scope = $rootScope.$new();
     const element = $compile(
-      '<user-greeting-message user="user"></user-greeting-message>'
+      '<user-greeting user="user"></user-greeting>'
     )(scope);
 
     scope.user = {name: 'Bob'};
@@ -154,18 +155,18 @@ describe('userGreetingMessage', () => {
 });
 {% endhighlight %}
 
-The other advantage of this approach is that we can plug the UI component into
+The other advantage of this approach is that we can plug the component into
 other containers. As long as the container passes data through the `user`
-attribute to `userGreetingMessage` then everything will just work!
+attribute to `userGreeting` then everything will just work!
 
 ## Interaction with data services
 
 Certain interactions with the UI should affect application data. Form submissions
 may require new resources to be created.
 
-A UI component can accept *callbacks* that will be invoked when certain events
+A component can accept *callbacks* that will be invoked when certain events
 happen. In Angular, this is done with the `&` attribute on an isolate scope.
-The container component can pass its handlers to child components as callbacks,
+The container can pass its handlers to child components as callbacks,
 but interaction with data services still reside in the container.
 
 Let's say we want to add a feature for users to double-click on their name in the
@@ -217,12 +218,12 @@ m.directive('editableUserName', () => ({
 }));
 {% endhighlight %}
 
-Now, in the `userGreetingMessage` directive, we replace the user name
+Now, in the `userGreeting` directive, we replace the user name
 with the new UI directive. We also need to chain the `onSave` callback
 from container to the child `editableUserName` directive.
 
 {% highlight javascript %}
-m.directive('userGreetingMessage', () => ({
+m.directive('userGreeting', () => ({
   scope: {
     user: '=',
     saveCallback '&onSave' // NEW: Take in onSave callback from container.
@@ -238,7 +239,7 @@ m.directive('userGreetingMessage', () => ({
     </p>
   `,
   controller: class {
-    // NEW: Chain the callback from child to container component.
+    // NEW: Chain the callback from child to container.
     handleSave(user) {
       this.saveCallback({user: user});
     }
@@ -252,7 +253,7 @@ And finally, we pass the callback from the container, which handles actual
 service invocation.
 
 {% highlight javascript %}
-m.directive('userGreeting', () => ({
+m.directive('userGreetingContainer', () => ({
   // NEW: Pass the onSave callback.
   template: `
     <user-greeting-message 
@@ -279,9 +280,9 @@ m.directive('userGreeting', () => ({
 <div class="alert alert-info">
   <p><strong>Note:</strong> The <code>editableUserName</code> component never modifies
   its own state directly (e.g. set <code>this.user</code>). Instead, when the
-  <code>userGreeting.handleSave()</code> method is resolved, the container component updates
-  its own state. And since it passes the <code>user</code> object to UI components,
-  the UI components will get the updated object automatically.</p>
+  <code>userGreetingContainer.handleSave()</code> method is resolved, the container updates
+  its own state. And since it passes the <code>user</code> object to components,
+  the components will get the updated object automatically.</p>
 </div>
 
 Phew, we're done! Below you will find the finished product.
@@ -293,9 +294,9 @@ with it yourself.
 
 ## Summary
 
-- We can group directives into two types: **container** and **UI** components.
-- Containers handle interactions with data services, and pass data to UI components.
-- UI components render data passed in from the container. They should not mutate this data.
-- Containers can pass handlers, that interact with data services, as callbacks to UI components.
+- We can group directives into two types: **container** and UI **components**.
+- Containers handle interactions with data services, and pass data to components.
+- components render data passed in from the container. They should not mutate this data.
+- Containers can pass handlers, that interact with data services, as callbacks to components.
 
 

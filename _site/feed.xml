@@ -7,7 +7,7 @@
 		<atom:link href="http://jaysoo.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Container Component Pattern in Angular 1</title>
+				<title>Containers and  Components in Angular 1</title>
 				<description>&lt;p&gt;In this post, I want to explore a different approach to writing directives in
 Angular 1. As we know, building applications in Angular 2 is going to be
 different from what we’re used to in Angular 1. For example, &lt;code&gt;ng-controller&lt;/code&gt; will
@@ -21,7 +21,7 @@ the user or with other components.&lt;/p&gt;
 recently, I want to see how we can borrow some ideas from there and apply them
 to Angular 1 directives.&lt;/p&gt;
 
-&lt;p&gt;In particular, I want to explore the idea of &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=KYzlpRvWZ6c&amp;amp;t=1351&quot;&gt;Container Components&lt;/a&gt;&lt;/strong&gt;
+&lt;p&gt;In particular, I want to explore the idea of &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=KYzlpRvWZ6c&amp;amp;t=1351&quot;&gt;Containers and Components&lt;/a&gt;&lt;/strong&gt;
 in Angular 1.&lt;/p&gt;
 
 &lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
@@ -69,15 +69,16 @@ for reasoning.&lt;/p&gt;
 
 &lt;p&gt;So without further ado, let’s begin.&lt;/p&gt;
 
-&lt;h2 id=&quot;the-container-component&quot;&gt;The Container Component&lt;/h2&gt;
+&lt;h2 id=&quot;the-container&quot;&gt;The Container&lt;/h2&gt;
 
 &lt;p&gt;The idea is simple. A &lt;em&gt;container&lt;/em&gt; is responsible for data fetching and passing data
-down to its child components to render. The &lt;em&gt;UI components&lt;/em&gt; are concerned with
+down to its child components to render. The &lt;em&gt;components&lt;/em&gt; are concerned with
 rendering the UI based on the data passed down. They can also handle UI interactions.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/container-components.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Notice that services only interact with containers and never UI components.&lt;/p&gt;
+&lt;p&gt;Notice that services only interact with containers and never components. Essentially,
+containers are the data layers of the application.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Why&lt;/em&gt; is this pattern useful? Separation of concerns of course!&lt;/p&gt;
 
@@ -104,9 +105,9 @@ but they are not always necessary nor the best solution.&lt;/p&gt;
 
 &lt;p&gt;We can instead separate the data fetching concern with the rendering concern.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// 1. The container component that talks to userService.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreeting&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;lt;user-greeting-message user=&amp;quot;ctrl.user&amp;quot;&amp;gt;&amp;lt;/user-gretting-message&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// 1. The container that talks to userService.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreetingContainer&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;lt;user-greeting user=&amp;quot;ctrl.user&amp;quot;&amp;gt;&amp;lt;/user-greeting&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;constructor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;userService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;userService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;userService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -119,8 +120,8 @@ but they are not always necessary nor the best solution.&lt;/p&gt;
   &lt;span class=&quot;nx&quot;&gt;controllerAs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;ctrl&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// 2. The UI component that renders UI based on the user data passed into it.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreetingMessage&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// 2. The component that renders UI based on the user data passed into it.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreeting&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;=&amp;#39;&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
@@ -135,11 +136,11 @@ but they are not always necessary nor the best solution.&lt;/p&gt;
 here though is that we can easily test the message rendering without having
 to provide test doubles.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreetingMessage&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreeting&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;greets user&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;scope&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$rootScope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
     &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;lt;user-greeting-message user=&amp;quot;user&amp;quot;&amp;gt;&amp;lt;/user-greeting-message&amp;gt;&amp;#39;&lt;/span&gt;
+      &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;lt;user-greeting user=&amp;quot;user&amp;quot;&amp;gt;&amp;lt;/user-greeting&amp;gt;&amp;#39;&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
     &lt;span class=&quot;nx&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Bob&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
@@ -150,18 +151,18 @@ to provide test doubles.&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The other advantage of this approach is that we can plug the UI component into
+&lt;p&gt;The other advantage of this approach is that we can plug the component into
 other containers. As long as the container passes data through the &lt;code&gt;user&lt;/code&gt;
-attribute to &lt;code&gt;userGreetingMessage&lt;/code&gt; then everything will just work!&lt;/p&gt;
+attribute to &lt;code&gt;userGreeting&lt;/code&gt; then everything will just work!&lt;/p&gt;
 
 &lt;h2 id=&quot;interaction-with-data-services&quot;&gt;Interaction with data services&lt;/h2&gt;
 
 &lt;p&gt;Certain interactions with the UI should affect application data. Form submissions
 may require new resources to be created.&lt;/p&gt;
 
-&lt;p&gt;A UI component can accept &lt;em&gt;callbacks&lt;/em&gt; that will be invoked when certain events
+&lt;p&gt;A component can accept &lt;em&gt;callbacks&lt;/em&gt; that will be invoked when certain events
 happen. In Angular, this is done with the &lt;code&gt;&amp;amp;&lt;/code&gt; attribute on an isolate scope.
-The container component can pass its handlers to child components as callbacks,
+The container can pass its handlers to child components as callbacks,
 but interaction with data services still reside in the container.&lt;/p&gt;
 
 &lt;p&gt;Let’s say we want to add a feature for users to double-click on their name in the
@@ -212,11 +213,11 @@ with an input box where the user can type in a new name and hit Enter to save.&l
 &lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now, in the &lt;code&gt;userGreetingMessage&lt;/code&gt; directive, we replace the user name
+&lt;p&gt;Now, in the &lt;code&gt;userGreeting&lt;/code&gt; directive, we replace the user name
 with the new UI directive. We also need to chain the &lt;code&gt;onSave&lt;/code&gt; callback
 from container to the child &lt;code&gt;editableUserName&lt;/code&gt; directive.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreetingMessage&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreeting&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;=&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;saveCallback&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;&amp;amp;onSave&amp;#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// NEW: Take in onSave callback from container.&lt;/span&gt;
@@ -232,7 +233,7 @@ from container to the child &lt;code&gt;editableUserName&lt;/code&gt; directive.
     &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;/p&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// NEW: Chain the callback from child to container component.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// NEW: Chain the callback from child to container.&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;handleSave&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;saveCallback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -245,7 +246,7 @@ from container to the child &lt;code&gt;editableUserName&lt;/code&gt; directive.
 &lt;p&gt;And finally, we pass the callback from the container, which handles actual
 service invocation.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreeting&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;javascript&quot;&gt;&lt;span class=&quot;nx&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;directive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;userGreetingContainer&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// NEW: Pass the onSave callback.&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;
     &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt; 
@@ -272,9 +273,9 @@ service invocation.&lt;/p&gt;
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;editableUserName&lt;/code&gt; component never modifies
   its own state directly (e.g. set &lt;code&gt;this.user&lt;/code&gt;). Instead, when the
-  &lt;code&gt;userGreeting.handleSave()&lt;/code&gt; method is resolved, the container component updates
-  its own state. And since it passes the &lt;code&gt;user&lt;/code&gt; object to UI components,
-  the UI components will get the updated object automatically.&lt;/p&gt;
+  &lt;code&gt;userGreetingContainer.handleSave()&lt;/code&gt; method is resolved, the container updates
+  its own state. And since it passes the &lt;code&gt;user&lt;/code&gt; object to components,
+  the components will get the updated object automatically.&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;p&gt;Phew, we’re done! Below you will find the finished product.&lt;/p&gt;
@@ -287,10 +288,10 @@ with it yourself.&lt;/p&gt;
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;We can group directives into two types: &lt;strong&gt;container&lt;/strong&gt; and &lt;strong&gt;UI&lt;/strong&gt; components.&lt;/li&gt;
-  &lt;li&gt;Containers handle interactions with data services, and pass data to UI components.&lt;/li&gt;
-  &lt;li&gt;UI components render data passed in from the container. They should not mutate this data.&lt;/li&gt;
-  &lt;li&gt;Containers can pass handlers, that interact with data services, as callbacks to UI components.&lt;/li&gt;
+  &lt;li&gt;We can group directives into two types: &lt;strong&gt;container&lt;/strong&gt; and UI &lt;strong&gt;components&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Containers handle interactions with data services, and pass data to components.&lt;/li&gt;
+  &lt;li&gt;components render data passed in from the container. They should not mutate this data.&lt;/li&gt;
+  &lt;li&gt;Containers can pass handlers, that interact with data services, as callbacks to components.&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>
