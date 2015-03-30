@@ -295,8 +295,7 @@ with it yourself.
 ## Summary
 
 - We can group directives into two types: **container** and UI **components**.
-- Containers handle interactions with data services, and pass data to components.
-- components render data passed in from the container. They should not mutate this data.
+- Containers are the data layers. They handle interactions with data services and pass data to components.
+- Components render data, and they do not mutate this data.
 - Containers can pass handlers, that interact with data services, as callbacks to components.
-
 

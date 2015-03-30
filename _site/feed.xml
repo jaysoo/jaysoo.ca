@@ -75,7 +75,7 @@ for reasoning.&lt;/p&gt;
 down to its child components to render. The &lt;em&gt;components&lt;/em&gt; are concerned with
 rendering the UI based on the data passed down. They can also handle UI interactions.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/images/container-components.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/container-components-2.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Notice that services only interact with containers and never components. Essentially,
 containers are the data layers of the application.&lt;/p&gt;
@@ -289,8 +289,8 @@ with it yourself.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;We can group directives into two types: &lt;strong&gt;container&lt;/strong&gt; and UI &lt;strong&gt;components&lt;/strong&gt;.&lt;/li&gt;
-  &lt;li&gt;Containers handle interactions with data services, and pass data to components.&lt;/li&gt;
-  &lt;li&gt;components render data passed in from the container. They should not mutate this data.&lt;/li&gt;
+  &lt;li&gt;Containers are the data layers. They handle interactions with data services and pass data to components.&lt;/li&gt;
+  &lt;li&gt;Components render data, and they do not mutate this data.&lt;/li&gt;
   &lt;li&gt;Containers can pass handlers, that interact with data services, as callbacks to components.&lt;/li&gt;
 &lt;/ul&gt;
 
