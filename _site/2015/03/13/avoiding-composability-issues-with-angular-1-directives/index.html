@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Avoiding Composability Issues With Angular 1 Directives &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Avoiding Composability Issues With Angular 1 Directives
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>In Angular 1, directives are a way for developers to extend HTML. This means
+introducing new behaviours to the DOM via custom tags or attributes. You can
+change what a directive matches by using the <code>restrict</code> option. By default it
+is set to <code>'EA'</code>, meaning it works on elements (tags) and attributes.</p>
+
+<p>These days, I’m <strong>restricting directives to only elements</strong> (<code>restrict: 'E'</code>).
+The reason is that attributes are hard to compose. When multiple attribute
+directives exist on one element, it can be challenging to figure out the resulting
+behaviour.</p>
+
+<h2 id="composability-issues-with-attributes">Composability issues with attributes</h2>
+
+<p>Say I have these two directives that changes text colour depending on a value it observes.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;greenIf&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+  <span class="nx">link</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">greenIf</span><span class="p">,</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}));</span>
+
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;redIf&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+  <span class="nx">link</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">redIf</span><span class="p">,</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}));</span>
+</code></pre></div>
+
+<p>Now if I add them to the same element like so, what result do I expect?</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">red-if=</span><span class="s">&quot;true&quot;</span> <span class="na">green-if=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+  What colour am I?
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div>
+
+<p>The answer is actually <em>green</em> because it comes after red when sorting alphabetically, so its link function is invoked last.
+In this case, both directives have the default priority of <code>0</code>, so according to the
+official docs, their ordering is undefined. However, looking at the <a href="https://github.com/angular/angular.js/blob/41fdb3d5367a7e439822ebd7fc4a473b3a89feaa/src/ng/compile.js#L2266">source code</a>
+shows us that they are indeed sorted alphabetically. Just don’t count on this
+ordering in the future.</p>
+
+<p>Now, I could guarantee their ordering by setting specific priority values. I
+don’t like this approach, because directives with a priority value forces
+developers to have to map out all of the directives’ interactions in their head
+in order to reason about them. As the number of directives grow, it becomes impossible
+to load everything into your head!</p>
+
+<h2 id="composing-elements-instead-of-attributes">Composing elements instead of attributes</h2>
+
+<p>If I were to re-write the directives on elements instead, the result is much
+easier to understand.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;greenIf&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+  <span class="nx">link</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}));</span>
+
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;redIf&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+  <span class="nx">link</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">element</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}));</span>
+</code></pre></div>
+
+<p>Now, with the following HTML, can you guess what the colour is?</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;green-if</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;red-if</span> <span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+    What colour am I?
+  <span class="nt">&lt;/red-if&gt;</span>
+<span class="nt">&lt;/green-if&gt;</span>
+</code></pre></div>
+
+<p>The answer is of course red!</p>
+
+<p>Hopefully I’ve convinced you, at least a little bit, on why limiting directives
+to elements makes them much simpler.</p>
+
+<p>In a future post, I will expand more on component patterns and how they can be
+applied to Angular 1 directives.</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/03/09/on-flux-stores-and-actions" title="On Flux Stores and Actions">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/03/30/container-component-pattern-in-angular-1" title="Container Component Pattern in Angular 1">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/03/13/avoiding-composability-issues-with-angular-1-directives';
+    var disqus_url = 'http://jaysoo.ca/2015/03/13/avoiding-composability-issues-with-angular-1-directives';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>13 March 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>25</span></a></li>
+     
+    	<li><a href="/tags.html#angular-ref">angular <span>6</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/03/13/avoiding-composability-issues-with-angular-1-directives&amp;text=Avoiding%20Composability%20Issues%20With%20Angular%201%20Directives&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2015/03/30/container-component-pattern-in-angular-1">Container Component Pattern in Angular 1</a></li>
+      
+      <li><a href="/2014/10/14/async-form-errors-and-messages-in-angularjs">Asynchronous form errors and messages in AngularJS</a></li>
+      
+      <li><a href="/2014/02/27/designing-angularjs-directives">Designing AngularJS Directives</a></li>
+      
+      <li><a href="/2014/02/20/angulardart-webcomponents-and-the-future">AngularDart, Web Components, and the Future</a></li>
+      
+      <li><a href="/2014/01/20/semantic-angularjs-directives">Creating Semantic, Reusable Directives in AngularJS</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+

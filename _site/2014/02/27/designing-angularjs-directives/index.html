@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Designing AngularJS Directives &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Designing AngularJS Directives
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>Throughout your adventures with Angular, you will undoubtedly come across situations where custom directives make sense.
+These situations typically involve DOM manipulations, or calling a jQuery plugin.</p>
+
+<p>However, there are other cases where you may not recognize the need to write directives. In this post I will present a
+problem that will first be solved without custom directives. I will then provide some motivation for creating custom
+directives. And finally, I will show an implementation for these directives.</p>
+
+<p><strong>In this post we’ll cover:</strong></p>
+
+<ul>
+  <li>When writing a custom directive makes sense.</li>
+  <li>Designing directives using a top-down approach.</li>
+  <li>Allowing communication with your directives through controllers.</li>
+</ul>
+
+<p><span class="muted"><em>Note: This is a repost from the <a href="http://engineering.nulogy.com/posts/designing-angularjs-directives/">Nulogy Engineering Blog</a></em></span></p>
+
+<p><span class="muted">Since the introduction of ngMessages and asyncValidators in AngularJS 1.3, I’ve written a 
+<a href="/2014/10/14/async-form-errors-and-messages-in-angularjs">new post</a>
+to cover form validations. The designing process in this post is still valid, but I would recommend using the new
+AngularJS features to handle error messages and async validations.</span></p>
+
+<h2 id="the-problem-at-hand">The problem at hand</h2>
+
+<p>Here is a typical way you may handle form validations in Angular.</p>
+
+<p>HTML:</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">ng-controller=</span><span class="s">&quot;SignUpCtrl as c&quot;</span> <span class="na">name=</span><span class="s">&quot;signupForm&quot;</span> <span class="na">ng-submit=</span><span class="s">&quot;c.signup(user)&quot;</span> <span class="na">novalidate</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;fieldset&gt;</span>
+    <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;user.username&quot;</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.username.$dirty &amp;&amp; signupForm.username.$invalid&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;small</span> <span class="na">class=</span><span class="s">&quot;error&quot;</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.username.$error.required&quot;</span><span class="nt">&gt;</span>
+        This field is required
+      <span class="nt">&lt;/small&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="nt">&lt;label&gt;</span>Password:<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;user.password&quot;</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.password.$dirty &amp;&amp; signupForm.password.$invalid&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;small</span> <span class="na">class=</span><span class="s">&quot;error&quot;</span> <span class="na">ng-show=</span><span class="s">&quot;signupForm.password.$error.required&quot;</span><span class="nt">&gt;</span>
+        This field is required
+      <span class="nt">&lt;/small&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+
+    <span class="nt">&lt;button</span> <span class="na">ng-disabled=</span><span class="s">&quot;signupForm.$invalid&quot;</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;/fieldset&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div>
+
+<p>JavaScript:</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;SignUpCtrl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">signup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Calls a service to create the user</span>
+    <span class="nx">mockUserCreate</span><span class="p">(</span><span class="nx">user</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Handle success</span>
+      <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Handle failure</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="c1">// Simulation of failed user creation</span>
+  <span class="kd">function</span> <span class="nx">mockUserCreate</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$q</span><span class="p">.</span><span class="nx">reject</span><span class="p">({</span><span class="nx">username</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;This name is taken&#39;</span><span class="p">]});</span>
+  <span class="p">}</span>
+<span class="p">}]);</span>
+</code></pre></div>
+
+<p>Here, we are showing validation errors when a required field is dirty and missing.</p>
+
+<p>This works pretty well as a starting point, but there are a few problems here:</p>
+
+<ol>
+  <li>Server errors are not reported (say when the username is already taken).</li>
+  <li>The error messages are hardcoded within the HTML.</li>
+  <li>The HTML cannot be reused by other forms, thus violating the DRY principle.</li>
+</ol>
+
+<p>To show server errors, I can have <code>SignUpCtrl</code> stuff them on the scope, but then I will need to modify my HTML to
+display these errors. This doesn’t help reusability of our form behaviour.</p>
+
+<h2 id="designing-with-semantics">Designing with semantics</h2>
+
+<p>Let’s step back a bit, ignore Angular forms, and imagine how we <em>actually</em> want to create forms
+with validation support.</p>
+
+<p>Re-imagined HTML:</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;form</span> <span class="na">with-errors</span> <span class="na">name=</span><span class="s">&quot;signUpForm&quot;</span> <span class="na">ng-controller=</span><span class="s">&quot;SignUpCtrl as c&quot;</span> <span class="na">ng-submit=</span><span class="s">&quot;c.signup(c.user)&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;fieldset&gt;</span>
+    <span class="nt">&lt;label&gt;</span>Username:<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;username&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;c.user.username&quot;</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;fielderrors</span> <span class="na">for=</span><span class="s">&quot;username&quot;</span><span class="nt">&gt;&lt;/fielderrors&gt;</span>
+
+    <span class="nt">&lt;label&gt;</span>Password:<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">ng-model=</span><span class="s">&quot;c.user.password&quot;</span> <span class="na">required</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;fielderrors</span> <span class="na">for=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;&lt;/fielderrors&gt;</span>
+
+    <span class="nt">&lt;button</span> <span class="na">ng-disabled=</span><span class="s">&quot;signUpForm.$invalid&quot;</span><span class="nt">&gt;</span>Submit<span class="nt">&lt;/button&gt;</span>
+  <span class="nt">&lt;/fieldset&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</code></pre></div>
+
+<p>I switched the original field errors markup with <code>&lt;fielderrors&gt;</code> custom elements, which specify the input fields
+they are responsible for. I also added a marker <code>with-errors</code> to the <code>&lt;form&gt;</code> element. This is to create a parent
+directive that will broker communication between <code>ngModel</code> validation and the <code>&lt;fielderrors&gt;</code> elements.</p>
+
+<p>This revised markup makes sense from a semantics point of view. A developer reading the HTML should be able to infer
+what the purposes of the new markers are.</p>
+
+<h2 id="acceptance-criteria">Acceptance criteria</h2>
+
+<p>Here are the three acceptance criteria that I can think of so far.</p>
+
+<ul>
+  <li>We want to invalidate an <code>&lt;input&gt;</code> field and its corresponding <code>&lt;form&gt;</code> when the <code>required</code> attribute
+is violated – Angular has this covered!</li>
+  <li>We want to display error messages inside <code>&lt;fielderrors&gt;</code> if the corresponding <code>&lt;input&gt;</code> is invalid.</li>
+  <li>We want to support adding additional error messages as needed from a controller (e.g. server errors).</li>
+</ul>
+
+<h2 id="game-plan">Game plan</h2>
+
+<p>We will create three directives:</p>
+
+<ol>
+  <li>A directive for the <code>with-errors</code> marker that allows <code>fielderror</code> controllers to register themselves with.</li>
+  <li>A directive on <code>&lt;input&gt;</code> elements that will watch for Angular validation errors and set the appropriate field errors
+via the <code>with-errors</code> directive.</li>
+  <li>A <code>fielderrors</code> directive that exposes methods for the <code>with-errors</code> directive to set and clear errors. This
+directive is also responsible to displaying the error messages on itself.</li>
+</ol>
+
+<p>The one piece missing still is the ability to set additional errors from a controller. We have a couple of choices:</p>
+
+<ul>
+  <li>Have <code>with-errors</code> or <code>fielderrors</code> watch for additional errors on their scopes. The downside of this approach is
+that we will have to add an additional responsiblity to either <code>with-errors</code> or <code>fielderrors</code> directive.</li>
+  <li>Create a service that we can call from <code>SignUpCtrl</code> that will set additional errors for the given form by <code>name</code>.</li>
+</ul>
+
+<p>I’m opting for the latter option because it is much cleaner and it means we can avoid another <code>$watch</code> call.</p>
+
+<p>Putting this all together gives up the following diagram.</p>
+
+<p><img src="/images/with_errors_directive/with-errors-diagram.png" alt="with-errors diagram" /></p>
+
+<h3 id="test-first">Test first</h3>
+
+<p>First things first, let’s write our Jasmine tests to make sure our implementation satisfies the requirements.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;withErrors&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">scope</span><span class="p">,</span> <span class="nx">form</span><span class="p">,</span> <span class="nx">input</span><span class="p">,</span> <span class="nx">_setFormErrors</span><span class="p">;</span>
+  <span class="nx">beforeEach</span><span class="p">(</span><span class="nx">inject</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$compile</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">setFormErrors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+    <span class="nx">_setFormErrors</span> <span class="o">=</span> <span class="nx">setFormErrors</span><span class="p">;</span>
+
+    <span class="nx">form</span> <span class="o">=</span> <span class="nx">$compile</span><span class="p">(</span>
+      <span class="s1">&#39;&lt;form with-errors name=&quot;testForm&quot;&gt;&#39;</span> <span class="o">+</span>
+          <span class="s1">&#39;&lt;input name=&quot;foo&quot; ng-model=&quot;foo&quot; value=&quot;bar&quot; required /&gt;&#39;</span> <span class="o">+</span>
+          <span class="s1">&#39;&lt;fielderrors for=&quot;foo&quot;&gt;&lt;/fielderrors&gt;&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;&lt;/form&gt;&#39;</span>
+    <span class="p">)(</span><span class="nx">scope</span><span class="p">);</span>
+
+    <span class="nx">input</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">);</span>
+
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+  <span class="p">}));</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;displays form errors&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">input</span><span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">trigger</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">);</span>
+    <span class="nx">expectErrorsFor</span><span class="p">(</span><span class="nx">form</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;This field is required&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;displays errors set via setFormErrors service&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">_setFormErrors</span><span class="p">({</span>
+      <span class="nx">formName</span><span class="o">:</span> <span class="s1">&#39;testForm&#39;</span><span class="p">,</span>
+      <span class="nx">fieldErrors</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">foo</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;foo is bar&#39;</span><span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+    <span class="nx">expectErrorsFor</span><span class="p">(</span><span class="nx">form</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">&#39;foo is bar&#39;</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="kd">function</span> <span class="nx">expectErrorsFor</span><span class="p">(</span><span class="nx">form</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">errorElement</span> <span class="o">=</span> <span class="nx">form</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;.fielderror&#39;</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">errorElement</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">expect</span><span class="p">(</span><span class="nx">errorElement</span><span class="p">.</span><span class="nx">text</span><span class="p">().</span><span class="nx">trim</span><span class="p">());</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<h3 id="implementing-the-setformerrors-service">Implementing the setFormErrors service</h3>
+
+<p>We start with our <code>setFormErrors</code> service, which allows the <code>withErrors</code> directive to register themselves with.
+The exposed service function will set field errors for a given form name.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;setFormErrors&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Registered withErrors controllers</span>
+  <span class="kd">var</span> <span class="nx">withErrorCtrls</span> <span class="o">=</span> <span class="p">{};</span>
+
+  <span class="c1">// The exposed service</span>
+  <span class="kd">var</span> <span class="nx">setFormErrors</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">fieldErrors</span> <span class="o">=</span> <span class="nx">opts</span><span class="p">.</span><span class="nx">fieldErrors</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">ctrl</span> <span class="o">=</span> <span class="nx">withErrorCtrls</span><span class="p">[</span><span class="nx">opts</span><span class="p">.</span><span class="nx">formName</span><span class="p">];</span>
+
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">fieldErrors</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">ctrl</span><span class="p">.</span><span class="nx">setErrorsFor</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">,</span> <span class="nx">fieldErrors</span><span class="p">[</span><span class="nx">fieldName</span><span class="p">]);</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="c1">// Registers withErrors controller by form name (for internal use)</span>
+  <span class="nx">setFormErrors</span><span class="p">.</span><span class="nx">_register</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formName</span><span class="p">,</span> <span class="nx">ctrl</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">withErrorCtrls</span><span class="p">[</span><span class="nx">formName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">ctrl</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">setFormErrors</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="implementing-the-witherrors-directive">Implementing the withErrors directive</h3>
+
+<p>The <code>withErrors</code> directive controller allows <code>fielderror</code> controllers to register themselves with. It also registers
+itself with the <code>setFormErrors</code> service so additional errors can be set without Angular validations.</p>
+
+<p>Lastly, it provides two methods for the <code>input</code> directive to call whenever it encounters an Angular validation error.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;withErrors&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;setFormErrors&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">setFormErrors</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span>
+    <span class="nx">require</span><span class="o">:</span> <span class="s1">&#39;withErrors&#39;</span><span class="p">,</span>
+    <span class="nx">controller</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;$element&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$element</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">controls</span> <span class="o">=</span> <span class="p">{};</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">addControl</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">,</span> <span class="nx">ctrl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">controls</span><span class="p">[</span><span class="nx">fieldName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">ctrl</span><span class="p">;</span>
+      <span class="p">};</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">setErrorsFor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">,</span> <span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">fieldName</span> <span class="k">in</span> <span class="nx">controls</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">controls</span><span class="p">[</span><span class="nx">fieldName</span><span class="p">].</span><span class="nx">setErrors</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
+      <span class="p">};</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearErrorsFor</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">,</span> <span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">fieldName</span> <span class="k">in</span> <span class="nx">controls</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">controls</span><span class="p">[</span><span class="nx">fieldName</span><span class="p">].</span><span class="nx">clearErrors</span><span class="p">(</span><span class="nx">errors</span><span class="p">);</span>
+      <span class="p">};</span>
+    <span class="p">}],</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">ctrl</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Make this form controller accessible to setFormErrors service</span>
+      <span class="nx">setFormErrors</span><span class="p">.</span><span class="nx">_register</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">ctrl</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}]);</span>
+</code></pre></div>
+
+<h3 id="implementing-the-input-directive">Implementing the input directive</h3>
+
+<p>The <code>input</code> directive requires the <code>ngModel</code> and <code>withErrors</code> directive controllers. If they are both present, then
+it will listen for any errors on <code>ngModel</code>, map those errors to messages, and set those messages using the <code>withErrors</code>
+controller.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;?ngModel&#39;</span><span class="p">,</span> <span class="s1">&#39;?^withErrors&#39;</span><span class="p">],</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">ctrls</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">ngModelCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">withErrorsCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">fieldName</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ngModelCtrl</span> <span class="o">||</span> <span class="o">!</span><span class="nx">withErrorsCtrl</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+      <span class="c1">// Watch for model changes and set errors if any</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">$watch</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">ngModel</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">.</span><span class="nx">$dirty</span> <span class="o">&amp;&amp;</span> <span class="nx">ngModelCtrl</span><span class="p">.</span><span class="nx">$invalid</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">withErrorsCtrl</span><span class="p">.</span><span class="nx">setErrorsFor</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">,</span> <span class="nx">errorMessagesFor</span><span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">));</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">.</span><span class="nx">$valid</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">withErrorsCtrl</span><span class="p">.</span><span class="nx">clearErrorsFor</span><span class="p">(</span><span class="nx">fieldName</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+
+      <span class="c1">// Mapping Angular validation errors to a message</span>
+      <span class="kd">var</span> <span class="nx">errorMessages</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">required</span><span class="o">:</span> <span class="s1">&#39;This field is required&#39;</span><span class="p">,</span>
+        <span class="nx">pattern</span><span class="o">:</span> <span class="s1">&#39;This field does not match pattern&#39;</span><span class="p">,</span>
+        <span class="nx">minlength</span><span class="o">:</span> <span class="s1">&#39;This field is too long&#39;</span><span class="p">,</span>
+        <span class="nx">maxlength</span><span class="o">:</span> <span class="s1">&#39;This field is too short&#39;</span>
+        <span class="c1">// etc.</span>
+      <span class="p">};</span>
+
+      <span class="kd">function</span> <span class="nx">errorMessagesFor</span><span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">.</span><span class="nx">$error</span><span class="p">).</span>
+          <span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">ngModelCtrl</span><span class="p">.</span><span class="nx">$error</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="k">return</span> <span class="nx">errorMessages</span><span class="p">[</span><span class="nx">key</span><span class="p">];</span>
+            <span class="k">else</span> <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+          <span class="p">}).</span>
+          <span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">msg</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">;</span>
+          <span class="p">});</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>  
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="implementing-the-fielderrors-directive">Implementing the fielderrors directive</h3>
+
+<p>Finally, the <code>fielderrors</code> directive requires a parent <code>withErrors</code> directive controller which it registers itself
+with. It also provides methods for setting and clearing errors.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;fielderrors&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">restrict</span><span class="o">:</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span>
+    <span class="nx">replace</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">scope</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">require</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;fielderrors&#39;</span><span class="p">,</span> <span class="s1">&#39;^withErrors&#39;</span><span class="p">],</span>
+    <span class="nx">template</span><span class="o">:</span>
+      <span class="s1">&#39;&lt;div ng-repeat=&quot;error in errors&quot;&gt;&#39;</span> <span class="o">+</span>
+        <span class="s1">&#39;&lt;small class=&quot;error&quot;&gt;&lt;/small&gt;&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span>
+    <span class="nx">controller</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">$scope</span><span class="p">.</span><span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">setErrors</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$scope</span><span class="p">.</span><span class="nx">errors</span> <span class="o">=</span> <span class="nx">errors</span><span class="p">;</span>
+      <span class="p">};</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">clearErrors</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$scope</span><span class="p">.</span><span class="nx">errors</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="p">};</span>
+    <span class="p">}],</span>
+    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">ctrls</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">fieldErrorsCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">withErrorsCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+      <span class="nx">withErrorsCtrl</span><span class="p">.</span><span class="nx">addControl</span><span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="k">for</span><span class="p">,</span> <span class="nx">fieldErrorsCtrl</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<h3 id="wiring-up-the-controller">Wiring up the controller</h3>
+
+<p>Now, our controller may pass additional errors to the <code>fielderrors</code> directive by calling the <code>setFormErrors</code> service.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;SignUpCtrl&#39;</span><span class="p">,</span> <span class="p">[</span>
+  <span class="s1">&#39;$scope&#39;</span><span class="p">,</span> <span class="s1">&#39;$q&#39;</span><span class="p">,</span> <span class="s1">&#39;setFormErrors&#39;</span><span class="p">,</span>
+  <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$q</span><span class="p">,</span> <span class="nx">setFormErrors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">serverErrors</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">serverErrors</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">signup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">fakeUserCreate</span><span class="p">(</span><span class="nx">user</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// Success</span>
+      <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Failed</span>
+        <span class="nx">setFormErrors</span><span class="p">({</span>
+          <span class="nx">formName</span><span class="o">:</span> <span class="s1">&#39;signUpForm&#39;</span><span class="p">,</span>
+          <span class="nx">fieldErrors</span><span class="o">:</span> <span class="nx">errors</span>
+        <span class="p">});</span>
+      <span class="p">});</span>
+    <span class="p">};</span>
+
+    <span class="kd">function</span> <span class="nx">fakeUserCreate</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">$q</span><span class="p">.</span><span class="nx">reject</span><span class="p">({</span><span class="nx">username</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;This username is taken&#39;</span><span class="p">]});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]);</span>
+</code></pre></div>
+
+<h3 id="try-it">Try it</h3>
+
+<iframe style="width: 100%; height: 430px; background-color: white; margin: 20px 0" sandbox="allow-same-origin allow-scripts" src="http://embed.plnkr.co/T9ebGlYTG8VAFU7vfduY/preview"></iframe>
+
+<h2 id="wrap-up">Wrap-up</h2>
+
+<p>In this post we went through a discovery process for a component in our application that we would like to generalize
+and reuse. We started with a high-level design and gathered the acceptance criteria for our component. From our
+acceptance criteria, we wrote our tests and finally implemented the component to satisfy those tests.</p>
+
+<p>In reality, there’s a lot of back and forth between design and implementation. This is the way it should be! What I am
+proposing is for developers to think top-level design first and implementation second.</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2014/02/20/angulardart-webcomponents-and-the-future" title="AngularDart, Web Components, and the Future">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2014/03/20/i18n-with-es6-template-strings" title="i18n with tagged template strings in ECMAScript 6">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2014/02/27/designing-angularjs-directives';
+    var disqus_url = 'http://jaysoo.ca/2014/02/27/designing-angularjs-directives';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>27 February 2014</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>25</span></a></li>
+     
+    	<li><a href="/tags.html#angular-ref">angular <span>6</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2014/02/27/designing-angularjs-directives&amp;text=Designing%20AngularJS%20Directives&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2015/03/30/container-component-pattern-in-angular-1">Container Component Pattern in Angular 1</a></li>
+      
+      <li><a href="/2015/03/13/avoiding-composability-issues-with-angular-1-directives">Avoiding Composability Issues With Angular 1 Directives</a></li>
+      
+      <li><a href="/2014/10/14/async-form-errors-and-messages-in-angularjs">Asynchronous form errors and messages in AngularJS</a></li>
+      
+      <li><a href="/2014/02/20/angulardart-webcomponents-and-the-future">AngularDart, Web Components, and the Future</a></li>
+      
+      <li><a href="/2014/01/20/semantic-angularjs-directives">Creating Semantic, Reusable Directives in AngularJS</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+

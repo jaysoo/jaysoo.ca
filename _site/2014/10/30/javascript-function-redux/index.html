@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>JavaScript Function Redux (+ ES6!) &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    JavaScript Function Redux (+ ES6!)
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>JavaScript functions can be confusing sometimes. There are many ways to define
+them and many ways to invoke them. Throw in <code>this</code>, and things really starts to
+get fun.</p>
+
+<p>In this post we will revisit plain-old functions in JavaScript. The different
+ways we can invoke them, and what <code>this</code> is within the body. We’ll go over the
+new <strong>arrow functions</strong> and their differences in behaviour from ordinary
+functions.</p>
+
+<p>At the end of this post we’ll cover some gotchas when using arrow functions.</p>
+
+<h2 id="revisiting-functions">Revisiting functions</h2>
+
+<p>Let’s review function declarations, how <code>this</code> can be affected by different
+invocation methods, and the <code>.bind()</code> method. </p>
+
+<p>If you are already familiar with these topics, feel free to jump to the <a href="#arrow-functions">ES6 arrow
+function section</a></p>
+
+<h3 id="function-definition">Function definition</h3>
+
+<p>In JavaScript, you can define a function through either a <strong>function declaration</strong>
+or a <strong>function expression</strong>.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{}</span> <span class="c1">// declaration</span>
+<span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span> <span class="c1">// expression and assignment</span>
+</code></pre></div>
+
+<p>For the purposes of this post, we won’t go over the differences between the two.
+(That can be a future topic)</p>
+
+<h3 id="what-is-this">What is this?</h3>
+
+<p>The <code>this</code> in a function depends on how it is defined, and how it is invoked.</p>
+
+<p>Take this function for example.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">f</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>You can call it in the following ways.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">f</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// window.a + b = undefined + 1 = NaN</span>
+<span class="nx">f</span><span class="p">.</span><span class="nx">apply</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">[</span><span class="mi">2</span><span class="p">]);</span> <span class="c1">// this.a + b = 1 + 2 = 3</span>
+<span class="nx">f</span><span class="p">.</span><span class="nx">call</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// this.a + b = 1 + 2 = 3</span>
+</code></pre></div>
+
+<p>If you use a direct function invocation <code>f(1)</code>, then <code>this</code> is either <strong>window</strong>
+or <strong>undefined</strong> (in strict mode).</p>
+
+<p>When <code>f.apply()</code> and <code>f.call()</code> are used, then <code>this</code> refers to the object passed
+as the first argument.</p>
+
+<h3 id="object-method">Object method</h3>
+
+<p>You can also use functions as object methods. In this case, <code>this</code> refers to
+the object instance.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">a</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">f</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span> <span class="p">}</span> <span class="p">};</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">f</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// this.a + 1 = 10 + 1 = 11</span>
+</code></pre></div>
+
+<p>Yet, <code>this</code> can still be changed using <code>.apply()</code> and <code>.call()</code>.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">obj</span><span class="p">.</span><span class="nx">f</span><span class="p">.</span><span class="nx">apply</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">[</span><span class="mi">2</span><span class="p">]);</span> <span class="c1">// 3</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">f</span><span class="p">.</span><span class="nx">call</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// 3</span>
+</code></pre></div>
+
+<h3 id="using-bind">Using .bind(…)</h3>
+
+<p>Another way we can change the <code>this</code> of a function is through <code>.bind(…)</code>, which
+returns a new function with the same body, but binds <code>this</code> to the new object.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">bind</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">100</span><span class="p">});</span>
+<span class="nx">g</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 101</span>
+</code></pre></div>
+
+<p>This <code>this</code> cannot be changed through <code>.apply()</code> and <code>.call()</code>.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">g</span><span class="p">.</span><span class="nx">apply</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">[</span><span class="mi">1</span><span class="p">]);</span> <span class="c1">// 101</span>
+<span class="nx">g</span><span class="p">.</span><span class="nx">call</span><span class="p">({</span><span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 101</span>
+</code></pre></div>
+
+<p>Nor through method call.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">g</span><span class="o">:</span> <span class="nx">g</span> <span class="p">};</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">g</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 101</span>
+</code></pre></div>
+
+<h2 id="arrow-functions">Arrow functions</h2>
+
+<p>ES6 introduces the new arrow function.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">x</span> <span class="p">};</span>
+<span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">;</span> <span class="c1">// same thing but shorter</span>
+</code></pre></div>
+
+<p>The interesting thing about arrow functions is that <code>this</code> is always bound to
+the context in which it was defined. This is useful when using it as callbacks
+when object methods.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kr">class</span> <span class="nx">TodosView</span> <span class="p">{</span>
+  <span class="nx">todos</span><span class="o">:</span> <span class="p">[],</span>
+  <span class="nx">initialize</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/todos.json&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">todos</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+    <span class="p">});</span>
+  <span class="p">},</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* Do something with this.todos */</span> <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>Because the success arrow function is declared in the scope of <code>initialize()</code>,
+it takes on the same <code>this</code>, which is of course the <code>TodosView</code> instance.</p>
+
+<p>If this were done with normal <code>function</code>, then <code>this</code> would have been something
+else (maybe <code>window</code> or <code>undefined</code>). Without the arrow function, we’d have to
+resort to this.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">initialize</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
+  <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/todos.json&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">self</span><span class="p">.</span><span class="nx">todos</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+    <span class="nx">self</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Or this.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nx">initialize</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/todos.json&#39;</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">todos</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+  <span class="p">}).</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="what-is-this-1">What is this?</h3>
+
+<p>Since <code>this</code> is always bound to the context in which the function is closed under,
+you can never rebind to anything else.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="nb">window</span><span class="p">.</span><span class="nx">who</span> <span class="o">=</span> <span class="s1">&#39;Bob&#39;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">h</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">who</span><span class="p">;</span>
+
+<span class="nx">h</span><span class="p">();</span> <span class="c1">// &#39;Bob&#39;</span>
+<span class="nx">h</span><span class="p">.</span><span class="nx">apply</span><span class="p">({</span><span class="nx">who</span><span class="o">:</span> <span class="s1">&#39;Alice&#39;</span><span class="p">});</span> <span class="c1">// &#39;Bob&#39;</span>
+<span class="nx">h</span><span class="p">.</span><span class="nx">call</span><span class="p">({</span><span class="nx">who</span><span class="o">:</span> <span class="s1">&#39;Fred&#39;</span><span class="p">});</span> <span class="c1">// &#39;Bob&#39;</span>
+<span class="nx">h</span><span class="p">.</span><span class="nx">bind</span><span class="p">({</span><span class="nx">who</span><span class="o">:</span> <span class="s1">&#39;Mary&#39;</span><span class="p">})();</span> <span class="c1">// &#39;Bob&#39;</span>
+
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">who</span><span class="o">:</span> <span class="s1">&#39;Sue&#39;</span><span class="p">,</span> <span class="nx">h</span> <span class="p">};</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">h</span><span class="p">();</span> <span class="c1">// &#39;Bob&#39;</span>
+</code></pre></div>
+
+<h3 id="never-use-arrow-functions-as-methods">Never use arrow functions as methods</h3>
+
+<p>A corollary of this binding property is that arrow functions should not be
+used as object methods. This is because <code>this</code> will not refer to the object
+instance as you would expect it to.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+
+  <span class="c1">// BAD</span>
+  <span class="nx">f</span><span class="o">:</span> <span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>Again, if you feel like using arrow functions as methods, <em>don’t</em>! Use 
+<strong>function short form</strong> instead.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">a</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+
+  <span class="c1">// GOOD</span>
+  <span class="nx">f</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h2 id="the-new-operator">The new operator</h2>
+
+<p>I left out one more way a function can be invoked: the <code>new</code> operator. The
+<code>this</code> in a constructor function is the newly created instance.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">F</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="s1">&#39;Hello!&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">new</span> <span class="nx">F</span><span class="p">().</span><span class="nx">greeting</span><span class="p">;</span> <span class="c1">// &#39;Hello!&#39;</span>
+</code></pre></div>
+
+<p>If you try the same with an arrow function, <code>this</code> is still whatever it was
+during declaration.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">G</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="s1">&#39;Hello!&#39;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">new</span> <span class="nx">G</span><span class="p">().</span><span class="nx">greeting</span><span class="p">;</span> <span class="c1">// undefined</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">greeting</span><span class="p">;</span> <span class="c1">// &#39;Hello!&#39;</span>
+</code></pre></div>
+
+<p>So if you feel inclined to new an arrow function for some reason, <em>don’t</em>! Use
+normal functions or classes instead.</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">function</span> <span class="nx">G</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="s1">&#39;Hello&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">G</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">greeting</span> <span class="o">=</span> <span class="s1">&#39;Hello&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="to-sum-it-up">To sum it up</h2>
+
+<p>There are many ways to define and use functions in JavaScript. With ES6 we have
+even more options open to us. It’s important to know what to use in specific
+situations, and why. And remember, <strong>never</strong> use arrow functions  as object
+methods!</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2014/10/14/async-form-errors-and-messages-in-angularjs" title="Asynchronous form errors and messages in AngularJS">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/02/06/what-the-flux" title="What the Flux? (On Flux, DDD, and CQRS)">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2014/10/30/javascript-function-redux';
+    var disqus_url = 'http://jaysoo.ca/2014/10/30/javascript-function-redux';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>30 October 2014</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>25</span></a></li>
+     
+    	<li><a href="/tags.html#es6-ref">es6 <span>2</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2014/10/30/javascript-function-redux&amp;text=JavaScript%20Function%20Redux%20(+%20ES6!)&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2014/03/20/i18n-with-es6-template-strings">i18n with tagged template strings in ECMAScript 6</a></li>
+      
+      <li><a href="/2015/03/30/container-component-pattern-in-angular-1">Container Component Pattern in Angular 1</a></li>
+      
+      <li><a href="/2015/03/13/avoiding-composability-issues-with-angular-1-directives">Avoiding Composability Issues With Angular 1 Directives</a></li>
+      
+      <li><a href="/2015/03/09/on-flux-stores-and-actions">On Flux Stores and Actions</a></li>
+      
+      <li><a href="/2015/02/06/what-the-flux">What the Flux? (On Flux, DDD, and CQRS)</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+

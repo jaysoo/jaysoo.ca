@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Added Search to Website &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Added Search to Website
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>I added searching capabilities to this static website. 
+I don’t think any website is useful these days without some basic search functionality.</p>
+
+<p>I created a Jekyll plugin that will go through the posts and pages, and index them in <a href="http://elasticsearch.org/">elasticsearch</a>.
+You can find the source code for the <a href="https://github.com/jaysoo/jaysoo.ca/blob/master/_plugins/indexer.rb">indexer plugin</a>
+ on my GitHub account. Right now it indexes all of the documents (posts and pages) each time the website is generated – the whole 
+process is about 7 seconds each. </p>
+
+<p>I will eventually have to check the last modified date on the document files, and only
+index the ones that are either <strong>1)</strong> new or <strong>2)</strong> have been modified since last indexed.</p>
+
+<p>BTW, my elasticsearch index settings (including mapping) can be viewed <a href="https://github.com/jaysoo/jaysoo.ca/blob/master/_data/jaysoo.json">here</a> 
+– this is for the <strong>jaysoo</strong> index, with only one type (<strong>page</strong>).</p>
+
+<p>I implemented a simple search service using <a href="http://nodejs.org">node.js</a>, which will perform faceted queries 
+against elasticsearch. The results are returned in JSON format (unchanged from elasticsearc’s response).
+You can view my node.js server code by view the <a href="https://gist.github.com/1727561">Gist</a></p>
+
+<p>On the front-end, I am using <a href="http://documentcloud.github.com/visualsearch/">visualsearch.js</a>, which is
+an excellent library from <a href="http://www.documentcloud.org/">DocumentCloud</a> (same company 
+that made <a href="http://documentcloud.github.com/backbone/">Backbone.js</a> and 
+<a href="http://documentcloud.github.com/underscore/">Underscore.js</a>). It provide the ability to do faceted 
+searches from a sinle search box.</p>
+
+<p>The result is a JavaScript driven (both front-end and backend) <a href="http://jaysoo.ca/search.html">search page</a>.
+Unfortunately, the search page will not work unless you have JavaScript enabled. I think that’s okay, 
+at least for the time being.</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2012/02/01/migrated-to-jekyll" title="Migrated to Jekyll">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2012/02/10/cascading-output-csv-with-header" title="Cascading: Include header in the output for text-delimited files">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2012/02/02/added-search-to-website';
+    var disqus_url = 'http://jaysoo.ca/2012/02/02/added-search-to-website';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>02 February 2012</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#search-ref">search <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>25</span></a></li>
+     
+    	<li><a href="/tags.html#elasticsearch-ref">elasticsearch <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#facet-ref">facet <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#search-ref">search <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#nodejs-ref">nodejs <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#ruby-ref">ruby <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2012/02/02/added-search-to-website&amp;text=Added%20Search%20to%20Website&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2009/03/30/the-language-of-hackers">The Language Of Hackers</a></li>
+      
+      <li><a href="/2009/03/12/programming-language-trends-java-cobol">Programming Language Trends (Java==Cobol?)</a></li>
+      
+      <li><a href="/2015/03/30/container-component-pattern-in-angular-1">Container Component Pattern in Angular 1</a></li>
+      
+      <li><a href="/2015/03/13/avoiding-composability-issues-with-angular-1-directives">Avoiding Composability Issues With Angular 1 Directives</a></li>
+      
+      <li><a href="/2015/03/09/on-flux-stores-and-actions">On Flux Stores and Actions</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+
