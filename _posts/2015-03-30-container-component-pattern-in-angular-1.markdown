@@ -1,0 +1,301 @@
+---
+created_at: 2015-03-30 00:01Z
+layout: post
+title: Container Component Pattern in Angular 1
+tags: [javascript, angular]
+---
+
+In this post, I want to explore different approaches to writing directives in
+Angular 1. As we know, building applications in Angular 2 is going to be
+different from what we're used to in Angular 1. For example, `ng-controller` will
+be gone, and components will be the building blocks of applications.
+
+What exactly is a component? It is essentially a thing that encapsulates an
+internal state and manages external interactions. The interactions could be with
+the user or with other components.
+
+Since I've been working heavily with [React](https://facebook.github.io/react/index.html)
+recently, I want to see how we can borrow some ideas from there and apply them
+to Angular 1 directives.
+
+In particular, I want to explore the idea of **[Container Components](https://www.youtube.com/watch?v=KYzlpRvWZ6c&t=1351)**
+in Angular 1.
+
+### Before We Begin...
+
+All code examples will be written in ES6. If you are not familiar with ES6 yet,
+I strongly encourage you to [learn it now](http://www.2ality.com/2014/08/es6-today.html).
+
+I will be writing directives in the following pattern. Please read the comments
+for reasoning.
+
+{% assign hello_msg = '{{ctrl.message}}' %}
+{% highlight javascript %}
+m.directive('hello', () => ({
+  // Always isolate scope to better encapsulate internal state.
+  // Also serves as documentation for what the directive accepts.
+  scope: {
+    message: '=' // <hello message="'world'"></hello>
+  },
+
+  // Inline template for locality. Keeping template close to controller
+  // makes code easier to reason about.
+  template: `
+    <p>Hello {{hello_msg}}!</p>
+  `,
+
+  // Always declare a controller class. Having a controller
+  // class also us to test it in isolation if needed.
+  // Even if there are no methods on the class, Angular still
+  // requires it to be defined in order to bind properties to it.
+  controller: class {
+    constructor() {}
+  },
+
+  // Set properties on controller instance instead of the scope.
+  // Internal state of the directive should be captured entirely by the
+  // controller instance. This reduces the amount of objects we have to
+  // deal with.
+  bindToController: true,
+
+  // Standardize the controller instance property on the scope. This should
+  // be the only property you access on the scope (only because we have to).
+  // Since we are using isolate scope, there are no clashes with other
+  // controller instances.
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+So without further ado, let's begin.
+
+## The Container Component
+
+The idea is simple. A *container* is responsible for data fetching and passing data
+down to its child components to render. The *UI components* are concerned with
+rendering the UI based on the data passed down. They can also handle UI interactions.
+
+![](/images/container-components.svg)
+
+Notice that services only interact with containers and never UI components.
+
+*Why* is this pattern useful? Separation of concerns of course!
+
+## A Concrete Example
+
+Say, we have the following component.
+
+{% assign user_name = '{{ctrl.user.name}}' %}
+
+{% highlight javascript %}
+m.directive('userGreeting', () => ({
+  template: '<p>Hello {{ user_name }}</p>',
+  controller: class {
+    constructor(userService) {
+      // Get user from remote source, then update state.
+      userService.get().then((user) => this.user = user);
+    }
+  },
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+This code definitely works. But what if we want to reuse the component using different
+services, or no service at all? Dependency injection in Angular helps,
+but they are not always necessary nor the best solution.
+
+We can instead separate the data fetching concern with the rendering concern.
+
+{% highlight javascript %}
+// 1. The container component that talks to userService.
+m.directive('userGreeting', () => ({
+  template: '<user-greeting-message user="ctrl.user"></user-gretting-message>',
+  controller: class {
+    constructor(userService) {
+      this.userService = userService;
+
+      // Data fetching, same as before.
+      this.userService.get().then((user) => this.user = user);
+    }
+  },
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+
+// 2. The UI component that renders UI based on the user data passed into it.
+m.directive('userGreetingMessage', () => ({
+  scope: {
+    user: '='
+  },
+  template: '<p>Hello {{ user_name }}</p>',
+  controller: class {},
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+What happened here? Well, we definitely introduced more code. The main benefit
+here though is that we can easily test the message rendering without having
+to provide test doubles.
+
+{% highlight javascript %}
+describe('userGreetingMessage', () => {
+  it('greets user', () => {
+    const scope = $rootScope.$new();
+    const element = $compile(
+      '<user-greeting-message user="user"></user-greeting-message>'
+    )(scope);
+
+    scope.user = {name: 'Bob'};
+    scope.$apply();
+
+    expect(element.html()).to.match(/Hello Bob/);
+  });
+});
+{% endhighlight %}
+
+The other advantage of this approach is that we can plug the UI component into
+other containers. As long as the container passes data through the `user`
+attribute to `userGreetingMessage` then everything will just work!
+
+## Interaction with data services
+
+Certain interactions with the UI should affect application data. Form submissions
+may require new resources to be created.
+
+A UI component can accept *callbacks* that will be invoked when certain events
+happen. In Angular, this is done with the `&` attribute on an isolate scope.
+The container component can pass its handlers to child components as callbacks,
+but interaction with data services still reside in the container.
+
+Let's say we want to add a feature for users to double-click on their name in the
+greeting to edit it. When a double-click event occurs, the name is replaced
+with an input box where the user can type in a new name and hit Enter to save.
+
+The editable name component is as follows.
+
+{% highlight javascript %}
+m.directive('editableUserName', () => ({
+  scope: {
+    user: '=',
+    saveCallback: '&onSave' // Rename the onSave attribute for clarity.
+  },
+  template: `
+    <div>
+      <span ng-dblclick="ctrl.edit()" ng-show="!ctrl.isEditing()">
+        {{ user_name }}
+      </span>
+      <form ng-submit="ctrl.saveUser()">
+        <input ng-show="ctrl.isEditing()"
+               ng-model="ctrl.userForm.name" 
+               ng-blur="ctrl.reset()" />
+      </form>
+    </div>
+  `,
+  controller: class {
+    edit() {
+      // Set a temporary form object for editing.
+      this.userForm = Object.assign({}, this.user);
+    }
+
+    reset() {
+      this.userForm = null;
+    }
+
+    isEditing() {
+      return !!this.userForm;
+    }
+
+    saveUser() {
+      // Invoke callback from container.
+      this.saveCallback({user: this.user});
+      this.reset();
+    }
+  },
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+Now, in the `userGreetingMessage` directive, we replace the user name
+with the new UI directive. We also need to chain the `onSave` callback
+from container to the child `editableUserName` directive.
+
+{% highlight javascript %}
+m.directive('userGreetingMessage', () => ({
+  scope: {
+    user: '=',
+    saveCallback '&onSave' // NEW: Take in onSave callback from container.
+  },
+  // NEW: Pass user data and onSave callback to child component.
+  template: `
+    <p>
+      Hello
+      <editable-user-name
+        user="ctrl.user"
+        on-save="ctrl.handleSave(user)">
+      </editable-user-name>
+    </p>
+  `,
+  controller: class {
+    // NEW: Chain the callback from child to container component.
+    handleSave(user) {
+      this.saveCallback({user: user});
+    }
+  },
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+And finally, we pass the callback from the container, which handles actual
+service invocation.
+
+{% highlight javascript %}
+m.directive('userGreeting', () => ({
+  // NEW: Pass the onSave callback.
+  template: `
+    <user-greeting-message 
+      user="ctrl.user"
+      on-save="ctrl.handleSave(user)">
+    </user-gretting-message>
+  `,
+  controller: class {
+    constructor(userService) {
+      this.userService = userService;
+      this.userService.get().then((user) => this.user = user);
+    }
+
+    // NEW: Save handler that calls service then updates state.
+    handleSave(user) {
+      userService.save(user).then((u) => this.user = u);
+    }
+  },
+  bindToController: true,
+  controllerAs: 'ctrl'
+}));
+{% endhighlight %}
+
+<div class="alert alert-info">
+  <p><strong>Note:</strong> The <code>editableUserName</code> component never modifies
+  its own state directly (e.g. set <code>this.user</code>). Instead, when the
+  <code>userGreeting.handleSave()</code> method is resolved, the container component updates
+  its own state. And since it passes the <code>user</code> object to UI components,
+  the UI components will get the updated object automatically.</p>
+</div>
+
+Phew, we're done! Below you will find the finished product.
+
+{% plunker src:Htwcx8ff2GuBOk3vLMGT height:110px %}
+
+Feel free to [fork it](http://plnkr.co/edit/Htwcx8ff2GuBOk3vLMGT) and play around
+with it yourself.
+
+## Summary
+
+- We can group directives into two types: **container** and **UI** components.
+- Containers handle interactions with data services, and pass data to UI components.
+- UI components render data passed in from the container. They should not mutate this data.
+- Containers can pass handlers, that interact with data services, as callbacks to UI components.
+
+
