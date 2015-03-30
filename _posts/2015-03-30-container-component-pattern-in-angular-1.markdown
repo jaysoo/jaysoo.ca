@@ -5,7 +5,7 @@ title: Container Component Pattern in Angular 1
 tags: [javascript, angular]
 ---
 
-In this post, I want to explore different approaches to writing directives in
+In this post, I want to explore a different approach to writing directives in
 Angular 1. As we know, building applications in Angular 2 is going to be
 different from what we're used to in Angular 1. For example, `ng-controller` will
 be gone, and components will be the building blocks of applications.
