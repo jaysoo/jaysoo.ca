@@ -2,6 +2,7 @@
 created_at: 2015-03-13 00:23Z
 layout: post
 title: Avoiding Composability Issues With Angular 1 Directives
+old-slug: /2015/03/13/different-approach-to-angular-directives
 tags: [javascript, angular]
 ---
 
@@ -34,7 +35,7 @@ m.directive('greenIf', () => ({
 m.directive('redIf', () => ({
   restrict: 'A',
   link(scope, element, attrs) {
-    scope.$watch(attrs.greenIf, (value) => {
+    scope.$watch(attrs.redIf, (value) => {
       if (value) {
         element.css('color', 'red');
       }
@@ -51,7 +52,7 @@ Now if I add them to the same element like so, what result do I expect?
 </div>
 {% endhighlight %}
 
-The answer is actually *green* because it comes before red when sorting alphabetically.
+The answer is actually *green* because it comes after red when sorting alphabetically, so its link function is invoked last.
 In this case, both directives have the default priority of `0`, so according to the
 official docs, their ordering is undefined. However, looking at the [source code](https://github.com/angular/angular.js/blob/41fdb3d5367a7e439822ebd7fc4a473b3a89feaa/src/ng/compile.js#L2266)
 shows us that they are indeed sorted alphabetically. Just don't count on this
