@@ -350,10 +350,10 @@ service invocation.</p>
 <div class="highlight"><pre><code class="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;userGreetingContainer&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
   <span class="c1">// NEW: Pass the onSave callback.</span>
   <span class="nx">template</span><span class="o">:</span> <span class="err">`</span>
-    <span class="o">&lt;</span><span class="nx">user</span><span class="o">-</span><span class="nx">greeting</span><span class="o">-</span><span class="nx">message</span> 
+    <span class="o">&lt;</span><span class="nx">user</span><span class="o">-</span><span class="nx">greeting</span> 
       <span class="nx">user</span><span class="o">=</span><span class="s2">&quot;ctrl.user&quot;</span>
       <span class="nx">on</span><span class="o">-</span><span class="nx">save</span><span class="o">=</span><span class="s2">&quot;ctrl.handleSave(user)&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="err">/user-gretting-message&gt;</span>
+    <span class="o">&lt;</span><span class="err">/user-greeting&gt;</span>
   <span class="err">`</span><span class="p">,</span>
   <span class="nx">controller</span><span class="o">:</span> <span class="kr">class</span> <span class="p">{</span>
     <span class="nx">constructor</span><span class="p">(</span><span class="nx">userService</span><span class="p">)</span> <span class="p">{</span>

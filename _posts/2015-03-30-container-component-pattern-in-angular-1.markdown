@@ -256,10 +256,10 @@ service invocation.
 m.directive('userGreetingContainer', () => ({
   // NEW: Pass the onSave callback.
   template: `
-    <user-greeting-message 
+    <user-greeting 
       user="ctrl.user"
       on-save="ctrl.handleSave(user)">
-    </user-gretting-message>
+    </user-greeting>
   `,
   controller: class {
     constructor(userService) {
