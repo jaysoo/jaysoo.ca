@@ -209,7 +209,7 @@ m.directive('editableUserName', () => ({
 
     saveUser() {
       // Invoke callback from container.
-      this.saveCallback({user: this.user});
+      this.saveCallback({user: this.userForm});
       this.reset();
     }
   },
