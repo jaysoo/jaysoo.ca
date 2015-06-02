@@ -1,0 +1,22 @@
+<button id="btn">Click</button>
+<p id="msg"></p>
+<script>
+  var msg = document.getElementById('msg');
+  var btn = document.getElementById('btn');
+  var count = 0;
+  
+  btn.addEventListener('click', function () {
+	  incCount();
+	  render();
+  });
+  
+  function render() {
+    msg.innerHTML = 'Clicked ' + count + ' times';
+  }
+  
+  function incCount() {
+    count++;
+  }
+  
+  render();
+</script>

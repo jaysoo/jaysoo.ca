@@ -141,7 +141,7 @@ necessary to carry it out.
   need to be executed (e.g. <code>AddItemToCart</code>).
 </div>
 
-### 7. Command Handler
+### Command Handler
 
 The submission of a Command is received by a *Command Handler*, which usually
 fetches an Command Model from its Repository, and executes a Command
