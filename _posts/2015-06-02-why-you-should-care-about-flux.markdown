@@ -78,7 +78,7 @@ The implications are that if we have a rendering problem, then we only need to c
 
 If we have a user interaction bug, then we only need to check.
 
-1. That our component is passing the correct data to its callback.
+1. That our component is passing the correct data to its callbacks.
 2. That the Action (or ActionCreator) handles the data correctly.
 
 ### Up to Eleven

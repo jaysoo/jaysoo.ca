@@ -86,7 +86,7 @@ updates, or potentially something may cause the store to not update. We don’t 
 &lt;p&gt;If we have a user interaction bug, then we only need to check.&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;That our component is passing the correct data to its callback.&lt;/li&gt;
+  &lt;li&gt;That our component is passing the correct data to its callbacks.&lt;/li&gt;
   &lt;li&gt;That the Action (or ActionCreator) handles the data correctly.&lt;/li&gt;
 &lt;/ol&gt;
 
