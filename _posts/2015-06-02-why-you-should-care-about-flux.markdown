@@ -137,7 +137,7 @@ means yet another thing we have to keep in our head when trying to reason about 
 Recall from our previous container example that we pushed component state onto the container. The container gets its state
 from Stores, which are the sources of truth within Flux.
 
-Practically, this means that all of our *complicated state mutations* only happen within Stores.
+Practically, this means that all of our *complex state mutations* only happen within Stores.
 
 There are some local states kept within containers, however these should only reflect what are inside Stores.
 
