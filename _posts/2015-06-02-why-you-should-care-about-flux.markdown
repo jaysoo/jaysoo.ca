@@ -65,8 +65,8 @@ class TopNavUserLink extends React.Component {
 }
 {% endhighlight %}
 
-This example shows that rendering is only affected by the `UserStore`. And signing out simply means calling `UserActons.signOut`
-We don't need to directly mutate the state of the component after signing out. The state will eventually be updated when `UserStore`
+This example shows that rendering is only affected by the `UserStore`. And signing out simply means calling `UserActons.signOut`.
+We don't directly mutate the state of the component after signing out. The state will eventually be updated when `UserStore`
 updates, or potentially something may cause the store to not update. We don't care!
 
 ### Implications
@@ -235,9 +235,13 @@ class UserStore extends EventEmitter {
 
 ## Wrap-up
 
-In this post, we saw how adopting Flux can simplify our application by:
+In this post, we saw how adopting Flux can simplify our application.
 
-1. Separating reading from writing in our components.
-2. Pushing mutable states to the Stores.
+Firstly, by separating reading from writing, we make our application much easier to reason about. For any rendering issue,
+we only need to check Store logic and component rendering logic. For any interaction bugs, we only need to check our component
+handlers and Action logic.
 
-What are you experiences with Flux? Please share in the comments.
+Secondly, by pushing state further up to the Stores, we decrease the amount of mutable state we need to keep track of within our
+application.
+
+Have you tried Flux? What are your thoughts?

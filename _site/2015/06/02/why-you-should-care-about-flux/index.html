@@ -171,8 +171,8 @@ are mapped to the corresponding Actions. The two responsibilities do not directl
 <span class="p">}</span>
 </code></pre></div>
 
-<p>This example shows that rendering is only affected by the <code>UserStore</code>. And signing out simply means calling <code>UserActons.signOut</code>
-We don’t need to directly mutate the state of the component after signing out. The state will eventually be updated when <code>UserStore</code>
+<p>This example shows that rendering is only affected by the <code>UserStore</code>. And signing out simply means calling <code>UserActons.signOut</code>.
+We don’t directly mutate the state of the component after signing out. The state will eventually be updated when <code>UserStore</code>
 updates, or potentially something may cause the store to not update. We don’t care!</p>
 
 <h3 id="implications">Implications</h3>
@@ -337,14 +337,16 @@ you’ll have to share the squaring logic amongst all the components, and make s
 
 <h2 id="wrap-up">Wrap-up</h2>
 
-<p>In this post, we saw how adopting Flux can simplify our application by:</p>
+<p>In this post, we saw how adopting Flux can simplify our application.</p>
 
-<ol>
-  <li>Separating reading from writing in our components.</li>
-  <li>Pushing mutable states to the Stores.</li>
-</ol>
+<p>Firstly, by separating reading from writing, we make our application much easier to reason about. For any rendering issue,
+we only need to check Store logic and component rendering logic. For any interaction bugs, we only need to check our component
+handlers and Action logic.</p>
 
-<p>What are you experiences with Flux? Please share in the comments.</p>
+<p>Secondly, by pushing state further up to the Stores, we decrease the amount of mutable state we need to keep track of within our
+application.</p>
+
+<p>Have you tried Flux? What are your thoughts?</p>
 
     </div>
     <hr>

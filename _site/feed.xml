@@ -70,8 +70,8 @@ are mapped to the corresponding Actions. The two responsibilities do not directl
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This example shows that rendering is only affected by the &lt;code&gt;UserStore&lt;/code&gt;. And signing out simply means calling &lt;code&gt;UserActons.signOut&lt;/code&gt;
-We don’t need to directly mutate the state of the component after signing out. The state will eventually be updated when &lt;code&gt;UserStore&lt;/code&gt;
+&lt;p&gt;This example shows that rendering is only affected by the &lt;code&gt;UserStore&lt;/code&gt;. And signing out simply means calling &lt;code&gt;UserActons.signOut&lt;/code&gt;.
+We don’t directly mutate the state of the component after signing out. The state will eventually be updated when &lt;code&gt;UserStore&lt;/code&gt;
 updates, or potentially something may cause the store to not update. We don’t care!&lt;/p&gt;
 
 &lt;h3 id=&quot;implications&quot;&gt;Implications&lt;/h3&gt;
@@ -236,14 +236,16 @@ you’ll have to share the squaring logic amongst all the components, and make s
 
 &lt;h2 id=&quot;wrap-up&quot;&gt;Wrap-up&lt;/h2&gt;
 
-&lt;p&gt;In this post, we saw how adopting Flux can simplify our application by:&lt;/p&gt;
+&lt;p&gt;In this post, we saw how adopting Flux can simplify our application.&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Separating reading from writing in our components.&lt;/li&gt;
-  &lt;li&gt;Pushing mutable states to the Stores.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;Firstly, by separating reading from writing, we make our application much easier to reason about. For any rendering issue,
+we only need to check Store logic and component rendering logic. For any interaction bugs, we only need to check our component
+handlers and Action logic.&lt;/p&gt;
 
-&lt;p&gt;What are you experiences with Flux? Please share in the comments.&lt;/p&gt;
+&lt;p&gt;Secondly, by pushing state further up to the Stores, we decrease the amount of mutable state we need to keep track of within our
+application.&lt;/p&gt;
+
+&lt;p&gt;Have you tried Flux? What are your thoughts?&lt;/p&gt;
 </description>
 				<pubDate>Tue, 02 Jun 2015 00:00:00 -0400</pubDate>
 				<link>http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux</link>
