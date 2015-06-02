@@ -74,7 +74,7 @@ updates, or potentially something may cause the store to not update. We don't ca
 The implications are that if we have a rendering problem, then we only need to check two things:
 
 1. That our component's `render()` method is correct based on what it gets from the Store.
-2. That the Store is updating correctly based on Actions created. e.g Store projects Actions to the correct state.
+2. That the Store is updating correctly based on Actions dispatched. e.g Store projects Actions to the correct state.
 
 If we have a user interaction bug, then we only need to check.
 
