@@ -144,7 +144,7 @@ means yet another thing we have to keep in our head when trying to reason about 
 &lt;p&gt;Recall from our previous container example that we pushed component state onto the container. The container gets its state
 from Stores, which are the sources of truth within Flux.&lt;/p&gt;
 
-&lt;p&gt;Practically, this means that all of our &lt;em&gt;complicated state mutations&lt;/em&gt; only happen within Stores.&lt;/p&gt;
+&lt;p&gt;Practically, this means that all of our &lt;em&gt;complex state mutations&lt;/em&gt; only happen within Stores.&lt;/p&gt;
 
 &lt;p&gt;There are some local states kept within containers, however these should only reflect what are inside Stores.&lt;/p&gt;
 

@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-02T00:46:44-04:00</updated>
+ <updated>2015-06-02T08:01:21-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -153,7 +153,7 @@ means yet another thing we have to keep in our head when trying to reason about 
 &lt;p&gt;Recall from our previous container example that we pushed component state onto the container. The container gets its state
 from Stores, which are the sources of truth within Flux.&lt;/p&gt;
 
-&lt;p&gt;Practically, this means that all of our &lt;em&gt;complicated state mutations&lt;/em&gt; only happen within Stores.&lt;/p&gt;
+&lt;p&gt;Practically, this means that all of our &lt;em&gt;complex state mutations&lt;/em&gt; only happen within Stores.&lt;/p&gt;
 
 &lt;p&gt;There are some local states kept within containers, however these should only reflect what are inside Stores.&lt;/p&gt;
 
