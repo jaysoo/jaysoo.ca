@@ -232,12 +232,12 @@ updates, or potentially something may cause the store to not update. We don’t 
 <span class="p">}</span>
 </code></pre></div>
 
-<p>You may have noticed that our render function is more of less a referentially transparent function. That is, it maps some
+<p>You may have noticed that our render function is more or less a referentially transparent function. That is, it maps some
 data to HTML. If we call the render with the same data, we will always get the same result. This is a very nice property!</p>
 
-<h2 id="eliminating-local-states">Eliminating Local States</h2>
+<p>As a bonus, we have also made our component much easier to test because we don’t have to account for state mutations.</p>
 
-<p>It has taken me a long time to realize that local states are harmful.</p>
+<h2 id="eliminating-local-states">Eliminating Local States</h2>
 
 <p>Having local states littered across multiple components can quickly get out of hand. Each mutable state
 means yet another thing we have to keep in our head when trying to reason about our application.</p>
@@ -297,11 +297,12 @@ that should be in a store.</p>
 <p>This refactoring is important because other containers that depend on the same data should be reading it from the store. Otherwise,
 you’ll have to share the squaring logic amongst all the components, and make sure they all maintain the correct local state.</p>
 
-<p>By pushing state further and further up, we simplify our application by decreasing the amount mutable states we have to keep track of.</p>
+<p>By pushing state further and further up, we simplify our application by decreasing the amount mutable states we have to keep track of.
+Moreover, our business logic is pushed to a smaller number of objects – Stores as opposed to containers/components.</p>
 
 <h3 id="up-to-eleven-1">Up to Eleven</h3>
 
-<p>Even though we pushed the state up to Stores, a badly implemented component can still mutate the Store – perhaps unintentionally.</p>
+<p>Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade– perhaps unintentionally.</p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">class</span> <span class="nx">UserContainer</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
   <span class="c1">// ...</span>
@@ -313,7 +314,8 @@ you’ll have to share the squaring logic amongst all the components, and make s
     <span class="c1">// by reference from Store state.</span>
     <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
    
-    <span class="c1">// Even if this fails, the store&#39;s user name may have been updated already!</span>
+    <span class="c1">// Even if this fails, the store&#39;s user name may have been updated already.</span>
+    <span class="c1">// Oops, now our application may be in a bad state!</span>
     <span class="nx">UserActions</span><span class="p">.</span><span class="nx">updateUser</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>

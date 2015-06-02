@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-02T00:28:12-04:00</updated>
+ <updated>2015-06-02T00:36:58-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -140,12 +140,12 @@ updates, or potentially something may cause the store to not update. We don’t 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You may have noticed that our render function is more of less a referentially transparent function. That is, it maps some
+&lt;p&gt;You may have noticed that our render function is more or less a referentially transparent function. That is, it maps some
 data to HTML. If we call the render with the same data, we will always get the same result. This is a very nice property!&lt;/p&gt;
 
-&lt;h2 id=&quot;eliminating-local-states&quot;&gt;Eliminating Local States&lt;/h2&gt;
+&lt;p&gt;As a bonus, we have also made our component much easier to test because we don’t have to account for state mutations.&lt;/p&gt;
 
-&lt;p&gt;It has taken me a long time to realize that local states are harmful.&lt;/p&gt;
+&lt;h2 id=&quot;eliminating-local-states&quot;&gt;Eliminating Local States&lt;/h2&gt;
 
 &lt;p&gt;Having local states littered across multiple components can quickly get out of hand. Each mutable state
 means yet another thing we have to keep in our head when trying to reason about our application.&lt;/p&gt;
@@ -205,11 +205,12 @@ that should be in a store.&lt;/p&gt;
 &lt;p&gt;This refactoring is important because other containers that depend on the same data should be reading it from the store. Otherwise,
 you’ll have to share the squaring logic amongst all the components, and make sure they all maintain the correct local state.&lt;/p&gt;
 
-&lt;p&gt;By pushing state further and further up, we simplify our application by decreasing the amount mutable states we have to keep track of.&lt;/p&gt;
+&lt;p&gt;By pushing state further and further up, we simplify our application by decreasing the amount mutable states we have to keep track of.
+Moreover, our business logic is pushed to a smaller number of objects – Stores as opposed to containers/components.&lt;/p&gt;
 
 &lt;h3 id=&quot;up-to-eleven-1&quot;&gt;Up to Eleven&lt;/h3&gt;
 
-&lt;p&gt;Even though we pushed the state up to Stores, a badly implemented component can still mutate the Store – perhaps unintentionally.&lt;/p&gt;
+&lt;p&gt;Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade– perhaps unintentionally.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;UserContainer&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
@@ -221,7 +222,8 @@ you’ll have to share the squaring logic amongst all the components, and make s
     &lt;span class=&quot;c1&quot;&gt;// by reference from Store state.&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;evt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
    
-    &lt;span class=&quot;c1&quot;&gt;// Even if this fails, the store&amp;#39;s user name may have been updated already!&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Even if this fails, the store&amp;#39;s user name may have been updated already.&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Oops, now our application may be in a bad state!&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;UserActions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;updateUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;

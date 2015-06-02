@@ -123,13 +123,13 @@ class TopNavUserLink extends React.Component {
 }
 {% endhighlight %}
 
-You may have noticed that our render function is more of less a referentially transparent function. That is, it maps some
+You may have noticed that our render function is more or less a referentially transparent function. That is, it maps some
 data to HTML. If we call the render with the same data, we will always get the same result. This is a very nice property!
+
+As a bonus, we have also made our component much easier to test because we don't have to account for state mutations.
 
 
 ## Eliminating Local States
-
-It has taken me a long time to realize that local states are harmful.
 
 Having local states littered across multiple components can quickly get out of hand. Each mutable state
 means yet another thing we have to keep in our head when trying to reason about our application.
@@ -192,11 +192,12 @@ This refactoring is important because other containers that depend on the same d
 you'll have to share the squaring logic amongst all the components, and make sure they all maintain the correct local state.
 
 By pushing state further and further up, we simplify our application by decreasing the amount mutable states we have to keep track of.
+Moreover, our business logic is pushed to a smaller number of objects -- Stores as opposed to containers/components.
 
 
 ### Up to Eleven
 
-Even though we pushed the state up to Stores, a badly implemented component can still mutate the Store -- perhaps unintentionally.
+Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade-- perhaps unintentionally.
 
 {% highlight js %}
 class UserContainer extends React.Component {
@@ -209,7 +210,8 @@ class UserContainer extends React.Component {
     // by reference from Store state.
     data.name = evt.target.value;
    
-    // Even if this fails, the store's user name may have been updated already!
+    // Even if this fails, the store's user name may have been updated already.
+    // Oops, now our application may be in a bad state!
     UserActions.updateUser(data);
   }
 }
