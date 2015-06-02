@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-02T00:44:09-04:00</updated>
+ <updated>2015-06-02T00:46:44-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -210,7 +210,7 @@ Moreover, our business logic is pushed to a smaller number of objects – Stores
 
 &lt;h3 id=&quot;up-to-eleven-1&quot;&gt;Up to Eleven&lt;/h3&gt;
 
-&lt;p&gt;Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade– perhaps unintentionally.&lt;/p&gt;
+&lt;p&gt;Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade – perhaps unintentionally.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;UserContainer&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;

@@ -197,7 +197,7 @@ Moreover, our business logic is pushed to a smaller number of objects -- Stores 
 
 ### Up to Eleven
 
-Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade-- perhaps unintentionally.
+Even though we pushed the state up to Stores, a badly implemented container/component can still rain on our parade -- perhaps unintentionally.
 
 {% highlight js %}
 class UserContainer extends React.Component {
