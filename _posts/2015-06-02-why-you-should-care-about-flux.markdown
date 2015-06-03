@@ -24,8 +24,8 @@ We are all humans, which means we have limited mental capacity. This is why we b
 smallers modules from bigger ones.
 
 In Rich Hickey's talk, [Simplicity Matters](https://www.youtube.com/watch?v=rI8tNMsozo0), he talks about how making things
-easy means bringing it near to our capabilities. In this sense, we *need* to break problems down to the size that will
-fit into our heads.
+easy means bringing it near to our capabilities. In this sense, we *need* to break problems down to a size that can
+fit in our heads.
 
 In Flux, we can partition the functions of a component into two distinct groups:
 

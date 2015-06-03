@@ -28,8 +28,8 @@ to frontend architecture has had a significant impact on developers, myself incl
 smallers modules from bigger ones.&lt;/p&gt;
 
 &lt;p&gt;In Rich Hickey’s talk, &lt;a href=&quot;https://www.youtube.com/watch?v=rI8tNMsozo0&quot;&gt;Simplicity Matters&lt;/a&gt;, he talks about how making things
-easy means bringing it near to our capabilities. In this sense, we &lt;em&gt;need&lt;/em&gt; to break problems down to the size that will
-fit into our heads.&lt;/p&gt;
+easy means bringing it near to our capabilities. In this sense, we &lt;em&gt;need&lt;/em&gt; to break problems down to a size that can
+fit in our heads.&lt;/p&gt;
 
 &lt;p&gt;In Flux, we can partition the functions of a component into two distinct groups:&lt;/p&gt;
 
