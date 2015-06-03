@@ -12,7 +12,7 @@ to frontend architecture has had a significant impact on developers, myself incl
 
 So why should *you* care about Flux?
 
-The benefit of Flux is that it makes your code much easier to reason about. It does this by:
+The benefit of Flux is that it makes your code much easier to reason about. It achieves this by:
 
 1. Separating the rendering of a component from its interactions. 
 2. Eliminating local states in favour of shared states.

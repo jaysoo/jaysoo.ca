@@ -15,7 +15,7 @@ to frontend architecture has had a significant impact on developers, myself incl
 
 &lt;p&gt;So why should &lt;em&gt;you&lt;/em&gt; care about Flux?&lt;/p&gt;
 
-&lt;p&gt;The benefit of Flux is that it makes your code much easier to reason about. It does this by:&lt;/p&gt;
+&lt;p&gt;The benefit of Flux is that it makes your code much easier to reason about. It achieves this by:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Separating the rendering of a component from its interactions. &lt;/li&gt;
