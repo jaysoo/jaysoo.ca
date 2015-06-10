@@ -229,11 +229,11 @@ nicer abstractions for DI in React.
 
 Let's take a look at two decarators:
 
-1. `@injects` - sets the  `contextTypes` on our component.
-2. `@provides` - defines `childContextTypes` on our component and binds the context.
+1. `@inject` - sets the  `contextTypes` on our component.
+2. `@provide` - defines `childContextTypes` on our component and binds the context.
 
 {% highlight js %}
-const injects = (injectables) => {
+const inject = (injectables) => {
   return (Component) => {
     Component.contextTypes = Object.entries(injectables)
       .reduce((contextTypes, [k, v]) => {
@@ -249,7 +249,7 @@ const injects = (injectables) => {
   };
 };
 
-const provides = (providing) => {
+const provide = (providing) => {
   return (Component) => class {
     static childContextTypes = Object.entries(providing)
     .reduce((contextTypes, [k, v]) => {
@@ -275,7 +275,7 @@ If we go back to our earlier `AppContainer` and `UserAvatar` code, here's how we
 in our application.
 
 {% highlight js %}
-@provides({
+@provide({
   userActionCreators: {
     type: PropTypes.object,
     value() {
@@ -297,7 +297,7 @@ class AppContainer {
 
 // ... Somewhere deep in our application
 
-@injects({
+@inject({
   userStore: { type: PropTypes.object.isRequired }
 })
 class UserAvatar {

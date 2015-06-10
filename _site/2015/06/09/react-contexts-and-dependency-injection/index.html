@@ -332,11 +332,11 @@ nicer abstractions for DI in React.</p>
 <p>Let’s take a look at two decarators:</p>
 
 <ol>
-  <li><code>@injects</code> - sets the  <code>contextTypes</code> on our component.</li>
-  <li><code>@provides</code> - defines <code>childContextTypes</code> on our component and binds the context.</li>
+  <li><code>@inject</code> - sets the  <code>contextTypes</code> on our component.</li>
+  <li><code>@provide</code> - defines <code>childContextTypes</code> on our component and binds the context.</li>
 </ol>
 
-<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">injects</span> <span class="o">=</span> <span class="p">(</span><span class="nx">injectables</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">inject</span> <span class="o">=</span> <span class="p">(</span><span class="nx">injectables</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span><span class="nx">Component</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="nx">Component</span><span class="p">.</span><span class="nx">contextTypes</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">injectables</span><span class="p">)</span>
       <span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">contextTypes</span><span class="p">,</span> <span class="p">[</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -352,7 +352,7 @@ nicer abstractions for DI in React.</p>
   <span class="p">};</span>
 <span class="p">};</span>
 
-<span class="kr">const</span> <span class="nx">provides</span> <span class="o">=</span> <span class="p">(</span><span class="nx">providing</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<span class="kr">const</span> <span class="nx">provide</span> <span class="o">=</span> <span class="p">(</span><span class="nx">providing</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="p">(</span><span class="nx">Component</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kr">class</span> <span class="p">{</span>
     <span class="kr">static</span> <span class="nx">childContextTypes</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">providing</span><span class="p">)</span>
     <span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">contextTypes</span><span class="p">,</span> <span class="p">[</span><span class="nx">k</span><span class="p">,</span> <span class="nx">v</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -377,7 +377,7 @@ nicer abstractions for DI in React.</p>
 <p>If we go back to our earlier <code>AppContainer</code> and <code>UserAvatar</code> code, here’s how we can use the new decorators
 in our application.</p>
 
-<div class="highlight"><pre><code class="js"><span class="err">@</span><span class="nx">provides</span><span class="p">({</span>
+<div class="highlight"><pre><code class="js"><span class="err">@</span><span class="nx">provide</span><span class="p">({</span>
   <span class="nx">userActionCreators</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">type</span><span class="o">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">object</span><span class="p">,</span>
     <span class="nx">value</span><span class="p">()</span> <span class="p">{</span>
@@ -399,7 +399,7 @@ in our application.</p>
 
 <span class="c1">// ... Somewhere deep in our application</span>
 
-<span class="err">@</span><span class="nx">injects</span><span class="p">({</span>
+<span class="err">@</span><span class="nx">inject</span><span class="p">({</span>
   <span class="nx">userStore</span><span class="o">:</span> <span class="p">{</span> <span class="nx">type</span><span class="o">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">isRequired</span> <span class="p">}</span>
 <span class="p">})</span>
 <span class="kr">class</span> <span class="nx">UserAvatar</span> <span class="p">{</span>
