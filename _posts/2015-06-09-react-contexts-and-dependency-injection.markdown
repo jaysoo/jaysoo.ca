@@ -308,7 +308,7 @@ class UserAvatar {
 }
 {% endhighlight %}
 
-This is using a concept called *[higher-order components(https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775)* (HoC).
+This is using a concept called *[higher-order components](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775)* (HoC).
 Basically, we use functions (decorators) that take in a component as input and ouputs a component. This allows
 us to add additional behaviour or metadata to the original component.
 
