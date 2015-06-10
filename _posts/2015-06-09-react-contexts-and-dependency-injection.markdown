@@ -136,7 +136,7 @@ class RandomNumber {
 }
 {% endhighlight %}
 
-This makes **testing** very easy because we now control exactly what `random` and `round` returns
+This makes **testing** very easy because we now control exactly what `random` and `round` return
 to our component.
 
 {% highlight js %}
@@ -173,9 +173,6 @@ describe('RandomNumber', () => {
   });
 });
 {% endhighlight %}
-
-Now, of course this component is fairly simple, but it does contain the `max` logic that I think
-is worth testing.
 
 We have also increased **reusability** of our component by allowing late-binding of the `random` and `round`
 functions. If we wanted to provide different rounding strategies we will be able to -- say rounding

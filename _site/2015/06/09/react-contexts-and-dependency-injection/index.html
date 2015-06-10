@@ -241,7 +241,7 @@ coupling makes testing impossible, and also makes it impossible to reuse if our 
 <span class="p">}</span>
 </code></pre></div>
 
-<p>This makes <strong>testing</strong> very easy because we now control exactly what <code>random</code> and <code>round</code> returns
+<p>This makes <strong>testing</strong> very easy because we now control exactly what <code>random</code> and <code>round</code> return
 to our component.</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;RandomNumber&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -277,9 +277,6 @@ to our component.</p>
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div>
-
-<p>Now, of course this component is fairly simple, but it does contain the <code>max</code> logic that I think
-is worth testing.</p>
 
 <p>We have also increased <strong>reusability</strong> of our component by allowing late-binding of the <code>random</code> and <code>round</code>
 functions. If we wanted to provide different rounding strategies we will be able to – say rounding
