@@ -320,4 +320,4 @@ We saw how dependency injection can make our code more testable and more reusabl
 
 ### Further Readings
 
-- [Introduction to Contexts in React](https://www.tildedave.com/2014/11/15/introduction-to-contexts-in-react-js.html)1 by Dave King  
+- [Introduction to Contexts in React](https://www.tildedave.com/2014/11/15/introduction-to-contexts-in-react-js.html) by Dave King
