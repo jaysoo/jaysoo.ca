@@ -1,7 +1,7 @@
 ---
 created_at: 2015-06-20 22:35Z
 layout: post
-title: Learning to learn
+title: Learning To Be Smarter
 tags: [psychology]
 ---
 
