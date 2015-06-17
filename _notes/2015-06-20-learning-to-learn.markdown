@@ -1,10 +1,12 @@
+https://peopletriggers.wordpress.com/2014/05/28/do-we-become-smarter-entity-vs-incremental-intelligence/
+
 - helpless vs mastery-oriented response
 - challenges and adversity
 
 ## General conceptualization of goals
 
 - Two classes of goals:
-	- Perfomanace goals (in which individuals are concerned with gaining 
+	- Perfomaace goals (in which individuals are concerned with gaining 
 	  favorable judgments of their competence).
 	- Leanring goals  (in which individuals are concerned with increasing 
 	  their competence). 
