@@ -4,13 +4,111 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-10T00:38:11-04:00</updated>
+ <updated>2015-06-21T22:11:10-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
    <email>jack.hsu@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Learning To Be Smarter</title>
+   <link href="http://jaysoo.ca/2015/06/20/learning-to-learn"/>
+   <updated>2015-06-20T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2015/06/20/learning-to-learn</id>
+   <content type="html">&lt;p&gt;In this post, I want to present information that I have collected on the topic of learning. The act of learning
+is something we do everyday, and I think it is import to develop a more systematic approach in order to
+maximize our efforts. I will include material from the field of cognitive science and will link the references at the end of the post.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-purpose-of-learning&quot;&gt;The Purpose of Learning&lt;/h2&gt;
+
+&lt;p&gt;We programmers face many problems everyday. Some problems are technical in nature, while others could
+be business problems, social problems, etc. Picture a big &lt;em&gt;problem space&lt;/em&gt; that consists of all the problems
+we could solve. In order to solve these problems, we perform a search through our &lt;em&gt;solution space&lt;/em&gt; and try
+to find good matches between problems and solutions. Sometimes we won’t find any solutions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/problem-vs-solution-space.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When a solution is missing, it is our responsibility to &lt;em&gt;learn&lt;/em&gt; it. How we go about doing that is the purpose
+of this post.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-the-right-goals&quot;&gt;Setting the Right Goals&lt;/h2&gt;
+
+&lt;p&gt;Let’s start off by looking at two classes of learning goals we can have.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Performance goals&lt;/strong&gt;, in which individuals are concerned with gaining favourable &lt;em&gt;judgments&lt;/em&gt; of
+their competence.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Learning goals&lt;/strong&gt;, in which individuals are concerned with &lt;em&gt;increasing&lt;/em&gt; their competence.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;People with &lt;em&gt;performance goals&lt;/em&gt; tend to view the amount of effort exerted in learning as an index into
+their ability. Exerting high amount of effort means an individual has low ability. Even more
+dangerous, these individuals view failures as warning signs that they will be judged as having low
+ability.&lt;/p&gt;
+
+&lt;p&gt;Compare this to people with &lt;em&gt;learning goals&lt;/em&gt;, who view effort as a mean of activating ability. That is,
+putting effort into something will result in you increasing your ability. These individuals also view
+failures as an indication that the task will require even more effort.&lt;/p&gt;
+
+&lt;p&gt;Finally, for individuals with learning goals, exerting effort in the service of learning may bring intrinsic rewards
+and pleasure. Whereas with performance goals, high effort may engender anxiety.&lt;/p&gt;
+
+&lt;p&gt;It is therefore important that we try to prioritize learning goals over performance goals. Of course, it is not
+realistic to completely avoiding the latter. In these cases, it’s important to keep in mind that failures are not an
+indication of personal deficiencies, but rather an sign that more effort is required. We also need to keep our original 
+performance goal in mind and develop strategies to meet that goal.&lt;/p&gt;
+
+&lt;h2 id=&quot;investment-in-loss&quot;&gt;Investment in Loss&lt;/h2&gt;
+
+&lt;p&gt;There is a book I read few years back called &lt;em&gt;The Art of Learning&lt;/em&gt;. In the book, author Josh Waitzkin left his
+chess career after being an U.S. national champion eight times. He eventually found himself as a beginner in the competive
+sport of Tai Chi &lt;a href=&quot;https://en.wikipedia.org/wiki/Pushing_hands&quot;&gt;Pushing Hands&lt;/a&gt;. The idea of pushing hands is to use
+non-resistance to throw opponents off-balance. Instead of using force to fight force, your body yields to the force
+and redirects it.&lt;/p&gt;
+
+&lt;p&gt;The concept may sound easy, but it is not intuitive.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;One of the most challenging leaps for Push Hands students is to release the ego enough to allow themselves to
+be tossed around while they learn how not to resist.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As a pushing hands beginner, you can either try to act strong and tough and keep resisting the force. Or you can
+let go of your ego and allow yourself to be pushed around until you learn how to use more than brawn. The &lt;em&gt;investment
+in loss&lt;/em&gt; is about giving yourself to the learning process. Make learning your goal.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The fact of the matter is that there will be nothing learned from any challenge in which we don’t try our hardest.
+Growth comes at the point of resistance. We learn by pushing ourselves and finding what really lies at the outer reaches
+of our abilities.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;spaced-repetition&quot;&gt;Spaced Repetition&lt;/h2&gt;
+
+&lt;p&gt;Spaced repetition is a learning technique in which &lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Breadth-first vs depth-first approach.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Spaced repetition&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;internalization-and-refinement&quot;&gt;Internalization and Refinement&lt;/h2&gt;
+
+&lt;h2 id=&quot;chunking-and-carved-neural-pathways&quot;&gt;Chunking and carved neural pathways&lt;/h2&gt;
+
+&lt;h2 id=&quot;further-readings&quot;&gt;Further Readings&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://www.facebook.com/notes/kent-beck/pairing-as-pruning/912024212163777&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
  
  <entry>
    <title>React Contexts and Dependency Injection</title>

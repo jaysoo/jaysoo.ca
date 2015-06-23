@@ -41,25 +41,40 @@ Compare this to people with *learning goals*, who view effort as a mean of activ
 putting effort into something will result in you increasing your ability. These individuals also view
 failures as an indication that the task will require even more effort.
 
-Finally, for individuals with learning goals, exerting effort in the service of learning may bring intrinsic rewards and pleasure. Whereas with performance goals, high effort may engender anxiety.
+Finally, for individuals with learning goals, exerting effort in the service of learning may bring intrinsic rewards
+and pleasure. Whereas with performance goals, high effort may engender anxiety.
 
-It is therefore important that we try to **set learning goals over performance goals**. Of course, we do need to
-perform on our jobs, so completely avoiding the latter isn't always  realistic. In these cases, it's important to
-keep in mind that failures are not an indication of personal deficiencies, but rather an sign that more effort
-is required. We also need to keep our original performance goal in mind and develop strategies to meet that goal.
+It is therefore important that we try to prioritize learning goals over performance goals. Of course, it is not
+realistic to completely avoiding the latter. In these cases, it's important to keep in mind that failures are not an
+indication of personal deficiencies, but rather an sign that more effort is required. We also need to keep our original 
+performance goal in mind and develop strategies to meet that goal.
 
 
 ## Investment in Loss
 
-In his book, *The Art of Learning*, author Josh Waitzkin asserts that an individual cannot improve unless they are willing to invest in their losses.
+There is a book I read few years back called *The Art of Learning*. In the book, author Josh Waitzkin left his
+chess career after being an U.S. national champion eight times. He eventually found himself as a beginner in the competive
+sport of Tai Chi [Pushing Hands](https://en.wikipedia.org/wiki/Pushing_hands). The idea of pushing hands is to use
+non-resistance to throw opponents off-balance. Instead of using force to fight force, your body yields to the force
+and redirects it.
 
-> The fact of the matter is that there will be nothing learned from any challenge in which we don’t try our hardest. Growth comes at the point of resistance. We learn by pushing ourselves and finding what really lies at the outer reaches of our abilities.
+The concept may sound easy, but it is not intuitive.
+
+> One of the most challenging leaps for Push Hands students is to release the ego enough to allow themselves to
+be tossed around while they learn how not to resist.
+
+As a pushing hands beginner, you can either try to act strong and tough and keep resisting the force. Or you can
+let go of your ego and allow yourself to be pushed around until you learn how to use more than brawn. The *investment
+in loss* is about giving yourself to the learning process. Make learning your goal.
+
+> The fact of the matter is that there will be nothing learned from any challenge in which we don’t try our hardest.
+Growth comes at the point of resistance. We learn by pushing ourselves and finding what really lies at the outer reaches
+of our abilities.
 
 
+## Spaced Repetition
 
-## Approach to Learning
-
-- Problem space vs solution space.
+Spaced repetition is a learning technique in which 
 
 - Breadth-first vs depth-first approach.
 
