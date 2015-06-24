@@ -146,7 +146,7 @@ might not have a say in what skills we need for our job.
 The other solution (perhaps more viable solution) that Kathy proposes is to **break a skill down to many sub-skills**.
 For example, instead of mastering all of Rails, I might spend my efforts in learning [Arel](https://github.com/rails/arel)
 really well because I find myself needing that knowledge quite often at work. I can further break "Rails" downs into smaller
-skills, such as knowing how Active Records work, how [Nokigiri](https://github.com/sparklemotion/nokogiri)
+skills, such as knowing how Active Records work, how [Nokogiri](https://github.com/sparklemotion/nokogiri)
 works if I'm dealing with XML a lot, etc. What about AngularJS?
 Do I really need to master directives, or can I get away with just knowing how to wire up services and controllers?
 

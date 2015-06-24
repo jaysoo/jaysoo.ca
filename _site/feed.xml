@@ -7,7 +7,7 @@
 		<atom:link href="http://jaysoo.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>When Learning, Attitude Matters</title>
+				<title>When Learning, Attitude and Approach Matter</title>
 				<description>&lt;p&gt;As programmers, one of the most important skill to have is being able to learn quickly. It doesn’t
 matter that you know frameworks X and Y, or languages Foo and Bar. What is hot and not will change
 several times throughout our career, but the skill to learn new abilities will always be in demand.&lt;/p&gt;
@@ -24,7 +24,7 @@ lead to solutions for our problems.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/problem-vs-solution-space.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;When a solution is missing, it is our responsibility to &lt;em&gt;learn&lt;/em&gt; it.&lt;/p&gt;
+&lt;p&gt;When a solution is missing, it is our responsibility to learn it.&lt;/p&gt;
 
 &lt;h2 id=&quot;start-by-setting-the-right-goals&quot;&gt;Start By Setting The Right Goals&lt;/h2&gt;
 
@@ -54,7 +54,7 @@ rather then a judgement of their ability.&lt;/p&gt;
 
 &lt;p&gt;We also need to keep our original performance goal in view and develop proper strategy/plan to meet that goal.&lt;/p&gt;
 
-&lt;h2 id=&quot;learning-from-adversity&quot;&gt;Learning From Adversity&lt;/h2&gt;
+&lt;h2 id=&quot;using-adversity&quot;&gt;Using Adversity&lt;/h2&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;The fact of the matter is that there will be nothing learned from any challenge in which we don’t try our hardest.
@@ -68,20 +68,20 @@ overcoming said adversity.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
-    &lt;p&gt;The maladaptive &lt;em&gt;helpless&lt;/em&gt; pattern is one that deters individuals from confronting obstacles or prevents
+    &lt;p&gt;The maladaptive &lt;strong&gt;helpless&lt;/strong&gt; pattern is one that deters individuals from confronting obstacles or prevents
 them from functioning effectively in the face of difficulty.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;The adaptive &lt;em&gt;mastery-oriented&lt;/em&gt; pattern is one in which individuals maintain a commitment to their goals
+    &lt;p&gt;The adaptive &lt;strong&gt;mastery-oriented&lt;/strong&gt; pattern is one in which individuals maintain a commitment to their goals
 through periods of difficulty.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;In Dr. Dweck’s research [1], she found that during the onset of failures, children who exhibit the &lt;em&gt;helpless&lt;/em&gt; pattern
+&lt;p&gt;In Dr. Dweck’s research [1], she found that during the onset of failures, children who exhibit the helpless pattern
 tend to experience anxiety over their performance. They attributed the failures to personal deficiencies, and
 much of them used diversionary tactics to bolster their own ego. For example, they may trivialize the task
 at hand, or talk about how good they are in other things. These “helpless” children also tend to view further
-effort as futile, as it is beyond their ability.&lt;/p&gt;
+effort as futile, as the task is beyond their ability.&lt;/p&gt;
 
 &lt;p&gt;With mastery-oriented children, the obversation is that they did not give attributions for their failures.
 They viewed unsolved problems as a challenge to be conquered through effort. They relished the opportunity
@@ -111,6 +111,8 @@ initial memorization of the material, we need a reminder of the material &lt;em&
 remembering it. The second reminder will then follow a longer period of days compared to the first. And the third reminder
 comes after an even longer period, and so on.&lt;/p&gt;
 
+&lt;p&gt;Spaced repetition has been shown in a study by H.F. Spitzer to be effective. [2]&lt;/p&gt;
+
 &lt;p&gt;&lt;img src=&quot;/images/forgetting-curve-repetition.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Practically, we need to first recognize the materials we want to remember. Once we know
@@ -120,7 +122,7 @@ to do our reviews at least within the first couple of days, then we keep up the 
 &lt;p&gt;The implication here is that we need to dedicate time to revisit materials &lt;em&gt;in addition&lt;/em&gt; to learning new materials. The
 corollary is that we should be explicit about the things we are okay with forgetting, and stop review those things.&lt;/p&gt;
 
-&lt;h2 id=&quot;learning-all-the-things&quot;&gt;Learning All The Things&lt;/h2&gt;
+&lt;h2 id=&quot;learn-all-the-things&quot;&gt;Learn All The Things&lt;/h2&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Half-a-skill beats a half-assed-skill.
@@ -178,17 +180,18 @@ results, it is important to make sure we set the right goals for ourselves.&lt;/
 
 &lt;p&gt;If a skill is too big to learn, try breaking it down into smaller sub-skills and master those.&lt;/p&gt;
 
-&lt;h2 id=&quot;references-and-further-readings&quot;&gt;References and Further Readings&lt;/h2&gt;
+&lt;h2 id=&quot;references-and-further-materials&quot;&gt;References and Further Materials&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;[1] &lt;a href=&quot;http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf&quot;&gt;A Social-Cognitive Approach to Motivation and Personality&lt;/a&gt; - Dr. Carol Dweck, et al.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=FKTxC9pl-WM&quot;&gt;Making Badass Developers&lt;/a&gt; - talk by Kathy Sierra&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750&quot;&gt;Stop Treading Water: Learning to Learn&lt;/a&gt; - talk by Edward Kmett&lt;/li&gt;
+  &lt;li&gt;[1] Dweck, Carol and Leggett, Ellen L. (1988). &lt;a href=&quot;http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf&quot;&gt;A Social-Cognitive Approach to Motivation and Personality&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;[2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657&lt;/li&gt;
+  &lt;li&gt;Kathy Sierra - &lt;a href=&quot;https://www.youtube.com/watch?v=FKTxC9pl-WM&quot;&gt;Making Badass Developers&lt;/a&gt; (video)&lt;/li&gt;
+  &lt;li&gt;Edward Kmett - &lt;a href=&quot;https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750&quot;&gt;Stop Treading Water: Learning to Learn&lt;/a&gt;  (video)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Wed, 24 Jun 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/06/24/when-learning-attitude-matters</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/06/24/when-learning-attitude-matters</guid>
+				<link>http://jaysoo.ca/2015/06/24/when-learning-attitude-and-approach-matter</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/06/24/when-learning-attitude-and-approach-matter</guid>
 			</item>
 		
 			<item>
