@@ -167,7 +167,7 @@ If a skill is too big to learn, try breaking it down into smaller sub-skills and
 
 ## References and Further Readings
 
-- [1] Dweck, Carol and Leggett, Ellen L. (1988) [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
+- [1] Dweck, Carol and Leggett, Ellen L. (1988). [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657
 - Kathy Sierra - [Making Badass Developers](https://www.youtube.com/watch?v=FKTxC9pl-WM) (video)
 - Edward Kmett - [Stop Treading Water: Learning to Learn](https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750)  (video)
