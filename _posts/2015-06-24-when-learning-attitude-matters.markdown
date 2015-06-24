@@ -133,7 +133,7 @@ You can picture learning as moving things from A to B, and from B to C.
 
 ![](/images/kathy-sierra-three-categories.png)
 
-One of the problems that Kathy identifies is that people sometimes let way too many items pile up on B. That is, we have
+One of the problems that Kathy identifies is that people let way too many items pile up on B. That is, we have
 a bunch of skills that we think we need, but we exert tremendous amounts of effort everytime we access that those skills.
 
 An easy solution for this is to move things back to A. We can be explicit about not learning a skill, and free up our
