@@ -99,7 +99,7 @@ initial memorization of the material, we need a reminder of the material *soon* 
 remembering it. The second reminder will then follow a longer period of days compared to the first. And the third reminder
 comes after an even longer period, and so on.
 
-Spaced repetition has been shown in a study by H.F. Spitzer to be effect. [2]
+Spaced repetition has been shown in a study by H.F. Spitzer to be effective. [2]
 
 ![](/images/forgetting-curve-repetition.jpg)
 
