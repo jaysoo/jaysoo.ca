@@ -165,7 +165,7 @@ Be explicit about the skills you want to retain. Keep praticing those skills bec
 If a skill is too big to learn, try breaking it down into smaller sub-skills and master those.
  
 
-## References and Further Readings
+## References and Further Materials
 
 - [1] Dweck, Carol and Leggett, Ellen L. (1988). [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657
