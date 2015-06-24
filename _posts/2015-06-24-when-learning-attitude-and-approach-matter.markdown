@@ -110,7 +110,7 @@ to do our reviews at least within the first couple of days, then we keep up the 
 The implication here is that we need to dedicate time to revisit materials *in addition* to learning new materials. The
 corollary is that we should be explicit about the things we are okay with forgetting, and stop review those things.
  
-## Learning All The Things
+## Learn All The Things
 
 > Half-a-skill beats a half-assed-skill.
 <small>Kathy Sierra</small>
