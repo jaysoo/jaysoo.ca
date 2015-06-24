@@ -49,7 +49,7 @@ rather then a judgement of their ability.
 
 We also need to keep our original performance goal in view and develop proper strategy/plan to meet that goal.
 
-## Learning From Adversity
+## Using Adversity
 
 > The fact of the matter is that there will be nothing learned from any challenge in which we don't try our hardest.
 Growth comes at the point of resistance. We learn by pushing ourselves and finding what really lies at the outer reaches
