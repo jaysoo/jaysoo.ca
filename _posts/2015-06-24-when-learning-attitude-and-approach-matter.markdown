@@ -21,7 +21,7 @@ lead to solutions for our problems.
 
 ![](/images/problem-vs-solution-space.svg)
 
-When a solution is missing, it is our responsibility to *learn* it.
+When a solution is missing, it is our responsibility to learn it.
 
 ## Start By Setting The Right Goals
 
