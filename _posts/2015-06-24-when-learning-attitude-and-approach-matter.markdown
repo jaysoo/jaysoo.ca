@@ -65,11 +65,11 @@ them from functioning effectively in the face of difficulty.
 2. The adaptive **mastery-oriented** pattern is one in which individuals maintain a commitment to their goals
 through periods of difficulty.
 
-In Dr. Dweck's research [1], she found that during the onset of failures, children who exhibit the *helpless* pattern
+In Dr. Dweck's research [1], she found that during the onset of failures, children who exhibit the helpless pattern
 tend to experience anxiety over their performance. They attributed the failures to personal deficiencies, and
 much of them used diversionary tactics to bolster their own ego. For example, they may trivialize the task
 at hand, or talk about how good they are in other things. These "helpless" children also tend to view further
-effort as futile, as it is beyond their ability.
+effort as futile, as the task is beyond their ability.
 
 With mastery-oriented children, the obversation is that they did not give attributions for their failures.
 They viewed unsolved problems as a challenge to be conquered through effort. They relished the opportunity
