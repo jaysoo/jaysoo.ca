@@ -59,10 +59,10 @@ of our abilities.
 When faced with adversity, there are two response patterns that can determine whether individuals are successful in
 overcoming said adversity.
 
-1. The maladaptive *helpless* pattern is one that deters individuals from confronting obstacles or prevents
+1. The maladaptive **helpless** pattern is one that deters individuals from confronting obstacles or prevents
 them from functioning effectively in the face of difficulty.
 
-2. The adaptive *mastery-oriented* pattern is one in which individuals maintain a commitment to their goals
+2. The adaptive **mastery-oriented** pattern is one in which individuals maintain a commitment to their goals
 through periods of difficulty.
 
 In Dr. Dweck's research [1], she found that during the onset of failures, children who exhibit the *helpless* pattern
