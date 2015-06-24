@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-21T22:11:10-04:00</updated>
+ <updated>2015-06-24T00:40:43-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -13,29 +13,31 @@
 
  
  <entry>
-   <title>Learning To Be Smarter</title>
-   <link href="http://jaysoo.ca/2015/06/20/learning-to-learn"/>
-   <updated>2015-06-20T00:00:00-04:00</updated>
-   <id>hhttp://jaysoo.ca/2015/06/20/learning-to-learn</id>
-   <content type="html">&lt;p&gt;In this post, I want to present information that I have collected on the topic of learning. The act of learning
-is something we do everyday, and I think it is import to develop a more systematic approach in order to
-maximize our efforts. I will include material from the field of cognitive science and will link the references at the end of the post.&lt;/p&gt;
+   <title>When Learning, Attitude Matters</title>
+   <link href="http://jaysoo.ca/2015/06/24/when-learning-attitude-matters"/>
+   <updated>2015-06-24T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2015/06/24/when-learning-attitude-matters</id>
+   <content type="html">&lt;p&gt;As programmers, one of the most important skill to have is being able to learn quickly. It doesn’t
+matter that you know frameworks X and Y, or languages Foo and Bar. What is hot and not will change
+several times throughout our career, but the skill to learn new abilities will always be in demand.&lt;/p&gt;
 
-&lt;h2 id=&quot;the-purpose-of-learning&quot;&gt;The Purpose of Learning&lt;/h2&gt;
+&lt;p&gt;In this post, I want to look at what it takes to be a good learner, as well as some techniques we
+can employ to help us along the way. &lt;/p&gt;
 
-&lt;p&gt;We programmers face many problems everyday. Some problems are technical in nature, while others could
+&lt;h2 id=&quot;the-purpose-of-learning&quot;&gt;The Purpose Of Learning&lt;/h2&gt;
+
+&lt;p&gt;We face many problems everyday. Some problems are technical in nature, while others could
 be business problems, social problems, etc. Picture a big &lt;em&gt;problem space&lt;/em&gt; that consists of all the problems
-we could solve. In order to solve these problems, we perform a search through our &lt;em&gt;solution space&lt;/em&gt; and try
-to find good matches between problems and solutions. Sometimes we won’t find any solutions.&lt;/p&gt;
+we could solve. The act of learning then expands out &lt;em&gt;solution space&lt;/em&gt;, with in turn would potentially
+lead to solutions for our problems.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/problem-vs-solution-space.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;When a solution is missing, it is our responsibility to &lt;em&gt;learn&lt;/em&gt; it. How we go about doing that is the purpose
-of this post.&lt;/p&gt;
+&lt;p&gt;When a solution is missing, it is our responsibility to &lt;em&gt;learn&lt;/em&gt; it.&lt;/p&gt;
 
-&lt;h2 id=&quot;setting-the-right-goals&quot;&gt;Setting the Right Goals&lt;/h2&gt;
+&lt;h2 id=&quot;start-by-setting-the-right-goals&quot;&gt;Start By Setting The Right Goals&lt;/h2&gt;
 
-&lt;p&gt;Let’s start off by looking at two classes of learning goals we can have.&lt;/p&gt;
+&lt;p&gt;There are two classes of learning goals we can have.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;Performance goals&lt;/strong&gt;, in which individuals are concerned with gaining favourable &lt;em&gt;judgments&lt;/em&gt; of
@@ -43,69 +45,153 @@ their competence.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Learning goals&lt;/strong&gt;, in which individuals are concerned with &lt;em&gt;increasing&lt;/em&gt; their competence.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;People with &lt;em&gt;performance goals&lt;/em&gt; tend to view the amount of effort exerted in learning as an index into
-their ability. Exerting high amount of effort means an individual has low ability. Even more
-dangerous, these individuals view failures as warning signs that they will be judged as having low
-ability.&lt;/p&gt;
+&lt;p&gt;Dr. Carol Dweck has done research that shows that people with &lt;em&gt;performance goals&lt;/em&gt; tend to view the amount of effort
+exerted in learning as an index into their ability [1]. Exerting high amount of effort means an
+individual has low ability. Even more dangerous, these individuals view failures as warning signs that
+they will be judged as having low ability. Therefore when high effort is required, these individuals
+may experience high anxiety.&lt;/p&gt;
 
-&lt;p&gt;Compare this to people with &lt;em&gt;learning goals&lt;/em&gt;, who view effort as a mean of activating ability. That is,
+&lt;p&gt;Compare this to people with &lt;em&gt;learning goals&lt;/em&gt;, who view effort as a mean of activating an ability. That is,
 putting effort into something will result in you increasing your ability. These individuals also view
-failures as an indication that the task will require even more effort.&lt;/p&gt;
+failures as an indication that the task will require even more effort. As well, exerting effort in the service
+of learning may bring intrinsic rewards and pleasure.&lt;/p&gt;
 
-&lt;p&gt;Finally, for individuals with learning goals, exerting effort in the service of learning may bring intrinsic rewards
-and pleasure. Whereas with performance goals, high effort may engender anxiety.&lt;/p&gt;
+&lt;p&gt;It is important that we try to prioritize learning goals over performance goals. Of course, it is not
+realistic to completely avoid the latter. When we do reach for performance goals, it’s important to still keep in mind
+that failures are not an indication of personal deficiencies, but rather an sign that more effort is required
+rather then a judgement of their ability.&lt;/p&gt;
 
-&lt;p&gt;It is therefore important that we try to prioritize learning goals over performance goals. Of course, it is not
-realistic to completely avoiding the latter. In these cases, it’s important to keep in mind that failures are not an
-indication of personal deficiencies, but rather an sign that more effort is required. We also need to keep our original 
-performance goal in mind and develop strategies to meet that goal.&lt;/p&gt;
+&lt;p&gt;We also need to keep our original performance goal in view and develop proper strategy/plan to meet that goal.&lt;/p&gt;
 
-&lt;h2 id=&quot;investment-in-loss&quot;&gt;Investment in Loss&lt;/h2&gt;
-
-&lt;p&gt;There is a book I read few years back called &lt;em&gt;The Art of Learning&lt;/em&gt;. In the book, author Josh Waitzkin left his
-chess career after being an U.S. national champion eight times. He eventually found himself as a beginner in the competive
-sport of Tai Chi &lt;a href=&quot;https://en.wikipedia.org/wiki/Pushing_hands&quot;&gt;Pushing Hands&lt;/a&gt;. The idea of pushing hands is to use
-non-resistance to throw opponents off-balance. Instead of using force to fight force, your body yields to the force
-and redirects it.&lt;/p&gt;
-
-&lt;p&gt;The concept may sound easy, but it is not intuitive.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;One of the most challenging leaps for Push Hands students is to release the ego enough to allow themselves to
-be tossed around while they learn how not to resist.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;As a pushing hands beginner, you can either try to act strong and tough and keep resisting the force. Or you can
-let go of your ego and allow yourself to be pushed around until you learn how to use more than brawn. The &lt;em&gt;investment
-in loss&lt;/em&gt; is about giving yourself to the learning process. Make learning your goal.&lt;/p&gt;
+&lt;h2 id=&quot;learning-from-adversity&quot;&gt;Learning From Adversity&lt;/h2&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;The fact of the matter is that there will be nothing learned from any challenge in which we don’t try our hardest.
 Growth comes at the point of resistance. We learn by pushing ourselves and finding what really lies at the outer reaches
-of our abilities.&lt;/p&gt;
+of our abilities.
+&lt;small&gt;Josh Waitzkin, The Art of Learning&lt;/small&gt; &lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;p&gt;When faced with adversity, there are two response patterns that can determine whether individuals are successful in
+overcoming said adversity.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;The maladaptive &lt;em&gt;helpless&lt;/em&gt; pattern is one that deters individuals from confronting obstacles or prevents
+them from functioning effectively in the face of difficulty.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The adaptive &lt;em&gt;mastery-oriented&lt;/em&gt; pattern is one in which individuals maintain a commitment to their goals
+through periods of difficulty.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In Dr. Dweck’s research [1], she found that during the onset of failures, children who exhibit the &lt;em&gt;helpless&lt;/em&gt; pattern
+tend to experience anxiety over their performance. They attributed the failures to personal deficiencies, and
+much of them used diversionary tactics to bolster their own ego. For example, they may trivialize the task
+at hand, or talk about how good they are in other things. These “helpless” children also tend to view further
+effort as futile, as it is beyond their ability.&lt;/p&gt;
+
+&lt;p&gt;With mastery-oriented children, the obversation is that they did not give attributions for their failures.
+They viewed unsolved problems as a challenge to be conquered through effort. They relished the opportunity
+to reach a solution.&lt;/p&gt;
+
+&lt;p&gt;These same patterns have been observed in adults as well.&lt;/p&gt;
+
+&lt;p&gt;The takeaway here is that when we face challenges, we should focus on mastery through strategy and effort. Do
+not let pride and ego get in the way of an opportunity to learn.&lt;/p&gt;
+
+&lt;p&gt;So what are some strategies we can employ to help us on our endeavours?&lt;/p&gt;
 
 &lt;h2 id=&quot;spaced-repetition&quot;&gt;Spaced Repetition&lt;/h2&gt;
 
-&lt;p&gt;Spaced repetition is a learning technique in which &lt;/p&gt;
+&lt;p&gt;Everything we learn in our lifetime has an expiry date. Although you may not have realized it, that calculus you learned
+in school years ago is probably not within your current abilities – unless you’ve practiced it recently.&lt;/p&gt;
+
+&lt;p&gt;This phenomenon has been documented in research by psychologist Hermann Ebbinghaus. He found that your chance
+of memory retention goes down drastically after the first few hours, and slowly declines after a few days.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/forgetting-curve.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;All is not lost though, because we can employ a technique known as &lt;em&gt;spaced repetition&lt;/em&gt; to combat this memory decay.&lt;/p&gt;
+
+&lt;p&gt;The technique is to reinforce what we learned by reviewing the materials in increasing intervals of time. After our
+initial memorization of the material, we need a reminder of the material &lt;em&gt;soon&lt;/em&gt; after in order to have a good chance of
+remembering it. The second reminder will then follow a longer period of days compared to the first. And the third reminder
+comes after an even longer period, and so on.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/forgetting-curve-repetition.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Practically, we need to first recognize the materials we want to remember. Once we know
+what we want to remember, we need to set periodic reviews of those materials. For things that we &lt;em&gt;just&lt;/em&gt; learned, we need
+to do our reviews at least within the first couple of days, then we keep up the reviews with increasing intervals of time.&lt;/p&gt;
+
+&lt;p&gt;The implication here is that we need to dedicate time to revisit materials &lt;em&gt;in addition&lt;/em&gt; to learning new materials. The
+corollary is that we should be explicit about the things we are okay with forgetting, and stop review those things.&lt;/p&gt;
+
+&lt;h2 id=&quot;learning-all-the-things&quot;&gt;Learning All The Things&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Half-a-skill beats a half-assed-skill.
+&lt;small&gt;Kathy Sierra&lt;/small&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;As we increase the breadth of our knowledge, we invariably decrease our depth in some. Imagine a full-stack
+developer, whose knowledge spans from backend Rails code, to various database systems, to a bunch
+of JavaScript frameworks. This full-stack developer may lack knowledge in certain parts of the Rails ecosystem,
+or may not know exactly how parts of AngularJS work.&lt;/p&gt;
+
+&lt;p&gt;Now, compare this to a specialist developer, who may know the ins and outs of building a Rails backend, but cannot write
+a single line of JavaScript code.&lt;/p&gt;
+
+&lt;p&gt;Which is better? Can’t we just learn all the things?&lt;/p&gt;
+
+&lt;p&gt;In a talk by Kathy Sierra called &lt;em&gt;Making Badass Developers&lt;/em&gt;, she talks about having three categories of skills.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Things we &lt;strong&gt;can’t&lt;/strong&gt; do, but need to.&lt;/li&gt;
+  &lt;li&gt;Things we &lt;strong&gt;can&lt;/strong&gt; do with &lt;strong&gt;effort&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Things we &lt;strong&gt;mastered&lt;/strong&gt; and can do reliably with little effort.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can picture learning as moving things from A to B, and from B to C.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/kathy-sierra-three-categories.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;One of the problems that Kathy identifies is that people sometimes let way too many items pile up on B. That is, we have
+a bunch of skills that we think we need, but we exert tremendous amounts of effort everytime we access that those skills.&lt;/p&gt;
+
+&lt;p&gt;An easy solution for this is to move things back to A. We can be explicit about not learning a skill, and free up our
+cognitive resource to pursue other skills. This option is great if it is actually open to us. The reality is that we
+might not have a say in what skills we need for our job.&lt;/p&gt;
+
+&lt;p&gt;The other solution (perhaps more viable solution) that Kathy proposes is to &lt;strong&gt;break a skill down to many sub-skills&lt;/strong&gt;.
+For example, instead of mastering all of Rails, I might spend my efforts in learning &lt;a href=&quot;https://github.com/rails/arel&quot;&gt;Arel&lt;/a&gt;
+really well because I find myself needing that knowledge quite often at work. I can further break “Rails” downs into smaller
+skills, such as knowing how Active Records work, how &lt;a href=&quot;https://github.com/sparklemotion/nokogiri&quot;&gt;Nokigiri&lt;/a&gt;
+works if I’m dealing with XML a lot, etc. What about AngularJS?
+Do I really need to master directives, or can I get away with just knowing how to wire up services and controllers?&lt;/p&gt;
+
+&lt;p&gt;Be cognizant of how the skills or sub-skills we spend our efforts on actually &lt;strong&gt;tie back to our learning or performance goals&lt;/strong&gt;.
+Also keep in mind that any skils we acquire will have to be practiced over and over again using &lt;strong&gt;spaced repetition&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;As programmers, learning is something we have to do repeatedly over the course of our career. In order to achieve the best
+results, it is important to make sure we set the right goals for ourselves.&lt;/p&gt;
+
+&lt;p&gt;If possible, use learning as a goal in and of itself. Don’t let ego prevent us from learning in the face of adversity.&lt;/p&gt;
+
+&lt;p&gt;Be explicit about the skills you want to retain. Keep praticing those skills because you will forget them otherwise.&lt;/p&gt;
+
+&lt;p&gt;If a skill is too big to learn, try breaking it down into smaller sub-skills and master those.&lt;/p&gt;
+
+&lt;h2 id=&quot;references-and-further-readings&quot;&gt;References and Further Readings&lt;/h2&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Breadth-first vs depth-first approach.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Spaced repetition&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;internalization-and-refinement&quot;&gt;Internalization and Refinement&lt;/h2&gt;
-
-&lt;h2 id=&quot;chunking-and-carved-neural-pathways&quot;&gt;Chunking and carved neural pathways&lt;/h2&gt;
-
-&lt;h2 id=&quot;further-readings&quot;&gt;Further Readings&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://www.facebook.com/notes/kent-beck/pairing-as-pruning/912024212163777&lt;/li&gt;
+  &lt;li&gt;[1] &lt;a href=&quot;http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf&quot;&gt;A Social-Cognitive Approach to Motivation and Personality&lt;/a&gt; - Dr. Carol Dweck, et al.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=FKTxC9pl-WM&quot;&gt;Making Badass Developers&lt;/a&gt; - talk by Kathy Sierra&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750&quot;&gt;Stop Treading Water: Learning to Learn&lt;/a&gt; - talk by Edward Kmett&lt;/li&gt;
 &lt;/ul&gt;
 </content>
  </entry>
