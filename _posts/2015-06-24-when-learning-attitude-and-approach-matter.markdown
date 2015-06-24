@@ -5,7 +5,7 @@ title: When Learning, Attitude and Approach Matter
 tags: [learning]
 ---
 
-As programmers, one of the most important skill to have is being able to learn quickly. It doesn't
+As programmers, one of the most important skills to have is being able to learn quickly. It doesn't
 matter that you know frameworks X and Y, or languages Foo and Bar. What is hot and not will change
 several times throughout our career, but the skill to learn new abilities will always be in demand.
 
@@ -16,7 +16,7 @@ can employ to help us along the way.
 
 We face many problems everyday. Some problems are technical in nature, while others could
 be business problems, social problems, etc. Picture a big *problem space* that consists of all the problems
-we could solve. The act of learning then expands out *solution space*, with in turn would potentially
+we could solve. The act of learning expands our *solution space*, which in turn may
 lead to solutions for our problems.
 
 ![](/images/problem-vs-solution-space.svg)
