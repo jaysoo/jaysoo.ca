@@ -1,7 +1,7 @@
 ---
 created_at: 2015-06-24 22:35Z
 layout: post
-title: When Learning, Attitude Matters
+title: When Learning, Attitude and Approach Matter
 tags: [learning]
 ---
 
