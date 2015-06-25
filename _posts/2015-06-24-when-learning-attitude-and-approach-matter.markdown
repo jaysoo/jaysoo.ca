@@ -73,7 +73,7 @@ at hand, or talk about how good they are in other things. These "helpless" child
 effort as futile, as the task is beyond their ability.
 
 With mastery-oriented children, the obversation is that they did not give attributions for their failures.
-They viewed unsolved problems as a challenge to be conquered through effort. They relished the opportunity
+They viewed unsolved problems as a challenge to be conquered through hard work. They relished the opportunity
 to reach a solution.
 
 These same patterns have been observed in adults as well.
