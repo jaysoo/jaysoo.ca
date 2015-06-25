@@ -30,8 +30,8 @@ When a solution is missing, it is our responsibility to learn it.
 
 There are two classes of learning goals we can have.
 
-1. **Performance goals**, in which individuals are concerned with how well they perform at a task. This may be
-to gain favourable judgement of their competence.
+1. **Performance goals**, in which individuals are concerned with how well they perform at a task. Individuals
+may set these goals to gain favourable judgement of their competence.
 2. **Learning goals**, in which individuals are concerned with increasing their competence.
 
 Dr. Carol Dweck has done research that shows that people with *performance goals* tend to view the amount of effort
