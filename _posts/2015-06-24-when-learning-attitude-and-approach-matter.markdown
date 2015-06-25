@@ -236,7 +236,9 @@ If a skill is too big to learn, try breaking it down into smaller sub-skills and
 
 Once you've identified those sub-skills, be very deliberate about how you can learn them using your existing knowledge, and think about how you can collect feedback
 in your learning sessions.
- 
+
+
+I hope this post has been helpful to you. Have fun learning!
 
 ## References and Further Materials
 
