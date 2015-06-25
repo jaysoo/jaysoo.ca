@@ -10,7 +10,10 @@ matter that you know frameworks X and Y, or languages Foo and Bar. what's hot an
 several times throughout our career, but the skill to learn new abilities will always be in demand.
 
 In this post, I want to look at what it takes to be a good learner, as well as some techniques we
-can employ to help us along the way. 
+can employ to help us along the way.
+
+*I'd like to thank [Chris Wu](http://lexiconnoisseur.com)
+for his help editing this post and the suggestion to include deliberate practice.*
 
 ## The Purpose Of Learning
 
@@ -27,9 +30,9 @@ When a solution is missing, it is our responsibility to learn it.
 
 There are two classes of learning goals we can have.
 
-1. **Performance goals**, in which individuals are concerned with gaining favourable *judgments* of
-   their competence.
-2. **Learning goals**, in which individuals are concerned with *increasing* their competence.
+1. **Performance goals**, in which individuals are concerned with how well they perform at a task. This may be
+to gain favourable judgement of their competence.
+2. **Learning goals**, in which individuals are concerned with increasing their competence.
 
 Dr. Carol Dweck has done research that shows that people with *performance goals* tend to view the amount of effort
 exerted in learning as an indicator of their ability [1]. Exerting high amount of effort means an
@@ -41,9 +44,9 @@ Compare this to people with *learning goals*, who view effort as a means of acti
 failures simply as an indication that the task will require more effort. As well, exerting effort in the service
 of learning may bring intrinsic rewards and pleasure.
 
-It is important that we try to prioritize learning goals over performance goals. Of course, it is not
-realistic to completely avoid the latter. When we do reach for performance goals, it is important to keep in mind
-that failures are not an indication of personal deficiencies, but rather a signal to put more effort in. We also need to keep our
+We should try to prioritize learning goals over performance goals. That is not to say that performance
+goals are bad. What is important is our attitude when faced with failures. Do not take failures as an indication
+of personal deficiencies, but rather a signal to put more effort in. We also need to keep our
 original performance goal in view and develop a proper strategy to meet that goal.
 
 So how do we deal with challenges when reaching for our goals?
