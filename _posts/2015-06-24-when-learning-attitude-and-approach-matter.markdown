@@ -35,19 +35,18 @@ Dr. Carol Dweck has done research that shows that people with *performance goals
 exerted in learning as an index into their ability [1]. Exerting high amount of effort means an
 individual has low ability. Even more dangerous, these individuals view failures as warning signs that
 they will be judged as having low ability. Therefore when high effort is required, these individuals
-may experience high anxiety.
+may experience anxiety.
 
-Compare this to people with *learning goals*, who view effort as a mean of activating an ability. That is,
-putting effort into something will result in you increasing your ability. These individuals also view
-failures as an indication that the task will require even more effort. As well, exerting effort in the service
+Compare this to people with *learning goals*, who view effort as a mean of activating an ability. These individuals also view
+failures simply as an indication that the task will require more effort. As well, exerting effort in the service
 of learning may bring intrinsic rewards and pleasure.
 
 It is important that we try to prioritize learning goals over performance goals. Of course, it is not
-realistic to completely avoid the latter. When we do reach for performance goals, it's important to still keep in mind
-that failures are not an indication of personal deficiencies, but rather an sign that more effort is required
-rather then a judgement of their ability.
+realistic to completely avoid the latter. When we do reach for performance goals, it is important to keep in mind
+that failures are not an indication of personal deficiencies, but rather a signal to put mor effort in. We also need to keep our
+original performance goal in view and develop proper strategy to meet that goal.
 
-We also need to keep our original performance goal in view and develop proper strategy/plan to meet that goal.
+So how do we deal with challenges when reaching for our goals?
 
 ## Using Adversity
 
@@ -56,13 +55,15 @@ Growth comes at the point of resistance. We learn by pushing ourselves and findi
 of our abilities.
 <small>Josh Waitzkin, The Art of Learning</small> 
 
-When faced with adversity, there are two response patterns that can determine whether individuals are successful in
+When faced with adversity, there are two mindsets that can determine whether individuals are successful in
 overcoming said adversity.
 
-1. The maladaptive **helpless** pattern is one that deters individuals from confronting obstacles or prevents
-them from functioning effectively in the face of difficulty.
+1. The **helpless** mindset is one in which individuals believe that intelligence is a fixed trait. That is, you
+cannot increase the amount of intelligence you have. This leads to maladaptive patterns that deter individuals from
+confronting obstacles or prevents them from functioning effectively in the face of difficulty.
 
-2. The adaptive **mastery-oriented** pattern is one in which individuals maintain a commitment to their goals
+2. The **mastery-oriented** mindset is one in which individuals think intelligence is malleable and can be developed
+through education and hard work. This leads to adaptive patterns that help maintain a commitment to their goals
 through periods of difficulty.
 
 In Dr. Dweck's research [1], she found that during the onset of failures, children who exhibit the helpless pattern
