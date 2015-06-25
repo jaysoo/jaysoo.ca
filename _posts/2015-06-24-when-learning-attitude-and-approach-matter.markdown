@@ -46,7 +46,7 @@ of learning may bring intrinsic rewards and pleasure.
 
 We should try to prioritize learning goals over performance goals. That is not to say that performance
 goals are bad. What is important is our attitude when faced with failures. Do not take failures as an indication
-of personal deficiencies, but rather a signal to put more effort in. We also need to keep our
+of personal deficiencies, but rather as a signal to put more effort in. We also need to keep our
 original performance goal in view and develop a proper strategy to meet that goal.
 
 So how do we deal with challenges when reaching for our goals?
