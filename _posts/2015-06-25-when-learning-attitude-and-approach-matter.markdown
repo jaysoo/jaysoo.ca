@@ -28,7 +28,7 @@ When a solution is missing, it is our responsibility to learn it.
 
 ## Start By Setting The Right Goals
 
-There are two classes of learning goals we can have.
+There are two classes of goals we can have when we learn.
 
 1. **Performance goals**, in which individuals are concerned with how well they perform at a task. Individuals
 may set these goals to gain favourable judgement of their competence.
