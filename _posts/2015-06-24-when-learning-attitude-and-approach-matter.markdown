@@ -210,7 +210,7 @@ step.
 
 ### Receiving Feedback Of Your Performance
 
-So no we have practice designed for our current skill level. But how do we know we've attained the next level in our learning goal?
+So now we have a practice plan designed for our current skill level. But how do we know we've attained the next level in our learning goal?
 The only way to tell is if we get immediate feedback that we understand what we're trying to learn.
 
 For example, personally for me I have small toy apps that I keep re-implementing in different frameworks, languages, and architectural patterns. Why? Because
