@@ -204,7 +204,7 @@ systems in that architecture. Then think about all the glue pieces between distr
 guarantee total ordering of events? If so, what techniques can I apply to achieve this? Do I need to learn more about asynchronous architectures? What else do
 I need to know?
 
-We need to ensure we can get to the next step of our goal using the knowledge we currently possess. You cannot go from A to B if you cannot understand what B is.
+We need to ensure we can get to the next step of our goal using the knowledge we currently possess. **You cannot go from A to B if you cannot understand what B is**.
 It is better to modify our plan to go from A to B, from B to C, from C to D, and so on, as long as each step is attainable using what we've learned in the previous
 step.
 
