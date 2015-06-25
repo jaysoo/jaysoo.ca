@@ -144,7 +144,7 @@ An easy solution for this is to move things back to A. We can be explicit about 
 cognitive resource to pursue other skills. This option is great if it is actually available to us. The reality is that we
 might not have a say in what skills we need for our jobs.
 
-The other solution (perhaps more viable solution) that Kathy proposes is to **break a skill down to many sub-skills**.
+The other solution (perhaps a more viable one) that Kathy proposes is to **break a skill down to many sub-skills**.
 For example, instead of mastering all of Rails, I might spend my efforts in learning [Arel](https://github.com/rails/arel)
 really well because I find myself needing that knowledge quite often at work. I can further break "Rails" downs into smaller
 skills, such as knowing how Active Records work, how [Nokogiri](https://github.com/sparklemotion/nokogiri)
