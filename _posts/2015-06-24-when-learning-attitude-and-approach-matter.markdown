@@ -148,8 +148,9 @@ The other solution (perhaps a more viable one) that Kathy proposes is to **break
 For example, instead of mastering all of Rails, I might spend my efforts in learning [Arel](https://github.com/rails/arel)
 really well because I find myself needing that knowledge quite often at work. I can further break "Rails" downs into smaller
 skills, such as knowing how Active Records work, how [Nokogiri](https://github.com/sparklemotion/nokogiri)
-works if I'm dealing with XML a lot, etc. What about AngularJS?
-Do I really need to master directives, or can I get away with just knowing how to wire up services and controllers?
+works if I'm dealing with XML a lot, etc. 
+
+And what about AngularJS? Do I really need to completely master directives, or can I get away with just knowing how to wire up services and controllers?
 
 Be cognizant of how the skills or sub-skills we spend our efforts on actually **tie back to our learning or performance goals**.
 Also keep in mind that any skils we acquire will have to be practiced over and over again using **spaced repetition**.
