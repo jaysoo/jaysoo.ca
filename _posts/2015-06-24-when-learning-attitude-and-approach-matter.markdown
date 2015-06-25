@@ -155,6 +155,17 @@ And what about AngularJS? Do I really need to completely master directives, or c
 Be cognizant of how the skills or sub-skills we spend our efforts on actually **tie back to our learning or performance goals**.
 Also keep in mind that any skils we acquire will have to be practiced over and over again using **spaced repetition**.
 
+Now, one other problem that Kathy identifies is that even once we've identified that **we need to take a skill from A to C**,
+it might take us **too long to get there**. This is where the **deliberate practice** comes in.
+
+## Deliberate Practice
+
+Just to recap, so far we have discovered:
+
+1. Setting *learning goals* and having a *mastery-oriented* mindset helps us be successful in out learning endeavours.
+2. In order for us to retain a skill that we have learned, we need utilize *spaced repetition*.
+3. It is better to break a widely-scoped skill down to *sub-skills* so we can master a subset of those sub-skills.
+
 ## Conclusion
 
 As programmers, learning is something we have to do repeatedly over the course of our career. In order to achieve the best
@@ -173,3 +184,6 @@ If a skill is too big to learn, try breaking it down into smaller sub-skills and
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657
 - Kathy Sierra - [Making Badass Developers](https://www.youtube.com/watch?v=FKTxC9pl-WM) (video)
 - Edward Kmett - [Stop Treading Water: Learning to Learn](https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750)  (video)
+- [Deliberate Practice: What It Is and Why You Need It](http://expertenough.com/1423/deliberate-practice)
+- [The Grandmaster in the Corner Office: What the Study of Chess Experts Teaches Us about Building a Remarkable Life](http://calnewport.com/blog/2010/01/06/the-grandmaster-in-the-corner-office-what-the-study-of-chess-experts-teaches-us-about-building-a-remarkable-life/)
+- [The Art of Learning: An Inner Journey to Optimal Performance](http://www.amazon.com/The-Art-Learning-Journey-Performance/dp/B00JE2WEEK) (book)
