@@ -220,7 +220,7 @@ looking at Stackoverflow).
 
 The one thing I will caution about measuring feedback is to **limit the number of variables you have**. Don't try to learn ReactJS frontend and Django backend
 all in the same session. You will never get good feedback by doing that. Be very deliberate about what you want to achieve, and devise a plan that only
-tackles that.
+tackles those goals.
 
 
 ## Conclusion
