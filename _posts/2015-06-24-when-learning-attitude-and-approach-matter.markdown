@@ -160,28 +160,89 @@ it might take us **too long to get there**. This is where the **deliberate pract
 
 ## Deliberate Practice
 
+> Expert performance is qualitatively different from normal performance and even that expert performers have characteristics and abilities that are qualitatively different from or at least outside the range of those of normal adults. However, we deny that these differences are immutable, that is due to innate talent. Only a few exceptions, most notably height are genetically prescribed. Instead, we argue that the differences between expert performers and normal adults reflect a life-long period of deliberate effort to improve performance in a specific domain.
+<small>K. Anders Ericsson</small>
+
 Just to recap, so far we have discovered:
 
 1. Setting *learning goals* and having a *mastery-oriented* mindset helps us be successful in out learning endeavours.
 2. In order for us to retain a skill that we have learned, we need utilize *spaced repetition*.
 3. It is better to break a widely-scoped skill down to *sub-skills* so we can master a subset of those sub-skills.
 
+The last piece of the puzzle is how we go about learning these smaller sub-skills in an efficent manner. According to research by K. Anders Ericsson,
+the difference between the "expert performers and normal adults reflect a life-long period of deliberate effort to improve performance in a specific domain." [3]
+
+According to Ericsson, there are four components of **deliberate practice**. [3]
+
+1. You must be motivated to attend to the task and exert effort to improve your performance.
+
+2. Each task should be designed to take into account your pre-existing knowledge. This will ensure the task is correctly
+understood after a relatively brief period of instruction.
+
+3. You should receive immediate informative feedback and knowledge of results of your performance.
+
+4. The same or similar tasks should be performed repeatedly.
+
+Component #1 is basically having the right mindset and goals when we are learning a skill. Component #4 points back to spaced repetition.
+
+What we haven't discusses so far are components #2 and #3.
+
+### Accounting For Pre-Existing Knowledge
+
+Imagine telling a beginner pianist to learn to play [Moonlight Sonata Movement 3](https://www.youtube.com/watch?v=zucBfXpCA6s). No matter how dedicated
+that pianist is to practice, they will never be able to play it because they currently lack the knowledge and skills required to even begin to tackle
+that piece of music. It is much more fruitful to break that goal of playing Moonlight Sonata Movement 3 into smaller, more attainable tasks, with increasing
+difficulty. For example, as the pianist I may need to first practice my techniques (scales, chords, etc.) in order for my fingers to be able to
+handle playing at such speeds. The techniques I need to master will start with more basic ones that I can reasonably achieve in the short term. Then
+as time passes, I will crank up the difficulty and complexity. Eventually, I will have enough techniques under my belt that playing this Sonata will be realistic.
+
+The same is true for programmers. There is no way a junior programmer can learn how to build a distributed, event-driven system from scratch. Sorry to burst your
+bubble, but no amount of Stackoverflow answers will help you. There is no framework you can `npm instal` that will help you.
+
+You first need to learn the basics of distributed computing. Build a few distributed systems. Then learn about event-driven architecture. Build a few
+systems in that architecture. Then think about all the glue pieces between distributed and event driven systems. Do I need to learn CQRS? Do I need to
+guarantee total ordering of events? If so, what techniques can I apply to achieve this? Do I need to learn more about asynchronous architectures? What else do
+I need to know?
+
+We need to ensure we can get to the next step of our goal using the knowledge we currently possess. You cannot go from A to B if you cannot understand what B is.
+It is better to modify our plan to go from A to B, from B to C, from C to D, and so on, as long as each step is attainable using what we've learned in the previous
+step.
+
+### Receiving Feedback Of Your Performance
+
+So no we have pratice designed for our current skill level. But how do we know we've attained the next level in our learning goal?
+The only way to tell is if we get immediate feedback that we understand what we're trying to learn.
+
+For example, personally for me I have small toy apps that I keep re-implementing in different frameworks, languages, and architectural patterns. Why? Because
+once I can build the app in a new language, I know that I've achieve a basic understanding of that language. Same thing for frameworks and
+architectural patterns. This is both deliberate (I want to achieve basic understanding of X) and measureable (I've succeeded once I can build this without
+looking at Stackoverflow).
+
+The one thing I will caution about measuring feedback is to **limit the number of variables you have**. Don't try to learn ReactJS frontend and Django backend
+all in the same session. You will never get good feedback by doing that. Be very deliberate about what you want to achieve, and devise a plan that only
+tackles that.
+
+
 ## Conclusion
 
 As programmers, learning is something we have to do repeatedly over the course of our career. In order to achieve the best
-results, it is important to make sure we set the right goals for ourselves.
+results, it is important to make sure we have the right mindset and set the right goals for ourselves.
 
 If possible, use learning as a goal in and of itself. Don't let ego prevent us from learning in the face of adversity.
 
 Be explicit about the skills you want to retain. Keep praticing those skills because you will forget them otherwise.
 
 If a skill is too big to learn, try breaking it down into smaller sub-skills and master those.
+
+Once you've identified those sub-skills, be very deliberate about how you can learn them using your existing knowledge, and think about how you can collect feedback
+in your learning sessions.
  
 
 ## References and Further Materials
 
 - [1] Dweck, Carol and Leggett, Ellen L. (1988). [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657
+- [3] Ericsson, K. Anders (1993). [The Role of Deliberate Practice in the Acquisition of Expert Performance](http://projects.ict.usc.edu/itw/gel/EricssonDeliberatePracticePR93.pdf)
 - Kathy Sierra - [Making Badass Developers](https://www.youtube.com/watch?v=FKTxC9pl-WM) (video)
 - Edward Kmett - [Stop Treading Water: Learning to Learn](https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750)  (video)
 - [Deliberate Practice: What It Is and Why You Need It](http://expertenough.com/1423/deliberate-practice)
