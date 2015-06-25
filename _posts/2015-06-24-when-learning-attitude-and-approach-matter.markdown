@@ -141,8 +141,8 @@ a bunch of skills that we think we need, but we have to exert tremendous amounts
 that those skills.
 
 An easy solution for this is to move things back to A. We can be explicit about not learning a skill, and free up our
-cognitive resource to pursue other skills. This option is great if it is actually open to us. The reality is that we
-might not have a say in what skills we need for our job.
+cognitive resource to pursue other skills. This option is great if it is actually available to us. The reality is that we
+might not have a say in what skills we need for our jobs.
 
 The other solution (perhaps more viable solution) that Kathy proposes is to **break a skill down to many sub-skills**.
 For example, instead of mastering all of Rails, I might spend my efforts in learning [Arel](https://github.com/rails/arel)
