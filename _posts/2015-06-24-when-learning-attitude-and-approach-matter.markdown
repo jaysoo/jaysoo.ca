@@ -89,23 +89,23 @@ Everything we learn in our lifetime has an expiry date. Although you may not hav
 in school years ago is probably not within your current abilities -- unless you've practiced it recently.
 
 This phenomenon has been documented in research by psychologist Hermann Ebbinghaus. He found that your chance
-of memory retention goes down drastically after the first few hours, and slowly declines after a few days.
+of memory retention goes down drastically after the first few hours, then slowly declines after a few days.
 
 ![](/images/forgetting-curve.jpg)
 
 All is not lost though, because we can employ a technique known as *spaced repetition* to combat this memory decay.
 
-The technique is to reinforce what we learned by reviewing the materials in increasing intervals of time. After our
+This technique reinforces what we have learned through reviews of the materials in increasing intervals of time. After our
 initial memorization of the material, we need a reminder of the material *soon* after in order to have a good chance of
-remembering it. The second reminder will then follow a longer period of days compared to the first. And the third reminder
-comes after an even longer period, and so on.
+remembering it. The second reminder will then follow a longer period of times compared to the first. And the third reminder
+comes after an even longer period of time, and so on.
 
 Spaced repetition has been shown in a study by H.F. Spitzer to be effective. [2]
 
 ![](/images/forgetting-curve-repetition.jpg)
 
-Practically, we need to first recognize the materials we want to remember. Once we know
-what we want to remember, we need to set periodic reviews of those materials. For things that we *just* learned, we need
+In practice, we need to first recognize the materials we want to remember. Once we know
+what we want to remember, we need to set periodic reviews of those materials. For things that we have *just* learned, we need
 to do our reviews at least within the first couple of days, then we keep up the reviews with increasing intervals of time.
 
 The implication here is that we need to dedicate time to revisit materials *in addition* to learning new materials. The
