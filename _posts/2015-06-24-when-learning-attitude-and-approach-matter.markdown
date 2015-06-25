@@ -1,12 +1,12 @@
 ---
-created_at: 2015-06-24 22:35Z
+created_at: 2015-06-25 22:35Z
 layout: post
 title: When Learning, Attitude and Approach Matter
 tags: [learning]
 ---
 
 As programmers, one of the most important skills to have is being able to learn quickly. It doesn't
-matter that you know frameworks X and Y, or languages Foo and Bar. What is hot and not will change
+matter that you know frameworks X and Y, or languages Foo and Bar. what's hot and what's not will change
 several times throughout our career, but the skill to learn new abilities will always be in demand.
 
 In this post, I want to look at what it takes to be a good learner, as well as some techniques we
@@ -32,19 +32,19 @@ There are two classes of learning goals we can have.
 2. **Learning goals**, in which individuals are concerned with *increasing* their competence.
 
 Dr. Carol Dweck has done research that shows that people with *performance goals* tend to view the amount of effort
-exerted in learning as an index into their ability [1]. Exerting high amount of effort means an
+exerted in learning as an indicator of their ability [1]. Exerting high amount of effort means an
 individual has low ability. Even more dangerous, these individuals view failures as warning signs that
 they will be judged as having low ability. Therefore when high effort is required, these individuals
 may experience anxiety.
 
-Compare this to people with *learning goals*, who view effort as a mean of activating an ability. These individuals also view
+Compare this to people with *learning goals*, who view effort as a means of activating ability. These individuals also view
 failures simply as an indication that the task will require more effort. As well, exerting effort in the service
 of learning may bring intrinsic rewards and pleasure.
 
 It is important that we try to prioritize learning goals over performance goals. Of course, it is not
 realistic to completely avoid the latter. When we do reach for performance goals, it is important to keep in mind
-that failures are not an indication of personal deficiencies, but rather a signal to put mor effort in. We also need to keep our
-original performance goal in view and develop proper strategy to meet that goal.
+that failures are not an indication of personal deficiencies, but rather a signal to put more effort in. We also need to keep our
+original performance goal in view and develop a proper strategy to meet that goal.
 
 So how do we deal with challenges when reaching for our goals?
 
@@ -95,9 +95,9 @@ of memory retention goes down drastically after the first few hours, then slowly
 
 All is not lost though, because we can employ a technique known as *spaced repetition* to combat this memory decay.
 
-This technique reinforces what we have learned through reviews of the materials in increasing intervals of time. After our
+This technique reinforces what we have learned through review of the material in increasing intervals of time. After our
 initial memorization of the material, we need a reminder of the material *soon* after in order to have a good chance of
-remembering it. The second reminder will then follow a longer period of times compared to the first. And the third reminder
+remembering it. The second reminder will then follow a longer period of time compared to the first. And the third reminder
 comes after an even longer period of time, and so on.
 
 Spaced repetition has been shown in a study by H.F. Spitzer to be effective. [2]

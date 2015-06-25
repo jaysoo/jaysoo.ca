@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-06-24T09:56:50-04:00</updated>
+ <updated>2015-06-25T09:23:12-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -17,8 +17,8 @@
    <link href="http://jaysoo.ca/2015/06/24/when-learning-attitude-and-approach-matter"/>
    <updated>2015-06-24T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/06/24/when-learning-attitude-and-approach-matter</id>
-   <content type="html">&lt;p&gt;As programmers, one of the most important skill to have is being able to learn quickly. It doesn’t
-matter that you know frameworks X and Y, or languages Foo and Bar. What is hot and not will change
+   <content type="html">&lt;p&gt;As programmers, one of the most important skills to have is being able to learn quickly. It doesn’t
+matter that you know frameworks X and Y, or languages Foo and Bar. what’s hot and what’s not will change
 several times throughout our career, but the skill to learn new abilities will always be in demand.&lt;/p&gt;
 
 &lt;p&gt;In this post, I want to look at what it takes to be a good learner, as well as some techniques we
@@ -28,7 +28,7 @@ can employ to help us along the way. &lt;/p&gt;
 
 &lt;p&gt;We face many problems everyday. Some problems are technical in nature, while others could
 be business problems, social problems, etc. Picture a big &lt;em&gt;problem space&lt;/em&gt; that consists of all the problems
-we could solve. The act of learning then expands out &lt;em&gt;solution space&lt;/em&gt;, with in turn would potentially
+we could solve. The act of learning expands our &lt;em&gt;solution space&lt;/em&gt;, which in turn may
 lead to solutions for our problems.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/problem-vs-solution-space.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -46,22 +46,21 @@ their competence.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Dr. Carol Dweck has done research that shows that people with &lt;em&gt;performance goals&lt;/em&gt; tend to view the amount of effort
-exerted in learning as an index into their ability [1]. Exerting high amount of effort means an
+exerted in learning as an indicator of their ability [1]. Exerting high amount of effort means an
 individual has low ability. Even more dangerous, these individuals view failures as warning signs that
 they will be judged as having low ability. Therefore when high effort is required, these individuals
-may experience high anxiety.&lt;/p&gt;
+may experience anxiety.&lt;/p&gt;
 
-&lt;p&gt;Compare this to people with &lt;em&gt;learning goals&lt;/em&gt;, who view effort as a mean of activating an ability. That is,
-putting effort into something will result in you increasing your ability. These individuals also view
-failures as an indication that the task will require even more effort. As well, exerting effort in the service
+&lt;p&gt;Compare this to people with &lt;em&gt;learning goals&lt;/em&gt;, who view effort as a means of activating ability. These individuals also view
+failures simply as an indication that the task will require more effort. As well, exerting effort in the service
 of learning may bring intrinsic rewards and pleasure.&lt;/p&gt;
 
 &lt;p&gt;It is important that we try to prioritize learning goals over performance goals. Of course, it is not
-realistic to completely avoid the latter. When we do reach for performance goals, it’s important to still keep in mind
-that failures are not an indication of personal deficiencies, but rather an sign that more effort is required
-rather then a judgement of their ability.&lt;/p&gt;
+realistic to completely avoid the latter. When we do reach for performance goals, it is important to keep in mind
+that failures are not an indication of personal deficiencies, but rather a signal to put more effort in. We also need to keep our
+original performance goal in view and develop a proper strategy to meet that goal.&lt;/p&gt;
 
-&lt;p&gt;We also need to keep our original performance goal in view and develop proper strategy/plan to meet that goal.&lt;/p&gt;
+&lt;p&gt;So how do we deal with challenges when reaching for our goals?&lt;/p&gt;
 
 &lt;h2 id=&quot;using-adversity&quot;&gt;Using Adversity&lt;/h2&gt;
 
@@ -72,16 +71,18 @@ of our abilities.
 &lt;small&gt;Josh Waitzkin, The Art of Learning&lt;/small&gt; &lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;When faced with adversity, there are two response patterns that can determine whether individuals are successful in
+&lt;p&gt;When faced with adversity, there are two mindsets that can determine whether individuals are successful in
 overcoming said adversity.&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
-    &lt;p&gt;The maladaptive &lt;strong&gt;helpless&lt;/strong&gt; pattern is one that deters individuals from confronting obstacles or prevents
-them from functioning effectively in the face of difficulty.&lt;/p&gt;
+    &lt;p&gt;The &lt;strong&gt;helpless&lt;/strong&gt; mindset is one in which individuals believe that intelligence is a fixed trait. That is, you
+cannot increase the amount of intelligence you have. This leads to a maladaptive pattern that deters individuals from
+confronting obstacles or prevents them from functioning effectively in the face of difficulty.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;The adaptive &lt;strong&gt;mastery-oriented&lt;/strong&gt; pattern is one in which individuals maintain a commitment to their goals
+    &lt;p&gt;The &lt;strong&gt;mastery-oriented&lt;/strong&gt; mindset is one in which individuals think intelligence is malleable and can be developed
+through education and hard work. This leads to an adaptive pattern that helps maintain a commitment to their goals
 through periods of difficulty.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
@@ -93,7 +94,7 @@ at hand, or talk about how good they are in other things. These “helpless” c
 effort as futile, as the task is beyond their ability.&lt;/p&gt;
 
 &lt;p&gt;With mastery-oriented children, the obversation is that they did not give attributions for their failures.
-They viewed unsolved problems as a challenge to be conquered through effort. They relished the opportunity
+They viewed unsolved problems as a challenge to be conquered through hard work. They relished the opportunity
 to reach a solution.&lt;/p&gt;
 
 &lt;p&gt;These same patterns have been observed in adults as well.&lt;/p&gt;
@@ -109,23 +110,23 @@ not let pride and ego get in the way of an opportunity to learn.&lt;/p&gt;
 in school years ago is probably not within your current abilities – unless you’ve practiced it recently.&lt;/p&gt;
 
 &lt;p&gt;This phenomenon has been documented in research by psychologist Hermann Ebbinghaus. He found that your chance
-of memory retention goes down drastically after the first few hours, and slowly declines after a few days.&lt;/p&gt;
+of memory retention goes down drastically after the first few hours, then slowly declines after a few days.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/forgetting-curve.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;All is not lost though, because we can employ a technique known as &lt;em&gt;spaced repetition&lt;/em&gt; to combat this memory decay.&lt;/p&gt;
 
-&lt;p&gt;The technique is to reinforce what we learned by reviewing the materials in increasing intervals of time. After our
+&lt;p&gt;This technique reinforces what we have learned through review of the material in increasing intervals of time. After our
 initial memorization of the material, we need a reminder of the material &lt;em&gt;soon&lt;/em&gt; after in order to have a good chance of
-remembering it. The second reminder will then follow a longer period of days compared to the first. And the third reminder
-comes after an even longer period, and so on.&lt;/p&gt;
+remembering it. The second reminder will then follow a longer period of time compared to the first. And the third reminder
+comes after an even longer period of time, and so on.&lt;/p&gt;
 
 &lt;p&gt;Spaced repetition has been shown in a study by H.F. Spitzer to be effective. [2]&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/forgetting-curve-repetition.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Practically, we need to first recognize the materials we want to remember. Once we know
-what we want to remember, we need to set periodic reviews of those materials. For things that we &lt;em&gt;just&lt;/em&gt; learned, we need
+&lt;p&gt;In practice, we need to first recognize the materials we want to remember. Once we know
+what we want to remember, we need to set periodic reviews of those materials. For things that we have &lt;em&gt;just&lt;/em&gt; learned, we need
 to do our reviews at least within the first couple of days, then we keep up the reviews with increasing intervals of time.&lt;/p&gt;
 
 &lt;p&gt;The implication here is that we need to dedicate time to revisit materials &lt;em&gt;in addition&lt;/em&gt; to learning new materials. The
@@ -165,23 +166,102 @@ a bunch of skills that we think we need, but we have to exert tremendous amounts
 that those skills.&lt;/p&gt;
 
 &lt;p&gt;An easy solution for this is to move things back to A. We can be explicit about not learning a skill, and free up our
-cognitive resource to pursue other skills. This option is great if it is actually open to us. The reality is that we
-might not have a say in what skills we need for our job.&lt;/p&gt;
+cognitive resource to pursue other skills. This option is great if it is actually available to us. The reality is that we
+might not have a say in what skills we need for our jobs.&lt;/p&gt;
 
-&lt;p&gt;The other solution (perhaps more viable solution) that Kathy proposes is to &lt;strong&gt;break a skill down to many sub-skills&lt;/strong&gt;.
+&lt;p&gt;The other solution (perhaps a more viable one) that Kathy proposes is to &lt;strong&gt;break a skill down to many sub-skills&lt;/strong&gt;.
 For example, instead of mastering all of Rails, I might spend my efforts in learning &lt;a href=&quot;https://github.com/rails/arel&quot;&gt;Arel&lt;/a&gt;
 really well because I find myself needing that knowledge quite often at work. I can further break “Rails” downs into smaller
-skills, such as knowing how Active Records work, how &lt;a href=&quot;https://github.com/sparklemotion/nokogiri&quot;&gt;Nokigiri&lt;/a&gt;
-works if I’m dealing with XML a lot, etc. What about AngularJS?
-Do I really need to master directives, or can I get away with just knowing how to wire up services and controllers?&lt;/p&gt;
+skills, such as knowing how Active Records work, how &lt;a href=&quot;https://github.com/sparklemotion/nokogiri&quot;&gt;Nokogiri&lt;/a&gt;
+works if I’m dealing with XML a lot, etc. &lt;/p&gt;
+
+&lt;p&gt;And what about AngularJS? Do I really need to completely master directives, or can I get away with just knowing how to wire up services and controllers?&lt;/p&gt;
 
 &lt;p&gt;Be cognizant of how the skills or sub-skills we spend our efforts on actually &lt;strong&gt;tie back to our learning or performance goals&lt;/strong&gt;.
 Also keep in mind that any skils we acquire will have to be practiced over and over again using &lt;strong&gt;spaced repetition&lt;/strong&gt;.&lt;/p&gt;
 
+&lt;p&gt;Now, one other problem that Kathy identifies is that even once we’ve identified that &lt;strong&gt;we need to take a skill from A to C&lt;/strong&gt;,
+it might take us &lt;strong&gt;too long to get there&lt;/strong&gt;. This is where the &lt;strong&gt;deliberate practice&lt;/strong&gt; comes in.&lt;/p&gt;
+
+&lt;h2 id=&quot;deliberate-practice&quot;&gt;Deliberate Practice&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Expert performance is qualitatively different from normal performance and even that expert performers have characteristics and abilities that are qualitatively different from or at least outside the range of those of normal adults. However, we deny that these differences are immutable, that is due to innate talent. Only a few exceptions, most notably height are genetically prescribed. Instead, we argue that the differences between expert performers and normal adults reflect a life-long period of deliberate effort to improve performance in a specific domain.
+&lt;small&gt;K. Anders Ericsson&lt;/small&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Just to recap, so far we have discovered:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Setting &lt;em&gt;learning goals&lt;/em&gt; and having a &lt;em&gt;mastery-oriented&lt;/em&gt; mindset helps us be successful in out learning endeavours.&lt;/li&gt;
+  &lt;li&gt;In order for us to retain a skill that we have learned, we need utilize &lt;em&gt;spaced repetition&lt;/em&gt;.&lt;/li&gt;
+  &lt;li&gt;It is better to break a widely-scoped skill down to &lt;em&gt;sub-skills&lt;/em&gt; so we can master a subset of those sub-skills.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The last piece of the puzzle is how we go about learning these smaller sub-skills in an efficent manner. According to research by K. Anders Ericsson,
+the difference between the “expert performers and normal adults reflect a life-long period of deliberate effort to improve performance in a specific domain.” [3]&lt;/p&gt;
+
+&lt;p&gt;According to Ericsson, there are four components of &lt;strong&gt;deliberate practice&lt;/strong&gt;. [3]&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;You must be motivated to attend to the task and exert effort to improve your performance.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Each task should be designed to take into account your pre-existing knowledge. This will ensure the task is correctly
+understood after a relatively brief period of instruction.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;You should receive immediate informative feedback and knowledge of results of your performance.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The same or similar tasks should be performed repeatedly.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Component #1 is basically having the right mindset and goals when we are learning a skill. Component #4 points back to spaced repetition.&lt;/p&gt;
+
+&lt;p&gt;What we haven’t discusses so far are components #2 and #3.&lt;/p&gt;
+
+&lt;h3 id=&quot;accounting-for-pre-existing-knowledge&quot;&gt;Accounting For Pre-Existing Knowledge&lt;/h3&gt;
+
+&lt;p&gt;Imagine telling a beginner pianist to learn to play &lt;a href=&quot;https://www.youtube.com/watch?v=zucBfXpCA6s&quot;&gt;Moonlight Sonata Movement 3&lt;/a&gt;. No matter how dedicated
+that pianist is to practice, they will never be able to play it because they currently lack the knowledge and skills required to even begin to tackle
+that piece of music. It is much more fruitful to break that goal of playing Moonlight Sonata Movement 3 into smaller, more attainable tasks, with increasing
+difficulty. For example, as the pianist I may need to first practice my techniques (scales, chords, etc.) in order for my fingers to be able to
+handle playing at such speeds. The techniques I need to master will start with more basic ones that I can reasonably achieve in the short term. Then
+as time passes, I will crank up the difficulty and complexity. Eventually, I will have enough techniques under my belt that playing this Sonata will be realistic.&lt;/p&gt;
+
+&lt;p&gt;The same is true for programmers. There is no way a junior programmer can learn how to build a distributed, event-driven system from scratch. Sorry to burst your
+bubble, but no amount of Stackoverflow answers will help you. There is no framework you can &lt;code&gt;npm instal&lt;/code&gt; that will help you.&lt;/p&gt;
+
+&lt;p&gt;You first need to learn the basics of distributed computing. Build a few distributed systems. Then learn about event-driven architecture. Build a few
+systems in that architecture. Then think about all the glue pieces between distributed and event driven systems. Do I need to learn CQRS? Do I need to
+guarantee total ordering of events? If so, what techniques can I apply to achieve this? Do I need to learn more about asynchronous architectures? What else do
+I need to know?&lt;/p&gt;
+
+&lt;p&gt;We need to ensure we can get to the next step of our goal using the knowledge we currently possess. &lt;strong&gt;You cannot go from A to B if you cannot understand what B is&lt;/strong&gt;.
+It is better to modify our plan to go from A to B, from B to C, from C to D, and so on, as long as each step is attainable using what we’ve learned in the previous
+step.&lt;/p&gt;
+
+&lt;h3 id=&quot;receiving-feedback-of-your-performance&quot;&gt;Receiving Feedback Of Your Performance&lt;/h3&gt;
+
+&lt;p&gt;So now we have a practice plan designed for our current skill level. But how do we know we’ve attained the next level in our learning goal?
+The only way to tell is if we get immediate feedback that we understand what we’re trying to learn.&lt;/p&gt;
+
+&lt;p&gt;For example, personally for me I have small toy apps that I keep re-implementing in different frameworks, languages, and architectural patterns. Why? Because
+once I can build the app in a new language, I know that I’ve achieve a basic understanding of that language. Same thing for frameworks and
+architectural patterns. This is both deliberate (I want to achieve basic understanding of X) and measureable (I’ve succeeded once I can build this without
+looking at Stackoverflow).&lt;/p&gt;
+
+&lt;p&gt;The one thing I will caution about measuring feedback is to &lt;strong&gt;limit the number of variables you have&lt;/strong&gt;. Don’t try to learn ReactJS frontend and Django backend
+all in the same session. You will never get good feedback by doing that. Be very deliberate about what you want to achieve, and devise a plan that only
+tackles those goals.&lt;/p&gt;
+
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
 &lt;p&gt;As programmers, learning is something we have to do repeatedly over the course of our career. In order to achieve the best
-results, it is important to make sure we set the right goals for ourselves.&lt;/p&gt;
+results, it is important to make sure we have the right mindset and set the right goals for ourselves.&lt;/p&gt;
 
 &lt;p&gt;If possible, use learning as a goal in and of itself. Don’t let ego prevent us from learning in the face of adversity.&lt;/p&gt;
 
@@ -189,13 +269,22 @@ results, it is important to make sure we set the right goals for ourselves.&lt;/
 
 &lt;p&gt;If a skill is too big to learn, try breaking it down into smaller sub-skills and master those.&lt;/p&gt;
 
+&lt;p&gt;Once you’ve identified those sub-skills, be very deliberate about how you can learn them using your existing knowledge, and think about how you can collect feedback
+in your learning sessions.&lt;/p&gt;
+
+&lt;p&gt;I hope this post has been helpful to you. Have fun learning!&lt;/p&gt;
+
 &lt;h2 id=&quot;references-and-further-materials&quot;&gt;References and Further Materials&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;[1] Dweck, Carol and Leggett, Ellen L. (1988). &lt;a href=&quot;http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf&quot;&gt;A Social-Cognitive Approach to Motivation and Personality&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;[2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657&lt;/li&gt;
+  &lt;li&gt;[3] Ericsson, K. Anders (1993). &lt;a href=&quot;http://projects.ict.usc.edu/itw/gel/EricssonDeliberatePracticePR93.pdf&quot;&gt;The Role of Deliberate Practice in the Acquisition of Expert Performance&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Kathy Sierra - &lt;a href=&quot;https://www.youtube.com/watch?v=FKTxC9pl-WM&quot;&gt;Making Badass Developers&lt;/a&gt; (video)&lt;/li&gt;
   &lt;li&gt;Edward Kmett - &lt;a href=&quot;https://yow.eventer.com/yow-2014-1222/stop-treading-water-learning-to-learn-by-edward-kmett-1750&quot;&gt;Stop Treading Water: Learning to Learn&lt;/a&gt;  (video)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://expertenough.com/1423/deliberate-practice&quot;&gt;Deliberate Practice: What It Is and Why You Need It&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://calnewport.com/blog/2010/01/06/the-grandmaster-in-the-corner-office-what-the-study-of-chess-experts-teaches-us-about-building-a-remarkable-life/&quot;&gt;The Grandmaster in the Corner Office: What the Study of Chess Experts Teaches Us about Building a Remarkable Life&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.amazon.com/The-Art-Learning-Journey-Performance/dp/B00JE2WEEK&quot;&gt;The Art of Learning: An Inner Journey to Optimal Performance&lt;/a&gt; (book)&lt;/li&gt;
 &lt;/ul&gt;
 </content>
  </entry>
