@@ -59,11 +59,11 @@ When faced with adversity, there are two mindsets that can determine whether ind
 overcoming said adversity.
 
 1. The **helpless** mindset is one in which individuals believe that intelligence is a fixed trait. That is, you
-cannot increase the amount of intelligence you have. This leads to maladaptive patterns that deter individuals from
+cannot increase the amount of intelligence you have. This leads to a maladaptive pattern that deters individuals from
 confronting obstacles or prevents them from functioning effectively in the face of difficulty.
 
 2. The **mastery-oriented** mindset is one in which individuals think intelligence is malleable and can be developed
-through education and hard work. This leads to adaptive patterns that help maintain a commitment to their goals
+through education and hard work. This leads to an adaptive pattern that helps maintain a commitment to their goals
 through periods of difficulty.
 
 In Dr. Dweck's research [1], she found that during the onset of failures, children who exhibit the helpless pattern
