@@ -150,26 +150,29 @@ describe('RandomNumber', () => {
       random: PropTypes.func,
       round: PropTypes.func 
     };
+
     getChildContext() { return context }
+
+    render() {
+      return <div>{this.props.children()}></div>
+    }
   }
   
   it('renders number from 1 to max', () => {
     let component, p;
     context = { round: Math.round }; // Binding context.
   
-    contex.random =  () => 0.9999; // Hard-coded to return 0.9999
+    context.random =  () => 0.9999; // Hard-coded to return 0.9999
     component = TestUtils.renderIntoDocument(
-      <Container><RandomNumber max={10} /></Container>
+      <Container>{() => <RandomNumber max={10} />}</Container>
     );
-    p = TestUtils.scryRenderedDOMComponentByTag('p')[0];
-    expect(React.findDOMNode(p).textContent).to.match(/10/);
+    expect(React.findDOMNode(component).textContent).to.match(/10/);
     
     context.random = () => 0.499999;
     component = TestUtils.renderIntoDocument(
-      <Container><RandomNumber max={5000} /></Container>
+      <Container>{() => <RandomNumber max={5000} />}</Container>
     );
-    p = TestUtils.scryRenderedDOMComponentByTag('p')[0];
-    expect(React.findDOMNode(p).textContent).to.match(/2500/);
+    expect(React.findDOMNode(component).textContent).to.match(/2500/);
   });
 });
 {% endhighlight %}

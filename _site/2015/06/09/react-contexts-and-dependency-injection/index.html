@@ -254,26 +254,29 @@ to our component.</p>
       <span class="nx">random</span><span class="o">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span><span class="p">,</span>
       <span class="nx">round</span><span class="o">:</span> <span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span> 
     <span class="p">};</span>
+
     <span class="nx">getChildContext</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">context</span> <span class="p">}</span>
+
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">()}</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">}</span>
   <span class="p">}</span>
   
   <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;renders number from 1 to max&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">component</span><span class="p">,</span> <span class="nx">p</span><span class="p">;</span>
     <span class="nx">context</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">round</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">round</span> <span class="p">};</span> <span class="c1">// Binding context.</span>
   
-    <span class="nx">contex</span><span class="p">.</span><span class="nx">random</span> <span class="o">=</span>  <span class="p">()</span> <span class="o">=&gt;</span> <span class="mf">0.9999</span><span class="p">;</span> <span class="c1">// Hard-coded to return 0.9999</span>
+    <span class="nx">context</span><span class="p">.</span><span class="nx">random</span> <span class="o">=</span>  <span class="p">()</span> <span class="o">=&gt;</span> <span class="mf">0.9999</span><span class="p">;</span> <span class="c1">// Hard-coded to return 0.9999</span>
     <span class="nx">component</span> <span class="o">=</span> <span class="nx">TestUtils</span><span class="p">.</span><span class="nx">renderIntoDocument</span><span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;&lt;</span><span class="nx">RandomNumber</span> <span class="nx">max</span><span class="o">=</span><span class="p">{</span><span class="mi">10</span><span class="p">}</span> <span class="o">/&gt;&lt;</span><span class="err">/Container&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">RandomNumber</span> <span class="nx">max</span><span class="o">=</span><span class="p">{</span><span class="mi">10</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/Container&gt;</span>
     <span class="p">);</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">TestUtils</span><span class="p">.</span><span class="nx">scryRenderedDOMComponentByTag</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">React</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/10/</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">React</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="nx">component</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/10/</span><span class="p">);</span>
     
     <span class="nx">context</span><span class="p">.</span><span class="nx">random</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="mf">0.499999</span><span class="p">;</span>
     <span class="nx">component</span> <span class="o">=</span> <span class="nx">TestUtils</span><span class="p">.</span><span class="nx">renderIntoDocument</span><span class="p">(</span>
-      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;&lt;</span><span class="nx">RandomNumber</span> <span class="nx">max</span><span class="o">=</span><span class="p">{</span><span class="mi">5000</span><span class="p">}</span> <span class="o">/&gt;&lt;</span><span class="err">/Container&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Container</span><span class="o">&gt;</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">RandomNumber</span> <span class="nx">max</span><span class="o">=</span><span class="p">{</span><span class="mi">5000</span><span class="p">}</span> <span class="o">/&gt;</span><span class="p">}</span><span class="o">&lt;</span><span class="err">/Container&gt;</span>
     <span class="p">);</span>
-    <span class="nx">p</span> <span class="o">=</span> <span class="nx">TestUtils</span><span class="p">.</span><span class="nx">scryRenderedDOMComponentByTag</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">React</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="nx">p</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/2500/</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">React</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="nx">component</span><span class="p">).</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/2500/</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div>
