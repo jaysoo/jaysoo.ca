@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Typed Redux and React &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Typed Redux and React
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>The recent release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> (TS) 1.6 includes support <a href="http://facebook.github.io/react/">React</a> components.
+I decided to give it a whirl and see what TS has to offer.</p>
+
+<p>The end result is a port of the <a href="https://github.com/rackt/redux">redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TS.</p>
+
+<p>So why types in the first place? Isn’t the dynamic and flexible nature of JavaScript what makes it so great in the first
+place? As strange as it sounds, I actually believe that adding more constraints to the system can result in <em>more</em> freedom.
+Of course, the type system has to be powerful and flexible enough to not get in your way every step of the way.</p>
+
+<p>This post is meant for developers who work with JavaScript and has an interest in TS and React. I will be showing
+examples using the Redux framework, but it is not a requirement. No prior knowledge of TS is required, but you should have
+some familiarity with React.</p>
+
+<p>I will cover the following topics:</p>
+
+<ul>
+  <li>What are types, and why we need them?</li>
+  <li>How does a typed React application look like?</li>
+  <li>Additional considerations when choosing TS and React.</li>
+</ul>
+
+<h2 id="types-are-good-for-you">Types are good for you</h2>
+
+<p>If you have any Java experience, you may be immediately turned off by types. The first thing to know if that a type is
+not a class. In a more FP definition, a type is a name given to the set of input and output of a given function. That is,
+a type describes a the interface of a function.</p>
+
+<p>Say I have a function defined as follows:</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">add</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="o">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This the TS syntax that says my <code>add</code> function takes in two parameters <code>a</code> and <code>b</code> both of type <code>number</code>, then outputs
+a <code>number</code>. Thus, if I write any of the following statements, I will get a static type error.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// &#39;2&#39; is not a number</span>
+<span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">);</span>
+
+<span class="c1">// result declared to be string, but add returns a number.</span>
+<span class="kr">const</span> <span class="nx">result</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Not only do you get compile errors, if you are using an IDE that supports TS you will actuall get editor hints are you
+are typing.</p>
+
+<p><img src="/images/ts-ide-1.gif" alt="" /></p>
+
+<h3 id="types-are-not-classes">Types are not classes</h3>
+
+<p>As mentioned before, types in TS are not classes. The following defines a <code>Todo</code> type, but does not create a class.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">?:</span> <span class="nx">number</span><span class="p">;</span>
+  <span class="nx">text</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nx">completed</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The <code>id?</code> syntax means that the <code>id</code> property is optional (since a new <code>Todo</code> may not have an ID yet).</p>
+
+<p>Given the above definition, I can now do the following.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Valid assignment</span>
+<span class="kr">const</span> <span class="nx">t1</span><span class="o">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Finish this blog post&#39;</span><span class="p">,</span>
+  <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">};</span>
+
+<span class="c1">// Type error because text is missing</span>
+<span class="kr">const</span> <span class="nx">t2</span><span class="o">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>What is more interesting is that I can use the type to form an interface over functions that operate over <code>Todo</code>s.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">completedTodos</span> <span class="o">=</span> <span class="p">(</span><span class="nx">todos</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[])</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// This works</span>
+<span class="nx">completedTodos</span><span class="p">([</span>
+  <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Do something&#39;</span><span class="p">,</span> <span class="nx">completed</span><span class="o">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Do another thing&#39;</span><span class="p">,</span> <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span> <span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="c1">// These fail because inputs are the wrong type</span>
+<span class="nx">completedTodos</span><span class="p">(</span><span class="s1">&#39;Huh?&#39;</span><span class="p">);</span>
+<span class="nx">completedTodos</span><span class="p">([{</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Missing completed property&#39;</span> <span class="p">}]);</span>
+</code></pre></div>
+
+<p>Again, you will see errors in IDEs that support TS as you are typing.</p>
+
+<p>You can even define types for functions.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">F</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">string</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">f</span><span class="o">:</span> <span class="nx">F</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nb">Number</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+</code></pre></div>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/06/25/when-learning-attitude-and-approach-matter" title="When Learning, Attitude and Approach Matter">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/09/25/typed-redux-and-react';
+    var disqus_url = 'http://jaysoo.ca/2015/09/25/typed-redux-and-react';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+  
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>25 September 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>28</span></a></li>
+     
+    	<li><a href="/tags.html#react-ref">react <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#flux-ref">flux <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#redux-ref">redux <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+    
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/09/25/typed-redux-and-react&amp;text=Typed%20Redux%20and%20React&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2015/06/09/react-contexts-and-dependency-injection">React Contexts and Dependency Injection</a></li>
+      
+      <li><a href="/2015/03/09/on-flux-stores-and-actions">On Flux Stores and Actions</a></li>
+      
+      <li><a href="/2015/02/06/what-the-flux">What the Flux? (On Flux, DDD, and CQRS)</a></li>
+      
+      <li><a href="/2015/06/02/why-you-should-care-about-flux">Why You Should Care About Flux</a></li>
+      
+      <li><a href="/2015/03/30/container-component-pattern-in-angular-1">Containers and  Components in Angular 1</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+
