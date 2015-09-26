@@ -218,10 +218,10 @@ class TodoTextInput extends React.Component<TodoTextInputProps, any> {
   modules.
 </div>
 
-### Props interface vs React.PropTypes
+### Properties interface vs React.PropTypes
 
-Props interface differs from `React.PropTypes` in that the latter will only give you errors during runtime. With
-Props interface we can get feedback immediately from the compiler.
+Properties interface differs from `React.PropTypes` in that the latter will only give you errors during runtime. With
+Properties interface we can get feedback immediately from the compiler.
 
 {% highlight js %}
 // This errors on compile because onSave is required but not specified.
@@ -249,7 +249,168 @@ The above errors were from Webpack with ts-loader.
 
 ### Types and Redux
 
+In the TodoMVC example, I defined a `Todo` type that is used throughout the application. It is used as the return
+type of
+[actions/todos](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/actions/todos.ts)
+. The state of
+[reducers/todos](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts) 
+is `Todo[]`. And [the](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/MainSection.tsx)
+[components](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoItem.tsx)
+[all](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoTextInput.tsx) take in
+`Todo` or `Todo[]` as properties.
 
+This ensures that as I am coding, my actions and reducers (stores) all work with the correct types.
+
+{% highlight js %}
+/* actions/todos.ts */
+
+// This action takes in a `string` and returns `Todo` as its payload.
+const addTodo = createAction<Todo>(
+  types.ADD_TODO,
+  (text: string) => ({ text, completed: false })
+);
+
+/* reducers/todos.ts */
+
+// This reducer takes current state of Todo[] and returns a new state of Todo[].
+export default handleActions<Todo[]>({
+  [ADD_TODO]: (state: Todo[], action: Action): Todo[] => {
+    return [{
+      id: state.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+      completed: action.payload.completed,
+      text: action.payload.text
+    }, ...state];
+  }
+  // ...
+}, initialState);
+{% endhighlight %}
+
+This means I now benefit from all the error and type hints within my actions and reducers.
+
+![](/images/ts-action.png)
+
+### Using union types as models
+
+Let's add an initializing state to the `todos` reducer by introducing a `Model` union type for it.
+
+{% highlight js %}
+// This denotes that the state is still initializing.
+// There is a progress propert that is a number from 0-100 (%).
+export interface Initializing {
+  progress: number;
+};
+
+// The model or our state can be either of these types.
+export type Model = Initializing | Todo[];
+
+// Check if x is a type of Initializing. This can be used in type guards.
+export const isInitializing = (x: any): x is Initializing => {
+  return typeof x.progress === 'number';
+}
+{% endhighlight %}
+
+We'll have to change our reducer's state from type `Todo[]` to `Model`, and add type guards to our
+reduce functions.
+
+{% highlight js %}
+export default handleActions<Model>({
+  [ADD_TODO]: (state: Model, action: Action): Model => {
+    let todos: Todo[];
+
+    if (isInitializing(state)) {
+      // If current state is initializing, set todos to empty array.
+      todos = [];
+    } else {
+      // Otherwise set to current state.
+      todos = state;
+    }
+
+    return [{
+      id: todos.reduce((maxId, todo) => Math.max(todo.id, maxId), -1) + 1,
+      completed: action.payload.completed,
+      text: action.payload.text
+    }, ...todos];
+  }
+  // ...
+});
+{% endhighlight %}
+
+The type guard ensures that in the `else` branch, `state` is of type `Todo[]`, which is why the above code compiles.
+
+<div class="alert alert-info">
+  <strong>Note:</strong> I chose to not use a class for <code>Initializing</code>, but used an interface instead. The
+  downside of this approach is that you cannot use <code>state instanceof Initializing</code> in the type guard since
+  interfaces are not available for reflection during run time. It's up to you how you want to implement your own types.
+</div>
+
+#### Rendering the initializing state
+
+Within my `App` component, I can use the same `Model` and type check function to render an initializing state.
+
+{% highlight js %}
+render() {
+  const todos: Model = this.props.todos;
+  const dispatch = this.props.dispatch;
+  const actions = bindActionCreators(TodoActions, dispatch);
+
+  if (isInitializing(todos)) {
+    const style = {
+      'font-size': '24px',
+      'text-align': 'center'
+    };
+    return <p style={style}>Initializing... ({todos.progress}%)</p>
+  } else {
+    return (
+      <div className="todoapp">
+        <Header addTodo={actions.addTodo} />
+        <MainSection
+          todos={todos}
+          actions={actions}/>
+      </div>
+    );
+  }
+}
+{% endhighlight %}
+
+The alternative to this approach might be to change our state to the following type.
+
+{% highlight js %}
+// todos can now be undefined or null.
+type Model = {
+  todos?: Todo[];
+  isInitializing: boolean;
+  initializationProgress: number;
+}
+{% endhighlight %}
+
+This trades in the union type for a boolean flag to let us know why `todos` is `undefined` or `null`. This also makes
+our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
+applications, doing this type of thing is hard to avoid without types.
+
+This initialization example is a bit contrived, but I hope it shows the power behind the technique. I have a
+[branch](https://github.com/jaysoo/todomvc-redux-react-typescript/tree/union-types)
+of that shows how the above code works in the TodoMVC app. Fair warning, it is not completely functional because I only
+did enough work to get a few examples.
+
+
+## Closing
+
+In this post I offered a glimpse of how TypeScript can help you when writing a React application. The benefits you
+will receive are:
+
+- Type hints as you code (in editors that support TypeScript).
+- Type errors during compile type, or as you code in supported editors.
+- Guarantees against certain classes of errors when your application compiles.
+- Union types to simplify application state.
+
+Does this mean you should rewrite your application in TypeScript right now? It's up to you. There are some downsides
+in choosing TypeScript.
+
+- Your favourite editor may not support TypeScript. Best editors right now would be WebStorm or Visual Studio Code IMO.
+- As of this writing, Visual Studio Code does not support TSX files (at least from my observation).
+- You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).
+
+If you think the benefits outweigh the the costs, definitely give TypeScript a go!
 
 ## Resouces
 

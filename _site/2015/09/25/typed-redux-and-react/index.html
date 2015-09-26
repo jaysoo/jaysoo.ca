@@ -313,10 +313,10 @@ example</a>.</p>
   modules.
 </div>
 
-<h3 id="props-interface-vs-reactproptypes">Props interface vs React.PropTypes</h3>
+<h3 id="properties-interface-vs-reactproptypes">Properties interface vs React.PropTypes</h3>
 
-<p>Props interface differs from <code>React.PropTypes</code> in that the latter will only give you errors during runtime. With
-Props interface we can get feedback immediately from the compiler.</p>
+<p>Properties interface differs from <code>React.PropTypes</code> in that the latter will only give you errors during runtime. With
+Properties interface we can get feedback immediately from the compiler.</p>
 
 <div class="highlight"><pre><code class="js"><span class="c1">// This errors on compile because onSave is required but not specified.</span>
 <span class="o">&lt;</span><span class="nx">TodoTextInput</span><span class="o">/&gt;</span>
@@ -340,6 +340,167 @@ Props interface we can get feedback immediately from the compiler.</p>
 The above errors were from Webpack with ts-loader.</p>
 
 <h3 id="types-and-redux">Types and Redux</h3>
+
+<p>In the TodoMVC example, I defined a <code>Todo</code> type that is used throughout the application. It is used as the return
+type of
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/actions/todos.ts">actions/todos</a>
+. The state of
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts">reducers/todos</a> 
+is <code>Todo[]</code>. And <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/MainSection.tsx">the</a>
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoItem.tsx">components</a>
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoTextInput.tsx">all</a> take in
+<code>Todo</code> or <code>Todo[]</code> as properties.</p>
+
+<p>This ensures that as I am coding, my actions and reducers (stores) all work with the correct types.</p>
+
+<div class="highlight"><pre><code class="js"><span class="cm">/* actions/todos.ts */</span>
+
+<span class="c1">// This action takes in a `string` and returns `Todo` as its payload.</span>
+<span class="kr">const</span> <span class="nx">addTodo</span> <span class="o">=</span> <span class="nx">createAction</span><span class="o">&lt;</span><span class="nx">Todo</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">types</span><span class="p">.</span><span class="nx">ADD_TODO</span><span class="p">,</span>
+  <span class="p">(</span><span class="nx">text</span><span class="o">:</span> <span class="nx">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span> <span class="p">})</span>
+<span class="p">);</span>
+
+<span class="cm">/* reducers/todos.ts */</span>
+
+<span class="c1">// This reducer takes current state of Todo[] and returns a new state of Todo[].</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">handleActions</span><span class="o">&lt;</span><span class="nx">Todo</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">({</span>
+  <span class="p">[</span><span class="nx">ADD_TODO</span><span class="p">]</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[],</span> <span class="nx">action</span><span class="o">:</span> <span class="nx">Action</span><span class="p">)</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">maxId</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">todo</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">maxId</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">completed</span><span class="o">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">completed</span><span class="p">,</span>
+      <span class="nx">text</span><span class="o">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">text</span>
+    <span class="p">},</span> <span class="p">...</span><span class="nx">state</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">// ...</span>
+<span class="p">},</span> <span class="nx">initialState</span><span class="p">);</span>
+</code></pre></div>
+
+<p>This means I now benefit from all the error and type hints within my actions and reducers.</p>
+
+<p><img src="/images/ts-action.png" alt="" /></p>
+
+<h3 id="using-union-types-as-models">Using union types as models</h3>
+
+<p>Let’s add an initializing state to the <code>todos</code> reducer by introducing a <code>Model</code> union type for it.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// This denotes that the state is still initializing.</span>
+<span class="c1">// There is a progress propert that is a number from 0-100 (%).</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Initializing</span> <span class="p">{</span>
+  <span class="nx">progress</span><span class="o">:</span> <span class="nx">number</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// The model or our state can be either of these types.</span>
+<span class="kr">export</span> <span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="nx">Initializing</span> <span class="o">|</span> <span class="nx">Todo</span><span class="p">[];</span>
+
+<span class="c1">// Check if x is a type of Initializing. This can be used in type guards.</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">isInitializing</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">any</span><span class="p">)</span><span class="o">:</span> <span class="nx">x</span> <span class="nx">is</span> <span class="nx">Initializing</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">typeof</span> <span class="nx">x</span><span class="p">.</span><span class="nx">progress</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>We’ll have to change our reducer’s state from type <code>Todo[]</code> to <code>Model</code>, and add type guards to our
+reduce functions.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">export</span> <span class="k">default</span> <span class="nx">handleActions</span><span class="o">&lt;</span><span class="nx">Model</span><span class="o">&gt;</span><span class="p">({</span>
+  <span class="p">[</span><span class="nx">ADD_TODO</span><span class="p">]</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="o">:</span> <span class="nx">Model</span><span class="p">,</span> <span class="nx">action</span><span class="o">:</span> <span class="nx">Action</span><span class="p">)</span><span class="o">:</span> <span class="nx">Model</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">todos</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isInitializing</span><span class="p">(</span><span class="nx">state</span><span class="p">))</span> <span class="p">{</span>
+      <span class="c1">// If current state is initializing, set todos to empty array.</span>
+      <span class="nx">todos</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// Otherwise set to current state.</span>
+      <span class="nx">todos</span> <span class="o">=</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">[{</span>
+      <span class="nx">id</span><span class="o">:</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">maxId</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">todo</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">maxId</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="nx">completed</span><span class="o">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">completed</span><span class="p">,</span>
+      <span class="nx">text</span><span class="o">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">text</span>
+    <span class="p">},</span> <span class="p">...</span><span class="nx">todos</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>The type guard ensures that in the <code>else</code> branch, <code>state</code> is of type <code>Todo[]</code>, which is why the above code compiles.</p>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> I chose to not use a class for <code>Initializing</code>, but used an interface instead. The
+  downside of this approach is that you cannot use <code>state instanceof Initializing</code> in the type guard since
+  interfaces are not available for reflection during run time. It's up to you how you want to implement your own types.
+</div>
+
+<h4 id="rendering-the-initializing-state">Rendering the initializing state</h4>
+
+<p>Within my <code>App</code> component, I can use the same <code>Model</code> and type check function to render an initializing state.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">todos</span><span class="o">:</span> <span class="nx">Model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">todos</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">dispatch</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">actions</span> <span class="o">=</span> <span class="nx">bindActionCreators</span><span class="p">(</span><span class="nx">TodoActions</span><span class="p">,</span> <span class="nx">dispatch</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isInitializing</span><span class="p">(</span><span class="nx">todos</span><span class="p">))</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;font-size&#39;</span><span class="o">:</span> <span class="s1">&#39;24px&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;text-align&#39;</span><span class="o">:</span> <span class="s1">&#39;center&#39;</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">p</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Initializing</span><span class="p">...</span> <span class="p">({</span><span class="nx">todos</span><span class="p">.</span><span class="nx">progress</span><span class="p">}</span><span class="o">%</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">&quot;todoapp&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Header</span> <span class="nx">addTodo</span><span class="o">=</span><span class="p">{</span><span class="nx">actions</span><span class="p">.</span><span class="nx">addTodo</span><span class="p">}</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="nx">MainSection</span>
+          <span class="nx">todos</span><span class="o">=</span><span class="p">{</span><span class="nx">todos</span><span class="p">}</span>
+          <span class="nx">actions</span><span class="o">=</span><span class="p">{</span><span class="nx">actions</span><span class="p">}</span><span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The alternative to this approach might be to change our state to the following type.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos can now be undefined or null.</span>
+<span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">todos</span><span class="o">?:</span> <span class="nx">Todo</span><span class="p">[];</span>
+  <span class="nx">isInitializing</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">initializationProgress</span><span class="o">:</span> <span class="nx">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This trades in the union type for a boolean flag to let us know why <code>todos</code> is <code>undefined</code> or <code>null</code>. This also makes
+our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
+applications, doing this type of thing is hard to avoid without types.</p>
+
+<p>This initialization example is a bit contrived, but I hope it shows the power behind the technique. I have a
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/tree/union-types">branch</a>
+of that shows how the above code works in the TodoMVC app. Fair warning, it is not completely functional because I only
+did enough work to get a few examples.</p>
+
+<h2 id="closing">Closing</h2>
+
+<p>In this post I offered a glimpse of how TypeScript can help you when writing a React application. The benefits you
+will receive are:</p>
+
+<ul>
+  <li>Type hints as you code (in editors that support TypeScript).</li>
+  <li>Type errors during compile type, or as you code in supported editors.</li>
+  <li>Guarantees against certain classes of errors when your application compiles.</li>
+  <li>Union types to simplify application state.</li>
+</ul>
+
+<p>Does this mean you should rewrite your application in TypeScript right now? It’s up to you. There are some downsides
+in choosing TypeScript.</p>
+
+<ul>
+  <li>Your favourite editor may not support TypeScript. Best editors right now would be WebStorm or Visual Studio Code IMO.</li>
+  <li>As of this writing, Visual Studio Code does not support TSX files (at least from my observation).</li>
+  <li>You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).</li>
+</ul>
+
+<p>If you think the benefits outweigh the the costs, definitely give TypeScript a go!</p>
 
 <h2 id="resouces">Resouces</h2>
 
