@@ -8,7 +8,7 @@ http://jaysoo.ca/search.html
 http://jaysoo.ca/sitemap.txt
 http://jaysoo.ca/tags.html
 
-http://jaysoo.ca/2015/09/25/typed-redux-and-react
+http://jaysoo.ca/2015/09/26/typed-react-and-redux
 http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter
 http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection
 http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux

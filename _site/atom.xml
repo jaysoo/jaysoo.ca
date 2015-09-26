@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-09-26T13:57:45-04:00</updated>
+ <updated>2015-09-26T13:59:09-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Typed React and Redux</title>
-   <link href="http://jaysoo.ca/2015/09/25/typed-redux-and-react"/>
-   <updated>2015-09-25T00:00:00-04:00</updated>
-   <id>hhttp://jaysoo.ca/2015/09/25/typed-redux-and-react</id>
+   <link href="http://jaysoo.ca/2015/09/26/typed-react-and-redux"/>
+   <updated>2015-09-26T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2015/09/26/typed-react-and-redux</id>
    <content type="html">&lt;p&gt;The release of &lt;a href=&quot;http://www.typescriptlang.org/&quot;&gt;TypeSciprt&lt;/a&gt; 1.6 includes support &lt;a href=&quot;http://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; components.
 I decided to give it a whirl and see what TypeScript has to offer.&lt;/p&gt;
 
