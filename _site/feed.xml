@@ -402,12 +402,13 @@ in choosing TypeScript.&lt;/p&gt;
 
 &lt;p&gt;If you think the benefits outweigh the the costs, definitely give TypeScript a go!&lt;/p&gt;
 
-&lt;h2 id=&quot;resouces&quot;&gt;Resouces&lt;/h2&gt;
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.typescriptlang.org/Handbook&quot;&gt;TypeScript Handbook&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.jbrantly.com/typescript-and-jsx/&quot;&gt;TypeScript and JSX&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/rackt/redux/&quot;&gt;Redux&lt;/a&gt; (Flux-like framework)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/&quot;&gt;Hello World with TypeScript and JSX&lt;/a&gt; (This one helped me debug some errors)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Fri, 25 Sep 2015 00:00:00 -0400</pubDate>

@@ -418,3 +418,4 @@ If you think the benefits outweigh the the costs, definitely give TypeScript a g
 - [TypeScript Handbook](http://www.typescriptlang.org/Handbook)
 - [TypeScript and JSX](http://www.jbrantly.com/typescript-and-jsx/)
 - [Redux](https://github.com/rackt/redux/) (Flux-like framework)
+- [Hello World with TypeScript and JSX](http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/) (This one helped me debug some errors)
