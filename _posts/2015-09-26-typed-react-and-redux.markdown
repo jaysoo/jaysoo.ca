@@ -2,7 +2,7 @@
 created_at: 2015-09-26 15:20Z
 layout: post
 title: Typed React and Redux
-tags: [javascript,react,flux,redux]
+tags: [javascript,react,flux,typescript]
 ---
 
 The release of [TypeSciprt](http://www.typescriptlang.org/) 1.6 includes support for [React](http://facebook.github.io/react/) components.
