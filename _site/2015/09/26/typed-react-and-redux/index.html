@@ -109,7 +109,7 @@
 <div class="row">
   <div class="span8">
     <div class="post-body">
-      <p>The release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> 1.6 includes support <a href="http://facebook.github.io/react/">React</a> components.
+      <p>The release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> 1.6 includes support for <a href="http://facebook.github.io/react/">React</a> components.
 I decided to give it a whirl and see what TypeScript has to offer.</p>
 
 <p>The end result is a port of the <a href="https://github.com/rackt/redux">Redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TypeScript. 
@@ -137,7 +137,7 @@ some familiarity with React.</p>
 
 <p>If you have experience in  Java (or in a similar statically typed language), you may be immediately turned off by types.
 The first thing to note is that a type in TypeScript is not a class. A more mathematical definition of a type is that a
-type is a name given to the set of input and output of a given function. That is, a type describes the interface of a function.
+type is a name given to the set of inputs and outputs of a given function. That is, a type describes the interface of a function.
 This is the way I think about types.</p>
 
 <p>Say I have a function defined as follows:</p>
@@ -148,7 +148,7 @@ This is the way I think about types.</p>
 <p>The <code>add</code> function above says that it takes in two parameters <code>a</code> and <code>b</code> both of type <code>number</code>, then outputs
 a <code>number</code>. Thus, if I write any of the following statements, I will get a compile error.</p>
 
-<div class="highlight"><pre><code class="js"><span class="c1">// &#39;2&#39; is not a number</span>
+<div class="highlight"><pre><code class="js"><span class="c1">// &#39;2&#39; is not a number.</span>
 <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">);</span>
 
 <span class="c1">// result declared to be string, but add returns a number.</span>
@@ -162,7 +162,7 @@ a <code>number</code>. Thus, if I write any of the following statements, I will 
 <p>As seen above, types gives us two benefits.</p>
 
 <ol>
-  <li><strong>Catch errors early on</strong> during compile time, not run time.</li>
+  <li><strong>Catch errors early on</strong> during compile time, not runtime.</li>
   <li>Serves as <strong>documentation</strong> for functions. And in editors that support TypeScript, we get <strong>type hints as we code</strong>.</li>
 </ol>
 
@@ -170,7 +170,9 @@ a <code>number</code>. Thus, if I write any of the following statements, I will 
 
 <p>Say I have this function defined below.</p>
 
-<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">doSomething</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span> <span class="o">|</span> <span class="nx">CustomClass</span><span class="p">,</span> <span class="nx">options</span><span class="o">?:</span> <span class="nx">Options</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="c1">// The | here denotes a union type, which will be covered later in this post.</span>
+<span class="c1">// options? means the second parameter is not required.</span>
+<span class="kr">const</span> <span class="nx">doSomething</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span> <span class="o">|</span> <span class="nx">CustomClass</span><span class="p">,</span> <span class="nx">options</span><span class="o">?:</span> <span class="nx">Options</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="c1">// ...</span>
 <span class="p">};</span>
 </code></pre></div>
@@ -204,14 +206,14 @@ below, I will get hints in our editor as I code.</p>
 
 <p>Given the above definition, I can now do the following.</p>
 
-<div class="highlight"><pre><code class="js"><span class="c1">// Valid assignment</span>
+<div class="highlight"><pre><code class="js"><span class="c1">// Valid assignment.</span>
 <span class="kr">const</span> <span class="nx">t1</span><span class="o">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
   <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Finish this blog post&#39;</span><span class="p">,</span>
   <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span>
 <span class="p">};</span>
 
-<span class="c1">// Type error because text is missing</span>
+<span class="c1">// Type error because text is missing.</span>
 <span class="kr">const</span> <span class="nx">t2</span><span class="o">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
   <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span>
@@ -224,13 +226,13 @@ below, I will get hints in our editor as I code.</p>
   <span class="k">return</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
 <span class="p">};</span>
 
-<span class="c1">// This works</span>
+<span class="c1">// This works.</span>
 <span class="nx">completedTodos</span><span class="p">([</span>
   <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Do something&#39;</span><span class="p">,</span> <span class="nx">completed</span><span class="o">:</span> <span class="kc">true</span> <span class="p">},</span>
   <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Do another thing&#39;</span><span class="p">,</span> <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span> <span class="p">}</span>
 <span class="p">]);</span>
 
-<span class="c1">// These fail because inputs are the wrong type</span>
+<span class="c1">// These fail because inputs are the wrong type.</span>
 <span class="nx">completedTodos</span><span class="p">(</span><span class="s1">&#39;Huh?&#39;</span><span class="p">);</span>
 <span class="nx">completedTodos</span><span class="p">([{</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Missing completed property&#39;</span> <span class="p">}]);</span>
 </code></pre></div>
@@ -376,7 +378,7 @@ is <code>Todo[]</code>. And <a href="https://github.com/jaysoo/todomvc-redux-rea
 <span class="p">},</span> <span class="nx">initialState</span><span class="p">);</span>
 </code></pre></div>
 
-<p>This means I now benefit from all the error and type hints within my actions and reducers.</p>
+<p>I now benefit from all the type hints and errors when working with my actions and reducers.</p>
 
 <p><img src="/images/ts-action.png" alt="" /></p>
 
@@ -385,12 +387,12 @@ is <code>Todo[]</code>. And <a href="https://github.com/jaysoo/todomvc-redux-rea
 <p>Let’s add an initializing state to the <code>todos</code> reducer by introducing a <code>Model</code> union type for it.</p>
 
 <div class="highlight"><pre><code class="js"><span class="c1">// This denotes that the state is still initializing.</span>
-<span class="c1">// There is a progress propert that is a number from 0-100 (%).</span>
+<span class="c1">// There is a progress property that is a number from 0-100 (%).</span>
 <span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Initializing</span> <span class="p">{</span>
   <span class="nx">progress</span><span class="o">:</span> <span class="nx">number</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="c1">// The model or our state can be either of these types.</span>
+<span class="c1">// The model of our state can be either of these types.</span>
 <span class="kr">export</span> <span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="nx">Initializing</span> <span class="o">|</span> <span class="nx">Todo</span><span class="p">[];</span>
 
 <span class="c1">// Check if x is a type of Initializing. This can be used in type guards.</span>
@@ -406,6 +408,7 @@ reduce functions.</p>
   <span class="p">[</span><span class="nx">ADD_TODO</span><span class="p">]</span><span class="o">:</span> <span class="p">(</span><span class="nx">state</span><span class="o">:</span> <span class="nx">Model</span><span class="p">,</span> <span class="nx">action</span><span class="o">:</span> <span class="nx">Action</span><span class="p">)</span><span class="o">:</span> <span class="nx">Model</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="kd">let</span> <span class="nx">todos</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[];</span>
 
+    <span class="c1">// Type guard for state.</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">isInitializing</span><span class="p">(</span><span class="nx">state</span><span class="p">))</span> <span class="p">{</span>
       <span class="c1">// If current state is initializing, set todos to empty array.</span>
       <span class="nx">todos</span> <span class="o">=</span> <span class="p">[];</span>
@@ -429,7 +432,7 @@ reduce functions.</p>
 <div class="alert alert-info">
   <strong>Note:</strong> I chose to not use a class for <code>Initializing</code>, but used an interface instead. The
   downside of this approach is that you cannot use <code>state instanceof Initializing</code> in the type guard since
-  interfaces are not available for reflection during run time. It's up to you how you want to implement your own types.
+  interfaces are not available for reflection during runtime. It's up to you how you want to implement your own types.
 </div>
 
 <h4 id="rendering-the-initializing-state">Rendering the initializing state</h4>
@@ -470,7 +473,7 @@ reduce functions.</p>
 <span class="p">}</span>
 </code></pre></div>
 
-<p>This trades in the union type for a boolean flag to let us know why <code>todos</code> is <code>undefined</code> or <code>null</code>. This also makes
+<p>This trades in the union type for a boolean flag to let us know why <code>todos</code> is <code>undefined</code> or <code>null</code>. This makes
 our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
 applications, doing this type of thing is hard to avoid without types.</p>
 
@@ -506,6 +509,7 @@ in choosing TypeScript.</p>
 <h2 id="resources">Resources</h2>
 
 <ul>
+  <li><a href="https://github.com/jaysoo/todomvc-redux-react-typescript">TodoMVC in React and Redux</a></li>
   <li><a href="http://www.typescriptlang.org/Handbook">TypeScript Handbook</a></li>
   <li><a href="http://www.jbrantly.com/typescript-and-jsx/">TypeScript and JSX</a></li>
   <li><a href="https://github.com/rackt/redux/">Redux</a> (Flux-like framework)</li>

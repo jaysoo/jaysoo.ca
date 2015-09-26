@@ -8,7 +8,7 @@
 		
 			<item>
 				<title>Typed React and Redux</title>
-				<description>&lt;p&gt;The release of &lt;a href=&quot;http://www.typescriptlang.org/&quot;&gt;TypeSciprt&lt;/a&gt; 1.6 includes support &lt;a href=&quot;http://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; components.
+				<description>&lt;p&gt;The release of &lt;a href=&quot;http://www.typescriptlang.org/&quot;&gt;TypeSciprt&lt;/a&gt; 1.6 includes support for &lt;a href=&quot;http://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; components.
 I decided to give it a whirl and see what TypeScript has to offer.&lt;/p&gt;
 
 &lt;p&gt;The end result is a port of the &lt;a href=&quot;https://github.com/rackt/redux&quot;&gt;Redux&lt;/a&gt; &lt;a href=&quot;http://todomvc.com/&quot;&gt;TodoMVC&lt;/a&gt; example to TypeScript. 
@@ -36,7 +36,7 @@ some familiarity with React.&lt;/p&gt;
 
 &lt;p&gt;If you have experience in  Java (or in a similar statically typed language), you may be immediately turned off by types.
 The first thing to note is that a type in TypeScript is not a class. A more mathematical definition of a type is that a
-type is a name given to the set of input and output of a given function. That is, a type describes the interface of a function.
+type is a name given to the set of inputs and outputs of a given function. That is, a type describes the interface of a function.
 This is the way I think about types.&lt;/p&gt;
 
 &lt;p&gt;Say I have a function defined as follows:&lt;/p&gt;
@@ -47,7 +47,7 @@ This is the way I think about types.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;add&lt;/code&gt; function above says that it takes in two parameters &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; both of type &lt;code&gt;number&lt;/code&gt;, then outputs
 a &lt;code&gt;number&lt;/code&gt;. Thus, if I write any of the following statements, I will get a compile error.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// &amp;#39;2&amp;#39; is not a number&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// &amp;#39;2&amp;#39; is not a number.&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;2&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;// result declared to be string, but add returns a number.&lt;/span&gt;
@@ -61,7 +61,7 @@ a &lt;code&gt;number&lt;/code&gt;. Thus, if I write any of the following stateme
 &lt;p&gt;As seen above, types gives us two benefits.&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Catch errors early on&lt;/strong&gt; during compile time, not run time.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Catch errors early on&lt;/strong&gt; during compile time, not runtime.&lt;/li&gt;
   &lt;li&gt;Serves as &lt;strong&gt;documentation&lt;/strong&gt; for functions. And in editors that support TypeScript, we get &lt;strong&gt;type hints as we code&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -69,7 +69,9 @@ a &lt;code&gt;number&lt;/code&gt;. Thus, if I write any of the following stateme
 
 &lt;p&gt;Say I have this function defined below.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doSomething&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;CustomClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// The | here denotes a union type, which will be covered later in this post.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// options? means the second parameter is not required.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;doSomething&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;CustomClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -103,14 +105,14 @@ below, I will get hints in our editor as I code.&lt;/p&gt;
 
 &lt;p&gt;Given the above definition, I can now do the following.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Valid assignment&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Valid assignment.&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;t1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Finish this blog post&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Type error because text is missing&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Type error because text is missing.&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;t2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
@@ -123,13 +125,13 @@ below, I will get hints in our editor as I code.&lt;/p&gt;
   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// This works&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// This works.&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;completedTodos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Do something&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Do another thing&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;completed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// These fail because inputs are the wrong type&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// These fail because inputs are the wrong type.&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;completedTodos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Huh?&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;completedTodos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Missing completed property&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}]);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -275,7 +277,7 @@ is &lt;code&gt;Todo[]&lt;/code&gt;. And &lt;a href=&quot;https://github.com/jays
 &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;initialState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This means I now benefit from all the error and type hints within my actions and reducers.&lt;/p&gt;
+&lt;p&gt;I now benefit from all the type hints and errors when working with my actions and reducers.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/ts-action.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -284,12 +286,12 @@ is &lt;code&gt;Todo[]&lt;/code&gt;. And &lt;a href=&quot;https://github.com/jays
 &lt;p&gt;Let’s add an initializing state to the &lt;code&gt;todos&lt;/code&gt; reducer by introducing a &lt;code&gt;Model&lt;/code&gt; union type for it.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// This denotes that the state is still initializing.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// There is a progress propert that is a number from 0-100 (%).&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// There is a progress property that is a number from 0-100 (%).&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Initializing&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;progress&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// The model or our state can be either of these types.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// The model of our state can be either of these types.&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Initializing&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;// Check if x is a type of Initializing. This can be used in type guards.&lt;/span&gt;
@@ -305,6 +307,7 @@ reduce functions.&lt;/p&gt;
   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ADD_TODO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
 
+    &lt;span class=&quot;c1&quot;&gt;// Type guard for state.&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isInitializing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
       &lt;span class=&quot;c1&quot;&gt;// If current state is initializing, set todos to empty array.&lt;/span&gt;
       &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[];&lt;/span&gt;
@@ -328,7 +331,7 @@ reduce functions.&lt;/p&gt;
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;strong&gt;Note:&lt;/strong&gt; I chose to not use a class for &lt;code&gt;Initializing&lt;/code&gt;, but used an interface instead. The
   downside of this approach is that you cannot use &lt;code&gt;state instanceof Initializing&lt;/code&gt; in the type guard since
-  interfaces are not available for reflection during run time. It&#39;s up to you how you want to implement your own types.
+  interfaces are not available for reflection during runtime. It&#39;s up to you how you want to implement your own types.
 &lt;/div&gt;
 
 &lt;h4 id=&quot;rendering-the-initializing-state&quot;&gt;Rendering the initializing state&lt;/h4&gt;
@@ -369,7 +372,7 @@ reduce functions.&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This trades in the union type for a boolean flag to let us know why &lt;code&gt;todos&lt;/code&gt; is &lt;code&gt;undefined&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;. This also makes
+&lt;p&gt;This trades in the union type for a boolean flag to let us know why &lt;code&gt;todos&lt;/code&gt; is &lt;code&gt;undefined&lt;/code&gt; or &lt;code&gt;null&lt;/code&gt;. This makes
 our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
 applications, doing this type of thing is hard to avoid without types.&lt;/p&gt;
 
@@ -405,6 +408,7 @@ in choosing TypeScript.&lt;/p&gt;
 &lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 
 &lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript&quot;&gt;TodoMVC in React and Redux&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.typescriptlang.org/Handbook&quot;&gt;TypeScript Handbook&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.jbrantly.com/typescript-and-jsx/&quot;&gt;TypeScript and JSX&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/rackt/redux/&quot;&gt;Redux&lt;/a&gt; (Flux-like framework)&lt;/li&gt;

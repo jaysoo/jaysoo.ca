@@ -5,7 +5,7 @@ title: Typed React and Redux
 tags: [javascript,react,flux,redux]
 ---
 
-The release of [TypeSciprt](http://www.typescriptlang.org/) 1.6 includes support [React](http://facebook.github.io/react/) components.
+The release of [TypeSciprt](http://www.typescriptlang.org/) 1.6 includes support for [React](http://facebook.github.io/react/) components.
 I decided to give it a whirl and see what TypeScript has to offer.
 
 The end result is a port of the [Redux](https://github.com/rackt/redux) [TodoMVC](http://todomvc.com/) example to TypeScript. 
@@ -31,7 +31,7 @@ I will cover the following topics:
 
 If you have experience in  Java (or in a similar statically typed language), you may be immediately turned off by types.
 The first thing to note is that a type in TypeScript is not a class. A more mathematical definition of a type is that a
-type is a name given to the set of input and output of a given function. That is, a type describes the interface of a function.
+type is a name given to the set of inputs and outputs of a given function. That is, a type describes the interface of a function.
 This is the way I think about types.
 
 Say I have a function defined as follows:
@@ -44,7 +44,7 @@ The `add` function above says that it takes in two parameters `a` and `b` both o
 a `number`. Thus, if I write any of the following statements, I will get a compile error.
 
 {% highlight js %}
-// '2' is not a number
+// '2' is not a number.
 add(1, '2');
 
 // result declared to be string, but add returns a number.
@@ -57,7 +57,7 @@ If you are using an IDE that supports TypeScript you will get editor hints as yo
 
 As seen above, types gives us two benefits.
 
-1. **Catch errors early on** during compile time, not run time.
+1. **Catch errors early on** during compile time, not runtime.
 2. Serves as **documentation** for functions. And in editors that support TypeScript, we get **type hints as we code**.
 
 Expanding on point #2, the type hints are especially useful for options object, as seen in libraries like jQuery.
@@ -65,6 +65,8 @@ Expanding on point #2, the type hints are especially useful for options object, 
 Say I have this function defined below.
 
 {% highlight js %}
+// The | here denotes a union type, which will be covered later in this post.
+// options? means the second parameter is not required.
 const doSomething = (x: number | string | CustomClass, options?: Options): void => {
   // ...
 };
@@ -103,14 +105,14 @@ The `id?` syntax means that the `id` property is optional (since a new `Todo` ma
 Given the above definition, I can now do the following.
 
 {% highlight js %}
-// Valid assignment
+// Valid assignment.
 const t1: Todo = {
   id: 1,
   text: 'Finish this blog post',
   completed: false
 };
 
-// Type error because text is missing
+// Type error because text is missing.
 const t2: Todo = {
   id: 2,
   completed: false
@@ -124,13 +126,13 @@ const completedTodos = (todos: Todo[]): Todo[] => {
   return todos.filter(t => t.completed);
 };
 
-// This works
+// This works.
 completedTodos([
   { id: 1, text: 'Do something', completed: true },
   { id: 2, text: 'Do another thing', completed: false }
 ]);
 
-// These fail because inputs are the wrong type
+// These fail because inputs are the wrong type.
 completedTodos('Huh?');
 completedTodos([{ text: 'Missing completed property' }]);
 {% endhighlight %}
@@ -285,7 +287,7 @@ export default handleActions<Todo[]>({
 }, initialState);
 {% endhighlight %}
 
-This means I now benefit from all the error and type hints within my actions and reducers.
+I now benefit from all the type hints and errors when working with my actions and reducers.
 
 ![](/images/ts-action.png)
 
@@ -295,12 +297,12 @@ Let's add an initializing state to the `todos` reducer by introducing a `Model` 
 
 {% highlight js %}
 // This denotes that the state is still initializing.
-// There is a progress propert that is a number from 0-100 (%).
+// There is a progress property that is a number from 0-100 (%).
 export interface Initializing {
   progress: number;
 };
 
-// The model or our state can be either of these types.
+// The model of our state can be either of these types.
 export type Model = Initializing | Todo[];
 
 // Check if x is a type of Initializing. This can be used in type guards.
@@ -317,6 +319,7 @@ export default handleActions<Model>({
   [ADD_TODO]: (state: Model, action: Action): Model => {
     let todos: Todo[];
 
+    // Type guard for state.
     if (isInitializing(state)) {
       // If current state is initializing, set todos to empty array.
       todos = [];
@@ -340,7 +343,7 @@ The type guard ensures that in the `else` branch, `state` is of type `Todo[]`, w
 <div class="alert alert-info">
   <strong>Note:</strong> I chose to not use a class for <code>Initializing</code>, but used an interface instead. The
   downside of this approach is that you cannot use <code>state instanceof Initializing</code> in the type guard since
-  interfaces are not available for reflection during run time. It's up to you how you want to implement your own types.
+  interfaces are not available for reflection during runtime. It's up to you how you want to implement your own types.
 </div>
 
 #### Rendering the initializing state
@@ -383,7 +386,7 @@ type Model = {
 }
 {% endhighlight %}
 
-This trades in the union type for a boolean flag to let us know why `todos` is `undefined` or `null`. This also makes
+This trades in the union type for a boolean flag to let us know why `todos` is `undefined` or `null`. This makes
 our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
 applications, doing this type of thing is hard to avoid without types.
 
@@ -415,6 +418,7 @@ If you think the benefits outweigh the the costs, definitely give TypeScript a g
 
 ## Resources
 
+- [TodoMVC in React and Redux](https://github.com/jaysoo/todomvc-redux-react-typescript)
 - [TypeScript Handbook](http://www.typescriptlang.org/Handbook)
 - [TypeScript and JSX](http://www.jbrantly.com/typescript-and-jsx/)
 - [Redux](https://github.com/rackt/redux/) (Flux-like framework)
