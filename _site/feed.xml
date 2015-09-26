@@ -378,23 +378,24 @@ applications, doing this type of thing is hard to avoid without types.&lt;/p&gt;
 of that shows how the above code works in the TodoMVC app. Fair warning, it is not completely functional because I only
 did enough work to get a few examples.&lt;/p&gt;
 
-&lt;h2 id=&quot;closing&quot;&gt;Closing&lt;/h2&gt;
+&lt;h2 id=&quot;closing-remarks&quot;&gt;Closing Remarks&lt;/h2&gt;
 
-&lt;p&gt;In this post I offered a glimpse of how TypeScript can help you when writing a React application. The benefits you
+&lt;p&gt;In this post I offered a glimpse of how TypeScript can help you when writing a React application. Some &lt;strong&gt;benefits&lt;/strong&gt; you
 will receive are:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Type hints as you code (in editors that support TypeScript).&lt;/li&gt;
-  &lt;li&gt;Type errors during compile type, or as you code in supported editors.&lt;/li&gt;
-  &lt;li&gt;Guarantees against certain classes of errors when your application compiles.&lt;/li&gt;
+  &lt;li&gt;Type errors during compile time, or as you code in supported editors.&lt;/li&gt;
+  &lt;li&gt;Guarantees against certain classes of errors when your application compiles successfully. (typos, wrong &lt;code&gt;props&lt;/code&gt; usage, etc.)&lt;/li&gt;
   &lt;li&gt;Union types to simplify application state.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Does this mean you should rewrite your application in TypeScript right now? It’s up to you. There are some downsides
+&lt;p&gt;Does this mean you should rewrite your React application in TypeScript right now? It’s up to you. There are &lt;strong&gt;downsides&lt;/strong&gt;
 in choosing TypeScript.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Your favourite editor may not support TypeScript. Best editors right now would be WebStorm or Visual Studio Code IMO.&lt;/li&gt;
+  &lt;li&gt;Your favourite editor may not support TypeScript. Best editors right now would be 
+&lt;a href=&quot;https://www.jetbrains.com/webstorm/&quot;&gt;WebStorm&lt;/a&gt; or &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;Visual Studio Code&lt;/a&gt; IMO.&lt;/li&gt;
   &lt;li&gt;As of this writing, Visual Studio Code does not support TSX files (at least from my observation).&lt;/li&gt;
   &lt;li&gt;You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).&lt;/li&gt;
 &lt;/ul&gt;
@@ -405,6 +406,8 @@ in choosing TypeScript.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://www.typescriptlang.org/Handbook&quot;&gt;TypeScript Handbook&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.jbrantly.com/typescript-and-jsx/&quot;&gt;TypeScript and JSX&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/rackt/redux/&quot;&gt;Redux&lt;/a&gt; (Flux-like framework)&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Fri, 25 Sep 2015 00:00:00 -0400</pubDate>

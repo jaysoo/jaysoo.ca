@@ -479,23 +479,24 @@ applications, doing this type of thing is hard to avoid without types.</p>
 of that shows how the above code works in the TodoMVC app. Fair warning, it is not completely functional because I only
 did enough work to get a few examples.</p>
 
-<h2 id="closing">Closing</h2>
+<h2 id="closing-remarks">Closing Remarks</h2>
 
-<p>In this post I offered a glimpse of how TypeScript can help you when writing a React application. The benefits you
+<p>In this post I offered a glimpse of how TypeScript can help you when writing a React application. Some <strong>benefits</strong> you
 will receive are:</p>
 
 <ul>
   <li>Type hints as you code (in editors that support TypeScript).</li>
-  <li>Type errors during compile type, or as you code in supported editors.</li>
-  <li>Guarantees against certain classes of errors when your application compiles.</li>
+  <li>Type errors during compile time, or as you code in supported editors.</li>
+  <li>Guarantees against certain classes of errors when your application compiles successfully. (typos, wrong <code>props</code> usage, etc.)</li>
   <li>Union types to simplify application state.</li>
 </ul>
 
-<p>Does this mean you should rewrite your application in TypeScript right now? It’s up to you. There are some downsides
+<p>Does this mean you should rewrite your React application in TypeScript right now? It’s up to you. There are <strong>downsides</strong>
 in choosing TypeScript.</p>
 
 <ul>
-  <li>Your favourite editor may not support TypeScript. Best editors right now would be WebStorm or Visual Studio Code IMO.</li>
+  <li>Your favourite editor may not support TypeScript. Best editors right now would be 
+<a href="https://www.jetbrains.com/webstorm/">WebStorm</a> or <a href="https://code.visualstudio.com/">Visual Studio Code</a> IMO.</li>
   <li>As of this writing, Visual Studio Code does not support TSX files (at least from my observation).</li>
   <li>You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).</li>
 </ul>
@@ -506,6 +507,8 @@ in choosing TypeScript.</p>
 
 <ul>
   <li><a href="http://www.typescriptlang.org/Handbook">TypeScript Handbook</a></li>
+  <li><a href="http://www.jbrantly.com/typescript-and-jsx/">TypeScript and JSX</a></li>
+  <li><a href="https://github.com/rackt/redux/">Redux</a> (Flux-like framework)</li>
 </ul>
 
     </div>

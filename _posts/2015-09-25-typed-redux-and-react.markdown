@@ -393,25 +393,28 @@ of that shows how the above code works in the TodoMVC app. Fair warning, it is n
 did enough work to get a few examples.
 
 
-## Closing
+## Closing Remarks
 
-In this post I offered a glimpse of how TypeScript can help you when writing a React application. The benefits you
+In this post I offered a glimpse of how TypeScript can help you when writing a React application. Some **benefits** you
 will receive are:
 
 - Type hints as you code (in editors that support TypeScript).
-- Type errors during compile type, or as you code in supported editors.
-- Guarantees against certain classes of errors when your application compiles.
+- Type errors during compile time, or as you code in supported editors.
+- Guarantees against certain classes of errors when your application compiles successfully. (typos, wrong `props` usage, etc.)
 - Union types to simplify application state.
 
-Does this mean you should rewrite your application in TypeScript right now? It's up to you. There are some downsides
+Does this mean you should rewrite your React application in TypeScript right now? It's up to you. There are **downsides**
 in choosing TypeScript.
 
-- Your favourite editor may not support TypeScript. Best editors right now would be WebStorm or Visual Studio Code IMO.
+- Your favourite editor may not support TypeScript. Best editors right now would be 
+  [WebStorm](https://www.jetbrains.com/webstorm/) or [Visual Studio Code](https://code.visualstudio.com/) IMO.
 - As of this writing, Visual Studio Code does not support TSX files (at least from my observation).
 - You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).
 
 If you think the benefits outweigh the the costs, definitely give TypeScript a go!
 
-## Resouces
+## Resources
 
 - [TypeScript Handbook](http://www.typescriptlang.org/Handbook)
+- [TypeScript and JSX](http://www.jbrantly.com/typescript-and-jsx/)
+- [Redux](https://github.com/rackt/redux/) (Flux-like framework)
