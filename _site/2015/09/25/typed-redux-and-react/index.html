@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Typed Redux and React &mdash; Jack Hsu</title>
+    <title>Typed React and Redux &mdash; Jack Hsu</title>
     
     <meta name="author" content="Jack Hsu">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -101,7 +101,7 @@
           
 <div class="page-header">
   <h1>
-    Typed Redux and React
+    Typed React and Redux
     
 </h1>
 </div>
@@ -109,40 +109,44 @@
 <div class="row">
   <div class="span8">
     <div class="post-body">
-      <p>The recent release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> (TS) 1.6 includes support <a href="http://facebook.github.io/react/">React</a> components.
-I decided to give it a whirl and see what TS has to offer.</p>
+      <p>The release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> 1.6 includes support <a href="http://facebook.github.io/react/">React</a> components.
+I decided to give it a whirl and see what TypeScript has to offer.</p>
 
-<p>The end result is a port of the <a href="https://github.com/rackt/redux">redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TS.</p>
+<p>The end result is a port of the <a href="https://github.com/rackt/redux">Redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TypeScript. 
+(See <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">my repo on GitHub</a>)</p>
 
-<p>So why types in the first place? Isn’t the dynamic and flexible nature of JavaScript what makes it so great in the first
+<p>So why use types in the first place? Isn’t the dynamic and flexible nature of JavaScript what makes it so great in the first
 place? As strange as it sounds, I actually believe that adding more constraints to the system can result in <em>more</em> freedom.
-Of course, the type system has to be powerful and flexible enough to not get in your way every step of the way.</p>
+Of course, the type system has to be powerful and flexible enough to not get in your way.</p>
 
-<p>This post is meant for developers who work with JavaScript and has an interest in TS and React. I will be showing
-examples using the Redux framework, but it is not a requirement. No prior knowledge of TS is required, but you should have
+<p>This post is meant for developers who work with JavaScript and has an interest in TypeScript and React. I will be showing
+examples using the Redux framework, but it is not a requirement. No prior knowledge of TypeScript is required, but you should have
 some familiarity with React.</p>
 
 <p>I will cover the following topics:</p>
 
 <ul>
   <li>What are types, and why we need them?</li>
-  <li>How does a typed React application look like?</li>
-  <li>Additional considerations when choosing TS and React.</li>
+  <li>How TypeScript can help us develop React applications.</li>
+  <li>Additional considerations when choosing TypeScript and React.</li>
 </ul>
+
+<p><strong>Disclosure:</strong> I’m not an expert in TypeScript. If you have any suggestions for improvement, please leave a comment!</p>
 
 <h2 id="types-are-good-for-you">Types are good for you</h2>
 
-<p>If you have any Java experience, you may be immediately turned off by types. The first thing to know if that a type is
-not a class. In a more FP definition, a type is a name given to the set of input and output of a given function. That is,
-a type describes a the interface of a function.</p>
+<p>If you have experience in  Java (or in a similar statically typed language), you may be immediately turned off by types.
+The first thing to note is that a type in TypeScript is not a class. A more mathematical definition of a type is that a
+type is a name given to the set of input and output of a given function. That is, a type describes the interface of a function.
+This is the way I think about types.</p>
 
 <p>Say I have a function defined as follows:</p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">add</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="o">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
 </code></pre></div>
 
-<p>This the TS syntax that says my <code>add</code> function takes in two parameters <code>a</code> and <code>b</code> both of type <code>number</code>, then outputs
-a <code>number</code>. Thus, if I write any of the following statements, I will get a static type error.</p>
+<p>The <code>add</code> function above says that it takes in two parameters <code>a</code> and <code>b</code> both of type <code>number</code>, then outputs
+a <code>number</code>. Thus, if I write any of the following statements, I will get a compile error.</p>
 
 <div class="highlight"><pre><code class="js"><span class="c1">// &#39;2&#39; is not a number</span>
 <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">);</span>
@@ -151,14 +155,43 @@ a <code>number</code>. Thus, if I write any of the following statements, I will 
 <span class="kr">const</span> <span class="nx">result</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
 </code></pre></div>
 
-<p>Not only do you get compile errors, if you are using an IDE that supports TS you will actuall get editor hints are you
-are typing.</p>
+<p>If you are using an IDE that supports TypeScript you will get editor hints as you are typing.</p>
 
 <p><img src="/images/ts-ide-1.gif" alt="" /></p>
 
-<h3 id="types-are-not-classes">Types are not classes</h3>
+<p>As seen above, types gives us two benefits.</p>
 
-<p>As mentioned before, types in TS are not classes. The following defines a <code>Todo</code> type, but does not create a class.</p>
+<ol>
+  <li><strong>Catch errors early on</strong> during compile time, not run time.</li>
+  <li>Serves as <strong>documentation</strong> for functions. And in editors that support TypeScript, we get <strong>type hints as we code</strong>.</li>
+</ol>
+
+<p>Expanding on point #2, the type hints are especially useful for options object, as seen in libraries like jQuery.</p>
+
+<p>Say I have this function defined below.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">doSomething</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span> <span class="o">|</span> <span class="nx">CustomClass</span><span class="p">,</span> <span class="nx">options</span><span class="o">?:</span> <span class="nx">Options</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p>As a user of <code>doSomething</code> I might wonder what options I am allowed to pass in. With the <code>Options</code> type defined
+below, I will get hints in our editor as I code.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">Options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">flag1</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">flag2</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">callback</span><span class="o">?:</span> <span class="p">(</span><span class="nx">c</span><span class="o">:</span> <span class="nx">CustomClass</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<p><img src="/images/ts-ide-2.png" alt="" /></p>
+
+<h3 id="more-on-types">More on types</h3>
+
+<p>Before we move on to React examples, I want to expand on types a bit more.</p>
+
+<p>As mentioned earlier, types in TypeScript are not classes. The following defines a <code>Todo</code> type, but does not create a class.</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">id</span><span class="o">?:</span> <span class="nx">number</span><span class="p">;</span>
@@ -185,7 +218,7 @@ are typing.</p>
 <span class="p">};</span>
 </code></pre></div>
 
-<p>What is more interesting is that I can use the type to form an interface over functions that operate over <code>Todo</code>s.</p>
+<p>What is more interesting is that I can use the type to form an interface over a function that operate over <code>Todo</code>s.</p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">completedTodos</span> <span class="o">=</span> <span class="p">(</span><span class="nx">todos</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[])</span><span class="o">:</span> <span class="nx">Todo</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
@@ -202,15 +235,117 @@ are typing.</p>
 <span class="nx">completedTodos</span><span class="p">([{</span> <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Missing completed property&#39;</span> <span class="p">}]);</span>
 </code></pre></div>
 
-<p>Again, you will see errors in IDEs that support TS as you are typing.</p>
+<p>Again, you will see errors in editors that support TypeScript as you are typing.</p>
+
+<h4 id="function-types">Function types</h4>
 
 <p>You can even define types for functions.</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">F</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">string</span><span class="p">;</span>
+<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">NumberToString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">string</span><span class="p">;</span>
 
-<span class="kr">const</span> <span class="nx">f</span><span class="o">:</span> <span class="nx">F</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nb">Number</span><span class="o">:</span> <span class="nx">$</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">applyNumberToString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="o">:</span> <span class="nx">NumberToString</span><span class="p">,</span> <span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="p">};</span>
 </code></pre></div>
 
+<h4 id="union-types-and-type-guards">Union types and type guards</h4>
+
+<p>The last thing I will show is union types. A variable of an union type can be assign any type within that union.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">numberOrString</span> <span class="o">=</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">x</span><span class="o">:</span> <span class="nx">numberOrString</span><span class="p">;</span>
+
+<span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    <span class="c1">// OK</span>
+<span class="nx">x</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">;</span>  <span class="c1">// OK</span>
+<span class="nx">x</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// BAD</span>
+</code></pre></div>
+
+<p>Notice that there are no interfaces or subclasses defined above for <code>numberOrString</code>. Union types can be combined with type
+guards to help manage branches within a function.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">doubleIfNumber</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">numberOrString</span><span class="p">)</span><span class="o">:</span> <span class="nx">numberOrString</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// This is OK because we know x is a number!</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">doubleIfNumber</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>   <span class="c1">// 4</span>
+<span class="nx">doubleIfNumber</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">);</span> <span class="c1">// &#39;2&#39;</span>
+</code></pre></div>
+
+<p>The above features are enough for us to jump into the TodoMVC application. If you want to learn more about TypeScript,
+I found the <a href="http://www.typescriptlang.org/Handbook">Handbook</a> to be a useful resource.</p>
+
+<h2 id="todomvc-in-react-redux-and-typescript">TodoMVC in React, Redux, and TypeScript</h2>
+
+<p>By now you have seen some of the benefits of using a powerful type system. But how does this fit in with React?</p>
+
+<p>With TypeScript 1.6, you can now write your React components in TSX files. The following is an example from my <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">TodoMVC
+example</a>.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">/// &lt;reference path=&#39;../../typings/react/react.d.ts&#39;/&gt;</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+
+<span class="kr">interface</span> <span class="nx">TodoTextInputProps</span> <span class="p">{</span>
+  <span class="nx">onSave</span><span class="o">:</span> <span class="nb">Function</span><span class="p">;</span>
+  <span class="nx">text</span><span class="o">?:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nx">placeholder</span><span class="o">?:</span> <span class="nx">string</span><span class="p">,</span>
+  <span class="nx">editing</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">newTodo</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// This component&#39;s props have to match TodoTextInputProps inferface.</span>
+<span class="c1">// We can do the same for the component&#39;s state. In this example, it is set to any.</span>
+<span class="kr">class</span> <span class="nx">TodoTextInput</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span><span class="o">&lt;</span><span class="nx">TodoTextInputProps</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> The <code>reference</code> comment at the top points to type definitions for React. When using
+  JavaScript modules in TypeScript, you must provide its type definitions. You can either write these yourself, or the better
+  option is to use <a href="http://definitelytyped.org/tsd/">TSD</a> to install definitions of popular JavaScript
+  modules.
+</div>
+
+<h3 id="props-interface-vs-reactproptypes">Props interface vs React.PropTypes</h3>
+
+<p>Props interface differs from <code>React.PropTypes</code> in that the latter will only give you errors during runtime. With
+Props interface we can get feedback immediately from the compiler.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// This errors on compile because onSave is required but not specified.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span><span class="o">/&gt;</span>
+</code></pre></div>
+
+<p><img src="/images/tsx-error-2.png" alt="" /></p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// This errors because onSave is the wrong type.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span> <span class="nx">onSave</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="o">/&gt;</span>
+</code></pre></div>
+
+<p><img src="/images/tsx-error-1.png" alt="" /></p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// This errors because onEdit is not a valid property.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span> <span class="nx">onEdit</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{}}</span> <span class="nx">onSave</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{}}</span><span class="o">/&gt;</span>
+</code></pre></div>
+
+<p><img src="/images/tsx-error-3.png" alt="" /></p>
+
+<p>Unfortunately, as of this writing Visual Studio Code (the editor I am using) does not seem to support TSX files yet.
+The above errors were from Webpack with ts-loader.</p>
+
+<h3 id="types-and-redux">Types and Redux</h3>
+
+<h2 id="resouces">Resouces</h2>
+
+<ul>
+  <li><a href="http://www.typescriptlang.org/Handbook">TypeScript Handbook</a></li>
+</ul>
 
     </div>
     <hr>
@@ -280,7 +415,7 @@ are typing.</p>
 
     <h4>Share</h4>
     <div class="box">
-      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/09/25/typed-redux-and-react&amp;text=Typed%20Redux%20and%20React&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/09/25/typed-redux-and-react&amp;text=Typed%20React%20and%20Redux&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </div>
 
