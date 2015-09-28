@@ -180,11 +180,11 @@ a <code>number</code>. Thus, if I write any of the following statements, I will 
 <p>As a user of <code>doSomething</code> I might wonder what options I am allowed to pass in. With the <code>Options</code> type defined
 below, I will get hints in our editor as I code.</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">Options</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="kr">interface</span> <span class="nx">Options</span> <span class="p">{</span>
   <span class="nx">flag1</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
   <span class="nx">flag2</span><span class="o">?:</span> <span class="kr">boolean</span><span class="p">;</span>
   <span class="nx">callback</span><span class="o">?:</span> <span class="p">(</span><span class="nx">c</span><span class="o">:</span> <span class="nx">CustomClass</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
-<span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p><img src="/images/ts-ide-2.png" alt="" /></p>
@@ -195,7 +195,7 @@ below, I will get hints in our editor as I code.</p>
 
 <p>As mentioned earlier, types in TypeScript are not classes. The following defines a <code>Todo</code> type, but does not create a class.</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="kr">interface</span> <span class="nx">Todo</span> <span class="p">{</span>
   <span class="nx">id</span><span class="o">?:</span> <span class="nx">number</span><span class="p">;</span>
   <span class="nx">text</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
   <span class="nx">completed</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
@@ -243,7 +243,9 @@ below, I will get hints in our editor as I code.</p>
 
 <p>You can even define types for functions.</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">type</span> <span class="nx">NumberToString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">string</span><span class="p">;</span>
+<div class="highlight"><pre><code class="js"><span class="kr">interface</span> <span class="nx">NumberToString</span> <span class="p">{</span>
+  <span class="p">(</span><span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
 
 <span class="kr">const</span> <span class="nx">applyNumberToString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="o">:</span> <span class="nx">NumberToString</span><span class="p">,</span> <span class="nx">x</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">string</span> <span class="o">=&gt;</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
@@ -466,7 +468,7 @@ reduce functions.</p>
 <p>The alternative to this approach might be to change our state to the following type.</p>
 
 <div class="highlight"><pre><code class="js"><span class="c1">// todos can now be undefined or null.</span>
-<span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="p">{</span>
+<span class="kr">interface</span> <span class="nx">Model</span> <span class="p">{</span>
   <span class="nx">todos</span><span class="o">?:</span> <span class="nx">Todo</span><span class="p">[];</span>
   <span class="nx">isInitializing</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
   <span class="nx">initializationProgress</span><span class="o">:</span> <span class="nx">number</span><span class="p">;</span>
@@ -515,6 +517,8 @@ in choosing TypeScript.</p>
   <li><a href="https://github.com/rackt/redux/">Redux</a> (Flux-like framework)</li>
   <li><a href="http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/">Hello World with TypeScript and JSX</a> (This one helped me debug some errors)</li>
 </ul>
+
+<p><small>Edit (2015-09-28): Updated code examples to consistently use interface instead of type aliases.</small></p>
 
     </div>
     <hr>

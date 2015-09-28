@@ -76,11 +76,11 @@ As a user of `doSomething` I might wonder what options I am allowed to pass in. 
 below, I will get hints in our editor as I code.
 
 {% highlight js %}
-type Options = {
+interface Options {
   flag1?: boolean;
   flag2?: boolean;
   callback?: (c: CustomClass) => void;
-};
+}
 {% endhighlight %}
 
 ![](/images/ts-ide-2.png)
@@ -93,7 +93,7 @@ Before we move on to React examples, I want to expand on types a bit more.
 As mentioned earlier, types in TypeScript are not classes. The following defines a `Todo` type, but does not create a class.
 
 {% highlight js %}
-type Todo = {
+interface Todo {
   id?: number;
   text: string;
   completed: boolean;
@@ -144,7 +144,9 @@ Again, you will see errors in editors that support TypeScript as you are typing.
 You can even define types for functions.
 
 {% highlight js %}
-type NumberToString = (x: number) => string;
+interface NumberToString {
+  (x: number): string;
+}
 
 const applyNumberToString = (f: NumberToString, x: number): string => {
   return f(x);
@@ -379,7 +381,7 @@ The alternative to this approach might be to change our state to the following t
 
 {% highlight js %}
 // todos can now be undefined or null.
-type Model = {
+interface Model {
   todos?: Todo[];
   isInitializing: boolean;
   initializationProgress: number;
@@ -423,3 +425,5 @@ If you think the benefits outweigh the the costs, definitely give TypeScript a g
 - [TypeScript and JSX](http://www.jbrantly.com/typescript-and-jsx/)
 - [Redux](https://github.com/rackt/redux/) (Flux-like framework)
 - [Hello World with TypeScript and JSX](http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/) (This one helped me debug some errors)
+
+<small>Edit (2015-09-28): Updated code examples to consistently use interface instead of type aliases.</small>
