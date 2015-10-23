@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-09-28T08:29:43-04:00</updated>
+ <updated>2015-10-22T20:47:45-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -13,7 +13,7 @@
 
  
  <entry>
-   <title>Typed React and Redux</title>
+   <title>React and Redux with TypeScript</title>
    <link href="http://jaysoo.ca/2015/09/26/typed-react-and-redux"/>
    <updated>2015-09-26T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/09/26/typed-react-and-redux</id>

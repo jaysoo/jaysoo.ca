@@ -1,7 +1,7 @@
 ---
 created_at: 2015-09-26 15:20Z
 layout: post
-title: Typed React and Redux
+title: React and Redux with TypeScript
 tags: [javascript,react,flux,typescript]
 ---
 

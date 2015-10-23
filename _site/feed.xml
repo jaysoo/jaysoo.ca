@@ -7,7 +7,7 @@
 		<atom:link href="http://jaysoo.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Typed React and Redux</title>
+				<title>React and Redux with TypeScript</title>
 				<description>&lt;p&gt;The release of &lt;a href=&quot;http://www.typescriptlang.org/&quot;&gt;TypeSciprt&lt;/a&gt; 1.6 includes support for &lt;a href=&quot;http://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; components.
 I decided to give it a whirl and see what TypeScript has to offer.&lt;/p&gt;
 
