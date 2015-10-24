@@ -21,10 +21,9 @@ to Angular 1 directives.
 In particular, I want to explore the idea of **[Containers and Components](https://www.youtube.com/watch?v=KYzlpRvWZ6c&t=1351)**
 in Angular 1.
 
-### Before We Begin...
+See my [GitHub repository](https://github.com/jaysoo/todomvc-angular1-components) for the full working source code.
 
-All code examples will be written in ES6. If you are not familiar with ES6 yet,
-I strongly encourage you to [learn it now](http://www.2ality.com/2014/08/es6-today.html).
+### Before We Begin...
 
 I will be writing directives in the following pattern. Please read the comments
 for reasoning.

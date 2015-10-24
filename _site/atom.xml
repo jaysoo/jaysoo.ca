@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-10-22T20:47:45-04:00</updated>
+ <updated>2015-10-23T23:56:11-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -1306,10 +1306,9 @@ to Angular 1 directives.&lt;/p&gt;
 &lt;p&gt;In particular, I want to explore the idea of &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=KYzlpRvWZ6c&amp;amp;t=1351&quot;&gt;Containers and Components&lt;/a&gt;&lt;/strong&gt;
 in Angular 1.&lt;/p&gt;
 
-&lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
+&lt;p&gt;See my &lt;a href=&quot;https://github.com/jaysoo/todomvc-angular1-components&quot;&gt;GitHub repository&lt;/a&gt; for the full working source code.&lt;/p&gt;
 
-&lt;p&gt;All code examples will be written in ES6. If you are not familiar with ES6 yet,
-I strongly encourage you to &lt;a href=&quot;http://www.2ality.com/2014/08/es6-today.html&quot;&gt;learn it now&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
 
 &lt;p&gt;I will be writing directives in the following pattern. Please read the comments
 for reasoning.&lt;/p&gt;
