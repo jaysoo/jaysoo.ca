@@ -360,9 +360,9 @@ depending on what are are extending.
 One thing is for certain, the refactored code is more complex than the original. What might look like clean code
 initially (small functions/methods, no switch statements, etc.) might not be desirable.
 
-## Identifying the Necessity of Indirections
+## Identifying the Necessity of Indirection
 
-Here are a couple of ways to help identify unnecessary or bad indirections.
+Here are a couple of ways to help identify unnecessary or bad indirection.
 
 ### Very Tightly Coupled Objects
 
@@ -379,9 +379,9 @@ A good abstraction allows you to focus in on the task at hand, without complecti
 things going on in the system. So if you find yourself constantly having to load a bunch of objects in
 your head in order to reason about the system, then it might be another sign that something is amiss.
 
-## Acting On Bad Indirections
+## Acting On Bad Indirection
 
-Once you've identified bad indirections, the best course of action is usually to undo the damage and inline the code.
+Once you've identified bad indirection, the best course of action is usually to undo the damage and inline the code.
 Some editors will help you inline your functions, variables, etc., with a quick command.
 Once inlined, it is much easier to see the bigger picture.
 
@@ -396,7 +396,7 @@ comes at a cost. It increases complexity.
 Does this mean we shouldn't use indirection? Of course not! You will not get very far without it. You should
 think a bit before refactoring, and make sure you are actually making your code better.
 
-If you end up with unnecessary indirections, don't be afraid to inline your code again. This way you can
+If you end up with unnecessary indirection, don't be afraid to inline your code again. This way you can
 more easily reason about your system as a whole. You may then get the insight needed for your next refactor.
 
 Happy coding!
