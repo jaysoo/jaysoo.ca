@@ -384,7 +384,7 @@ your head in order to reason about the system, then it might be another sign tha
 Some editors will help you inline your functions, variables, etc., with a quick command.
 Once inlined, it is much easier to see the bigger picture.&lt;/p&gt;
 
-&lt;p&gt;You can then decide whether you want to refactor further by creating the right abstractions.&lt;/p&gt;
+&lt;p&gt;You can then decide whether you want to refactor further by creating better abstractions.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 

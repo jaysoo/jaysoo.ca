@@ -385,7 +385,7 @@ Once you've identified bad indirections, the best course of action is usually to
 Some editors will help you inline your functions, variables, etc., with a quick command.
 Once inlined, it is much easier to see the bigger picture.
 
-You can then decide whether you want to refactor further by creating the right abstractions.
+You can then decide whether you want to refactor further by creating better abstractions.
 
 ## Conclusion
 

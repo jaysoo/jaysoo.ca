@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-11-22T12:23:21-05:00</updated>
+ <updated>2015-11-22T12:32:08-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -393,7 +393,7 @@ your head in order to reason about the system, then it might be another sign tha
 Some editors will help you inline your functions, variables, etc., with a quick command.
 Once inlined, it is much easier to see the bigger picture.&lt;/p&gt;
 
-&lt;p&gt;You can then decide whether you want to refactor further by creating the right abstractions.&lt;/p&gt;
+&lt;p&gt;You can then decide whether you want to refactor further by creating better abstractions.&lt;/p&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
