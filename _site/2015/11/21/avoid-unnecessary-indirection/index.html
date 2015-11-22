@@ -460,9 +460,9 @@ depending on what are are extending.</p>
 <p>One thing is for certain, the refactored code is more complex than the original. What might look like clean code
 initially (small functions/methods, no switch statements, etc.) might not be desirable.</p>
 
-<h2 id="identifying-the-necessity-of-indirections">Identifying the Necessity of Indirections</h2>
+<h2 id="identifying-the-necessity-of-indirection">Identifying the Necessity of Indirection</h2>
 
-<p>Here are a couple of ways to help identify unnecessary or bad indirections.</p>
+<p>Here are a couple of ways to help identify unnecessary or bad indirection.</p>
 
 <h3 id="very-tightly-coupled-objects">Very Tightly Coupled Objects</h3>
 
@@ -479,9 +479,9 @@ duplication alone until you arrive at the insight to refactor properly.</p>
 things going on in the system. So if you find yourself constantly having to load a bunch of objects in
 your head in order to reason about the system, then it might be another sign that something is amiss.</p>
 
-<h2 id="acting-on-bad-indirections">Acting On Bad Indirections</h2>
+<h2 id="acting-on-bad-indirection">Acting On Bad Indirection</h2>
 
-<p>Once you’ve identified bad indirections, the best course of action is usually to undo the damage and inline the code.
+<p>Once you’ve identified bad indirection, the best course of action is usually to undo the damage and inline the code.
 Some editors will help you inline your functions, variables, etc., with a quick command.
 Once inlined, it is much easier to see the bigger picture.</p>
 
@@ -496,7 +496,7 @@ comes at a cost. It increases complexity.</p>
 <p>Does this mean we shouldn’t use indirection? Of course not! You will not get very far without it. You should
 think a bit before refactoring, and make sure you are actually making your code better.</p>
 
-<p>If you end up with unnecessary indirections, don’t be afraid to inline your code again. This way you can
+<p>If you end up with unnecessary indirection, don’t be afraid to inline your code again. This way you can
 more easily reason about your system as a whole. You may then get the insight needed for your next refactor.</p>
 
 <p>Happy coding!</p>
