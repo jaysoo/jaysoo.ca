@@ -31,7 +31,7 @@
     <hr>
     {% include JB/comments %}
   </div>
-  
+
   <aside class="span4">
     <h4>Published</h4>
     <div class="box date"><span>{{ page.date | date_to_long_string }}</span></div>
@@ -42,12 +42,11 @@
     {% assign tags_list = page.tags %}
     {% include JB/tags_list %}
     </ul>
-  {% endunless %}  
+  {% endunless %}
 
     <h4>Share</h4>
     <div class="box">
-      <a href="https://twitter.com/share?url={{ site.url }}{{ page.url }}&amp;text={{ page.title | uri_escape }}&amp;via=jay_soo" class="twitter-share-button">Tweet</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      <a href="https://twitter.com/share?url={{ site.url }}{{ page.url }}&amp;text={{ page.title | uri_escape }}&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     </div>
 
     <h4>Related Posts</h4>
