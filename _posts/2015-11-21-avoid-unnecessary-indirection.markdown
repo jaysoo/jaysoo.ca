@@ -7,7 +7,7 @@ tags: [programming,javascript]
 
 In programming, indirection is the ability to hold references to something, as opposed to the value itself.
 In object-oriented programming, indirection is used for [dynamic dispatch](https://en.wikipedia.org/wiki/Dynamic_dispatch)
-or [delegation](https://en.wikipedia.org/wiki/Delegation_(programming)).
+and [delegation](https://en.wikipedia.org/wiki/Delegation_(programming)).
 
 For example, we can use delegation as follows.
 
@@ -29,7 +29,7 @@ b.doSomething(); // Delegates to `a`
 This allows us to change the behaviour of `a.doSomething` depending on the late-bound object `b`.
 
 While indirection is indeed a powerful tool, we should be careful not to overuse it.  I will show what I mean through
-an example that I will refactor in steps. Each refactor will make the code cleaner and more maintainable. And finally,
+an example that I will refactor in steps. Each refactor will strife to make the code cleaner and more maintainable. And finally,
 I will do a comparison of the before and after, and see why the "after" may not be the best.
 
 ## Example: Traffic Lights
@@ -349,10 +349,43 @@ The difference in scanning the initial example versus the final one is that the 
 is completely contained in one method, and can be scanned from top to bottom. In the refactored
 code, we had to jump all over the place, and keep track of where we have jumped from.
 
-So does this mean the refactored code is *necessarily worse*? No, I don't think so. It really depends
-on the requirements and personal preference. The refactored code might capture the state transitions
-and colour requirements in a more cohesive manner. It may increase the ease of extension, depending
-on what are are extending. One thing is for certain, the refactored code is more complex than the original.
+Another thing to note is the the `signal` method of `State` is tightly coupled to the `TrafficLight`
+implementation, so we did not create any meaningful abstraction layers either.
+
+Does this mean the refactored code is *necessarily worse*? No, I don't think so. And it's not necessarily
+better either. It really depends on the requirements and personal preference. The refactored code might capture
+the state transitions and colour requirements in a more cohesive manner. It might increase the ease of extension,
+depending on what are are extending.
+
+One thing is for certain, the refactored code is more complex than the original. What might look like clean code
+initially (small functions/methods, no switch statements, etc.) might not be desirable.
+
+## Identifying the Necessity of Indirections
+
+Here are a couple of ways to help identify unnecessary or bad indirections.
+
+### Very Tightly Coupled Objects
+
+If you notice that some objects always change together, then it might be a sign that you got the abstractions
+wrong the first time around. This can be done by analyzing git log for example.
+
+Sometimes for the sake of keeping code clean and DRY, we introduce the wrong abstractions early on. These bad
+abstractions can lead to bugs, and make our code very hard to reason with. If it often better to leave code
+duplication alone until you arrive at the insight to refactor properly.
+
+### Too Many Object Interactions
+
+A good abstraction allows you to focus in on the task at hand, without complecting it with all the other
+things going on in the system. So if you find yourself constantly having to load a bunch of objects in
+your head in order to reason about the system, then it might be another sign that something is amiss.
+
+## Acting On Bad Indirections
+
+Once you've identified bad indirections, the best course of action is usually to undo the damage and inline the code.
+Some editors will help you inline your functions, variables, etc., with a quick command.
+Once inlined, it is much easier to see the bigger picture.
+
+You can then decide whether you want to refactor further by creating the right abstractions.
 
 ## Conclusion
 

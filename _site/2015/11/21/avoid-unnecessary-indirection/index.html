@@ -111,7 +111,7 @@
     <div class="post-body">
       <p>In programming, indirection is the ability to hold references to something, as opposed to the value itself.
 In object-oriented programming, indirection is used for <a href="https://en.wikipedia.org/wiki/Dynamic_dispatch">dynamic dispatch</a>
-or <a href="https://en.wikipedia.org/wiki/Delegation_(programming)">delegation</a>.</p>
+and <a href="https://en.wikipedia.org/wiki/Delegation_(programming)">delegation</a>.</p>
 
 <p>For example, we can use delegation as follows.</p>
 
@@ -132,7 +132,7 @@ or <a href="https://en.wikipedia.org/wiki/Delegation_(programming)">delegation</
 <p>This allows us to change the behaviour of <code>a.doSomething</code> depending on the late-bound object <code>b</code>.</p>
 
 <p>While indirection is indeed a powerful tool, we should be careful not to overuse it.  I will show what I mean through
-an example that I will refactor in steps. Each refactor will make the code cleaner and more maintainable. And finally,
+an example that I will refactor in steps. Each refactor will strife to make the code cleaner and more maintainable. And finally,
 I will do a comparison of the before and after, and see why the “after” may not be the best.</p>
 
 <h2 id="example-traffic-lights">Example: Traffic Lights</h2>
@@ -449,10 +449,43 @@ and might be hard to follow, but this is what happens with indirection in real c
 is completely contained in one method, and can be scanned from top to bottom. In the refactored
 code, we had to jump all over the place, and keep track of where we have jumped from.</p>
 
-<p>So does this mean the refactored code is <em>necessarily worse</em>? No, I don’t think so. It really depends
-on the requirements and personal preference. The refactored code might capture the state transitions
-and colour requirements in a more cohesive manner. It may increase the ease of extension, depending
-on what are are extending. One thing is for certain, the refactored code is more complex than the original.</p>
+<p>Another thing to note is the the <code>signal</code> method of <code>State</code> is tightly coupled to the <code>TrafficLight</code>
+implementation, so we did not create any meaningful abstraction layers either.</p>
+
+<p>Does this mean the refactored code is <em>necessarily worse</em>? No, I don’t think so. And it’s not necessarily
+better either. It really depends on the requirements and personal preference. The refactored code might capture
+the state transitions and colour requirements in a more cohesive manner. It might increase the ease of extension,
+depending on what are are extending.</p>
+
+<p>One thing is for certain, the refactored code is more complex than the original. What might look like clean code
+initially (small functions/methods, no switch statements, etc.) might not be desirable.</p>
+
+<h2 id="identifying-the-necessity-of-indirections">Identifying the Necessity of Indirections</h2>
+
+<p>Here are a couple of ways to help identify unnecessary or bad indirections.</p>
+
+<h3 id="very-tightly-coupled-objects">Very Tightly Coupled Objects</h3>
+
+<p>If you notice that some objects always change together, then it might be a sign that you got the abstractions
+wrong the first time around. This can be done by analyzing git log for example.</p>
+
+<p>Sometimes for the sake of keeping code clean and DRY, we introduce the wrong abstractions early on. These bad
+abstractions can lead to bugs, and make our code very hard to reason with. If it often better to leave code
+duplication alone until you arrive at the insight to refactor properly.</p>
+
+<h3 id="too-many-object-interactions">Too Many Object Interactions</h3>
+
+<p>A good abstraction allows you to focus in on the task at hand, without complecting it with all the other
+things going on in the system. So if you find yourself constantly having to load a bunch of objects in
+your head in order to reason about the system, then it might be another sign that something is amiss.</p>
+
+<h2 id="acting-on-bad-indirections">Acting On Bad Indirections</h2>
+
+<p>Once you’ve identified bad indirections, the best course of action is usually to undo the damage and inline the code.
+Some editors will help you inline your functions, variables, etc., with a quick command.
+Once inlined, it is much easier to see the bigger picture.</p>
+
+<p>You can then decide whether you want to refactor further by creating the right abstractions.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
