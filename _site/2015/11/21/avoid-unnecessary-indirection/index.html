@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Avoid Unnecessary Indirection &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-small.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-small.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-small.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Avoid Unnecessary Indirection
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>In programming, indirection is the ability to hold references to something, as opposed to the value itself.
+In object-oriented programming, indirection is used for <a href="https://en.wikipedia.org/wiki/Dynamic_dispatch">dynamic dispatch</a>
+or <a href="https://en.wikipedia.org/wiki/Delegation_(programming)">delegation</a>.</p>
+
+<p>For example, we can use delegation as follows.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">class</span> <span class="nx">Delegator</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">delegatee</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">delegatee</span> <span class="o">=</span> <span class="nx">delegatee</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="nx">doSomething</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">delegatee</span><span class="p">.</span><span class="nx">doSomething</span><span class="p">();</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">doSomething</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Doing something...&#39;</span><span class="p">);</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Delegator</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">doSomething</span><span class="p">();</span> <span class="c1">// Delegates to `a`</span>
+</code></pre></div>
+
+<p>This allows us to change the behaviour of <code>a.doSomething</code> depending on the late-bound object <code>b</code>.</p>
+
+<p>While indirection is indeed a powerful tool, we should be careful not to overuse it.  I will show what I mean through
+an example that I will refactor in steps. Each refactor will make the code cleaner and more maintainable. And finally,
+I will do a comparison of the before and after, and see why the “after” may not be the best.</p>
+
+<h2 id="example-traffic-lights">Example: Traffic Lights</h2>
+
+<p>Consider a class that controls traffic lights and their various states.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">class</span> <span class="nx">TrafficLight</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">initialState</span> <span class="o">=</span> <span class="s1">&#39;stop&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">changeTo</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">state</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">signal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="s1">&#39;stop&#39;</span><span class="o">:</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="k">case</span> <span class="s1">&#39;caution&#39;</span><span class="o">:</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;yellow&#39;</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="k">case</span><span class="o">:</span> <span class="s1">&#39;proceed&#39;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">nextState</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="s1">&#39;stop&#39;</span><span class="o">:</span>
+        <span class="k">return</span> <span class="s1">&#39;caution&#39;</span><span class="p">;</span>
+      <span class="k">case</span> <span class="s1">&#39;caution&#39;</span><span class="o">:</span>
+        <span class="k">return</span> <span class="s1">&#39;proceed&#39;</span><span class="p">;</span>
+      <span class="k">case</span> <span class="s1">&#39;proceed&#39;</span><span class="o">:</span>
+        <span class="k">return</span> <span class="s1">&#39;caution&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">turnOnLamp</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="err">`</span><span class="nx">Turning</span> <span class="nx">on</span> <span class="nx">$</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span> <span class="nx">lamp</span><span class="err">`</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">ringWarningBell</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Ring ring ring!&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The <code>TrafficLight</code> class has four main responsiblities.</p>
+
+<ol>
+  <li>Keeps track of the current <code>state</code>.</li>
+  <li>Can switch to another state using <code>changeTo(state)</code>.</li>
+  <li>Can <code>signal()</code> to turn on different lamps, and in some cases may ring a warning bell.</li>
+  <li>Knows what the <code>nextState()</code> is given the current state.</li>
+</ol>
+
+<p>Here is an example of usage.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">light</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TrafficLight</span><span class="p">();</span>
+
+<span class="nx">light</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span> <span class="c1">// &#39;stop&#39;</span>
+
+<span class="nx">light</span><span class="p">.</span><span class="nx">signal</span><span class="p">();</span>
+<span class="c1">// Log: Turning on red lamp</span>
+
+<span class="nx">light</span><span class="p">.</span><span class="nx">nextState</span><span class="p">();</span> <span class="c1">// &#39;caution&#39;</span>
+
+<span class="nx">light</span><span class="p">.</span><span class="nx">changeTo</span><span class="p">(</span><span class="s1">&#39;caution&#39;</span><span class="p">);</span>
+<span class="nx">light</span><span class="p">.</span><span class="nx">signal</span><span class="p">();</span>
+<span class="c1">// Log: Turning on yellow lamp</span>
+<span class="c1">// Log: Ring ring ring!</span>
+</code></pre></div>
+
+<p>The first <strong>code smell</strong> is that there are switch statements inside <code>signal</code> and <code>nextState</code>. Why is
+<code>switch</code> a smell?</p>
+
+<p>Firstly, it makes the method behaviours static, therefore inflexible. This means that if
+we ever needed to change their behaviours then we will have to add more <code>case</code> blocks, which also
+means that we cannot dynamically add or change cases during runtime.</p>
+
+<p>Secondly, the structure of both switch statements look awfully similar. My gut tells me there is a
+new abstraction that is screaming to come out.</p>
+
+<p>Let’s refactor!</p>
+
+<h3 id="refactor-1-eliminate-switch-statements">Refactor #1: Eliminate Switch Statements</h3>
+
+<p>The insight here is that we can group the <strong>color</strong> and <strong>next state</strong> data into state objects. Therefore, the responsiblity
+of which colored lamp to turn on and the next state is removed from <code>TrafficLight</code> (through delegation).</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">States</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">STOP</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+    <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">CAUTION</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">CAUTION</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span>
+    <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">PROCEED</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="nx">PROCEED</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+    <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">STOP</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kr">class</span> <span class="nx">TrafficLight</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">initialState</span> <span class="o">=</span> <span class="nx">States</span><span class="p">.</span><span class="nx">STOP</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="nx">signal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+
+    <span class="c1">// Still need a special case for ringing warning bell on `caution` state.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="nx">States</span><span class="p">.</span><span class="nx">CAUTION</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">nextState</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">next</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Looking good so far.</p>
+
+<p>Now, the second <strong>code smell</strong> is the special case of calling <code>ringWarningBell()</code> when we are signaling <code>States.CAUTION</code>. Let’s create a
+<code>State</code> base class that will handle the special <code>signal</code> cases through polymorphism.</p>
+
+<h3 id="refactor-2-more-delegation">Refactor #2: More Delegation!</h3>
+
+<p>The idea here is that we can move all of the signalling logic to the <code>State</code> class. This way we can take
+further advantage of delegation and keep our <code>TrafficLight</code> class nice and clean.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Base class that provides a default `signal` method.</span>
+<span class="kr">class</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">trafficLight</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">Stop</span> <span class="kr">extends</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="nx">get</span> <span class="nx">color</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span> <span class="p">}</span>
+  <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">PROCEED</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">Caution</span> <span class="kr">extends</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="nx">get</span> <span class="nx">color</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;yellow&#39;</span><span class="p">;</span> <span class="p">}</span>
+  <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">STOP</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="c1">// Special case is now fully encapsulated in the Caution class.</span>
+  <span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">super</span><span class="p">.</span><span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">);</span>
+    <span class="nx">trafficLight</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">Proceed</span> <span class="kr">extends</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="nx">get</span> <span class="nx">color</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;green&#39;</span><span class="p">;</span> <span class="p">}</span>
+  <span class="nx">get</span> <span class="nx">next</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">States</span><span class="p">.</span><span class="nx">CAUTION</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">States</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">STOP</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Stop</span><span class="p">(),</span>
+  <span class="nx">CAUTION</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Caution</span><span class="p">(),</span>
+  <span class="nx">PROCEED</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Proceed</span><span class="p">()</span>
+<span class="p">};</span>
+
+<span class="kr">class</span> <span class="nx">TrafficLight</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="nx">signal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">signal</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The refactoring so far has reduced <code>signal</code> from 11 LOC to 1, and <code>nextState</code> from 8 down to 1 LOC. Another
+cool part is that a new domain concept has been capture via a new class <code>State</code>. Looks good to me!</p>
+
+<p>Or is it?</p>
+
+<h2 id="too-much-indirection">Too Much Indirection</h2>
+
+<p>If you compare before and after of the <code>TrafficLight</code> class, I would argue that the former is much easier to
+reason about.</p>
+
+<p>Reasonability of code is an often discussed topic in programming. But what does it actually mean?</p>
+
+<p>Code is easy to <strong>reason about</strong> if its output can be easily predicted given some input. That is, I can
+predict what happens without having to expend a lot of effort tracing through it.</p>
+
+<p>For example, <a href="https://en.wikipedia.org/wiki/Referential_transparency">referentially transparent</a> functions with
+<a href="https://en.wikipedia.org/wiki/Immutable_object">immutable objects</a> are easier to reason about because I don’t need to
+run through all possible mutations that can occur in the system. I know that given the same input, I will always
+get the same output. I also know that the objects I pass into the function cannot be mutated, leading to behaviour changes.</p>
+
+<p>Looking at the <code>signal()</code> method from the initial example, I can tell you without much effort what it will do given
+the different states. Can I say the same with the final example?</p>
+
+<h3 id="scenario-what-happens-when-i-signal">Scenario: What Happens When I Signal?</h3>
+
+<p>Let’s step through the same scenario with the initial code, and the final, refactored code.</p>
+
+<ol>
+  <li>Initial state is <code>caution</code> (or <code>States.CAUTION</code>).</li>
+  <li>I call <code>light.signal()</code>.</li>
+  <li>What happens?</li>
+</ol>
+
+<p>Let’s take a look at the initial method in question. Look for the numbers attached to each step below.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">class</span> <span class="nx">TrafficLight</span> <span class="p">{</span>
+  <span class="nx">signal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 1. I know `this.state` is &#39;caution&#39;...</span>
+
+    <span class="k">switch</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">case</span> <span class="s1">&#39;stop&#39;</span><span class="o">:</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+        <span class="k">break</span><span class="p">;</span>
+
+      <span class="c1">// 2. Ah! Here it is.</span>
+      <span class="k">case</span> <span class="s1">&#39;caution&#39;</span><span class="o">:</span>
+
+        <span class="c1">// 3. Okay, it turns the yellow lamp.</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;yellow&#39;</span><span class="p">);</span>
+
+        <span class="c1">// 4. Oh, it rings the warning bell.</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
+
+        <span class="c1">// 5. Case is done.</span>
+        <span class="k">break</span><span class="p">;</span>
+
+      <span class="k">case</span><span class="o">:</span> <span class="s1">&#39;proceed&#39;</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 6. Done!</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Constrast this with the final refactored code. The step numbers are out of order
+and might be hard to follow, but this is what happens with indirection in real code. ;)</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">class</span> <span class="nx">TrafficLight</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="nx">signal</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 1. I know `this.state` is `States.CAUTION`...</span>
+
+    <span class="c1">// 2. I need to look up what `States.CAUTION.signal` does</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">signal</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+
+    <span class="c1">// 10. Returned from `signal` and I&#39;m done!</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">States</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+
+  <span class="c1">// 3. Now I need to look up what Caution class does.</span>
+  <span class="nx">CAUTION</span><span class="o">:</span> <span class="k">new</span> <span class="nx">Caution</span><span class="p">()</span>
+
+  <span class="c1">// ...</span>
+<span class="p">};</span>
+
+<span class="kr">class</span> <span class="nx">Caution</span> <span class="kr">extends</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="c1">// 7. Oh, the yellow lamp will turn on!</span>
+  <span class="nx">get</span> <span class="nx">color</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;yellow&#39;</span><span class="p">;</span> <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+
+  <span class="c1">// 4. Ah, here is the signal method!</span>
+  <span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//  5. Okay, what does this do? Let me look at State parent class.</span>
+    <span class="kr">super</span><span class="p">.</span><span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+
+    <span class="c1">// 8. Now it will ring the warning bell.</span>
+    <span class="nx">trafficLight</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
+
+    <span class="c1">// 9. Method is done! Let me jump back to `TrafficLight`.</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">State</span> <span class="p">{</span>
+  <span class="nx">signal</span><span class="p">(</span><span class="nx">trafficLight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 6. Ok, it turns the lamp on... but what color?</span>
+    <span class="c1">//    I need to go back up the Caution class...</span>
+    <span class="nx">trafficLight</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The difference in scanning the initial example versus the final one is that the the former
+is completely contained in one method, and can be scanned from top to bottom. In the refactored
+code, we had to jump all over the place, and keep track of where we have jumped from.</p>
+
+<p>So does this mean the refactored code is <em>necessarily worse</em>? No, I don’t think so. It really depends
+on the requirements and personal preference. The refactored code might capture the state transitions
+and colour requirements in a more cohesive manner. It may increase the ease of extension, depending
+on what are are extending. One thing is for certain, the refactored code is more complex than the original.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Indirection is a valuable tool. When used correctly, it allows us to create powerful abstractions that
+allow us to extend and maintain our system more easily. However, like most things of value, indirection
+comes at a cost. It increases complexity.</p>
+
+<p>Does this mean we shouldn’t use indirection? Of course not! You will not get very far without it. You should
+think a bit before refactoring, and make sure you are actually making your code better.</p>
+
+<p>If you end up with unnecessary indirections, don’t be afraid to inline your code again. This way you can
+more easily reason about your system as a whole. You may then get the insight needed for your next refactor.</p>
+
+<p>Happy coding!</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/09/26/typed-react-and-redux" title="React and Redux with TypeScript">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/11/21/avoid-unnecessary-indirection';
+    var disqus_url = 'http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>21 November 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#programming-ref">programming <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>29</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection&amp;text=Avoid%20Unnecessary%20Indirection&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2009/03/30/the-language-of-hackers">The Language Of Hackers</a></li>
+      
+      <li><a href="/2009/03/12/programming-language-trends-java-cobol">Programming Language Trends (Java==Cobol?)</a></li>
+      
+      <li><a href="/2015/09/26/typed-react-and-redux">React and Redux with TypeScript</a></li>
+      
+      <li><a href="/2015/06/09/react-contexts-and-dependency-injection">React Contexts and Dependency Injection</a></li>
+      
+      <li><a href="/2015/06/02/why-you-should-care-about-flux">Why You Should Care About Flux</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2015</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+
