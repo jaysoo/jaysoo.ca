@@ -81,6 +81,10 @@ class TrafficLight {
 }
 {% endhighlight %}
 
+<p class="muted">
+  (<em>Example adapted from one in the <a href="http://confidentruby.com">Confident Ruby</a> book.</em>)
+ </p>
+
 The `TrafficLight` class has four main responsiblities.
 
 1. Keeps track of the current `state`.

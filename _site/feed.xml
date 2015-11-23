@@ -82,6 +82,10 @@ I will do a comparison of the before and after, and see why the “after” may 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
+&lt;p class=&quot;muted&quot;&gt;
+  (&lt;em&gt;Example adapted from one in the &lt;a href=&quot;http://confidentruby.com&quot;&gt;Confident Ruby&lt;/a&gt; book.&lt;/em&gt;)
+ &lt;/p&gt;
+
 &lt;p&gt;The &lt;code&gt;TrafficLight&lt;/code&gt; class has four main responsiblities.&lt;/p&gt;
 
 &lt;ol&gt;
