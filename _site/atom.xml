@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2015-12-13T20:21:26-05:00</updated>
+ <updated>2015-12-13T20:23:13-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -292,7 +292,7 @@ the different states. Can I say the same with the final example?&lt;/p&gt;
         &lt;span class=&quot;c1&quot;&gt;// 5. Case is done.&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-      &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;proceed&amp;#39;&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;proceed&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
         &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;turnOnLamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;green&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
