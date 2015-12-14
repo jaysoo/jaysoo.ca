@@ -283,7 +283,7 @@ class TrafficLight {
         // 5. Case is done.
         break;
 
-      case: 'proceed'
+      case 'proceed':
         this.turnOnLamp('green');
     }
 
