@@ -157,7 +157,7 @@ I will do a comparison of the before and after, and see why the “after” may 
         <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;yellow&#39;</span><span class="p">);</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">ringWarningBell</span><span class="p">();</span>
         <span class="k">break</span><span class="p">;</span>
-      <span class="k">case</span><span class="o">:</span> <span class="s1">&#39;proceed&#39;</span>
+      <span class="k">case</span> <span class="s1">&#39;proceed&#39;</span><span class="o">:</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">turnOnLamp</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
     <span class="p">}</span>
   <span class="p">}</span>
@@ -169,7 +169,7 @@ I will do a comparison of the before and after, and see why the “after” may 
       <span class="k">case</span> <span class="s1">&#39;caution&#39;</span><span class="o">:</span>
         <span class="k">return</span> <span class="s1">&#39;proceed&#39;</span><span class="p">;</span>
       <span class="k">case</span> <span class="s1">&#39;proceed&#39;</span><span class="o">:</span>
-        <span class="k">return</span> <span class="s1">&#39;caution&#39;</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s1">&#39;stop&#39;</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">}</span>
 
@@ -505,6 +505,7 @@ more easily reason about your system as a whole. You may then get the insight ne
 
 <p>Happy coding!</p>
 
+<p><small>Edit (2015-12-13): Fixed typos in code example.</small></p>
 
     </div>
     <hr>

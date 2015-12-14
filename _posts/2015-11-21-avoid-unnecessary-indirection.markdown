@@ -55,7 +55,7 @@ class TrafficLight {
         this.turnOnLamp('yellow');
         this.ringWarningBell();
         break;
-      case: 'proceed'
+      case 'proceed':
         this.turnOnLamp('green');
     }
   }
@@ -67,7 +67,7 @@ class TrafficLight {
       case 'caution':
         return 'proceed';
       case 'proceed':
-        return 'caution';
+        return 'stop';
     }
   }
 
@@ -405,3 +405,5 @@ more easily reason about your system as a whole. You may then get the insight ne
 
 Happy coding!
 
+
+<small>Edit (2015-12-13): Fixed typos in code example.</small>
