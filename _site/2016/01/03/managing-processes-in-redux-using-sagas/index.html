@@ -250,7 +250,7 @@ start the periodic dispatches. This means we have to use a stateful component.</
 
     <span class="k">if</span> <span class="p">(</span><span class="nx">currState</span> <span class="o">===</span> <span class="s1">&#39;Stopped&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">nextState</span> <span class="o">===</span> <span class="s1">&#39;Running&#39;</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">_startTimer</span><span class="p">();</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">currState</span> <span class="o">===</span> <span class="s1">&#39;Stopped&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">nextState</span> <span class="o">===</span> <span class="s1">&#39;Running&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">currState</span> <span class="o">===</span> <span class="s1">&#39;Running&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">nextState</span> <span class="o">===</span> <span class="s1">&#39;Stopped&#39;</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">this</span><span class="p">.</span><span class="nx">_stopTimer</span><span class="p">();</span>
     <span class="p">}</span>
   <span class="p">}</span>

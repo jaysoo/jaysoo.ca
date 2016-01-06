@@ -145,7 +145,7 @@ class Timer extends Component {
 
     if (currState === 'Stopped' && nextState === 'Running') {
       this._startTimer();
-    } else if (currState === 'Stopped' && nextState === 'Running') {
+    } else if (currState === 'Running' && nextState === 'Stopped') {
       this._stopTimer();
     }
   }
