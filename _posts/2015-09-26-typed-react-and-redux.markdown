@@ -8,7 +8,7 @@ tags: [javascript,react,flux,typescript]
 The release of [TypeSciprt](http://www.typescriptlang.org/) 1.6 includes support for [React](http://facebook.github.io/react/) components.
 I decided to give it a whirl and see what TypeScript has to offer.
 
-The end result is a port of the [Redux](https://github.com/rackt/redux) [TodoMVC](http://todomvc.com/) example to TypeScript. 
+The end result is a port of the [Redux](https://github.com/rackt/redux) [TodoMVC](http://todomvc.com/) example to TypeScript.
 (See [my repo on GitHub](https://github.com/jaysoo/todomvc-redux-react-typescript))
 
 So why use types in the first place? Isn't the dynamic and flexible nature of JavaScript what makes it so great in the first
@@ -25,7 +25,9 @@ I will cover the following topics:
 - How TypeScript can help us develop React applications.
 - Additional considerations when choosing TypeScript and React.
 
-**Disclosure:** I'm not an expert in TypeScript. If you have any suggestions for improvement, please leave a comment!
+<div class="alert alert-info">
+  <strong>Update (2016-01-08):</strong> I've updated the <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">code</a> to use TypeScript 1.7.5, ReactJS 0.14.6, and Redux 3.0.4.
+</div>
 
 ## Types are good for you
 
@@ -195,7 +197,7 @@ With TypeScript 1.6, you can now write your React components in TSX files. The f
 example](https://github.com/jaysoo/todomvc-redux-react-typescript).
 
 {% highlight js %}
-/// <reference path='../../typings/react/react.d.ts'/>
+// `The * as ____` here is a way to import ES6 default exports in ES6.
 import * as React from 'react';
 
 interface TodoTextInputProps {
@@ -216,10 +218,15 @@ class TodoTextInput extends React.Component<TodoTextInputProps, any> {
 {% endhighlight %}
 
 <div class="alert alert-info">
-  <strong>Note:</strong> The <code>reference</code> comment at the top points to type definitions for React. When using
-  JavaScript modules in TypeScript, you must provide its type definitions. You can either write these yourself, or the better
-  option is to use <a href="http://definitelytyped.org/tsd/">TSD</a> to install definitions of popular JavaScript
-  modules.
+  <p><strong>Note:</strong> Since React does not provide TypeScript definitions,
+  we cannot use it without providing a <code>.d.ts</code> definition file. In this
+  case, I am using a tool called <code><a href="http://definitelytyped.org/tsd/">tsd</a></code>
+  to install the missing definitions. DefinitelyTyped is a community maintained repository for
+  TypeScript definitions.</p>
+  <p>
+  You can view the <code><a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/tsd.json">tsd.json</a></code>
+  file to see all of the definitions I have installed.
+  </p>
 </div>
 
 ### Properties interface vs React.PropTypes
@@ -257,7 +264,7 @@ In the TodoMVC example, I defined a `Todo` type that is used throughout the appl
 type of
 [actions/todos](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/actions/todos.ts)
 . The state of
-[reducers/todos](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts) 
+[reducers/todos](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts)
 is `Todo[]`. And [the](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/MainSection.tsx)
 [components](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoItem.tsx)
 [all](https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoTextInput.tsx) take in
@@ -411,7 +418,7 @@ will receive are:
 Does this mean you should rewrite your React application in TypeScript right now? It's up to you. There are **downsides**
 in choosing TypeScript.
 
-- Your favourite editor may not support TypeScript. Best editors right now would be 
+- Your favourite editor may not support TypeScript. Best editors right now would be
   [WebStorm](https://www.jetbrains.com/webstorm/) or [Visual Studio Code](https://code.visualstudio.com/) IMO.
 - As of this writing, Visual Studio Code does not support TSX files (at least from my observation).
 - You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).

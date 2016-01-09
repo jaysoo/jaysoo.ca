@@ -114,7 +114,7 @@
       <p>The release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> 1.6 includes support for <a href="http://facebook.github.io/react/">React</a> components.
 I decided to give it a whirl and see what TypeScript has to offer.</p>
 
-<p>The end result is a port of the <a href="https://github.com/rackt/redux">Redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TypeScript. 
+<p>The end result is a port of the <a href="https://github.com/rackt/redux">Redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TypeScript.
 (See <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">my repo on GitHub</a>)</p>
 
 <p>So why use types in the first place? Isn’t the dynamic and flexible nature of JavaScript what makes it so great in the first
@@ -133,7 +133,9 @@ some familiarity with React.</p>
   <li>Additional considerations when choosing TypeScript and React.</li>
 </ul>
 
-<p><strong>Disclosure:</strong> I’m not an expert in TypeScript. If you have any suggestions for improvement, please leave a comment!</p>
+<div class="alert alert-info">
+  <strong>Update (2016-01-08):</strong> I've updated the <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">code</a> to use TypeScript 1.7.5, ReactJS 0.14.6, and Redux 3.0.4.
+</div>
 
 <h2 id="types-are-good-for-you">Types are good for you</h2>
 
@@ -292,7 +294,7 @@ I found the <a href="http://www.typescriptlang.org/Handbook">Handbook</a> to be 
 <p>With TypeScript 1.6, you can now write your React components in TSX files. The following is an example from my <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">TodoMVC
 example</a>.</p>
 
-<div class="highlight"><pre><code class="js"><span class="c1">/// &lt;reference path=&#39;../../typings/react/react.d.ts&#39;/&gt;</span>
+<div class="highlight"><pre><code class="js"><span class="c1">// `The * as ____` here is a way to import ES6 default exports in ES6.</span>
 <span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
 
 <span class="kr">interface</span> <span class="nx">TodoTextInputProps</span> <span class="p">{</span>
@@ -313,10 +315,15 @@ example</a>.</p>
 </code></pre></div>
 
 <div class="alert alert-info">
-  <strong>Note:</strong> The <code>reference</code> comment at the top points to type definitions for React. When using
-  JavaScript modules in TypeScript, you must provide its type definitions. You can either write these yourself, or the better
-  option is to use <a href="http://definitelytyped.org/tsd/">TSD</a> to install definitions of popular JavaScript
-  modules.
+  <p><strong>Note:</strong> Since React does not provide TypeScript definitions,
+  we cannot use it without providing a <code>.d.ts</code> definition file. In this
+  case, I am using a tool called <code><a href="http://definitelytyped.org/tsd/">tsd</a></code>
+  to install the missing definitions. DefinitelyTyped is a community maintained repository for
+  TypeScript definitions.</p>
+  <p>
+  You can view the <code><a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/tsd.json">tsd.json</a></code>
+  file to see all of the definitions I have installed.
+  </p>
 </div>
 
 <h3 id="properties-interface-vs-reactproptypes">Properties interface vs React.PropTypes</h3>
@@ -351,7 +358,7 @@ The above errors were from Webpack with ts-loader.</p>
 type of
 <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/actions/todos.ts">actions/todos</a>
 . The state of
-<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts">reducers/todos</a> 
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts">reducers/todos</a>
 is <code>Todo[]</code>. And <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/MainSection.tsx">the</a>
 <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoItem.tsx">components</a>
 <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoTextInput.tsx">all</a> take in
@@ -502,7 +509,7 @@ will receive are:</p>
 in choosing TypeScript.</p>
 
 <ul>
-  <li>Your favourite editor may not support TypeScript. Best editors right now would be 
+  <li>Your favourite editor may not support TypeScript. Best editors right now would be
 <a href="https://www.jetbrains.com/webstorm/">WebStorm</a> or <a href="https://code.visualstudio.com/">Visual Studio Code</a> IMO.</li>
   <li>As of this writing, Visual Studio Code does not support TSX files (at least from my observation).</li>
   <li>You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).</li>
@@ -645,7 +652,7 @@ in choosing TypeScript.</p>
             <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
           </li>
         </ul>
-        <p class="info"><small>&copy; Jack Hsu 2015</p>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
       </div>
     </footer>
 
