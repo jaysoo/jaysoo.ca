@@ -1101,8 +1101,6 @@ in choosing TypeScript.&lt;/p&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/rackt/redux/&quot;&gt;Redux&lt;/a&gt; (Flux-like framework)&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/&quot;&gt;Hello World with TypeScript and JSX&lt;/a&gt; (This one helped me debug some errors)&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;&lt;small&gt;Edit (2015-09-28): Updated code examples to consistently use interface instead of type aliases.&lt;/small&gt;&lt;/p&gt;
 </description>
 				<pubDate>Sat, 26 Sep 2015 00:00:00 -0400</pubDate>
 				<link>http://jaysoo.ca/2015/09/26/typed-react-and-redux</link>
