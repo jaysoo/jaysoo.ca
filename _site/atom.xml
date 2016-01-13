@@ -4,13 +4,22 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-01-09T00:02:17-05:00</updated>
+ <updated>2016-01-12T22:58:08-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
    <email>jack.hsu@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>The Little Ideas of Functional Programming</title>
+   <link href="http://jaysoo.ca/2016/01/12/functional-programming-little-ideas"/>
+   <updated>2016-01-12T00:00:00-05:00</updated>
+   <id>hhttp://jaysoo.ca/2016/01/12/functional-programming-little-ideas</id>
+   <content type="html">
+</content>
+ </entry>
  
  <entry>
    <title>Managing Side Effects In React + Redux Using Sagas</title>
