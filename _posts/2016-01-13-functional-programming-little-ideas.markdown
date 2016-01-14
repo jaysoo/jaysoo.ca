@@ -19,7 +19,7 @@ When you ask people about functional programming, you might hear jargons like *m
 Others may say functional programming is all about *map-filter-reduce*. And you may also hear talks about *purity*,
 and *side effects*.
 
-What I want to do in this post is to look at a couple of simple concepts that make up the **little idea
+What I want to do in this post is to take a look at a couple of simple concepts that make up the **little idea
 behind functional programming**. I will tie the concepts back to code examples in JavaScript. There will
 be some ReactJS code, so some familiarity with it helps, although not necessary.
 
