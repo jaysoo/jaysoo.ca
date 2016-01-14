@@ -35,7 +35,7 @@ YouTube search.
 The YouTube search app will allow the user to type in search terms into an input box. As
 the user types, video results will appear below the input box.
 
-![](/images/fp-yt.gif)
+![](/images/fp-youtube.gif)
 
 OK, now we are ready to begin!
 
