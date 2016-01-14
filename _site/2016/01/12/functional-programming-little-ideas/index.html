@@ -129,6 +129,10 @@ and <em>side effects</em>.</p>
 behind functional programming</strong>. I will tie the concepts back to code examples in JavaScript. There will
 be some ReactJS code, so some familiarity with it helps, although not necessary.</p>
 
+<p>Also, a big shoutout to <a href="https://twitter.com/drboolean">Brian Lonsdorf</a> for his
+<a href="https://www.youtube.com/watch?v=h_tkIpwbsxY&amp;list=PLK_hdtAJ4KqX0JOs_KMAmUNTNMRYhWEaC&amp;index=1">Class Coding with Prof. Frisby</a>
+video series, which inspired the code examples in this post.</p>
+
 <h2 id="implementing-youtube-instant-search">Implementing YouTube instant search</h2>
 
 <p>Before we begin exploring functional programming concepts, let’s take a look at our sample problem - a
@@ -161,13 +165,13 @@ the user types, video results will appear below the input box.</p>
 
 <h3 id="concept-1---data-in-data-out">Concept #1 - Data in, data out</h3>
 
-<p>The first concept is the <strong>separation of data and behaviour</strong>. <em>Data</em> can be transformed by
-passing it as input to a <em>function</em> that outputs some other <em>data</em>. You can picture
+<p>The first concept is the <strong>separation of data and behaviour</strong>. Data by themselves cannot do anything, but
+functions can be used to take them in as input and then output some new data. You can picture
 a function as a box that take in some shape, and spits out another.</p>
 
 <p><img src="/images/comp-1.svg" alt="" /></p>
 
-<p>In the above illustration, function <em>f</em> takes a triangle as input, and outputs a square. Function
+<p>In the illustration above, function <em>f</em> takes a triangle as input, and outputs a square. Function
 <em>g</em> takes in a square and outputs a triangle.</p>
 
 <p>With this idea in mind, we can implement a couple of functions to be used in our app.</p>
@@ -185,15 +189,15 @@ for <code>String</code> but has better semantics.</p>
 
 <span class="c1">// makeUrl :: String -&gt; Url</span>
 <span class="kr">const</span> <span class="nx">makeUrl</span> <span class="o">=</span> <span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="o">=&gt;</span>
-  <span class="err">`</span><span class="nx">https</span><span class="o">:</span><span class="c1">//www.googleapis.com/youtube/v3/search?part=snippet&amp;maxResults=24&amp;type=video&amp;q=${term}&amp;key=&#39;xxxx&#39;`;</span>
+  <span class="err">`</span><span class="nx">https</span><span class="o">:</span><span class="c1">//www.googleapis.com/youtube/v3/search?part=snippet&amp;maxResults=24&amp;type=video&amp;q=${term}&amp;key=xxxx`; // xxxx is the Google API key</span>
 </code></pre></div>
 
 <p>Now that we can map the user’s input value to an URL, we can fetch an API call to fetch the response JSON.
-So let’s look at the video JSON object, and how we can build <code>Video</code> objects from them.</p>
+So let’s look at the <code>VideoJSON</code> object, and think about how we can build <code>Video</code> objects from them.</p>
 
 <h4 id="code---hash-to-video">Code - Hash to Video</h4>
 
-<p>The YouTube API returns a video JSON as follows.</p>
+<p>The YouTube API returns a <code>VideoJSON</code> as follows.</p>
 
 <div class="highlight"><pre><code class="js"><span class="p">{</span>
   <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="p">{</span>
@@ -203,10 +207,10 @@ So let’s look at the video JSON object, and how we can build <code>Video</code
   <span class="s2">&quot;snippet&quot;</span><span class="o">:</span> <span class="p">{</span>
     <span class="s2">&quot;title&quot;</span><span class="o">:</span> <span class="s2">&quot;Led Zeppelin - Stairway to Heaven Live (HD)&quot;</span><span class="p">,</span>
     <span class="p">...</span>
-  <span class="p">},</span>
-  <span class="s2">&quot;thumbnails&quot;</span><span class="o">:</span> <span class="p">{</span>
-    <span class="s2">&quot;high&quot;</span><span class="o">:</span> <span class="p">{</span>
-     <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg&quot;</span>
+    <span class="s2">&quot;thumbnails&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;high&quot;</span><span class="o">:</span> <span class="p">{</span>
+      <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg&quot;</span>
+      <span class="p">},</span>
     <span class="p">},</span>
     <span class="p">...</span>
   <span class="p">},</span>
@@ -275,7 +279,7 @@ mappable objects (such as Array).</p>
 <span class="nx">mapVideos</span><span class="p">([{</span> <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;4&quot;</span> <span class="p">}]);</span> <span class="c1">//=&gt; [Video(&quot;4&quot;)]</span>
 </code></pre></div>
 
-<p>This new <code>mapVideos</code> function is now completely modular and can be used with any array containing video JSON objects
+<p>This new <code>mapVideos</code> function is now completely modular and can be used with any array containing <code>VideoJSON</code> objects
 to get an array of Video objects.</p>
 
 <div class="alert alert-info">
@@ -293,7 +297,7 @@ as <em>f</em>’s output matches <em>g</em>’s input.</p>
 
 <p><img src="/images/comp-2.svg" alt="" /></p>
 
-<p>In the above illustration, we created a new function <em>h</em> that composes <em>f</em> and <em>g</em>. This new function takes
+<p>In the illustration above, we created a new function <em>h</em> that composes <em>f</em> and <em>g</em>. This new function takes
 a triangle as input (input of <em>f</em>) and outputs a circle (output of <em>g</em>). We can describe this in JavaScript
 using the <a href="http://ramdajs.com/0.19.0/docs/#compose"><code>compose</code></a> function.</p>
 
@@ -317,7 +321,7 @@ sure that the inputs and outputs match while composing.</p>
 
 <h4 id="code---mapping-json-response-to-videos">Code - Mapping JSON response to videos</h4>
 
-<p>The <code>mapVideos</code> function that we previously implemented takes an array of video JSON objects as input, and
+<p>The <code>mapVideos</code> function that we previously implemented takes an array of <code>VideoJSON</code> objects as input, and
 ouputs an array of Video objects (<code>mapVideos :: [VideoJSON] -&gt; [Video]</code>). However, the YouTube API actually nests the array of video
 JSON objects inside a structure like this:</p>
 
@@ -330,17 +334,17 @@ JSON objects inside a structure like this:</p>
 <span class="p">}</span>
 </code></pre></div>
 
-<p>We can retrieve the video JSON objects with the <a href="http://ramdajs.com/0.19.0/docs/#prop"><code>prop</code></a> function, which
-allows use to get a property (by name) from an object.</p>
+<p>We can retrieve the <code>VideoJSON</code> objects with the <a href="http://ramdajs.com/0.19.0/docs/#prop"><code>prop</code></a> function, which
+returns a property (by name) when called with an object.</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">)({</span> <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span> <span class="p">}]</span> <span class="p">});</span> <span class="c1">//=&gt; [{ id: 1}]</span>
 <span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">)({</span> <span class="nx">items</span><span class="o">:</span> <span class="p">[]</span> <span class="p">});</span> <span class="c1">//=&gt; []</span>
 </code></pre></div>
 
-<p>Now, if we pass the response JSON to <code>prop('items')</code>, we will get an array of video JSON objects, which
+<p>Now, if we pass the response JSON to <code>prop('items')</code>, we will get an array of <code>VideoJSON</code> objects, which
 is exactly what <code>mapVideos</code> takes as input. This is all we need to define the <code>toVideos</code> function.</p>
 
-<div class="highlight"><pre><code class="js"><span class="c1">// toVideos :: JSON -&gt; [Video]</span>
+<div class="highlight"><pre><code class="js"><span class="c1">// toVideos :: VideoJSON -&gt; [Video]</span>
 <span class="kr">const</span> <span class="nx">toVideos</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">mapVideos</span><span class="p">,</span> <span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;items&#39;</span><span class="p">));</span>
 
 <span class="nx">toVideos</span><span class="p">({</span> <span class="nx">items</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span> <span class="p">},</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="mi">2</span> <span class="p">}]});</span> <span class="c1">//=&gt; [{ id: 1 }, { id: 2 }]</span>
@@ -365,9 +369,9 @@ is exactly what <code>mapVideos</code> takes as input. This is all we need to de
 </code></pre></div>
 
 <p>So we just need a function that can take in <code>Url</code> and output <code>ResponseJSON</code>. Well, it’s not as simple as that
-since we are dealing with an API call that goes over the network. In this case, I am opting to use
-the <a href="https://github.com/folktale/data.task"><code>Task</code></a> type, which represents a delayed computation. Think
-of it as a Promise, but does not have an effect right away.</p>
+since we are dealing with an API call that goes over the network, thus we cannot return a simple value.
+In this case, I am opting to use the <a href="https://github.com/folktale/data.task"><code>Task</code></a> type,
+which represents a delayed computation. Think of it as a Promise, but does not have an effect right away.</p>
 
 <p>Usage example:</p>
 
@@ -386,7 +390,7 @@ of it as a Promise, but does not have an effect right away.</p>
 <span class="p">);</span>
 </code></pre></div>
 
-<p>So we define a function <code>httpGet</code> as follows.</p>
+<p>Now the function <code>httpGet</code> is defined as follows.</p>
 
 <div class="highlight"><pre><code class="js"><span class="c1">// httpGet :: String -&gt; Task Error ResponseJSON</span>
 <span class="kr">const</span> <span class="nx">httpGet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">=&gt;</span>
@@ -409,11 +413,11 @@ of it as a Promise, but does not have an effect right away.</p>
 
 <div class="alert alert-info">
 <p>
-<strong>Note:</strong> that I am using a <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
-function inside the composition. This is
+<strong>Note:</strong> The <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
+function is used inside the composition. This is
 needed since the return type of <code>httpGet</code> is <code>Task Error ResponseJSON</code>, we
 need to lift the <code>ResponseJSON -&gt; [Video]</code> transformation function into
-a function that can operate on the value inside the Task.
+a function that can operate on the future resolved value of the Task.
 </p>
 <p>
 The type for <code>lift(toVideos)</code> is <code>M ResponseJSON -&gt; M [Video]</code>, where
@@ -459,20 +463,229 @@ we just composed.</p>
   <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">placeholder</span><span class="o">=</span><span class="s2">&quot;Search for videos&quot;</span>
            <span class="nx">onChange</span><span class="o">=</span><span class="p">{</span> <span class="p">({</span> <span class="nx">target</span><span class="o">:</span> <span class="nx">t</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">onSearch</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">}</span><span class="o">/&gt;</span>
-    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
-      <span class="p">{</span> <span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="p">(</span>
-          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
-            <span class="o">&lt;</span><span class="nx">Embed</span> <span class="nx">video</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">}</span><span class="o">/&gt;</span>
+    <span class="p">{</span> <span class="nx">videos</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span>
+        <span class="o">?</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">No</span> <span class="nx">videos</span> <span class="nx">found</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+        <span class="o">:</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+            <span class="p">{</span> <span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="p">(</span>
+                <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>
+                  <span class="o">&lt;</span><span class="nx">Embed</span> <span class="nx">video</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">}</span><span class="o">/&gt;</span>
+                <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">))</span> <span class="p">}</span>
           <span class="o">&lt;</span><span class="err">/div&gt;</span>
-      <span class="p">))</span> <span class="p">}</span>
-    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="p">}</span>
   <span class="o">&lt;</span><span class="err">/div&gt;</span>
 <span class="p">);</span>
 </code></pre></div>
 
-<p>The main thing to note is that the both the <code>App</code> and <code>Search</code> videos components are very simple.
+<p>The main thing to note is that the both the <code>App</code> and <code>VideoSearch</code> components are very simple.
 All of the complexity is delegated to the <code>searchVideos</code> function, which as we’ve seen, is made up
-of a bunch of smaller, simple functions.</p>
+of a bunch of smaller functions.</p>
+
+<h2 id="dealing-with-changing-requirements">Dealing with changing requirements</h2>
+
+<p>Let’s consider a new requirement: We want to display a message to the user if <em>no search term is entered</em>.</p>
+
+<p>To implement this, we will need a way to determine if the search has not been performed. We can use <code>Either</code>
+to achieve this, and change the <code>searchVideos</code> function to return <code>Task Error (Either Empty [Video])</code>
+instead of <code>Task Error [Video]</code>.</p>
+
+<p><code>Either a b</code> means the structure may contain a value of type <code>a</code> (Left) or type <code>b</code> (Right). The Left value represents an exceptional
+value, which in our case we will use to represent an empty search state.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// Left value means the search has not been performed, and the default message is contained in the object.</span>
+<span class="kr">const</span> <span class="nx">Empty</span> <span class="o">=</span> <span class="nx">Either</span><span class="p">.</span><span class="nx">Left</span><span class="p">(</span><span class="s1">&#39;Search for YouTube videos&#39;</span><span class="p">);</span>
+
+<span class="cm">/* Usage example */</span>
+
+<span class="c1">// This is a function that maps Videos inside an Either object to their titles.</span>
+<span class="c1">// mapTitle :: Either l [Video] -&gt; Either l [String]</span>
+<span class="kr">const</span> <span class="nx">mapTitle</span> <span class="o">=</span> <span class="nx">lift</span><span class="p">(</span><span class="nx">map</span><span class="p">(</span><span class="nx">prop</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)));</span>
+
+<span class="c1">// Right value means we have performed the search and the results are available.</span>
+<span class="kr">const</span> <span class="nx">s1</span> <span class="o">=</span> <span class="nx">Either</span><span class="p">.</span><span class="nx">Right</span><span class="p">([</span>
+  <span class="nx">Video</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">&#39;Led Zeppelin - Stairway to Heaven Live (HD)&#39;</span><span class="p">)</span>
+<span class="p">]);</span>
+
+<span class="nx">mapTitle</span><span class="p">(</span><span class="nx">s1</span><span class="p">);</span> <span class="c1">//=&gt; Either.Right(Led Zeppelin - Stairway to Heaven Live (HD))</span>
+<span class="nx">mapTitle</span><span class="p">(</span><span class="nx">Empty</span><span class="p">);</span> <span class="c1">//=&gt; Either.Left(&#39;Search for YouTube videos&#39;)</span>
+</code></pre></div>
+
+<h3 id="handling-the-case-of-not-having-an-url">Handling the case of not having an URL</h3>
+
+<p>Now, to determine whether a search can be performed in the first place, we can create a new
+function <code>maybeMakeUrl :: String -&gt; Maybe Url</code>. Note that we are returning a Url in the context
+of a <code>Maybe</code>.</p>
+
+<p><code>Maybe</code> can be of type <code>Maybe.Just</code> or <code>Maybe.Nothing</code>, with the latter representing the case
+of no value. (Note how we avoided using <code>null</code> or <code>undefined</code>)</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// maybeMakeUrl :: String -&gt; Maybe Url</span>
+<span class="kr">const</span> <span class="nx">maybeMakeUrl</span> <span class="o">=</span> <span class="p">(</span><span class="nx">term</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="p">(</span>
+  <span class="nx">term</span> <span class="o">&amp;&amp;</span> <span class="nx">term</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="o">?</span> <span class="nx">Maybe</span><span class="p">.</span><span class="nx">Just</span><span class="p">(</span><span class="nx">makeUrl</span><span class="p">(</span><span class="nx">term</span><span class="p">))</span>
+    <span class="o">:</span> <span class="nx">Maybe</span><span class="p">.</span><span class="nx">Nothing</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="cm">/* Usage example */</span>
+<span class="nx">maybeMakeUrl</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span> <span class="c1">//=&gt; Maybe.Nothing</span>
+<span class="nx">maybeMakeUrl</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span> <span class="c1">//=&gt; Maybe.Nothing</span>
+<span class="nx">maybeMakeUrl</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span> <span class="c1">//=&gt; Maybe.Just(https://www.googleapis.com/youtube/v3/search/?q=foo&amp;...)</span>
+</code></pre></div>
+
+<h3 id="http-get-using-a-maybe-url">HTTP GET using a Maybe URL</h3>
+
+<p>So now that we have a function that returns <code>Maybe Url</code>, we also need a new version of <code>httpGet</code>
+that handles <code>Maybe Url</code> instead of just <code>Url</code>.</p>
+
+<p>The Maybe type provides a <code>cata</code> method that will allow us to pattern match whether we have
+<code>Just Url</code> or <code>Nothing</code> (think of it as using <code>x instanceof Maybe.Just</code> and <code>x instanceof Maybe.Nothing</code>).</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// maybeHttpGet :: e -&gt; Maybe String -&gt; Task Error (Either e JSON)</span>
+<span class="kr">const</span> <span class="nx">maybeHttpGet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="o">=&gt;</span>
+  <span class="nx">url</span><span class="p">.</span><span class="nx">cata</span><span class="p">({</span>
+    <span class="nx">Just</span><span class="o">:</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">Either</span><span class="p">.</span><span class="nx">Right</span><span class="p">),</span> <span class="nx">httpGet</span><span class="p">),</span>
+    <span class="nx">Nothing</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">Task</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+  <span class="p">});</span>
+</code></pre></div>
+
+<p>In the <code>Just</code> case, we are using a <code>lift</code> function to transform the <code>ResponseJSON</code> object inside the Task
+to an <code>Either.Right</code> value.</p>
+
+<p>In the <code>Nothing</code> case, we are returning a Task that contains the empty type <code>e</code> (<code>Empty</code> in our case). This
+is similar to using <code>Promise.resolve(...)</code>, but for Tasks.</p>
+
+<div class="alert alert-info">
+<p>
+<strong>Note:</strong> The <code>cata</code> method uses a concept called <a href="https://en.wikipedia.org/wiki/Catamorphism">Catamorphism</a>
+(from Greek components "down" + "shape"). It provides a generalized way of collapsing a type based on its structure.
+</p>
+<p>
+If you want to learn more about catamorphism, I found the <a href="http://fsharpforfunandprofit.com/posts/recursive-types-and-folds/#catamorphisms">
+Introduction to recursive types</a> post of F# for fun and profit to be a good read.
+</p>
+</div>
+
+<h3 id="refactoring-the-search-videos-function">Refactoring the search videos function</h3>
+
+<p>Now that we have the two new functions <code>maybeMakeUrl</code> and <code>maybeHttpGet</code>, we can change <code>searchVideos</code> to the following.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// searchVideos :: String -&gt; Task Error (Either String [Video])</span>
+<span class="kr">const</span> <span class="nx">searchVideos</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">)),</span> <span class="nx">maybeHttpGet</span><span class="p">(</span><span class="nx">Empty</span><span class="p">),</span> <span class="nx">makeUrl</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Notice that all other functions remain unchanged (<code>makeUrl</code>, <code>httpGet</code>, <code>toVideo</code>, <code>toVideos</code>).
+We simply introduced two new functions, and refactored the final search function to handle Maybe and Either.</p>
+
+<p>The <code>lift(lift(...))</code> call is made because we need to lift the <code>toVideos</code> transform function twice:</p>
+
+<ol>
+  <li>Once for lifting the transform to operate with <code>Either Empty ResponseJSON</code>.</li>
+  <li>Second time for lifting the lifted transform to operate with the future resolved value of type <code>ResponseJSON</code>.</li>
+</ol>
+
+<h3 id="refactoring-the-component-to-work-with-either">Refactoring the component to work with Either</h3>
+
+<p>And finally, we refactor the <code>SearchVideos</code> component to reduce the rendered element based on we have
+a right value (search performed), or a left value (search not performed).</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">results</span><span class="p">.</span><span class="nx">cata</span><span class="p">({</span>
+  <span class="c1">// This is the same as before, simply render the videos.</span>
+  <span class="nx">Right</span><span class="o">:</span> <span class="p">(</span><span class="nx">videos</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">videos</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">fill</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">No</span> <span class="nx">videos</span> <span class="nx">found</span><span class="o">&lt;</span><span class="err">/div&gt;;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span>
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">results</span><span class="p">}</span><span class="o">&gt;</span>
+          <span class="p">{</span>
+            <span class="nx">videos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">v</span> <span class="o">=&gt;</span> <span class="p">(</span>
+              <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">video</span><span class="p">}</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Embed</span> <span class="nx">video</span><span class="o">=</span><span class="p">{</span><span class="nx">v</span><span class="p">}</span><span class="o">/&gt;</span>
+              <span class="o">&lt;</span><span class="err">/div&gt;</span>
+            <span class="p">))</span>
+          <span class="p">}</span>
+        <span class="o">&lt;</span><span class="err">/div&gt;</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="c1">// This is the new empty case, where we display the default message to the user.</span>
+  <span class="nx">Left</span><span class="o">:</span> <span class="p">(</span><span class="nx">message</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">message</span> <span class="p">}</span><span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">})</span>
+</code></pre></div>
+
+<p>You can view the full source code, see the <a href="https://github.com/jaysoo/example-fp-youtube-search">repository on GitHub</a>.</p>
+
+<p>The power of the functional approach is that what works in the small also works in the large. We started with
+a simple function <code>makeUrl</code>, and eventually ended up with the more powerful function <code>searchVideos</code>. Along the entire
+way we were using the same approach of thinking about input/output types, and function composition.</p>
+
+<p>A nice benefit of having these pure functions is that we can easily use and test each of them separately. For example,
+the <code>lift(lift(toVideos))</code> function can be called with input of type <code>Task Error (Either e ResponseJSON)</code>.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">json</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">items</span><span class="o">:</span> <span class="p">[</span> <span class="p">{</span>
+               <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">videoId</span><span class="o">:</span> <span class="s1">&#39;9Q7Vr3yQYWQ&#39;</span><span class="p">},</span>
+               <span class="nx">snippet</span><span class="o">:</span> <span class="p">{</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Led Zeppelin - Stairway to Heaven Live (HD)&#39;</span><span class="p">,</span>
+                          <span class="nx">thumbnails</span><span class="o">:</span> <span class="p">{</span>
+                            <span class="nx">high</span><span class="o">:</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg&#39;</span> <span class="p">}</span>
+                          <span class="p">}</span>
+               <span class="p">}</span> <span class="p">}</span> <span class="p">]</span> <span class="p">};</span>
+<span class="kr">const</span> <span class="nx">t1</span> <span class="o">=</span> <span class="nx">Task</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">Either</span><span class="p">.</span><span class="nx">Right</span><span class="p">(</span><span class="nx">json</span><span class="p">));</span> <span class="c1">// input</span>
+<span class="kr">const</span> <span class="nx">t2</span> <span class="o">=</span> <span class="nx">lift</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">))(</span><span class="nx">t1</span><span class="p">);</span> <span class="c1">// output</span>
+
+<span class="c1">// Getting Video array out of the output task.</span>
+<span class="kr">const</span> <span class="nx">either</span> <span class="o">=</span> <span class="nx">t2</span><span class="p">.</span><span class="nx">fork</span><span class="p">(</span><span class="nx">identity</span><span class="p">,</span> <span class="nx">identity</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">videos</span> <span class="o">=</span> <span class="nx">either</span><span class="p">.</span><span class="nx">cata</span><span class="p">({</span> <span class="nx">Right</span><span class="o">:</span> <span class="nx">identity</span> <span class="p">});</span>
+
+<span class="nx">videos</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">title</span><span class="p">;</span> <span class="c1">//=&gt; &#39;Led Zeppelin - Stairway to Heaven Live (HD)&#39;</span>
+</code></pre></div>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post, I presented the <em>little idea</em> behind functional programming in terms of three concepts.</p>
+
+<ol>
+  <li>
+    <p><strong>Data in, data out</strong> - separating data and behaviour</p>
+  </li>
+  <li>
+    <p><strong>Code as data</strong> - using functions as data</p>
+  </li>
+  <li>
+    <p><strong>Composition all the way down</strong> - composing simple functions to form more powerful functions that are composable themselves</p>
+  </li>
+</ol>
+
+<p>These three basic concepts will help you keep your application more modular by allowing you to
+mix and match functions together (like a Lego!) as long as their types match up. This functional approach is something that works both
+in the small and in the large.</p>
+
+<p>If you are interested in learning more functional programming, I’ve included some videos below that were influential to me.</p>
+
+<h3 id="further-resources">Further Resources</h3>
+
+<ul>
+  <li>
+    <p><a href="http://ramdajs.com/">Ramda</a> - Functional utility library for JavaScript</p>
+  </li>
+  <li>
+    <p>[Video] Check out <a href="https://www.youtube.com/watch?v=h_tkIpwbsxY&amp;list=PLK_hdtAJ4KqX0JOs_KMAmUNTNMRYhWEaC&amp;index=1">Classroom Coding with Prof. Frisby</a>
+for more functional programming with ReactJS.</p>
+  </li>
+  <li>
+    <p>[Video] <a href="https://www.youtube.com/watch?v=pMGY9ViIGNU">Functional Programming for OO Development</a> - Jessica Kerr</p>
+  </li>
+  <li>
+    <p>[Video] <a href="http://www.infoq.com/presentations/functional-pros-cons">Destructuring Functional Programming</a> - Gilad Bracha</p>
+  </li>
+  <li>
+    <p>[Video] <a href="https://www.youtube.com/watch?v=a-RAltgH8tw">Functional Programming from First Principles</a> - Erik Meijer</p>
+  </li>
+  <li>
+    <p>[Video] <a href="https://www.youtube.com/watch?v=E8I19uA-wGY">Functional Programming Design Patterns</a> - Scott Wlaschin</p>
+  </li>
+  <li>
+    <p>[Video] <a href="https://vimeo.com/113707214">Railway oriented programming: Error handling in functional languages</a> - Scott Wlaschin</p>
+  </li>
+</ul>
 
 
     </div>

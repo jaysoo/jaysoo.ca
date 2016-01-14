@@ -23,6 +23,10 @@ What I want to do in this post is to look at a couple of simple concepts that ma
 behind functional programming**. I will tie the concepts back to code examples in JavaScript. There will
 be some ReactJS code, so some familiarity with it helps, although not necessary.
 
+Also, a big shoutout to [Brian Lonsdorf](https://twitter.com/drboolean) for his
+[Class Coding with Prof. Frisby](https://www.youtube.com/watch?v=h_tkIpwbsxY&list=PLK_hdtAJ4KqX0JOs_KMAmUNTNMRYhWEaC&index=1)
+video series, which inspired the code examples in this post.
+
 ## Implementing YouTube instant search
 
 Before we begin exploring functional programming concepts, let's take a look at our sample problem - a
@@ -49,16 +53,17 @@ Other functional programming concepts and techniques can be built upon this *lit
 
 ### Concept #1 - Data in, data out
 
-The first concept is the **separation of data and behaviour**. *Data* can be transformed by
-passing it as input to a *function* that outputs some other *data*. You can picture
+The first concept is the **separation of data and behaviour**. Data by themselves cannot do anything, but
+functions can be used to take them in as input and then output some new data. You can picture
 a function as a box that take in some shape, and spits out another.
 
 ![](/images/comp-1.svg)
 
-In the above illustration, function *f* takes a triangle as input, and outputs a square. Function
+In the illustration above, function *f* takes a triangle as input, and outputs a square. Function
 *g* takes in a square and outputs a triangle.
 
 With this idea in mind, we can implement a couple of functions to be used in our app.
+
 
 #### Code - Mapping search term to URL
 
@@ -74,15 +79,15 @@ type Url = String;
 
 // makeUrl :: String -> Url
 const makeUrl = (term) =>
-  `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video&q=${term}&key='xxxx'`;
+  `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video&q=${term}&key=xxxx`; // xxxx is the Google API key
 {% endhighlight %}
 
 Now that we can map the user's input value to an URL, we can fetch an API call to fetch the response JSON.
-So let's look at the video JSON object, and how we can build `Video` objects from them.
+So let's look at the `VideoJSON` object, and think about how we can build `Video` objects from them.
 
 #### Code - Hash to Video
 
-The YouTube API returns a video JSON as follows.
+The YouTube API returns a `VideoJSON` as follows.
 
 {% highlight js %}
 {
@@ -93,10 +98,10 @@ The YouTube API returns a video JSON as follows.
   "snippet": {
     "title": "Led Zeppelin - Stairway to Heaven Live (HD)",
     ...
-  },
-  "thumbnails": {
-    "high": {
-     "url": "https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg"
+    "thumbnails": {
+      "high": {
+      "url": "https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg"
+      },
     },
     ...
   },
@@ -169,7 +174,7 @@ mapVideos([]); //=> []
 mapVideos([{ "id": "4" }]); //=> [Video("4")]
 {% endhighlight %}
 
-This new `mapVideos` function is now completely modular and can be used with any array containing video JSON objects
+This new `mapVideos` function is now completely modular and can be used with any array containing `VideoJSON` objects
 to get an array of Video objects.
 
 <div class="alert alert-info">
@@ -187,7 +192,7 @@ as *f*'s output matches *g*'s input.
 
 ![](/images/comp-2.svg)
 
-In the above illustration, we created a new function *h* that composes *f* and *g*. This new function takes
+In the illustration above, we created a new function *h* that composes *f* and *g*. This new function takes
 a triangle as input (input of *f*) and outputs a circle (output of *g*). We can describe this in JavaScript
 using the [`compose`](http://ramdajs.com/0.19.0/docs/#compose) function.
 
@@ -212,7 +217,7 @@ So, let's compose a few functions for our app!
 
 #### Code - Mapping JSON response to videos
 
-The `mapVideos` function that we previously implemented takes an array of video JSON objects as input, and
+The `mapVideos` function that we previously implemented takes an array of `VideoJSON` objects as input, and
 ouputs an array of Video objects (`mapVideos :: [VideoJSON] -> [Video]`). However, the YouTube API actually nests the array of video
 JSON objects inside a structure like this:
 
@@ -226,19 +231,19 @@ JSON objects inside a structure like this:
 }
 {% endhighlight %}
 
-We can retrieve the video JSON objects with the [`prop`](http://ramdajs.com/0.19.0/docs/#prop) function, which
-allows use to get a property (by name) from an object.
+We can retrieve the `VideoJSON` objects with the [`prop`](http://ramdajs.com/0.19.0/docs/#prop) function, which
+returns a property (by name) when called with an object.
 
 {% highlight js %}
 prop('items')({ items: [{ id: 1 }] }); //=> [{ id: 1}]
 prop('items')({ items: [] }); //=> []
 {% endhighlight %}
 
-Now, if we pass the response JSON to `prop('items')`, we will get an array of video JSON objects, which
+Now, if we pass the response JSON to `prop('items')`, we will get an array of `VideoJSON` objects, which
 is exactly what `mapVideos` takes as input. This is all we need to define the `toVideos` function.
 
 {% highlight js %}
-// toVideos :: JSON -> [Video]
+// toVideos :: VideoJSON -> [Video]
 const toVideos = compose(mapVideos, prop('items'));
 
 toVideos({ items: [{ id: 1 }, { id: 2 }]}); //=> [{ id: 1 }, { id: 2 }]
@@ -266,9 +271,9 @@ const toVideos = compose(mapVideos, prop('items'));
 {% endhighlight %}
 
 So we just need a function that can take in `Url` and output `ResponseJSON`. Well, it's not as simple as that
-since we are dealing with an API call that goes over the network. In this case, I am opting to use
-the [`Task`](https://github.com/folktale/data.task) type, which represents a delayed computation. Think
-of it as a Promise, but does not have an effect right away.
+since we are dealing with an API call that goes over the network, thus we cannot return a simple value.
+In this case, I am opting to use the [`Task`](https://github.com/folktale/data.task) type,
+which represents a delayed computation. Think of it as a Promise, but does not have an effect right away.
 
 Usage example:
 
@@ -288,7 +293,7 @@ t.fork(
 );
 {% endhighlight %}
 
-So we define a function `httpGet` as follows.
+Now the function `httpGet` is defined as follows.
 
 {% highlight js %}
 // httpGet :: String -> Task Error ResponseJSON
@@ -313,11 +318,11 @@ export const searchVideos = compose(lift(toVideos), httpGet, makeUrl);
 
 <div class="alert alert-info">
 <p>
-<strong>Note:</strong> that I am using a <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
-function inside the composition. This is
+<strong>Note:</strong> The <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
+function is used inside the composition. This is
 needed since the return type of <code>httpGet</code> is <code>Task Error ResponseJSON</code>, we
 need to lift the <code>ResponseJSON -> [Video]</code> transformation function into
-a function that can operate on the value inside the Task.
+a function that can operate on the future resolved value of the Task.
 </p>
 <p>
 The type for <code>lift(toVideos)</code> is <code>M ResponseJSON -> M [Video]</code>, where
@@ -366,18 +371,217 @@ const VideoSearch = ({ onSearch, results }) => (
   <div>
     <input placeholder="Search for videos"
            onChange={ ({ target: t }) => onSearch(t.value) }/>
-    <div>
-      { results.map(v => (
-          <div key={v.id}>
-            <Embed video={v}/>
+    { videos.length === 0
+        ? <div>No videos found</div>;
+        : <div>
+            { results.map(v => (
+                <div key={v.id}>
+                  <Embed video={v}/>
+                </div>
+            )) }
           </div>
-      )) }
-    </div>
+    }
   </div>
 );
 {% endhighlight %}
 
-The main thing to note is that the both the `App` and `Search` videos components are very simple.
+The main thing to note is that the both the `App` and `VideoSearch` components are very simple.
 All of the complexity is delegated to the `searchVideos` function, which as we've seen, is made up
-of a bunch of smaller, simple functions.
+of a bunch of smaller functions.
+
+## Dealing with changing requirements
+
+Let's consider a new requirement: We want to display a message to the user if *no search term is entered*.
+
+To implement this, we will need a way to determine if the search has not been performed. We can use `Either`
+to achieve this, and change the `searchVideos` function to return `Task Error (Either Empty [Video])`
+instead of `Task Error [Video]`.
+
+`Either a b` means the structure may contain a value of type `a` (Left) or type `b` (Right). The Left value represents an exceptional
+value, which in our case we will use to represent an empty search state.
+
+{% highlight js %}
+// Left value means the search has not been performed, and the default message is contained in the object.
+const Empty = Either.Left('Search for YouTube videos');
+
+/* Usage example */
+
+// This is a function that maps Videos inside an Either object to their titles.
+// mapTitle :: Either l [Video] -> Either l [String]
+const mapTitle = lift(map(prop('title')));
+
+// Right value means we have performed the search and the results are available.
+const s1 = Either.Right([
+  Video('1', '...', '...', 'Led Zeppelin - Stairway to Heaven Live (HD)')
+]);
+
+mapTitle(s1); //=> Either.Right(Led Zeppelin - Stairway to Heaven Live (HD))
+mapTitle(Empty); //=> Either.Left('Search for YouTube videos')
+{% endhighlight %}
+
+### Handling the case of not having an URL
+
+Now, to determine whether a search can be performed in the first place, we can create a new
+function `maybeMakeUrl :: String -> Maybe Url`. Note that we are returning a Url in the context
+of a `Maybe`.
+
+`Maybe` can be of type `Maybe.Just` or `Maybe.Nothing`, with the latter representing the case
+of no value. (Note how we avoided using `null` or `undefined`)
+
+{% highlight js %}
+// maybeMakeUrl :: String -> Maybe Url
+const maybeMakeUrl = (term) =>  (
+  term && term.length > 0
+    ? Maybe.Just(makeUrl(term))
+    : Maybe.Nothing()
+);
+
+/* Usage example */
+maybeMakeUrl(null); //=> Maybe.Nothing
+maybeMakeUrl(''); //=> Maybe.Nothing
+maybeMakeUrl('foo'); //=> Maybe.Just(https://www.googleapis.com/youtube/v3/search/?q=foo&...)
+{% endhighlight %}
+
+### HTTP GET using a Maybe URL
+
+So now that we have a function that returns `Maybe Url`, we also need a new version of `httpGet`
+that handles `Maybe Url` instead of just `Url`.
+
+The Maybe type provides a `cata` method that will allow us to pattern match whether we have
+`Just Url` or `Nothing` (think of it as using `x instanceof Maybe.Just` and `x instanceof Maybe.Nothing`).
+
+{% highlight js %}
+// maybeHttpGet :: e -> Maybe String -> Task Error (Either e JSON)
+const maybeHttpGet = (e) => (url) =>
+  url.cata({
+    Just: compose(lift(Either.Right), httpGet),
+    Nothing: () => Task.of(e)
+  });
+{% endhighlight %}
+
+In the `Just` case, we are using a `lift` function to transform the `ResponseJSON` object inside the Task
+to an `Either.Right` value.
+
+In the `Nothing` case, we are returning a Task that contains the empty type `e` (`Empty` in our case). This
+is similar to using `Promise.resolve(...)`, but for Tasks.
+
+<div class="alert alert-info">
+<p>
+<strong>Note:</strong> The <code>cata</code> method uses a concept called <a href="https://en.wikipedia.org/wiki/Catamorphism">Catamorphism</a>
+(from Greek components "down" + "shape"). It provides a generalized way of collapsing a type based on its structure.
+</p>
+<p>
+If you want to learn more about catamorphism, I found the <a href="http://fsharpforfunandprofit.com/posts/recursive-types-and-folds/#catamorphisms">
+Introduction to recursive types</a> post of F# for fun and profit to be a good read.
+</p>
+</div>
+
+
+### Refactoring the search videos function
+
+Now that we have the two new functions `maybeMakeUrl` and `maybeHttpGet`, we can change `searchVideos` to the following.
+
+{% highlight js %}
+// searchVideos :: String -> Task Error (Either String [Video])
+const searchVideos = compose(lift(lift(toVideos)), maybeHttpGet(Empty), makeUrl);
+{% endhighlight %}
+
+Notice that all other functions remain unchanged (`makeUrl`, `httpGet`, `toVideo`, `toVideos`).
+We simply introduced two new functions, and refactored the final search function to handle Maybe and Either.
+
+The `lift(lift(...))` call is made because we need to lift the `toVideos` transform function twice:
+
+1. Once for lifting the transform to operate with `Either Empty ResponseJSON`.
+2. Second time for lifting the lifted transform to operate with the future resolved value of type `ResponseJSON`.
+
+### Refactoring the component to work with Either
+
+And finally, we refactor the `SearchVideos` component to reduce the rendered element based on we have
+a right value (search performed), or a left value (search not performed).
+
+{% highlight js %}
+results.cata({
+  // This is the same as before, simply render the videos.
+  Right: (videos) => {
+    if (videos.length === 0) {
+      return <div style={styles.fill}>No videos found</div>;
+    } else {
+      return (
+        <div style={styles.results}>
+          {
+            videos.map(v => (
+              <div key={v.id} style={styles.video}>
+                <Embed video={v}/>
+              </div>
+            ))
+          }
+        </div>
+      );
+    }
+  },
+  // This is the new empty case, where we display the default message to the user.
+  Left: (message) => <div>{ message }</div>
+})
+{% endhighlight %}
+
+You can view the full source code, see the [repository on GitHub](https://github.com/jaysoo/example-fp-youtube-search).
+
+The power of the functional approach is that what works in the small also works in the large. We started with
+a simple function `makeUrl`, and eventually ended up with the more powerful function `searchVideos`. Along the entire
+way we were using the same approach of thinking about input/output types, and function composition.
+
+A nice benefit of having these pure functions is that we can easily use and test each of them separately. For example,
+the `lift(lift(toVideos))` function can be called with input of type `Task Error (Either e ResponseJSON)`.
+
+{% highlight js %}
+const json = { items: [ {
+               id: { videoId: '9Q7Vr3yQYWQ'},
+               snippet: { title: 'Led Zeppelin - Stairway to Heaven Live (HD)',
+                          thumbnails: {
+                            high: { url: 'https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg' }
+                          }
+               } } ] };
+const t1 = Task.of(Either.Right(json)); // input
+const t2 = lift(lift(toVideos))(t1); // output
+
+// Getting Video array out of the output task.
+const either = t2.fork(identity, identity);
+const videos = either.cata({ Right: identity });
+
+videos[0].title; //=> 'Led Zeppelin - Stairway to Heaven Live (HD)'
+{% endhighlight %}
+
+## Summary
+
+In this post, I presented the *little idea* behind functional programming in terms of three concepts.
+
+1. **Data in, data out** - separating data and behaviour
+
+2. **Code as data** - using functions as data
+
+3. **Composition all the way down** - composing simple functions to form more powerful functions that are composable themselves
+
+These three basic concepts will help you keep your application more modular by allowing you to
+mix and match functions together (like a Lego!) as long as their types match up. This functional approach is something that works both
+in the small and in the large.
+
+If you are interested in learning more functional programming, I've included some videos below that were influential to me.
+
+
+### Further Resources
+
+- [Ramda](http://ramdajs.com/) - Functional utility library for JavaScript
+
+- [Video] Check out [Classroom Coding with Prof. Frisby](https://www.youtube.com/watch?v=h_tkIpwbsxY&list=PLK_hdtAJ4KqX0JOs_KMAmUNTNMRYhWEaC&index=1)
+for more functional programming with ReactJS.
+
+- [Video] [Functional Programming for OO Development](https://www.youtube.com/watch?v=pMGY9ViIGNU) - Jessica Kerr
+
+- [Video] [Destructuring Functional Programming](http://www.infoq.com/presentations/functional-pros-cons) - Gilad Bracha
+
+- [Video] [Functional Programming from First Principles](https://www.youtube.com/watch?v=a-RAltgH8tw) - Erik Meijer
+
+- [Video] [Functional Programming Design Patterns](https://www.youtube.com/watch?v=E8I19uA-wGY) - Scott Wlaschin
+
+- [Video] [Railway oriented programming: Error handling in functional languages](https://vimeo.com/113707214) - Scott Wlaschin
 
