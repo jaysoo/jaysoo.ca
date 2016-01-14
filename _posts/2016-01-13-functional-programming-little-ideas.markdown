@@ -496,7 +496,7 @@ The `lift(lift(...))` call is made because we need to lift the `toVideos` transf
 
 ### Refactoring the component to work with Either
 
-And finally, we refactor the `SearchVideos` component to reduce the rendered element based on we have
+And finally, we refactor the `SearchVideos` component to reduce the rendered element based on whether we have
 a right value (search performed), or a left value (search not performed).
 
 {% highlight js %}

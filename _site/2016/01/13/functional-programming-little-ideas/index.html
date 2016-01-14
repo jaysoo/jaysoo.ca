@@ -585,7 +585,7 @@ We simply introduced two new functions, and refactored the final search function
 
 <h3 id="refactoring-the-component-to-work-with-either">Refactoring the component to work with Either</h3>
 
-<p>And finally, we refactor the <code>SearchVideos</code> component to reduce the rendered element based on we have
+<p>And finally, we refactor the <code>SearchVideos</code> component to reduce the rendered element based on whether we have
 a right value (search performed), or a left value (search not performed).</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">results</span><span class="p">.</span><span class="nx">cata</span><span class="p">({</span>

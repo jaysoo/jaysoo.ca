@@ -482,7 +482,7 @@ We simply introduced two new functions, and refactored the final search function
 
 &lt;h3 id=&quot;refactoring-the-component-to-work-with-either&quot;&gt;Refactoring the component to work with Either&lt;/h3&gt;
 
-&lt;p&gt;And finally, we refactor the &lt;code&gt;SearchVideos&lt;/code&gt; component to reduce the rendered element based on we have
+&lt;p&gt;And finally, we refactor the &lt;code&gt;SearchVideos&lt;/code&gt; component to reduce the rendered element based on whether we have
 a right value (search performed), or a left value (search not performed).&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
