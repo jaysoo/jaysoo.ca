@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-01-14T00:09:19-05:00</updated>
+ <updated>2016-01-14T00:09:47-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -518,7 +518,7 @@ a right value (search performed), or a left value (search not performed).&lt;/p&
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You can view the full source code bby visiting the &lt;a href=&quot;https://github.com/jaysoo/example-fp-youtube-search&quot;&gt;repository on GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can view the full source code by visiting the &lt;a href=&quot;https://github.com/jaysoo/example-fp-youtube-search&quot;&gt;repository on GitHub&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The power of the functional approach is that what works in the small also works in the large. We started with
 a simple function &lt;code&gt;makeUrl&lt;/code&gt;, and eventually ended up with the more powerful function &lt;code&gt;searchVideos&lt;/code&gt;. Along the entire

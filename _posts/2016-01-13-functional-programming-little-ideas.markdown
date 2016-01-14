@@ -524,7 +524,7 @@ results.cata({
 })
 {% endhighlight %}
 
-You can view the full source code bby visiting the [repository on GitHub](https://github.com/jaysoo/example-fp-youtube-search).
+You can view the full source code by visiting the [repository on GitHub](https://github.com/jaysoo/example-fp-youtube-search).
 
 The power of the functional approach is that what works in the small also works in the large. We started with
 a simple function `makeUrl`, and eventually ended up with the more powerful function `searchVideos`. Along the entire
