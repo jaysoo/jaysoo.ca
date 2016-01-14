@@ -2980,6 +2980,9 @@ li { line-height: 24px; }
   margin: -11px 0 -10px 5px;
   width: 48px;
 }
+.brand a {
+  text-decoration: none;
+}
 
 .nav li {
   line-height: 30px;
