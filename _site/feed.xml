@@ -210,7 +210,7 @@ triangle.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/comp-5.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;This allows use to start with simple functions and use composition to build up more powerful functions.
+&lt;p&gt;This allows us to start with simple functions and use composition to build up more powerful functions.
 The advantage of this approach is that the functions are completely modular. All you have to do is make
 sure that the inputs and outputs match while composing.&lt;/p&gt;
 

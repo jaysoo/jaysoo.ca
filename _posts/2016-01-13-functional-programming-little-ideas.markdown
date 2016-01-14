@@ -209,7 +209,7 @@ Then, we can **compose** *red* and *h* together to take in the nested data, and 
 
 ![](/images/comp-5.svg)
 
-This allows use to start with simple functions and use composition to build up more powerful functions.
+This allows us to start with simple functions and use composition to build up more powerful functions.
 The advantage of this approach is that the functions are completely modular. All you have to do is make
 sure that the inputs and outputs match while composing.
 
