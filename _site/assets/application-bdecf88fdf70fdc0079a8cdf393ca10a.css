@@ -2902,24 +2902,35 @@ html, body {
   background-color: #2F3837;
 }
 body {
-  padding-top: 40px; /* to make the container go all the way to the bottom of the topbar */
-  font: 16px/26px "Open Sans", Helvetica, Arial, sans-serif;
+  padding-top: 50px; /* to make the container go all the way to the bottom of the topbar */
+  font: 18px/1.5em Raleway, Helvetica Neue, Arial, sans-serif;
+}
+
+p {
+  margin: 0 0 .5em;
+}
+
+code {
+  color: #555;
+  border: 0;
+  background: none;
+}
+
+pre, code {
+  font-size: 0.7em;
+  font-family; Monaco, Menlo, Consolas, "Courier New", monospace;
 }
 
 pre code {
-  border: 0;
-  font: 14px/24px Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 14px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
+  font-weight: 600;
 }
 
-.post-body h3,
-.post-body h4,
-.post-body h5,
-.post-body h6 {
-  margin: 20px 0 10px 0;
+h2, h3, h4, h5, h6 {
+  margin: 1em 0 .5em 0;
 }
 
 a {
@@ -2937,13 +2948,18 @@ h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover{
   text-decoration: none;
 }
 
+.posts a {
+  text-decoration: none;
+}
+
 blockquote,
 blockquote p,
 .post-body ul,
 .post-body ol,
 .post-body p,
 .page-footer p:not(.info) {
-  font: 16px/26px Georgia, Times, serif;
+  font: 21px/1.5em "Crimson Text", Georgia, Times, serif;
+  letter-spacing: -0.03em;
 }
 
 blockquote {
@@ -3129,7 +3145,7 @@ li { line-height: 24px; }
 }
 
 #recent-posts header {
-  font-weight: bold;
+  font-weight: 600;
 
 }
 
@@ -3154,7 +3170,7 @@ li { line-height: 24px; }
 }
 
 #results em {
-  font-weight: bold;
+  font-weight: 600;
   font-style: normal;
   background-color: #fbff8c;
 }
@@ -3194,7 +3210,7 @@ li { line-height: 24px; }
 }
 
 .post time {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .box {
@@ -3221,6 +3237,11 @@ li { line-height: 24px; }
   float: left;
 }
 
+.main-footer {
+  display: flex;
+  justify-content: center;
+  font-size: 28px;
+}
 
 /*
  * Responsive designs
@@ -3254,3 +3275,4 @@ li { line-height: 24px; }
     margin: 0 auto;
   }
 }
+
