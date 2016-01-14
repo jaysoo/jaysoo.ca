@@ -189,7 +189,7 @@ to get an array of Video objects.&lt;/p&gt;
 
 &lt;h3 id=&quot;concept-3---composition-all-the-way-down&quot;&gt;Concept #3 - Composition all the way down&lt;/h3&gt;
 
-&lt;p&gt;The third concept is that we can &lt;strong&gt;compose&lt;/strong&gt; two functions (&lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt;) together (&lt;em&gt;f&lt;/em&gt; ∘ &lt;em&gt;g&lt;/em&gt;) as long
+&lt;p&gt;The third concept is that we can &lt;strong&gt;compose&lt;/strong&gt; two functions (&lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt;) together (&lt;em&gt;g&lt;/em&gt; ∘ &lt;em&gt;f&lt;/em&gt;) as long
 as &lt;em&gt;f&lt;/em&gt;’s output matches &lt;em&gt;g&lt;/em&gt;’s input.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/comp-2.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
@@ -198,7 +198,7 @@ as &lt;em&gt;f&lt;/em&gt;’s output matches &lt;em&gt;g&lt;/em&gt;’s input.&l
 a triangle as input (input of &lt;em&gt;f&lt;/em&gt;) and outputs a circle (output of &lt;em&gt;g&lt;/em&gt;). We can describe this in JavaScript
 using the &lt;a href=&quot;http://ramdajs.com/0.19.0/docs/#compose&quot;&gt;&lt;code&gt;compose&lt;/code&gt;&lt;/a&gt; function.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;compose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;h&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;compose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// h(x) === g(f(x))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Taking this idea further, if we had another &lt;em&gt;red&lt;/em&gt; function as follows – taking in a nested data that includes triangle, then outputs

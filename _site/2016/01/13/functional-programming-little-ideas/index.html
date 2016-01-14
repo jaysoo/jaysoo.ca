@@ -292,7 +292,7 @@ to get an array of Video objects.</p>
 
 <h3 id="concept-3---composition-all-the-way-down">Concept #3 - Composition all the way down</h3>
 
-<p>The third concept is that we can <strong>compose</strong> two functions (<em>f</em> and <em>g</em>) together (<em>f</em> ∘ <em>g</em>) as long
+<p>The third concept is that we can <strong>compose</strong> two functions (<em>f</em> and <em>g</em>) together (<em>g</em> ∘ <em>f</em>) as long
 as <em>f</em>’s output matches <em>g</em>’s input.</p>
 
 <p><img src="/images/comp-2.svg" alt="" /></p>
@@ -301,7 +301,7 @@ as <em>f</em>’s output matches <em>g</em>’s input.</p>
 a triangle as input (input of <em>f</em>) and outputs a circle (output of <em>g</em>). We can describe this in JavaScript
 using the <a href="http://ramdajs.com/0.19.0/docs/#compose"><code>compose</code></a> function.</p>
 
-<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span> <span class="nx">g</span><span class="p">);</span>
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">g</span><span class="p">,</span> <span class="nx">f</span><span class="p">);</span> <span class="c1">// h(x) === g(f(x))</span>
 </code></pre></div>
 
 <p>Taking this idea further, if we had another <em>red</em> function as follows – taking in a nested data that includes triangle, then outputs

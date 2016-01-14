@@ -187,7 +187,7 @@ to get an array of Video objects.
 
 ### Concept #3 - Composition all the way down
 
-The third concept is that we can **compose** two functions (*f* and *g*) together (*f* ∘ *g*) as long
+The third concept is that we can **compose** two functions (*f* and *g*) together (*g* ∘ *f*) as long
 as *f*'s output matches *g*'s input.
 
 ![](/images/comp-2.svg)
@@ -197,7 +197,7 @@ a triangle as input (input of *f*) and outputs a circle (output of *g*). We can 
 using the [`compose`](http://ramdajs.com/0.19.0/docs/#compose) function.
 
 {% highlight js%}
-const h = compose(f, g);
+const h = compose(g, f); // h(x) === g(f(x))
 {% endhighlight %}
 
 Taking this idea further, if we had another *red* function as follows -- taking in a nested data that includes triangle, then outputs
