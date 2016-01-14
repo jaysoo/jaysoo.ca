@@ -32,7 +32,7 @@ video series, which inspired the code examples in this post.
 Before we begin exploring functional programming concepts, let's take a look at our sample problem - a
 YouTube search.
 
-The YouTube search app will allow the user to type in search terms to an input box. As
+The YouTube search app will allow the user to type in search terms into an input box. As
 the user types, video results will appear below the input box.
 
 ![](/images/fp-yt.gif)
