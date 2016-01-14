@@ -34,10 +34,12 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: #894400;
   transition: .3s color linear;
+  text-decoration: underline;
 }
 
 a:hover {
   color: #de9900
+  text-decoration: none;
 }
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover{

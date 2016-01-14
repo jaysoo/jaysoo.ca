@@ -17,7 +17,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="/assets/application-20f161f4de496d5a38240bd4ea489e87.css">
+    <link rel="stylesheet" href="/assets/application-3d9bdc5b19795c8af43e415a978de43b.css">
   </head>
   <body>
     <div id="fb-root"></div>
@@ -548,7 +548,7 @@ that handles <code>Maybe Url</code> instead of just <code>Url</code>.</p>
   <span class="p">});</span>
 </code></pre></div>
 
-<p>In the <code>Just</code> case, we are using a <code>lift</code> function to transform the <code>ResponseJSON</code> object inside the Task
+<p>In the <code>Just</code> case, we are using the <code>lift</code> function to transform the <code>ResponseJSON</code> object inside the Task
 to an <code>Either.Right</code> value.</p>
 
 <p>In the <code>Nothing</code> case, we are returning a Task that contains the empty type <code>e</code> (<code>Empty</code> in our case). This
@@ -663,6 +663,9 @@ in the small and in the large.</p>
 <h3 id="further-resources">Further Resources</h3>
 
 <ul>
+  <li>
+    <p>View the final <a href="https://github.com/jaysoo/example-fp-youtube-search">source code for the example on GitHub</a>.</p>
+  </li>
   <li>
     <p><a href="http://ramdajs.com/">Ramda</a> - Functional utility library for JavaScript</p>
   </li>

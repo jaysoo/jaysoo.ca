@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-01-14T00:09:47-05:00</updated>
+ <updated>2016-01-14T08:46:40-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -454,7 +454,7 @@ that handles &lt;code&gt;Maybe Url&lt;/code&gt; instead of just &lt;code&gt;Url&
   &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;In the &lt;code&gt;Just&lt;/code&gt; case, we are using a &lt;code&gt;lift&lt;/code&gt; function to transform the &lt;code&gt;ResponseJSON&lt;/code&gt; object inside the Task
+&lt;p&gt;In the &lt;code&gt;Just&lt;/code&gt; case, we are using the &lt;code&gt;lift&lt;/code&gt; function to transform the &lt;code&gt;ResponseJSON&lt;/code&gt; object inside the Task
 to an &lt;code&gt;Either.Right&lt;/code&gt; value.&lt;/p&gt;
 
 &lt;p&gt;In the &lt;code&gt;Nothing&lt;/code&gt; case, we are returning a Task that contains the empty type &lt;code&gt;e&lt;/code&gt; (&lt;code&gt;Empty&lt;/code&gt; in our case). This
@@ -569,6 +569,9 @@ in the small and in the large.&lt;/p&gt;
 &lt;h3 id=&quot;further-resources&quot;&gt;Further Resources&lt;/h3&gt;
 
 &lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;View the final &lt;a href=&quot;https://github.com/jaysoo/example-fp-youtube-search&quot;&gt;source code for the example on GitHub&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;&lt;a href=&quot;http://ramdajs.com/&quot;&gt;Ramda&lt;/a&gt; - Functional utility library for JavaScript&lt;/p&gt;
   &lt;/li&gt;

@@ -459,7 +459,7 @@ const maybeHttpGet = (e) => (url) =>
   });
 {% endhighlight %}
 
-In the `Just` case, we are using a `lift` function to transform the `ResponseJSON` object inside the Task
+In the `Just` case, we are using the `lift` function to transform the `ResponseJSON` object inside the Task
 to an `Either.Right` value.
 
 In the `Nothing` case, we are returning a Task that contains the empty type `e` (`Empty` in our case). This
@@ -569,6 +569,8 @@ If you are interested in learning more functional programming, I've included som
 
 
 ### Further Resources
+
+- View the final [source code for the example on GitHub](https://github.com/jaysoo/example-fp-youtube-search).
 
 - [Ramda](http://ramdajs.com/) - Functional utility library for JavaScript
 
