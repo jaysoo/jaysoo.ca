@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-01-13T20:49:11-05:00</updated>
+ <updated>2016-01-13T20:51:28-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>The Little Idea of Functional Programming</title>
-   <link href="http://jaysoo.ca/2016/01/12/functional-programming-little-ideas"/>
-   <updated>2016-01-12T00:00:00-05:00</updated>
-   <id>hhttp://jaysoo.ca/2016/01/12/functional-programming-little-ideas</id>
+   <link href="http://jaysoo.ca/2016/01/13/functional-programming-little-ideas"/>
+   <updated>2016-01-13T00:00:00-05:00</updated>
+   <id>hhttp://jaysoo.ca/2016/01/13/functional-programming-little-ideas</id>
    <content type="html">&lt;p&gt;A little known fact about me is that I took &lt;a href=&quot;https://en.wikipedia.org/wiki/Wing_Chun&quot;&gt;Wing Chun&lt;/a&gt;
 lessons for four months back in 2006. A student starting in Wing Chun will begin by learning
 the first form, called &lt;em&gt;Siu Lim Tao&lt;/em&gt; (小練頭). This form’s name translates to “little idea,”
