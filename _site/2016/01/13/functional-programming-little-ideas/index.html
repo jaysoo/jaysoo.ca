@@ -624,10 +624,11 @@ the <code>lift(lift(toVideos))</code> function can be called with input of type 
 
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">json</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">items</span><span class="o">:</span> <span class="p">[</span> <span class="p">{</span>
                <span class="nx">id</span><span class="o">:</span> <span class="p">{</span> <span class="nx">videoId</span><span class="o">:</span> <span class="s1">&#39;9Q7Vr3yQYWQ&#39;</span><span class="p">},</span>
-               <span class="nx">snippet</span><span class="o">:</span> <span class="p">{</span> <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Led Zeppelin - Stairway to Heaven Live (HD)&#39;</span><span class="p">,</span>
-                          <span class="nx">thumbnails</span><span class="o">:</span> <span class="p">{</span>
-                            <span class="nx">high</span><span class="o">:</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg&#39;</span> <span class="p">}</span>
-                          <span class="p">}</span>
+               <span class="nx">snippet</span><span class="o">:</span> <span class="p">{</span>
+                 <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Led Zeppelin - Stairway to Heaven Live (HD)&#39;</span><span class="p">,</span>
+                 <span class="nx">thumbnails</span><span class="o">:</span> <span class="p">{</span>
+                    <span class="nx">high</span><span class="o">:</span> <span class="p">{</span> <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg&#39;</span> <span class="p">}</span>
+                 <span class="p">}</span>
                <span class="p">}</span> <span class="p">}</span> <span class="p">]</span> <span class="p">};</span>
 <span class="kr">const</span> <span class="nx">t1</span> <span class="o">=</span> <span class="nx">Task</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">Either</span><span class="p">.</span><span class="nx">Right</span><span class="p">(</span><span class="nx">json</span><span class="p">));</span> <span class="c1">// input</span>
 <span class="kr">const</span> <span class="nx">t2</span> <span class="o">=</span> <span class="nx">lift</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">))(</span><span class="nx">t1</span><span class="p">);</span> <span class="c1">// output</span>

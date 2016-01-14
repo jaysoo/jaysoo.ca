@@ -536,10 +536,11 @@ the `lift(lift(toVideos))` function can be called with input of type `Task Error
 {% highlight js %}
 const json = { items: [ {
                id: { videoId: '9Q7Vr3yQYWQ'},
-               snippet: { title: 'Led Zeppelin - Stairway to Heaven Live (HD)',
-                          thumbnails: {
-                            high: { url: 'https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg' }
-                          }
+               snippet: {
+                 title: 'Led Zeppelin - Stairway to Heaven Live (HD)',
+                 thumbnails: {
+                    high: { url: 'https://i.ytimg.com/vi/9Q7Vr3yQYWQ/hqdefault.jpg' }
+                 }
                } } ] };
 const t1 = Task.of(Either.Right(json)); // input
 const t2 = lift(lift(toVideos))(t1); // output
