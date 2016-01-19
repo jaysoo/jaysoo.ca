@@ -62,6 +62,11 @@ a function as a box that take in some shape, and spits out another.
 In the illustration above, function *f* takes a triangle as input, and outputs a square. Function
 *g* takes in a square and outputs a triangle.
 
+When working with data in, data out, it is important to enforce function *purity*. A function is pure
+if its output is solely determined by its input. That is, given the same input, it must always return
+the same output. Furthermore, a pure function must not have any side effects. An effect is something like
+writing to database, changing a global variable, or throwing exceptions.
+
 With this idea in mind, we can implement a couple of functions to be used in our app.
 
 
@@ -131,7 +136,7 @@ const toVideo = json => {
 {% endhighlight %}
 
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <strong>Note:</strong> I am using Haskell's type declaration notation in the comments above
 the functions (e.g. <code>toVideo :: JSON -> Video</code>). It describes the input and output of the
 declared function.
@@ -177,7 +182,7 @@ mapVideos([{ "id": "4" }]); //=> [Video("4")]
 This new `mapVideos` function is now completely modular and can be used with any array containing `VideoJSON` objects
 to get an array of Video objects.
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <p>
   <strong>Note:</strong> The output function from <code>map</code> is called a <a href="http://clojure.org/transducers">transducer</a>.
   Transducers are composable transformations that are decoupled from input data. You can watch Rich Hickey's
@@ -316,19 +321,15 @@ And then we can define the final `searchVideos` function as follows.
 export const searchVideos = compose(lift(toVideos), httpGet, makeUrl);
 {% endhighlight %}
 
-<div class="alert alert-info">
-<p>
+<p class="alert alert-info note">
 <strong>Note:</strong> The <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
 function is used inside the composition. This is
 needed since the return type of <code>httpGet</code> is <code>Task Error ResponseJSON</code>, we
 need to lift the <code>ResponseJSON -> [Video]</code> transformation function into
 a function that can operate on the future resolved value of the Task.
-</p>
-<p>
 The type for <code>lift(toVideos)</code> is <code>M ResponseJSON -> M [Video]</code>, where
 <code>M</code> is a mappable object -- in this case we are using a Task.
 </p>
-</div>
 
 ## Wiring up the UI
 
@@ -465,7 +466,7 @@ to an `Either.Right` value.
 In the `Nothing` case, we are returning a Task that contains the empty type `e` (`Empty` in our case). This
 is similar to using `Promise.resolve(...)`, but for Tasks.
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <p>
 <strong>Note:</strong> The <code>cata</code> method uses a concept called <a href="https://en.wikipedia.org/wiki/Catamorphism">Catamorphism</a>
 (from Greek components "down" + "shape"). It provides a generalized way of collapsing a type based on its structure.

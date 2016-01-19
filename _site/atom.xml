@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-01-14T13:45:06-05:00</updated>
+ <updated>2016-01-18T21:06:25-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -80,6 +80,11 @@ a function as a box that take in some shape, and spits out another.&lt;/p&gt;
 &lt;p&gt;In the illustration above, function &lt;em&gt;f&lt;/em&gt; takes a triangle as input, and outputs a square. Function
 &lt;em&gt;g&lt;/em&gt; takes in a square and outputs a triangle.&lt;/p&gt;
 
+&lt;p&gt;When working with data in, data out, it is important to enforce function &lt;em&gt;purity&lt;/em&gt;. A function is pure
+if its output is solely determined by its input. That is, given the same input, it must always return
+the same output. Furthermore, a pure function must not have any side effects. An effect is something like
+writing to database, changing a global variable, or throwing exceptions.&lt;/p&gt;
+
 &lt;p&gt;With this idea in mind, we can implement a couple of functions to be used in our app.&lt;/p&gt;
 
 &lt;h4 id=&quot;code---mapping-search-term-to-url&quot;&gt;Code - Mapping search term to URL&lt;/h4&gt;
@@ -144,7 +149,7 @@ So let’s look at the &lt;code&gt;VideoJSON&lt;/code&gt; object, and think abou
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;alert alert-info&quot;&gt;
+&lt;div class=&quot;alert alert-info note&quot;&gt;
 &lt;strong&gt;Note:&lt;/strong&gt; I am using Haskell&#39;s type declaration notation in the comments above
 the functions (e.g. &lt;code&gt;toVideo :: JSON -&amp;gt; Video&lt;/code&gt;). It describes the input and output of the
 declared function.
@@ -188,7 +193,7 @@ mappable objects (such as Array).&lt;/p&gt;
 &lt;p&gt;This new &lt;code&gt;mapVideos&lt;/code&gt; function is now completely modular and can be used with any array containing &lt;code&gt;VideoJSON&lt;/code&gt; objects
 to get an array of Video objects.&lt;/p&gt;
 
-&lt;div class=&quot;alert alert-info&quot;&gt;
+&lt;div class=&quot;alert alert-info note&quot;&gt;
 &lt;p&gt;
   &lt;strong&gt;Note:&lt;/strong&gt; The output function from &lt;code&gt;map&lt;/code&gt; is called a &lt;a href=&quot;http://clojure.org/transducers&quot;&gt;transducer&lt;/a&gt;.
   Transducers are composable transformations that are decoupled from input data. You can watch Rich Hickey&#39;s
@@ -317,19 +322,15 @@ which represents a delayed computation. Think of it as a Promise, but does not h
 &lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;searchVideos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;compose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toVideos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;httpGet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;makeUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;div class=&quot;alert alert-info&quot;&gt;
-&lt;p&gt;
+&lt;p class=&quot;alert alert-info note&quot;&gt;
 &lt;strong&gt;Note:&lt;/strong&gt; The &lt;a href=&quot;http://ramdajs.com/0.19.0/docs/#lift&quot;&gt;&lt;code&gt;lift&lt;/code&gt;&lt;/a&gt;
 function is used inside the composition. This is
 needed since the return type of &lt;code&gt;httpGet&lt;/code&gt; is &lt;code&gt;Task Error ResponseJSON&lt;/code&gt;, we
 need to lift the &lt;code&gt;ResponseJSON -&amp;gt; [Video]&lt;/code&gt; transformation function into
 a function that can operate on the future resolved value of the Task.
-&lt;/p&gt;
-&lt;p&gt;
 The type for &lt;code&gt;lift(toVideos)&lt;/code&gt; is &lt;code&gt;M ResponseJSON -&amp;gt; M [Video]&lt;/code&gt;, where
 &lt;code&gt;M&lt;/code&gt; is a mappable object -- in this case we are using a Task.
 &lt;/p&gt;
-&lt;/div&gt;
 
 &lt;h2 id=&quot;wiring-up-the-ui&quot;&gt;Wiring up the UI&lt;/h2&gt;
 
@@ -460,7 +461,7 @@ to an &lt;code&gt;Either.Right&lt;/code&gt; value.&lt;/p&gt;
 &lt;p&gt;In the &lt;code&gt;Nothing&lt;/code&gt; case, we are returning a Task that contains the empty type &lt;code&gt;e&lt;/code&gt; (&lt;code&gt;Empty&lt;/code&gt; in our case). This
 is similar to using &lt;code&gt;Promise.resolve(...)&lt;/code&gt;, but for Tasks.&lt;/p&gt;
 
-&lt;div class=&quot;alert alert-info&quot;&gt;
+&lt;div class=&quot;alert alert-info note&quot;&gt;
 &lt;p&gt;
 &lt;strong&gt;Note:&lt;/strong&gt; The &lt;code&gt;cata&lt;/code&gt; method uses a concept called &lt;a href=&quot;https://en.wikipedia.org/wiki/Catamorphism&quot;&gt;Catamorphism&lt;/a&gt;
 (from Greek components &quot;down&quot; + &quot;shape&quot;). It provides a generalized way of collapsing a type based on its structure.

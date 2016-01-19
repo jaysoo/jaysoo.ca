@@ -2922,7 +2922,7 @@ pre, code {
 }
 
 pre code {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -2931,7 +2931,13 @@ h1, h2, h3, h4, h5, h6 {
 
 h2, h3, h4, h5, h6 {
   margin: 1em 0 .5em 0;
+  color: #999;
 }
+
+h2 { font-size: 32px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
+h5 { font-size: 18px; }
 
 a {
   color: #894400;
@@ -2960,6 +2966,13 @@ blockquote p,
 .page-footer p:not(.info) {
   font: 21px/1.5em "Crimson Text", Georgia, Times, serif;
   letter-spacing: -0.03em;
+}
+
+.post-body .note p,
+.post-body .note {
+  font-family: Raleway, Helvetica Neue, Arial, sans-serif;
+  font-size: 17px;
+  letter-spacing: 0;
 }
 
 blockquote {
@@ -3275,4 +3288,5 @@ li { line-height: 24px; }
     margin: 0 auto;
   }
 }
+
 

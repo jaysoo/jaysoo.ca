@@ -18,7 +18,7 @@
 
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="/assets/application-bdecf88fdf70fdc0079a8cdf393ca10a.css">
+    <link rel="stylesheet" href="/assets/application-90ad8cf9c21aee056ab2a7dc175ac228.css">
   </head>
   <body>
     <div id="fb-root"></div>
@@ -175,6 +175,11 @@ a function as a box that take in some shape, and spits out another.</p>
 <p>In the illustration above, function <em>f</em> takes a triangle as input, and outputs a square. Function
 <em>g</em> takes in a square and outputs a triangle.</p>
 
+<p>When working with data in, data out, it is important to enforce function <em>purity</em>. A function is pure
+if its output is solely determined by its input. That is, given the same input, it must always return
+the same output. Furthermore, a pure function must not have any side effects. An effect is something like
+writing to database, changing a global variable, or throwing exceptions.</p>
+
 <p>With this idea in mind, we can implement a couple of functions to be used in our app.</p>
 
 <h4 id="code---mapping-search-term-to-url">Code - Mapping search term to URL</h4>
@@ -239,7 +244,7 @@ So let’s look at the <code>VideoJSON</code> object, and think about how we can
 <span class="p">};</span>
 </code></pre></div>
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <strong>Note:</strong> I am using Haskell's type declaration notation in the comments above
 the functions (e.g. <code>toVideo :: JSON -&gt; Video</code>). It describes the input and output of the
 declared function.
@@ -283,7 +288,7 @@ mappable objects (such as Array).</p>
 <p>This new <code>mapVideos</code> function is now completely modular and can be used with any array containing <code>VideoJSON</code> objects
 to get an array of Video objects.</p>
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <p>
   <strong>Note:</strong> The output function from <code>map</code> is called a <a href="http://clojure.org/transducers">transducer</a>.
   Transducers are composable transformations that are decoupled from input data. You can watch Rich Hickey's
@@ -412,19 +417,15 @@ which represents a delayed computation. Think of it as a Promise, but does not h
 <span class="kr">export</span> <span class="kr">const</span> <span class="nx">searchVideos</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">),</span> <span class="nx">httpGet</span><span class="p">,</span> <span class="nx">makeUrl</span><span class="p">);</span>
 </code></pre></div>
 
-<div class="alert alert-info">
-<p>
+<p class="alert alert-info note">
 <strong>Note:</strong> The <a href="http://ramdajs.com/0.19.0/docs/#lift"><code>lift</code></a>
 function is used inside the composition. This is
 needed since the return type of <code>httpGet</code> is <code>Task Error ResponseJSON</code>, we
 need to lift the <code>ResponseJSON -&gt; [Video]</code> transformation function into
 a function that can operate on the future resolved value of the Task.
-</p>
-<p>
 The type for <code>lift(toVideos)</code> is <code>M ResponseJSON -&gt; M [Video]</code>, where
 <code>M</code> is a mappable object -- in this case we are using a Task.
 </p>
-</div>
 
 <h2 id="wiring-up-the-ui">Wiring up the UI</h2>
 
@@ -555,7 +556,7 @@ to an <code>Either.Right</code> value.</p>
 <p>In the <code>Nothing</code> case, we are returning a Task that contains the empty type <code>e</code> (<code>Empty</code> in our case). This
 is similar to using <code>Promise.resolve(...)</code>, but for Tasks.</p>
 
-<div class="alert alert-info">
+<div class="alert alert-info note">
 <p>
 <strong>Note:</strong> The <code>cata</code> method uses a concept called <a href="https://en.wikipedia.org/wiki/Catamorphism">Catamorphism</a>
 (from Greek components "down" + "shape"). It provides a generalized way of collapsing a type based on its structure.
