@@ -358,8 +358,7 @@ implementation, so we did not create any meaningful abstraction layers either.
 
 Does this mean the refactored code is *necessarily worse*? No, I don't think so. And it's not necessarily
 better either. It really depends on the requirements and personal preference. The refactored code might capture
-the state transitions and colour requirements in a more cohesive manner. It might increase the ease of extension,
-depending on what are are extending.
+the state transitions and colour requirements in a more cohesive manner. It might even increase the ease of extension.
 
 One thing is for certain, the refactored code is more complex than the original. What might look like clean code
 initially (small functions/methods, no switch statements, etc.) might not be desirable.
