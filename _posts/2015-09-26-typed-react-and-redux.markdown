@@ -420,7 +420,7 @@ in choosing TypeScript.
 
 - Your favourite editor may not support TypeScript. Best editors right now would be
   [WebStorm](https://www.jetbrains.com/webstorm/) or [Visual Studio Code](https://code.visualstudio.com/) IMO.
-- As of this writing, Visual Studio Code does not support TSX files (at least from my observation).
+- <s>As of this writing, Visual Studio Code does not support TSX files (at least from my observation).</s> (As Franck pointed out in the comments, you can point the `typescript.tsdk` option in your VSC [`settings.json`](https://code.visualstudio.com/Docs/customization/userandworkspace) file to the lib directory of your TypeScript install)
 - You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).
 
 If you think the benefits outweigh the the costs, definitely give TypeScript a go!
