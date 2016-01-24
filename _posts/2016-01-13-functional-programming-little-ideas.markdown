@@ -60,7 +60,7 @@ a function as a box that take in some shape, and spits out another.
 ![](/images/comp-1.svg)
 
 In the illustration above, function *f* takes a triangle as input, and outputs a square. Function
-*g* takes in a square and outputs a triangle.
+*g* takes in a square and outputs a circle.
 
 When working with data in, data out, it is important to enforce function *purity*. A function is pure
 if its output is solely determined by its input. That is, given the same input, it must always return

@@ -69,7 +69,7 @@ a function as a box that take in some shape, and spits out another.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/images/comp-1.svg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In the illustration above, function &lt;em&gt;f&lt;/em&gt; takes a triangle as input, and outputs a square. Function
-&lt;em&gt;g&lt;/em&gt; takes in a square and outputs a triangle.&lt;/p&gt;
+&lt;em&gt;g&lt;/em&gt; takes in a square and outputs a circle.&lt;/p&gt;
 
 &lt;p&gt;When working with data in, data out, it is important to enforce function &lt;em&gt;purity&lt;/em&gt;. A function is pure
 if its output is solely determined by its input. That is, given the same input, it must always return
