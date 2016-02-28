@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-02-28T18:13:09-05:00</updated>
+ <updated>2016-02-28T18:14:29-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Rules For Structuring (Redux) Applications</title>
-   <link href="http://jaysoo.ca/2016/02/26/organizing-redux-application"/>
-   <updated>2016-02-26T00:00:00-05:00</updated>
-   <id>hhttp://jaysoo.ca/2016/02/26/organizing-redux-application</id>
+   <link href="http://jaysoo.ca/2016/02/28/organizing-redux-application"/>
+   <updated>2016-02-28T00:00:00-05:00</updated>
+   <id>hhttp://jaysoo.ca/2016/02/28/organizing-redux-application</id>
    <content type="html">&lt;p&gt;As our applications grow, we often find that file structure and organization
 to be crucial for the mainability of application code.&lt;/p&gt;
 

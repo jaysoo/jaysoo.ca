@@ -8,7 +8,7 @@ http://jaysoo.ca/search.html
 http://jaysoo.ca/sitemap.txt
 http://jaysoo.ca/tags.html
 
-http://jaysoo.ca/2016/02/26/organizing-redux-application
+http://jaysoo.ca/2016/02/28/organizing-redux-application
 http://jaysoo.ca/2016/01/13/functional-programming-little-ideas
 http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas
 http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection
