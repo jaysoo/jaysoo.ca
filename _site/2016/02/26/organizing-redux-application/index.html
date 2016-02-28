@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Rules For Structuring (Redux) Applications &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/assets/application-90ad8cf9c21aee056ab2a7dc175ac228.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive.html">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags.html">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Rules For Structuring (Redux) Applications
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>As our applications grow, we often find that file structure and organization
+to be crucial for the mainability of application code.</p>
+
+<p>What I want to do in this post is to present three organizational rules that I
+personally follow on my own projects. By following the rules, your application code
+should be easier to reason about, and you will find yourself wasting less time on file
+navigation, tedious refactoring, and bug fixes.</p>
+
+<p>I hope that these tips will prove useful for developers who want to improve their application
+structure, but don’t know where to start.</p>
+
+<h2 id="three-rules-for-project-structure">Three rules for project structure</h2>
+
+<p>The following are some basic rules for structuring a project. It should be
+noted that the rules themselves are framework and language agnostic, so you should
+should be able to follow them in all situations. However, some of the examples
+are in React and Redux. Familiarity with these frameworks is useful.</p>
+
+<h3 id="rule-1-organize-by-feature">Rule #1: Organize by feature</h3>
+
+<p>Let’s first start by going over what not to do. A common way that projects can be
+organized is by object roles.</p>
+
+<p><strong>Redux + React:</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">actions</span><span class="o">/</span>
+  <span class="nx">todos</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">components</span><span class="o">/</span>
+  <span class="nx">todos</span><span class="o">/</span>
+    <span class="nx">TodoItem</span><span class="p">.</span><span class="nx">js</span>
+    <span class="p">...</span>
+<span class="nx">constants</span><span class="o">/</span>
+  <span class="nx">actionTypes</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">reducers</span><span class="o">/</span>
+  <span class="nx">todos</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">rootReducer</span><span class="p">.</span><span class="nx">js</span>
+</code></pre></div>
+
+<p><strong>AngularJS:</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">controllers</span><span class="o">/</span>
+<span class="nx">directives</span><span class="o">/</span>
+<span class="nx">services</span><span class="o">/</span>
+<span class="nx">templates</span><span class="o">/</span>
+<span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+</code></pre></div>
+
+<p><strong>Ruby on Rails:</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">app</span><span class="o">/</span>
+  <span class="nx">controllers</span><span class="o">/</span>
+  <span class="nx">models</span><span class="o">/</span>
+  <span class="nx">views</span><span class="o">/</span>
+</code></pre></div>
+
+<p>It may seem reasonable to group similar objects together like this (controllers with controllers,
+components with components), however as the application grows this structure does not scale.</p>
+
+<p>When you add and change features, you’ll start to notice that some groups of objects tend to change
+together. <strong>These objects group together to form a feature module</strong>. For example, in a todo app, when
+you change the <code>reducers/todos.js</code> file, it is likely that you will also change <code>actions/todos.js</code>
+and <code>components/todos/*.js</code>.</p>
+
+<p>Instead of wasting time scrolling through your directories looking for <code>todos</code> related
+files, it is much better to have them sitting in the same location.</p>
+
+<p><strong>A better way to structure Redux + React project:</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">todos</span><span class="o">/</span>
+  <span class="nx">components</span><span class="o">/</span>
+  <span class="nx">actions</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">actionTypes</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">constants</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">reducer</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">rootReducer</span><span class="p">.</span><span class="nx">js</span>
+</code></pre></div>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> I will go into the details of what's inside the files
+  later in this post.
+</div>
+
+<p>In a large project, organizing by feature affords you the ability to focus on the feature
+at hand, instead of having to worry about navigating the entire project. This
+means that if I need to change something related to <code>todos</code>, I can work soley
+within that module and not even think about the rest of the application. In a
+sense, it creates an <strong>application within the main application</strong>.</p>
+
+<p>On the surface, organizing by feature may seem like an aesthetics concern, but
+as we will see in the next two rules, this way of structuring projects will help
+simplify your application code.</p>
+
+<h3 id="rule-2-create-strict-module-boundaries">Rule #2: Create strict module boundaries</h3>
+
+<p>In his Ruby Conf 2012 talk <a href="https://www.youtube.com/watch?v=rI8tNMsozo0">Simplicity Matters</a>,
+Rich Hickey defines complexity as the <strong>complecting</strong> (or interleaving) of things. When
+you couple modules together, you can picture an actual knot or braid forming in your code.</p>
+
+<p><img src="/images/four_string_braided-strap.jpg" alt="" /></p>
+
+<p>The relevence of complexity to project structure is that when you place objects in <strong>close
+proximity</strong> to one another, the <strong>barrier to couple</strong> them lowers dramatically.</p>
+
+<p>As an example, let’s say
+that we want to add a new feature to our TODO app: We want the ability to manage
+TODO lists by <em>project</em>. That means we will create a new module called <code>projects</code>.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">projects</span><span class="o">/</span>
+  <span class="nx">components</span><span class="o">/</span>
+  <span class="nx">actions</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">actionTypes</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">reducers</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">todos</span><span class="o">/</span>
+<span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+</code></pre></div>
+
+<p>Now, it is obvious that the <em>projects</em> module will have a dependency on <code>todos</code>. In this
+situation, it is important that we exercise discipline and only couple to the “public”
+API exposed in <code>todos/index.js</code>.</p>
+
+<p><strong>BAD</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="nx">actions</span> <span class="nx">from</span> <span class="s1">&#39;../todos/actions&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">TodoItem</span> <span class="nx">from</span> <span class="s1">&#39;../todos/components/TodoItem&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>GOOD</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">actions</span><span class="p">,</span> <span class="nx">TodoItem</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Another thing to <strong>avoid is coupling to the state of another module</strong>. For example, say that
+within the <code>projects</code> module, we need to grab information out of <code>todos</code> state in order
+to render a component. It is better that the <code>todos</code> module exposes an interface for <code>projects</code>
+to query this information, rather than complecting the component with <code>todos</code> state.</p>
+
+<p><strong>BAD</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">ProjectTodos</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">todos</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">TodoItem</span> <span class="nx">todo</span><span class="o">=</span><span class="p">{</span><span class="nx">t</span><span class="p">}</span><span class="o">/&gt;</span><span class="p">)}</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">);</span>
+
+<span class="c1">// Connect to todos state</span>
+<span class="kr">const</span> <span class="nx">ProjectTodosContainer</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+  <span class="c1">// state is Redux state, props is React component props.</span>
+  <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">project</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">projects</span><span class="p">[</span><span class="nx">props</span><span class="p">.</span><span class="nx">projectID</span><span class="p">];</span>
+
+    <span class="c1">// This couples to the todos state. BAD!</span>
+    <span class="kr">const</span> <span class="nx">todos</span> <span class="o">=</span> <span class="nx">state</span><span class="p">.</span><span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span>
+      <span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">todoIDs</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="k">return</span> <span class="p">{</span> <span class="nx">todos</span> <span class="p">};</span>
+  <span class="p">}</span>
+<span class="p">)(</span><span class="nx">ProjectTodos</span><span class="p">);</span>
+</code></pre></div>
+
+<p><strong>GOOD</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">createSelector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;reselect&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">todosSelector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
+
+<span class="c1">// Same as before</span>
+<span class="kr">const</span> <span class="nx">ProjectTodos</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">todos</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">TodoItem</span> <span class="nx">todo</span><span class="o">=</span><span class="p">{</span><span class="nx">t</span><span class="p">}</span><span class="o">/&gt;</span><span class="p">)}</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">ProjectTodosContainer</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">(</span>
+  <span class="nx">createSelector</span><span class="p">(</span>
+    <span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">projects</span><span class="p">[</span><span class="nx">props</span><span class="p">.</span><span class="nx">projectID</span><span class="p">],</span>
+
+    <span class="c1">// Let the todos module provide the implementation of the selector.</span>
+    <span class="c1">// GOOD!</span>
+    <span class="nx">todosSelector</span><span class="p">,</span>
+
+    <span class="c1">// Combine previous selectors, and provides final props.</span>
+    <span class="p">(</span><span class="nx">project</span><span class="p">,</span> <span class="nx">todos</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">todos</span><span class="o">:</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">project</span><span class="p">.</span><span class="nx">todoIDs</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">t</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">)(</span><span class="nx">ProjectTodos</span><span class="p">);</span>
+</code></pre></div>
+
+<p>In the “GOOD” example, the <code>projects</code> module is not concerned with the internal
+state of <code>todos</code> module. This is powerful because we can freely change the structure
+of the <code>todos</code> state, without worrying about breaking other dependent modules. Of course
+we still need to maintain our selector contracts, but the alternative is having to
+search through a whole bunch of disparate components and refactor them one by one.</p>
+
+<p>By artificially creating strict module boundaries, we can simplify our application code,
+and in turn increase the mainability of our application. <strong>Instead of haphazardly reaching inside
+other modules, we should think about forming and maintaining contracts between them.</strong></p>
+
+<p>Now that the projects are organized by features, and we have explicit boundaries between
+each feature, there is one last thing I want to cover: <em>circular dependencies</em>.</p>
+
+<h3 id="rule-3-avoid-circular-dependencies">Rule #3: Avoid circular dependencies</h3>
+
+<p>It shouldn’t take too much convincing for you to believe me when I say that circular dependencies are bad.
+Yet, without proper project structure, it is all too easy to fall into this trap.</p>
+
+<p>Most of the time, dependencies start out innoculously. We may <em>think</em> that the <code>projects</code> module need
+to reduce some state based on <code>todos</code> actions. If we are not grouping by features, and we see a large
+manifest of all action types within a global <code>actionTypes.js</code> file, it is all too easy for us to just reach
+in and grab what we need (at the time) without a second thought.</p>
+
+<p>Say, that within <code>todos</code> we want to reduce state based on an action type of <code>projects</code>. Easy enough
+if we have a global <code>actionTypes.js</code> file. However, we will soon learn that this is no easy feat if we
+have explicit module boundaries. To illustrate why, consider the following example.</p>
+
+<h4 id="circular-dependency-example">Circular dependency example</h4>
+
+<p>Given:</p>
+
+<p><strong>a.js</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="nx">b</span> <span class="nx">from</span> <span class="s1">&#39;./b&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;Alice&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+</code></pre></div>
+
+<p><strong>b.js</strong></p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">name</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./a&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">;</span>
+</code></pre></div>
+
+<p>What happens with the following code?</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="nx">a</span> <span class="nx">from</span> <span class="s1">&#39;./a&#39;</span><span class="p">;</span>
+
+<span class="nx">a</span><span class="p">();</span> <span class="c1">// ???</span>
+</code></pre></div>
+
+<p>We might expect “Hello Alice!” to be printed, but in actuality, <code>a()</code> would
+print “Hello undefined!”. This is because the <code>name</code> export of a is not available
+when <code>a</code> is imported by <code>b</code> (due to circular dependencies).</p>
+
+<p>The implication here is that we <strong>cannot both have <code>projects</code> depend on action types within
+<code>todos</code> <em>and</em> <code>todos</code> depend on action types within <code>projects.</code></strong> You can get
+around restriction in clever ways, but if you go down this road I can guarantee you that it
+will come to bite you later on!</p>
+
+<h4 id="dont-make-hairballs">Don’t make hairballs!</h4>
+
+<p>Put another way, by creating circular dependencies, you are <strong>complecting in the
+worst possible way</strong>. Imagine a module to be a strand of hair, then modules that
+are inter-dependent on each other form a big, messy hairball.</p>
+
+<p><img src="/images/Matt_Groening_cat_hairball.gif" alt="" /></p>
+
+<p>Whenever you want to use a small module within the hairball, you will have no
+choice but to pull in the giant mess. And even worse, when you change something
+inside the hairball, it would be hard <em>not</em> to break something else.</p>
+
+<p>By following Rule #2, it should make it hard for you to create these circular
+dependencies. Don’t fight against it. Instead, use that energy to properly factor
+your modules.</p>
+
+<h2 id="in-depth-example-and-recommendations">In-depth example and recommendations</h2>
+
+<p>I want to do a deeper dive into the contents of the different files within a Redux
+and React application. This section will be specifically about these frameworks, so
+feel free to skip if you are not interested in them. :)</p>
+
+<p>Let’s take a look at our TODO app again. (I added constants, model, and selectors into this example)</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">todos</span><span class="o">/</span>
+  <span class="nx">components</span><span class="o">/</span>
+  <span class="nx">actions</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">actionTypes</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">constants</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">model</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">reducer</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">selectors</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">rootReducer</span><span class="p">.</span><span class="nx">js</span>
+</code></pre></div>
+
+<p>We can break these modules down by their responsibilities.</p>
+
+<h3 id="module-index-and-constants">Module index and constants</h3>
+
+<p>The module index is responsible for maintaining its public API. This is the exposed
+surface where modules can interface with each other.</p>
+
+<p>A minimum Redux + React application should be something like this.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/constants.js</span>
+
+<span class="c1">// This will be used later in our root reducer and selectors</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">NAME</span> <span class="o">=</span> <span class="s1">&#39;todos&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/index.js</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">actions</span> <span class="nx">from</span> <span class="s1">&#39;./actions&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">components</span> <span class="nx">from</span> <span class="s1">&#39;./components&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">constants</span> <span class="nx">from</span> <span class="s1">&#39;./constants&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">reducer</span> <span class="nx">from</span> <span class="s1">&#39;./reducer&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">selectors</span> <span class="nx">from</span> <span class="s1">&#39;./selectors&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span> <span class="nx">actions</span><span class="p">,</span> <span class="nx">components</span><span class="p">,</span> <span class="nx">constants</span><span class="p">,</span> <span class="nx">reducer</span><span class="p">,</span> <span class="nx">selectors</span> <span class="p">};</span>
+</code></pre></div>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> This is similar to the
+  <a href="https://github.com/erikras/ducks-modular-redux">Ducks</a> structure.
+</div>
+
+<h3 id="action-types--action-creators">Action types &amp; Action creators</h3>
+
+<p>Action types are just string constants within Redux. The only thing I’ve changed here
+is that I prefixed each type with “todos/” in order to create a namespace for the module. This
+avoid name collisions with other modules in the application.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/actionTypes.js</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">ADD</span> <span class="o">=</span> <span class="s1">&#39;todos/ADD&#39;</span><span class="p">;</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">DELETE</span> <span class="o">=</span> <span class="s1">&#39;todos/DELETE&#39;</span><span class="p">;</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">EDIT</span> <span class="o">=</span> <span class="s1">&#39;todos/EDIT&#39;</span><span class="p">;</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">COMPLETE</span> <span class="o">=</span> <span class="s1">&#39;todos/COMPLETE&#39;</span><span class="p">;</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">COMPLETE_ALL</span> <span class="o">=</span> <span class="s1">&#39;todos/COMPLETE_ALL&#39;</span><span class="p">;;</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">CLEAR_COMPLETED</span> <span class="o">=</span> <span class="s1">&#39;todos/CLEAR_COMPLETED&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>As for action creators, not much changes from the usual Redux application.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/actions.js</span>
+<span class="kr">import</span> <span class="nx">t</span> <span class="nx">from</span> <span class="s1">&#39;./actionTypes&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">add</span> <span class="o">=</span> <span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="nx">type</span><span class="o">:</span> <span class="nx">t</span><span class="p">.</span><span class="nx">ADD</span><span class="p">,</span>
+  <span class="nx">payload</span><span class="o">:</span> <span class="p">{</span> <span class="nx">text</span> <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// ...</span>
+</code></pre></div>
+
+<p>Note that I don’t necessarily need to use <code>addTodo</code> since I’m already in the <code>todos</code> module. In other
+modules I may use an action creator as follows.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="nx">todos</span> <span class="nx">from</span> <span class="s1">&#39;todos&#39;</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="nx">todos</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;Do that thing&#39;</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="model">Model</h3>
+
+<p>The <code>model.js</code> file is where I like to keep things that are related to the module’s state.</p>
+
+<p>This is especially useful if you are using TypeScript or Flow.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/model.js</span>
+<span class="kr">export</span> <span class="nx">type</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="o">?:</span> <span class="nx">number</span><span class="p">;</span>
+  <span class="nx">text</span><span class="o">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nx">completed</span><span class="o">:</span> <span class="kr">boolean</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// This is the model of our module state (e.g. return type of the reducer)</span>
+<span class="kr">export</span> <span class="nx">type</span> <span class="nx">State</span> <span class="o">=</span> <span class="nx">Todo</span><span class="p">[];</span>
+
+<span class="c1">// Some utility functions that operates on our model</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">filterCompleted</span> <span class="o">=</span> <span class="nx">todos</span> <span class="o">=&gt;</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">filterActive</span> <span class="o">=</span> <span class="nx">todos</span> <span class="o">=&gt;</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="o">!</span><span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="reducers">Reducers</h3>
+
+<p>For the reducers, each module should maintain their own state as before. However, there is one
+particular coupling that should be solved. That is, a module’s reducer does not usually get to
+choose where it is mounted in the overall application state atom.</p>
+
+<p>This is problematic, because it means our <strong>module selectors</strong> (which we will cover next) will be
+<strong>indirectly coupled to the root reducer</strong>. In turn, the module components will also be coupled
+to the root reducer.</p>
+
+<p>We can solve this issue buy giving control to the <code>todos</code> module on where it should be mounted
+in the state atom.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// rootReducer.js</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">combineReducers</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;redux&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">todos</span> <span class="nx">from</span> <span class="s1">&#39;./todos&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">combineReducers</span><span class="p">({</span>
+  <span class="p">[</span><span class="nx">todos</span><span class="p">.</span><span class="nx">constants</span><span class="p">.</span><span class="nx">NAME</span><span class="p">]</span><span class="o">:</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">reducer</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>This removes the coupling between our <code>todos</code> module and root reducer. Of course, you don’t
+<em>have</em> to do it this way. Other options include relying on naming conventions (e.g. <code>todos</code> module
+state is mounted under “todos” key in the state atom), or you can use module factory functions
+instead of relying on a static key.</p>
+
+<p>And the reducer would look as follows.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/reducer.js</span>
+<span class="kr">import</span> <span class="nx">t</span> <span class="nx">from</span> <span class="s1">&#39;./actionTypes&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">State</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./model&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">initialState</span><span class="o">:</span> <span class="nx">State</span> <span class="o">=</span> <span class="p">[{</span>
+  <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;Use Redux&#39;</span><span class="p">,</span>
+  <span class="nx">completed</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="nx">id</span><span class="o">:</span> <span class="mi">0</span>
+<span class="p">}];</span>
+
+<span class="kr">export</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span> <span class="nx">action</span><span class="o">:</span> <span class="nx">any</span><span class="p">)</span><span class="o">:</span> <span class="nx">State</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="nx">t</span><span class="p">.</span><span class="nx">ADD</span><span class="o">:</span>
+      <span class="k">return</span> <span class="p">[</span>
+        <span class="c1">// ...</span>
+      <span class="p">];</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+
+<h3 id="selectors">Selectors</h3>
+
+<p>Selectors provide a way to query data from the module state. While they are not
+normally named as such in a Redux project, they are always present.</p>
+
+<p>The first argument of <code>connect</code> is a selector in that it selects values out of
+the state atom, and returns an object representing a component’s props.</p>
+
+<p>I would urge that common selectors by placed in the <code>selectors.js</code> file so they
+can not only be reused within the module, but potentially be used by other modules
+in the application.</p>
+
+<p>I highly recommend that you check out <a href="https://github.com/reactjs/reselect"><code>reselect</code></a>
+as it provides a way to build composable selectors that are automatically memoized.</p>
+
+<div class="highlight"><pre><code class="js"><span class="c1">// todos/selectors.js</span>
+<span class="kr">import</span> <span class="nx">_</span> <span class="nx">from</span> <span class="s1">&#39;lodash-fp&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">NAME</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./constants&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">filterActive</span><span class="p">,</span> <span class="nx">filterCompleted</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;./model&#39;</span><span class="p">;</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">getAll</span> <span class="o">=</span> <span class="nx">state</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">[</span><span class="nx">NAME</span><span class="p">];</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">getCompleted</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span><span class="nx">filterCompleted</span><span class="p">,</span> <span class="nx">getAll</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">getActive</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">compose</span><span class="p">(</span><span class="nx">filterActive</span><span class="p">,</span> <span class="nx">getAll</span><span class="p">);</span>
+
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">getCounts</span> <span class="o">=</span> <span class="nx">createSelector</span><span class="p">(</span>
+  <span class="nx">getAll</span><span class="p">,</span>
+  <span class="nx">getCompleted</span><span class="p">,</span>
+  <span class="nx">getActive</span><span class="p">,</span>
+  <span class="p">(</span><span class="nx">allTodos</span><span class="p">,</span> <span class="nx">completedTodos</span><span class="p">,</span> <span class="nx">activeTodos</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="nx">all</span><span class="o">:</span> <span class="nx">allTodos</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+    <span class="nx">completed</span><span class="o">:</span> <span class="nx">completedTodos</span><span class="p">.</span><span class="nx">length</span><span class="p">,</span>
+    <span class="nx">active</span><span class="o">:</span> <span class="nx">activeTodos</span><span class="p">.</span><span class="nx">length</span>
+  <span class="p">})</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="components">Components</h3>
+
+<p>And lastly, we have our React components. I encourage you to use shared
+selectors here as much as possible. It gives you the advantage of having an easy
+way to unit test the mapping of state to props without relying on component tests.</p>
+
+<p>Here’s an example of a TODO list component.</p>
+
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">createStructuredSelector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;reselect&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">getAll</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../selectors&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">TodoItem</span> <span class="nx">from</span> <span class="s1">&#39;./TodoItem&#39;</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">TodoList</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">todos</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">TodoItem</span> <span class="nx">todo</span><span class="o">=</span><span class="p">{</span><span class="nx">t</span><span class="p">}</span><span class="o">/&gt;</span><span class="p">)</span>
+  <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="p">);</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">connect</span><span class="p">(</span>
+  <span class="nx">createStructuredSelector</span><span class="p">({</span>
+    <span class="nx">todos</span><span class="o">:</span> <span class="nx">getAll</span>
+  <span class="p">})</span>
+<span class="p">)(</span><span class="nx">TodoList</span><span class="p">);</span>
+</code></pre></div>
+
+<p>That’s it in terms of my recommendations. But before we go, there is one last topic I want
+to discuss: How to detect project smells.</p>
+
+<h2 id="litmus-test-for-project-structure">Litmus test for project structure</h2>
+
+<p>It is important for us to have the tools to tell us when something smells in our code.
+From experience, just because a project starts out clean doesn’t mean it’ll stay that way.
+Thus, I want to present an easy method to detect project structure smells.</p>
+
+<p>Every once in a while, pick a module in your application and <strong>try to extract it as
+an external module</strong> (e.g. a NodeJS module, Ruby gem, etc). You don’t have to actually
+do it, but at least think it through. If you can perform this extraction without much
+effort then you know it is well factored. The term “effort” here remains undefined, so you
+need to come up with your own measure (whether subjective or objective).</p>
+
+<p>Run this experiment with other modules in your application. Jot down any problems you
+find in your experiments: circular dependencies, modules breaching boundaries, etc.</p>
+
+<p>Whether you choose to take action based on your findings is up to you. Afterall, the
+software industry is all about tradeoffs. But at the very least it should give you a much better
+insight into your project structure.</p>
+
+<h2 id="closing">Closing</h2>
+
+<p>Project structure isn’t a particularly exciting topic to discuss. It is, however, an important
+one.</p>
+
+<p>The three rules presented in this post are:</p>
+
+<ol>
+  <li>Organize by featues</li>
+  <li>Create strict module boundaries</li>
+  <li>Avoid circular dependencies</li>
+</ol>
+
+<p>Whether you are using Redux and React or not, I highly recommend following these rules
+on your software projects.</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2016/01/13/functional-programming-little-ideas" title="The Little Idea of Functional Programming">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2016/02/26/organizing-redux-application';
+    var disqus_url = 'http://jaysoo.ca/2016/02/26/organizing-redux-application';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>26 February 2016</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#programming-ref">programming <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>32</span></a></li>
+     
+    	<li><a href="/tags.html#react-ref">react <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#redux-ref">redux <span>2</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2016/02/26/organizing-redux-application&amp;text=Rules%20For%20Structuring%20(Redux)%20Applications&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+      <li><a href="/2015/09/26/typed-react-and-redux">React and Redux with TypeScript</a></li>
+      
+      <li><a href="/2015/06/09/react-contexts-and-dependency-injection">React Contexts and Dependency Injection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/assets/application-c6356f852c51c4ac2c625fba60764e43.js"></script>
+    
+  </body>
+</html>
+
