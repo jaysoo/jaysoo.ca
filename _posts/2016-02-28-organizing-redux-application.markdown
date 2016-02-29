@@ -20,7 +20,7 @@ structure, but don't know where to start.
 
 The following are some basic rules for structuring a project. It should be
 noted that the rules themselves are framework and language agnostic, so you should
-should be able to follow them in all situations. However, some of the examples
+should be able to follow them in all situations. However, the examples
 are in React and Redux. Familiarity with these frameworks is useful.
 
 ### Rule #1: Organize by feature
