@@ -420,7 +420,7 @@ This is problematic, because it means our **module selectors** (which we will co
 **indirectly coupled to the root reducer**. In turn, the module components will also be coupled
 to the root reducer.
 
-We can solve this issue buy giving control to the `todos` module on where it should be mounted
+We can solve this issue by giving control to the `todos` module on where it should be mounted
 in the state atom.
 
 {% highlight js %}
