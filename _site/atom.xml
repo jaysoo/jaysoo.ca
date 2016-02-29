@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-02-29T14:21:17-05:00</updated>
+ <updated>2016-02-29T14:21:51-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -266,7 +266,7 @@ have explicit module boundaries. To illustrate why, consider the following examp
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;We might expect “Hello Alice!” to be printed, but in actuality, &lt;code&gt;a()&lt;/code&gt; would
-print “Hello undefined!”. This is because the &lt;code&gt;name&lt;/code&gt; export of a is not available
+print “Hello undefined!”. This is because the &lt;code&gt;name&lt;/code&gt; export of &lt;code&gt;a&lt;/code&gt; is not available
 when &lt;code&gt;a&lt;/code&gt; is imported by &lt;code&gt;b&lt;/code&gt; (due to circular dependencies).&lt;/p&gt;
 
 &lt;p&gt;The implication here is that we &lt;strong&gt;cannot both have &lt;code&gt;projects&lt;/code&gt; depend on action types within

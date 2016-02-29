@@ -361,7 +361,7 @@ have explicit module boundaries. To illustrate why, consider the following examp
 </code></pre></div>
 
 <p>We might expect “Hello Alice!” to be printed, but in actuality, <code>a()</code> would
-print “Hello undefined!”. This is because the <code>name</code> export of a is not available
+print “Hello undefined!”. This is because the <code>name</code> export of <code>a</code> is not available
 when <code>a</code> is imported by <code>b</code> (due to circular dependencies).</p>
 
 <p>The implication here is that we <strong>cannot both have <code>projects</code> depend on action types within

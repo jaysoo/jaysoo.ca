@@ -267,7 +267,7 @@ a(); // ???
 {% endhighlight %}
 
 We might expect "Hello Alice!" to be printed, but in actuality, `a()` would
-print "Hello undefined!". This is because the `name` export of a is not available
+print "Hello undefined!". This is because the `name` export of `a` is not available
 when `a` is imported by `b` (due to circular dependencies).
 
 The implication here is that we **cannot both have `projects` depend on action types within
