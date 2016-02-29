@@ -480,7 +480,7 @@ as it provides a way to build composable selectors that are automatically memoiz
 {% highlight js %}
 // todos/selectors.js
 import { createSelector } from 'reselect';
-import _ from 'lodash-fp';
+import _ from 'lodash';
 import { NAME } from './constants';
 import { filterActive, filterCompleted } from './model';
 
