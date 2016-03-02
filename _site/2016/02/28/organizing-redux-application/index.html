@@ -244,7 +244,8 @@ API exposed in <code>todos/index.js</code>.</p>
 
 <p><strong>GOOD</strong></p>
 
-<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">actions</span><span class="p">,</span> <span class="nx">TodoItem</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
+<div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="nx">todos</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">actions</span><span class="p">,</span> <span class="nx">TodoItem</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">todos</span><span class="p">;</span>
 </code></pre></div>
 
 <p>Another thing to <strong>avoid is coupling to the state of another module</strong>. For example, say that
@@ -279,7 +280,7 @@ to query this information, rather than complecting the component with <code>todo
 <p><strong>GOOD</strong></p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">createSelector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;reselect&#39;</span><span class="p">;</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">todosSelector</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">todos</span> <span class="nx">from</span> <span class="s1">&#39;../todos&#39;</span><span class="p">;</span>
 
 <span class="c1">// Same as before</span>
 <span class="kr">const</span> <span class="nx">ProjectTodos</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">todos</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
@@ -294,7 +295,7 @@ to query this information, rather than complecting the component with <code>todo
 
     <span class="c1">// Let the todos module provide the implementation of the selector.</span>
     <span class="c1">// GOOD!</span>
-    <span class="nx">todosSelector</span><span class="p">,</span>
+    <span class="nx">todos</span><span class="p">.</span><span class="nx">selectors</span><span class="p">.</span><span class="nx">getAll</span><span class="p">,</span>
 
     <span class="c1">// Combine previous selectors, and provides final props.</span>
     <span class="p">(</span><span class="nx">project</span><span class="p">,</span> <span class="nx">todos</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>

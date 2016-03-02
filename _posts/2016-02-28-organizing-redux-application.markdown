@@ -144,7 +144,8 @@ import TodoItem from '../todos/components/TodoItem';
 **GOOD**
 
 {% highlight js %}
-import { actions, TodoItem } from '../todos';
+import todos from '../todos';
+const { actions, TodoItem } = todos;
 {% endhighlight %}
 
 Another thing to **avoid is coupling to the state of another module**. For example, say that
@@ -182,7 +183,7 @@ const ProjectTodosContainer = connect(
 
 {% highlight js %}
 import { createSelector } from 'reselect';
-import { todosSelector } from '../todos';
+import todos from '../todos';
 
 // Same as before
 const ProjectTodos = ({ todos }) => (
@@ -197,7 +198,7 @@ const ProjectTodosContainer = connect(
 
     // Let the todos module provide the implementation of the selector.
     // GOOD!
-    todosSelector,
+    todos.selectors.getAll,
 
     // Combine previous selectors, and provides final props.
     (project, todos) => {
