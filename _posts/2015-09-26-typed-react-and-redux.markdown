@@ -26,7 +26,7 @@ I will cover the following topics:
 - Additional considerations when choosing TypeScript and React.
 
 <div class="alert alert-info">
-  <strong>Update (2016-01-08):</strong> I've updated the <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">code</a> to use TypeScript 1.7.5, ReactJS 0.14.6, and Redux 3.0.4.
+  <strong>Update (2016-03-28):</strong> I've updated the <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">code</a> to use TypeScript 1.8.9, ReactJS 0.14.7, and Redux 3.0.6. It now uses <a href="https://github.com/typings/typings/"><code>typings</code></a> as opposed to <code>tsd</code>, which is the direction the community is moving towards.
 </div>
 
 ## Types are good for you
@@ -219,12 +219,11 @@ class TodoTextInput extends React.Component<TodoTextInputProps, any> {
 
 <div class="alert alert-info">
   <p><strong>Note:</strong> Since React does not provide TypeScript definitions,
-  we cannot use it without providing a <code>.d.ts</code> definition file. In this
-  case, I am using a tool called <code><a href="http://definitelytyped.org/tsd/">tsd</a></code>
-  to install the missing definitions. DefinitelyTyped is a community maintained repository for
-  TypeScript definitions.</p>
+  we cannot use it without providing <em>ambient</em> module definitions (e.g. <code>.d.ts</code> files).
+  In this case, I am using a tool called <code><a href="https://github.com/typings/typings/">typings</a></code>
+  to install the missing definitions.</p>
   <p>
-  You can view the <code><a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/tsd.json">tsd.json</a></code>
+  You can view the <code><a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/typings.json">typings.json</a></code>
   file to see all of the definitions I have installed.
   </p>
 </div>

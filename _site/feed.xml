@@ -1842,7 +1842,7 @@ some familiarity with React.&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
-  &lt;strong&gt;Update (2016-01-08):&lt;/strong&gt; I&#39;ve updated the &lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript&quot;&gt;code&lt;/a&gt; to use TypeScript 1.7.5, ReactJS 0.14.6, and Redux 3.0.4.
+  &lt;strong&gt;Update (2016-03-28):&lt;/strong&gt; I&#39;ve updated the &lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript&quot;&gt;code&lt;/a&gt; to use TypeScript 1.8.9, ReactJS 0.14.7, and Redux 3.0.6. It now uses &lt;a href=&quot;https://github.com/typings/typings/&quot;&gt;&lt;code&gt;typings&lt;/code&gt;&lt;/a&gt; as opposed to &lt;code&gt;tsd&lt;/code&gt;, which is the direction the community is moving towards.
 &lt;/div&gt;
 
 &lt;h2 id=&quot;types-are-good-for-you&quot;&gt;Types are good for you&lt;/h2&gt;
@@ -2024,12 +2024,11 @@ example&lt;/a&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Since React does not provide TypeScript definitions,
-  we cannot use it without providing a &lt;code&gt;.d.ts&lt;/code&gt; definition file. In this
-  case, I am using a tool called &lt;code&gt;&lt;a href=&quot;http://definitelytyped.org/tsd/&quot;&gt;tsd&lt;/a&gt;&lt;/code&gt;
-  to install the missing definitions. DefinitelyTyped is a community maintained repository for
-  TypeScript definitions.&lt;/p&gt;
+  we cannot use it without providing &lt;em&gt;ambient&lt;/em&gt; module definitions (e.g. &lt;code&gt;.d.ts&lt;/code&gt; files).
+  In this case, I am using a tool called &lt;code&gt;&lt;a href=&quot;https://github.com/typings/typings/&quot;&gt;typings&lt;/a&gt;&lt;/code&gt;
+  to install the missing definitions.&lt;/p&gt;
   &lt;p&gt;
-  You can view the &lt;code&gt;&lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/tsd.json&quot;&gt;tsd.json&lt;/a&gt;&lt;/code&gt;
+  You can view the &lt;code&gt;&lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/typings.json&quot;&gt;typings.json&lt;/a&gt;&lt;/code&gt;
   file to see all of the definitions I have installed.
   &lt;/p&gt;
 &lt;/div&gt;
