@@ -161,7 +161,7 @@ the <a href="http://groups.google.com/group/cascading-user/topics">mailing list<
     <span class="kd">super</span><span class="o">.</span><span class="na">sinkPrepare</span><span class="o">(</span><span class="n">flowProcess</span><span class="o">,</span> <span class="n">sinkCall</span><span class="o">);</span>
 
     <span class="n">Fields</span> <span class="n">fields</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">getSinkFields</span><span class="o">();</span>
-    <span class="n">Tuple</span> <span class="n">tuple</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tuple</span><span class="o">();</span>
+    <span class="n">Tuple</span> <span class="n">tuple</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">Tuple</span><span class="o">();</span>
 
     <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fields</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span>
       <span class="n">tuple</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">fields</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
