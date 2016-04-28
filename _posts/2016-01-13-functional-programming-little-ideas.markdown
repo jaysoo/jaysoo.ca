@@ -168,7 +168,7 @@ transformed by the input function.
 
 The downside of the `Array.prototype.map` method is that you can only call it in the context of the input data. As
 an alternative, we can use Ramda's [`map`](http://ramdajs.com/0.19.0/docs/#map) function, which will
-take an a transformation function as input (same as before), and then output a new function that can be called with
+take in a transformation function as input (same as before), and then output a new function that can be called with
 mappable objects (such as Array).
 
 {% highlight js %}

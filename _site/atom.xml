@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-03-28T21:20:37-04:00</updated>
+ <updated>2016-04-28T18:44:16-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -725,7 +725,7 @@ transformed by the input function.&lt;/p&gt;
 
 &lt;p&gt;The downside of the &lt;code&gt;Array.prototype.map&lt;/code&gt; method is that you can only call it in the context of the input data. As
 an alternative, we can use Ramda’s &lt;a href=&quot;http://ramdajs.com/0.19.0/docs/#map&quot;&gt;&lt;code&gt;map&lt;/code&gt;&lt;/a&gt; function, which will
-take an a transformation function as input (same as before), and then output a new function that can be called with
+take in a transformation function as input (same as before), and then output a new function that can be called with
 mappable objects (such as Array).&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;mapVideos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toVideo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;

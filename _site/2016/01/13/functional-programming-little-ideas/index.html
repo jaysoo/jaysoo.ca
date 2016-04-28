@@ -275,7 +275,7 @@ transformed by the input function.</p>
 
 <p>The downside of the <code>Array.prototype.map</code> method is that you can only call it in the context of the input data. As
 an alternative, we can use Ramda’s <a href="http://ramdajs.com/0.19.0/docs/#map"><code>map</code></a> function, which will
-take an a transformation function as input (same as before), and then output a new function that can be called with
+take in a transformation function as input (same as before), and then output a new function that can be called with
 mappable objects (such as Array).</p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">mapVideos</span> <span class="o">=</span> <span class="nx">map</span><span class="p">(</span><span class="nx">toVideo</span><span class="p">);</span>
