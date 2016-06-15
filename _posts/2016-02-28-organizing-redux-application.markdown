@@ -6,7 +6,7 @@ tags: [programming,javascript,react,redux]
 ---
 
 As our applications grow, we often find that file structure and organization
-to be crucial for the mainability of application code.
+to be crucial for the maintainability of application code.
 
 What I want to do in this post is to present three organizational rules that I
 personally follow on my own projects. By following the rules, your application code
@@ -217,7 +217,7 @@ we still need to maintain our selector contracts, but the alternative is having 
 search through a whole bunch of disparate components and refactor them one by one.
 
 By artificially creating strict module boundaries, we can simplify our application code,
-and in turn increase the mainability of our application. **Instead of haphazardly reaching inside
+and in turn increase the maintainability of our application. **Instead of haphazardly reaching inside
 other modules, we should think about forming and maintaining contracts between them.**
 
 Now that the projects are organized by features, and we have explicit boundaries between

@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-04-28T18:51:12-04:00</updated>
+ <updated>2016-06-14T22:06:52-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -13,12 +13,25 @@
 
  
  <entry>
+   <title>Classes For The Functional Programmer</title>
+   <link href="http://jaysoo.ca/2016/06/08/why-you-shouldnt-use-classes"/>
+   <updated>2016-06-08T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2016/06/08/why-you-shouldnt-use-classes</id>
+   <content type="html">&lt;p&gt;Classes have a bad reputation in modern-day programming.&lt;/p&gt;
+
+&lt;h2 id=&quot;class-methods-as-pure-functions&quot;&gt;Class methods as pure functions&lt;/h2&gt;
+
+&lt;p&gt;Yes, you can absolutely write pure, composable class methods.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Rules For Structuring (Redux) Applications</title>
    <link href="http://jaysoo.ca/2016/02/28/organizing-redux-application"/>
    <updated>2016-02-28T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2016/02/28/organizing-redux-application</id>
    <content type="html">&lt;p&gt;As our applications grow, we often find that file structure and organization
-to be crucial for the mainability of application code.&lt;/p&gt;
+to be crucial for the maintainability of application code.&lt;/p&gt;
 
 &lt;p&gt;What I want to do in this post is to present three organizational rules that I
 personally follow on my own projects. By following the rules, your application code
@@ -219,7 +232,7 @@ we still need to maintain our selector contracts, but the alternative is having 
 search through a whole bunch of disparate components and refactor them one by one.&lt;/p&gt;
 
 &lt;p&gt;By artificially creating strict module boundaries, we can simplify our application code,
-and in turn increase the mainability of our application. &lt;strong&gt;Instead of haphazardly reaching inside
+and in turn increase the maintainability of our application. &lt;strong&gt;Instead of haphazardly reaching inside
 other modules, we should think about forming and maintaining contracts between them.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;Now that the projects are organized by features, and we have explicit boundaries between

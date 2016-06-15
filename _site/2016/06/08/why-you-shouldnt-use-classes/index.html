@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Not Another IE6 Rant &mdash; Jack Hsu</title>
+    <title>Classes For The Functional Programmer &mdash; Jack Hsu</title>
     
     <meta name="author" content="Jack Hsu">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -104,7 +104,7 @@
           
 <div class="page-header">
   <h1>
-    Not Another IE6 Rant
+    Classes For The Functional Programmer
     
 </h1>
 </div>
@@ -112,23 +112,22 @@
 <div class="row">
   <div class="span8">
     <div class="post-body">
-      <p>For the last few months I've seen some aggressive campaigning to rid the online world of <a href="http://en.wikipedia.org/wiki/Internet_Explorer_6">Internet Explorer 6</a>. Many web developers and designers have been supporting this browser for what seems like forever, and now that IE6 is losing market shares fast, it seems like a good time to make the final push to kill it.</p>
-<p>While I whole-heartedly agree that we'll all be better off without IE6, I don't agree with providing zero support for the browser. Let's face it, the whole "browser X is outdated" thing isn't new and will always be here to haunt us -- remember Netscape 4?</p>
-<p>I don't mind providing users with a nice message about why they should upgrade their browsers, as long as it doesn't obstruct workflow, and they need to have an option to never be bugged again. But please, please do not do something stupid like the <a href="http://ie6update.com/">#ie6update</a> script. It's wrong on many levels, and there is a good post on <a href="http://www.friskdesign.com/2009/04/21/why-ie6update-is-wrong/">why it's wrong</a>.</p>
-<p>The best way to approach older browsers, I think, is to use to use <a href="http://en.wikipedia.org/wiki/Fault-tolerant_system">graceful degradation</a> (older concept) or <a href="http://en.wikipedia.org/wiki/Progressive_enhancement">progressive enhancement</a> (better). With the latter approach, you design your website for the lowest common denominator and progressively enhance it to improve user experience for newer, more advanced browsers. Of course, while PE sounds nice in theory, it does require a fair amount of discipline in practice.</p>
-<p>And let's not forget that there are JavaScript libraries out there to help developers cope with IE6, and even IE7. The defacto IE6/7 library is <a href="http://code.google.com/p/ie7-js/">ie7-js</a>, which adds support for many CSS selectors that are lacking in IE6/7, as well as many other nice things.</p>
-<p>There is also a <a href="http://rafael.adm.br/css_browser_selector/">JS librar</a>y for detecting different browsers and operating systems. While I don't personally like this approach, it may be cleaner than writing a lot of IE CSS hacks. Maybe.</p>
+      <p>Classes have a bad reputation in modern-day programming.</p>
+
+<h2 id="class-methods-as-pure-functions">Class methods as pure functions</h2>
+
+<p>Yes, you can absolutely write pure, composable class methods.</p>
 
     </div>
     <hr>
     <div class="pagination">
       <ul>
       
-        <li class="prev"><a href="/2009/04/13/displaying-uris-in-print-css" title="Displaying URIs In Print CSS">&larr; Previous</a></li>
+        <li class="prev"><a href="/2016/02/28/organizing-redux-application" title="Rules For Structuring (Redux) Applications">&larr; Previous</a></li>
       
         <li><a href="/archive.html">Archive</a></li>
       
-        <li class="next"><a href="/2009/05/07/cheating-on-speed-sudoku" title="Cheating on Speed Sudoku -- How to Prevent Greasemonkey Scripts">Next &rarr;</a></li>
+        <li class="next disabled"><a>Next &rarr;</a>
       
       </ul>
     </div>
@@ -140,8 +139,8 @@
 <script type="text/javascript">
     var disqus_developer = 1;
     var disqus_shortname = 'jaysoo';
-    var disqus_identifier = '/2009/04/21/not-another-ie6-rant';
-    var disqus_url = 'http://jaysoo.ca/2009/04/21/not-another-ie6-rant';
+    var disqus_identifier = '/2016/06/08/why-you-shouldnt-use-classes';
+    var disqus_url = 'http://jaysoo.ca/2016/06/08/why-you-shouldnt-use-classes';
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -159,7 +158,7 @@
 
   <aside class="span4">
     <h4>Published</h4>
-    <div class="box date"><span>21 April 2009</span></div>
+    <div class="box date"><span>08 June 2016</span></div>
 
   
     <h4>Tags</h4>
@@ -170,11 +169,7 @@
 
   
      
-    	<li><a href="/tags.html#ie6-ref">ie6 <span>1</span></a></li>
-     
-    	<li><a href="/tags.html#browsers-ref">browsers <span>1</span></a></li>
-     
-    	<li><a href="/tags.html#compatibility-ref">compatibility <span>1</span></a></li>
+    	<li><a href="/tags.html#programming-ref">programming <span>6</span></a></li>
      
     	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
     
@@ -187,21 +182,21 @@
 
     <h4>Share</h4>
     <div class="box">
-      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/04/21/not-another-ie6-rant&amp;text=Not%20Another%20IE6%20Rant&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2016/06/08/why-you-shouldnt-use-classes&amp;text=Classes%20For%20The%20Functional%20Programmer&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     </div>
 
     <h4>Related Posts</h4>
     <ul>
       
-      <li><a href="/2016/06/08/why-you-shouldnt-use-classes">Classes For The Functional Programmer</a></li>
-      
       <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
-      
-      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
       
       <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
       
       <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+      <li><a href="/2009/03/30/the-language-of-hackers">The Language Of Hackers</a></li>
+      
+      <li><a href="/2009/03/12/programming-language-trends-java-cobol">Programming Language Trends (Java==Cobol?)</a></li>
       
     </ul>
   </aside>
