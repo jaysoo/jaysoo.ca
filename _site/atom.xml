@@ -4,13 +4,291 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-06-20T20:24:44-04:00</updated>
+ <updated>2016-08-23T23:34:57-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
    <email>jack.hsu@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Why You Need Types</title>
+   <link href="http://jaysoo.ca/2016/08/23/why-you-need-types"/>
+   <updated>2016-08-23T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2016/08/23/why-you-need-types</id>
+   <content type="html">&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
+to the programmer. By not having to think about strict types, a program is more maleable because
+it will run no matter what.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The problem with dynamic types is that it slows down development of an application over time&lt;/strong&gt;.
+This decrease in velocity can be attributed to a couple of factors.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Bugs introduced by type mismatches&lt;/strong&gt; (such as &lt;code&gt;null&lt;/code&gt; types) take time away from feature development.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Each time existing code is examined, the programmer needs to &lt;strong&gt;figure out what the intended types are again&lt;/strong&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;but-why-worry-about-types-at-all&quot;&gt;But Why Worry About Types At All?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;Programs should be written for people to read, and only incidentally for machines to execute.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;small class=&quot;muted&quot;&gt;- Abelson and Sussman in “Structure and Interpretation of Computer Programs” &lt;/small&gt;&lt;/p&gt;
+
+&lt;p&gt;The first question you may ask is why we should deal with types at all? The answer to this is simple: 
+&lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=XTl7Jn_kmio&quot;&gt;Types are like the weather&lt;/a&gt;. There is nothing you can do about it.
+Weather happens.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Whenever you write down JavaScript code, you are &lt;em&gt;already&lt;/em&gt; thinking about types, just unable to write them down.&lt;/p&gt;
+
+&lt;p&gt;For example, say you implemented an &lt;code&gt;add&lt;/code&gt; function as follows.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The types for &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; are implicitly &lt;code&gt;number&lt;/code&gt;, but there is no way to write this down in code.&lt;/p&gt;
+
+&lt;p&gt;Or how about a &lt;code&gt;greet&lt;/code&gt; function as follows.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Can you guess the type for the parameter &lt;code&gt;name&lt;/code&gt;? If guessed &lt;code&gt;string&lt;/code&gt; then you are close but not quite
+correct. The correct type is an &lt;em&gt;optional &lt;code&gt;string&lt;/code&gt;&lt;/em&gt; – meaning it may be &lt;code&gt;undefined&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Without explicit types, we will inevitably make a mistake and use the wrong ones. Is &lt;code&gt;add(null, 2)&lt;/code&gt; a valid invocation? Obviously not!
+But what about &lt;code&gt;add(&#39;1&#39;, 2)&lt;/code&gt;. Maybe? It is hard to know the original intention of the function’s author.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In short, it is very difficult for another programmer (or the future you) to understand what the originally intended types are
+for every function in an application.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;types-to-the-rescue&quot;&gt;Types To The Rescue!&lt;/h2&gt;
+
+&lt;p&gt;Let’s look at both functions again with type declarations (using &lt;a href=&quot;https://flowtype.org/&quot;&gt;Flow&lt;/a&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It is now clear that &lt;code&gt;add(&#39;1&#39;, 2)&lt;/code&gt; is not a valid invocation of the function. Furthermore, the Flow
+type checker will actually throw a useful error.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/flow-1.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(We also know that &lt;code&gt;add(add(1, 2), 3)&lt;/code&gt; is valid, because the return type of &lt;code&gt;add&lt;/code&gt; is &lt;code&gt;number&lt;/code&gt;!)&lt;/p&gt;
+
+&lt;p&gt;Now, for the &lt;code&gt;greet&lt;/code&gt; function, it should be clear which of the following statements are valid or not.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid with since name is optional&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Alice&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid since &amp;#39;Alice&amp;#39; is a string&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Invalid since 1 is not a string&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Invalid since null is not a string&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Invalid since greet returns void, which is not a number&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;alert alert-info&quot;&gt;
+&lt;strong&gt;Note:&lt;/strong&gt; You &lt;em&gt;do not need to know the implementation&lt;/em&gt; of each function to know whether the types
+are valid or not. Knowing the input and output types, that is the &lt;em&gt;interface&lt;/em&gt;, are enough.
+&lt;/div&gt;
+
+&lt;h2 id=&quot;getting-rid-of-that-dreaded-null-error&quot;&gt;Getting Rid Of That Dreaded Null error&lt;/h2&gt;
+
+&lt;p&gt;The single most common error in a JavaScript application is likely the &lt;code&gt;null is not a function&lt;/code&gt;, or some variation of it.
+This class of error is completely due to type mismatches: Not dealing with nullable types properly.&lt;/p&gt;
+
+&lt;p&gt;For example, given a function such as the following.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;updateEmail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It isn’t clear whether there is a bug in that code or not.&lt;/p&gt;
+
+&lt;p&gt;However, if I were to add some type annotations to it, then it is very clear that there is a bug!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IPerson&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;contact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;updateEmail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In fact, you don’t even need to manually check the code since Flow will check for you.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/flow-2.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Awesome!&lt;/p&gt;
+
+&lt;h2 id=&quot;arent-types-too-constraining-and-troublesome&quot;&gt;Aren’t Types Too Constraining and Troublesome?&lt;/h2&gt;
+
+&lt;p&gt;There are two valid concerns of using a type system:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;They are too troublesome to set up.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;They constrain the programmer too much.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;While both are valid concerns, Flow type – and TypeScript to some extent – provide
+an almost seemless experience.&lt;/p&gt;
+
+&lt;p&gt;For starters, if we take the original &lt;code&gt;add&lt;/code&gt; function, and simply add the &lt;code&gt;// @flow&lt;/code&gt; comment to the module,
+then we can already run it through the type checker!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// @flow&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Of course, without type annotations, the type checker is limited in usefulness. It can catch errors such as
+&lt;code&gt;add([], 2)&lt;/code&gt; but not &lt;code&gt;add(null, 2)&lt;/code&gt;, since the latter &lt;code&gt;null + 2&lt;/code&gt; operation is (unfortunately) valid JavaScript. &lt;/p&gt;
+
+&lt;div class=&quot;alert alert-info&quot;&gt;
+  &lt;strong&gt;Note:&lt;/strong&gt; Flow can also catch unary or nullary calls of the &lt;code&gt;add&lt;/code&gt; function:
+  e.g. &lt;code&gt;add(1)&lt;/code&gt; and &lt;code&gt;add()&lt;/code&gt;.
+&lt;/div&gt;
+
+&lt;p&gt;As for contraints caused by static types, it simply isn’t true. If you want dynamism, you can
+use the &lt;code&gt;any&lt;/code&gt; type to forgo type checking. In fact, &lt;strong&gt;the &lt;code&gt;any&lt;/code&gt; type is implicitly the only type available 
+in pure JavaScript&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// @flow&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;any&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([],&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;adding-types-to-your-project-today&quot;&gt;Adding Types To Your Project Today!&lt;/h2&gt;
+
+&lt;p&gt;Now that I’ve convinced you that types are really great, then the next step is setting it up in your own
+project. I recommend Flow if want to perform a quick experiment, since the set up is faster.
+TypeScript is also great, but it will require a bit more work (e.g. renaming &lt;code&gt;.js&lt;/code&gt; files to &lt;code&gt;.ts&lt;/code&gt;).
+In a real project you will need to weigh the pros and cons of each technology choice.&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-flow&quot;&gt;Setting Up Flow&lt;/h3&gt;
+
+&lt;p&gt;You only need to do two things to get Flow running in your project.&lt;/p&gt;
+
+&lt;p&gt;Firstly, install the flow binary globally.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install -g flow-bin@0.30
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Secondly, go to your project root and run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;flow init # This creates the .flowconfig file
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That’s it! You can now verify that Flow is working in your project.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;flow
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This should produce no errors since you have not added the &lt;code&gt;// @flow&lt;/code&gt; comment to any modules yet.&lt;/p&gt;
+
+&lt;h3 id=&quot;gradually-adding-types&quot;&gt;Gradually Adding Types&lt;/h3&gt;
+
+&lt;p&gt;The next step is to start adding types to your modules. I recommend starting with modules
+that don’t have any dependencies (i.e. no imports), or as little imports as possible. If a module
+has dependencies, then you will need to type those first before typing the dependent module.&lt;/p&gt;
+
+&lt;p&gt;If you are working with &lt;strong&gt;third-party&lt;/strong&gt; modules, you will need to install those type definitions
+before you can import them. The best way to get third-party type definitions is using &lt;code&gt;flow-typed&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;npm install -g flow-typed
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can search and install type definitions using this binary.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;flow-typed search redux
+flow-typed install -f 0.30 redux
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;code&gt;-f&lt;/code&gt; option specifies the Flow version you want to install the definition for.&lt;/p&gt;
+
+&lt;p&gt;To automatically include the installed definitions, add an entry to the &lt;code&gt;[libs]&lt;/code&gt; section in the &lt;code&gt;.flowconfig&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[libs]
+./flow-typed/npm/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you &lt;strong&gt;cannot find type definitions using &lt;code&gt;flow-typed&lt;/code&gt;&lt;/strong&gt; , you can simply provide them yourself.&lt;/p&gt;
+
+&lt;p&gt;Start by adding a new &lt;code&gt;[libs]&lt;/code&gt; entry to the &lt;code&gt;.flowconfig&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[libs]
+./flow-typed/npm/
+./manual-typings/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Then define the third-party modules in the &lt;code&gt;./manual-typings/&lt;/code&gt; folder. For example, the &lt;code&gt;lodash.throttle&lt;/code&gt;
+module can be defined in the &lt;code&gt;./manual-typings/lodash.throttle.js&lt;/code&gt; file as follows.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;lodash.throttle&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;any&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here, I’m being lazy with the types and simply declared the default export as &lt;code&gt;any&lt;/code&gt;, which means it will not be type checked.
+&lt;strong&gt;Using the &lt;code&gt;any&lt;/code&gt; type for module declaration is a good starting point for your project&lt;/strong&gt;, and you can always go back to define
+the correct types when you have the time to.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Better definition&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;lodash.throttle&amp;#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ThrottleOptions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;leading&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;boolean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;trailing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;boolean&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ThrottleOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;wrapping-up&quot;&gt;Wrapping Up&lt;/h2&gt;
+
+&lt;p&gt;So should you start using types in your projects? It is really up to you! If you do choose to
+start using types though, you will find that your application becomes easier to maintain because:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;The type checker will catch type mismatches for you, resulting in less bugs in production.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;It will be easier to read existing code, because it will be immediately obvious what the valid inputs and outputs are.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It is also seemless to integrate types into your application through Flow (or TypeScript). For even more powerful type
+systems in the front end, you can also check out &lt;a href=&quot;http://elm-lang.org/&quot;&gt;Elm&lt;/a&gt; and &lt;a href=&quot;http://www.purescript.org/&quot;&gt;PureScript&lt;/a&gt;
+– both or which are in the ML family of languages.&lt;/p&gt;
+
+&lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://flowtype.org/docs/existing.html&quot;&gt;Running Flow on existing code&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://medium.com/@clayallsopp/incrementally-migrating-javascript-to-typescript-565020e49c88&quot;&gt;Incrementally Migrating JavaScript to TypeScript&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Rules For Structuring (Redux) Applications</title>
