@@ -279,8 +279,8 @@ in pure JavaScript</strong>!</p>
 
 <p>Now that I’ve convinced you that types are really great, then the next step is setting it up in your own
 project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
-TypeScript is also great, but it will require a bit more work (e.g. configuring <code>tsconfig.json</code> and renaming <code>.js</code> files to <code>.ts</code>).
-In a real project you will need to weigh the pros and cons of each technology choice.</p>
+TypeScript is also great, but it will require a bit more work (e.g. configuring <code>tsconfig.json</code> and renaming <code>.js</code> 
+files to <code>.ts</code>). In a real project you will need to weigh the pros and cons of each technology choice.</p>
 
 <h3 id="setting-up-flow">Setting Up Flow</h3>
 
@@ -298,10 +298,15 @@ In a real project you will need to weigh the pros and cons of each technology ch
 
 <p>That’s it! You can now verify that Flow is working in your project.</p>
 
-<pre><code>flow
+<pre><code>flow check
 </code></pre>
 
 <p>This should produce no errors since you have not added the <code>// @flow</code> comment to any modules yet.</p>
+
+<div class="alert alert-info">
+    <strong>Note:</strong> To run Flow code you will need to strip out type annotations using Babel.
+    Follow <a href="https://flowtype.org/docs/running.html">this guide</a> for more information.
+</div>
 
 <h3 id="gradually-adding-types">Gradually Adding Types</h3>
 

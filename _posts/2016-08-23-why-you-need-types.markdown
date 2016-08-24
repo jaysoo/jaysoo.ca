@@ -171,8 +171,8 @@ add(add, add) // Valid
 
 Now that I've convinced you that types are really great, then the next step is setting it up in your own
 project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
-TypeScript is also great, but it will require a bit more work (e.g. configuring `tsconfig.json` and renaming `.js` files to `.ts`).
-In a real project you will need to weigh the pros and cons of each technology choice.
+TypeScript is also great, but it will require a bit more work (e.g. configuring `tsconfig.json` and renaming `.js` 
+files to `.ts`). In a real project you will need to weigh the pros and cons of each technology choice.
 
 ### Setting Up Flow
 
@@ -190,9 +190,14 @@ Secondly, go to your project root and run:
 
 That's it! You can now verify that Flow is working in your project.
 
-    flow
+    flow check
 
 This should produce no errors since you have not added the `// @flow` comment to any modules yet.
+
+<div class="alert alert-info">
+    <strong>Note:</strong> To run Flow code you will need to strip out type annotations using Babel.
+    Follow <a href="https://flowtype.org/docs/running.html">this guide</a> for more information.
+</div>
 
 ### Gradually Adding Types
 

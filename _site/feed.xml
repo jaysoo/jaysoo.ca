@@ -175,8 +175,8 @@ in pure JavaScript&lt;/strong&gt;!&lt;/p&gt;
 
 &lt;p&gt;Now that I’ve convinced you that types are really great, then the next step is setting it up in your own
 project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
-TypeScript is also great, but it will require a bit more work (e.g. configuring &lt;code&gt;tsconfig.json&lt;/code&gt; and renaming &lt;code&gt;.js&lt;/code&gt; files to &lt;code&gt;.ts&lt;/code&gt;).
-In a real project you will need to weigh the pros and cons of each technology choice.&lt;/p&gt;
+TypeScript is also great, but it will require a bit more work (e.g. configuring &lt;code&gt;tsconfig.json&lt;/code&gt; and renaming &lt;code&gt;.js&lt;/code&gt; 
+files to &lt;code&gt;.ts&lt;/code&gt;). In a real project you will need to weigh the pros and cons of each technology choice.&lt;/p&gt;
 
 &lt;h3 id=&quot;setting-up-flow&quot;&gt;Setting Up Flow&lt;/h3&gt;
 
@@ -194,10 +194,15 @@ In a real project you will need to weigh the pros and cons of each technology ch
 
 &lt;p&gt;That’s it! You can now verify that Flow is working in your project.&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;flow
+&lt;pre&gt;&lt;code&gt;flow check
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This should produce no errors since you have not added the &lt;code&gt;// @flow&lt;/code&gt; comment to any modules yet.&lt;/p&gt;
+
+&lt;div class=&quot;alert alert-info&quot;&gt;
+    &lt;strong&gt;Note:&lt;/strong&gt; To run Flow code you will need to strip out type annotations using Babel.
+    Follow &lt;a href=&quot;https://flowtype.org/docs/running.html&quot;&gt;this guide&lt;/a&gt; for more information.
+&lt;/div&gt;
 
 &lt;h3 id=&quot;gradually-adding-types&quot;&gt;Gradually Adding Types&lt;/h3&gt;
 
