@@ -113,8 +113,8 @@
   <div class="span8">
     <div class="post-body">
       <p>Dynamically typed languages like JavaScript provide a lot of expressiveness and power
-to the programmer. By not having to think about strict types, a program is more maleable because
-it will run no matter what.</p>
+to the programmer. By not having to think about strict types, a program is more maleable since
+it will run no matter what, allowing the programmer to write code very quickly.</p>
 
 <p><strong>The problem with dynamic types is that it slows down development of an application over time</strong>.
 This decrease in velocity can be attributed to a couple of factors.</p>
@@ -136,7 +136,7 @@ This decrease in velocity can be attributed to a couple of factors.</p>
 
 <p><small class="muted">- Abelson and Sussman in “Structure and Interpretation of Computer Programs” </small></p>
 
-<p>The first question you may ask is why we should deal with types at all? The answer to this is simple: 
+<p>The first question you may ask is why we should bother with types at all? The answer to this is simple: 
 <strong><a href="https://www.youtube.com/watch?v=XTl7Jn_kmio">Types are like the weather</a>. There is nothing you can do about it.
 Weather happens.</strong></p>
 
@@ -154,8 +154,8 @@ Weather happens.</strong></p>
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">greet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;World&#39;</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Can you guess the type for the parameter <code>name</code>? If guessed <code>string</code> then you are close but not quite
-correct. The correct type is an <em>optional <code>string</code></em> – meaning it may be <code>undefined</code>.</p>
+<p>Can you guess the type for the parameter <code>name</code>? If you guessed <code>string</code> then you are close but not quite
+correct. The correct type is an <em>optional <code>string</code></em> – meaning it can be <code>undefined</code>.</p>
 
 <p>Without explicit types, we will inevitably make a mistake and use the wrong ones. Is <code>add(null, 2)</code> a valid invocation? Obviously not!
 But what about <code>add('1', 2)</code>. Maybe? It is hard to know the original intention of the function’s author.</p>
@@ -169,7 +169,8 @@ for every function in an application.</strong></p>
 
 <div class="highlight"><pre><code class="js"><span class="kr">const</span> <span class="nx">add</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="o">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">number</span><span class="p">)</span><span class="o">:</span> <span class="nx">number</span> <span class="o">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span>
 
-<span class="kr">const</span> <span class="nx">greet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span><span class="o">:</span> <span class="o">?</span><span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;World&#39;</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">)</span>
+<span class="c1">// `name?` means it is optional</span>
+<span class="kr">const</span> <span class="nx">greet</span> <span class="o">=</span> <span class="p">(</span><span class="nx">name</span><span class="o">?:</span> <span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;World&#39;</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">)</span>
 </code></pre></div>
 
 <p>It is now clear that <code>add('1', 2)</code> is not a valid invocation of the function. Furthermore, the Flow
@@ -179,7 +180,7 @@ type checker will actually throw a useful error.</p>
 
 <p>(We also know that <code>add(add(1, 2), 3)</code> is valid, because the return type of <code>add</code> is <code>number</code>!)</p>
 
-<p>Now, for the <code>greet</code> function, it should be clear which of the following statements are valid or not.</p>
+<p>As for the <code>greet</code> function, it should be clear which of the following statements are valid or not.</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">greet</span><span class="p">()</span> <span class="c1">// Valid with since name is optional</span>
 <span class="nx">greet</span><span class="p">(</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span> <span class="c1">// Valid since &#39;Alice&#39; is a string</span>
@@ -196,7 +197,7 @@ are valid or not. Knowing the input and output types, that is the <em>interface<
 
 <h2 id="getting-rid-of-that-dreaded-null-error">Getting Rid Of That Dreaded Null error</h2>
 
-<p>The single most common error in a JavaScript application is likely the <code>null is not a function</code>, or some variation of it.
+<p>The single most common error in a JavaScript application is likely the <code>null is not a function</code> error, or some variation of it.
 This class of error is completely due to type mismatches: Not dealing with nullable types properly.</p>
 
 <p>For example, given a function such as the following.</p>
@@ -219,7 +220,8 @@ This class of error is completely due to type mismatches: Not dealing with nulla
 <span class="p">}</span>
 
 <span class="kr">const</span> <span class="nx">updateEmail</span> <span class="o">=</span> <span class="p">(</span><span class="nx">person</span><span class="o">:</span> <span class="nx">IPerson</span><span class="p">,</span> <span class="nx">email</span><span class="o">:</span> <span class="nx">string</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
- <span class="nx">person</span><span class="p">.</span><span class="nx">contact</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">email</span>
+  <span class="c1">// `contact.email` may be undefined, thus is unsafe!</span>
+  <span class="nx">person</span><span class="p">.</span><span class="nx">contact</span><span class="p">.</span><span class="nx">email</span> <span class="o">=</span> <span class="nx">email</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -231,7 +233,7 @@ This class of error is completely due to type mismatches: Not dealing with nulla
 
 <h2 id="arent-types-too-constraining-and-troublesome">Aren’t Types Too Constraining and Troublesome?</h2>
 
-<p>There are two valid concerns of using a type system:</p>
+<p>There are common concerns of using a type system:</p>
 
 <ol>
   <li>
@@ -276,8 +278,8 @@ in pure JavaScript</strong>!</p>
 <h2 id="adding-types-to-your-project-today">Adding Types To Your Project Today!</h2>
 
 <p>Now that I’ve convinced you that types are really great, then the next step is setting it up in your own
-project. I recommend Flow if want to perform a quick experiment, since the set up is faster.
-TypeScript is also great, but it will require a bit more work (e.g. renaming <code>.js</code> files to <code>.ts</code>).
+project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
+TypeScript is also great, but it will require a bit more work (e.g. configuring <code>tsconfig.json</code> and renaming <code>.js</code> files to <code>.ts</code>).
 In a real project you will need to weigh the pros and cons of each technology choice.</p>
 
 <h3 id="setting-up-flow">Setting Up Flow</h3>

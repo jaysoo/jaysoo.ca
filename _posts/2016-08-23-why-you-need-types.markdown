@@ -6,8 +6,8 @@ tags: [programming,javascript,flow,typescript]
 ---
 
 Dynamically typed languages like JavaScript provide a lot of expressiveness and power
-to the programmer. By not having to think about strict types, a program is more maleable because
-it will run no matter what.
+to the programmer. By not having to think about strict types, a program is more maleable since
+it will run no matter what, allowing the programmer to write code very quickly.
 
 **The problem with dynamic types is that it slows down development of an application over time**.
 This decrease in velocity can be attributed to a couple of factors.
@@ -22,7 +22,7 @@ This decrease in velocity can be attributed to a couple of factors.
 
 <small class="muted">- Abelson and Sussman in "Structure and Interpretation of Computer Programs" </small>
 
-The first question you may ask is why we should deal with types at all? The answer to this is simple: 
+The first question you may ask is why we should bother with types at all? The answer to this is simple: 
 **[Types are like the weather](https://www.youtube.com/watch?v=XTl7Jn_kmio). There is nothing you can do about it.
 Weather happens.**
 
@@ -42,8 +42,8 @@ Or how about a `greet` function as follows.
 const greet = (name = 'World') => console.log(`Hello ${name}!`)
 {% endhighlight %}
 
-Can you guess the type for the parameter `name`? If guessed `string` then you are close but not quite
-correct. The correct type is an *optional `string`* -- meaning it may be `undefined`.
+Can you guess the type for the parameter `name`? If you guessed `string` then you are close but not quite
+correct. The correct type is an *optional `string`* -- meaning it can be `undefined`.
 
 Without explicit types, we will inevitably make a mistake and use the wrong ones. Is `add(null, 2)` a valid invocation? Obviously not!
 But what about `add('1', 2)`. Maybe? It is hard to know the original intention of the function's author.
@@ -59,7 +59,8 @@ Let's look at both functions again with type declarations (using [Flow](https://
 {% highlight js %}
 const add = (a: number, b: number): number => a + b
 
-const greet = (name: ?string = 'World'): void => console.log(`Hello ${name}!`)
+// `name?` means it is optional
+const greet = (name?: string = 'World'): void => console.log(`Hello ${name}!`)
 {% endhighlight %}
 
 It is now clear that `add('1', 2)` is not a valid invocation of the function. Furthermore, the Flow
@@ -69,8 +70,7 @@ type checker will actually throw a useful error.
 
 (We also know that `add(add(1, 2), 3)` is valid, because the return type of `add` is `number`!)
 
-Now, for the `greet` function, it should be clear which of the following statements are valid or not.
-
+As for the `greet` function, it should be clear which of the following statements are valid or not.
  
 {% highlight js %}
 greet() // Valid with since name is optional
@@ -88,7 +88,7 @@ are valid or not. Knowing the input and output types, that is the <em>interface<
 
 ## Getting Rid Of That Dreaded Null error
 
-The single most common error in a JavaScript application is likely the `null is not a function`, or some variation of it.
+The single most common error in a JavaScript application is likely the `null is not a function` error, or some variation of it.
 This class of error is completely due to type mismatches: Not dealing with nullable types properly.
 
 For example, given a function such as the following.
@@ -113,7 +113,8 @@ type IPerson = {
 }
 
 const updateEmail = (person: IPerson, email: string): void => {
- person.contact.email = email
+  // `contact.email` may be undefined, thus is unsafe!
+  person.contact.email = email
 }
 {% endhighlight %}
 
@@ -125,7 +126,7 @@ Awesome!
 
 ## Aren't Types Too Constraining and Troublesome?
 
-There are two valid concerns of using a type system:
+There are common concerns of using a type system:
 
 
 1. They are too troublesome to set up.
@@ -169,8 +170,8 @@ add(add, add) // Valid
 ## Adding Types To Your Project Today!
 
 Now that I've convinced you that types are really great, then the next step is setting it up in your own
-project. I recommend Flow if want to perform a quick experiment, since the set up is faster.
-TypeScript is also great, but it will require a bit more work (e.g. renaming `.js` files to `.ts`).
+project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
+TypeScript is also great, but it will require a bit more work (e.g. configuring `tsconfig.json` and renaming `.js` files to `.ts`).
 In a real project you will need to weigh the pros and cons of each technology choice.
 
 ### Setting Up Flow

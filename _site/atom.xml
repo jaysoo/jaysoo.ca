@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-08-23T23:34:57-04:00</updated>
+ <updated>2016-08-23T23:46:15-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -18,8 +18,8 @@
    <updated>2016-08-23T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2016/08/23/why-you-need-types</id>
    <content type="html">&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
-to the programmer. By not having to think about strict types, a program is more maleable because
-it will run no matter what.&lt;/p&gt;
+to the programmer. By not having to think about strict types, a program is more maleable since
+it will run no matter what, allowing the programmer to write code very quickly.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;The problem with dynamic types is that it slows down development of an application over time&lt;/strong&gt;.
 This decrease in velocity can be attributed to a couple of factors.&lt;/p&gt;
@@ -41,7 +41,7 @@ This decrease in velocity can be attributed to a couple of factors.&lt;/p&gt;
 
 &lt;p&gt;&lt;small class=&quot;muted&quot;&gt;- Abelson and Sussman in “Structure and Interpretation of Computer Programs” &lt;/small&gt;&lt;/p&gt;
 
-&lt;p&gt;The first question you may ask is why we should deal with types at all? The answer to this is simple: 
+&lt;p&gt;The first question you may ask is why we should bother with types at all? The answer to this is simple: 
 &lt;strong&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=XTl7Jn_kmio&quot;&gt;Types are like the weather&lt;/a&gt;. There is nothing you can do about it.
 Weather happens.&lt;/strong&gt;&lt;/p&gt;
 
@@ -59,8 +59,8 @@ Weather happens.&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Can you guess the type for the parameter &lt;code&gt;name&lt;/code&gt;? If guessed &lt;code&gt;string&lt;/code&gt; then you are close but not quite
-correct. The correct type is an &lt;em&gt;optional &lt;code&gt;string&lt;/code&gt;&lt;/em&gt; – meaning it may be &lt;code&gt;undefined&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Can you guess the type for the parameter &lt;code&gt;name&lt;/code&gt;? If you guessed &lt;code&gt;string&lt;/code&gt; then you are close but not quite
+correct. The correct type is an &lt;em&gt;optional &lt;code&gt;string&lt;/code&gt;&lt;/em&gt; – meaning it can be &lt;code&gt;undefined&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;Without explicit types, we will inevitably make a mistake and use the wrong ones. Is &lt;code&gt;add(null, 2)&lt;/code&gt; a valid invocation? Obviously not!
 But what about &lt;code&gt;add(&#39;1&#39;, 2)&lt;/code&gt;. Maybe? It is hard to know the original intention of the function’s author.&lt;/p&gt;
@@ -74,7 +74,8 @@ for every function in an application.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;
 
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// `name?` means it is optional&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;World&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is now clear that &lt;code&gt;add(&#39;1&#39;, 2)&lt;/code&gt; is not a valid invocation of the function. Furthermore, the Flow
@@ -84,7 +85,7 @@ type checker will actually throw a useful error.&lt;/p&gt;
 
 &lt;p&gt;(We also know that &lt;code&gt;add(add(1, 2), 3)&lt;/code&gt; is valid, because the return type of &lt;code&gt;add&lt;/code&gt; is &lt;code&gt;number&lt;/code&gt;!)&lt;/p&gt;
 
-&lt;p&gt;Now, for the &lt;code&gt;greet&lt;/code&gt; function, it should be clear which of the following statements are valid or not.&lt;/p&gt;
+&lt;p&gt;As for the &lt;code&gt;greet&lt;/code&gt; function, it should be clear which of the following statements are valid or not.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid with since name is optional&lt;/span&gt;
 &lt;span class=&quot;nx&quot;&gt;greet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Alice&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Valid since &amp;#39;Alice&amp;#39; is a string&lt;/span&gt;
@@ -101,7 +102,7 @@ are valid or not. Knowing the input and output types, that is the &lt;em&gt;inte
 
 &lt;h2 id=&quot;getting-rid-of-that-dreaded-null-error&quot;&gt;Getting Rid Of That Dreaded Null error&lt;/h2&gt;
 
-&lt;p&gt;The single most common error in a JavaScript application is likely the &lt;code&gt;null is not a function&lt;/code&gt;, or some variation of it.
+&lt;p&gt;The single most common error in a JavaScript application is likely the &lt;code&gt;null is not a function&lt;/code&gt; error, or some variation of it.
 This class of error is completely due to type mismatches: Not dealing with nullable types properly.&lt;/p&gt;
 
 &lt;p&gt;For example, given a function such as the following.&lt;/p&gt;
@@ -124,7 +125,8 @@ This class of error is completely due to type mismatches: Not dealing with nulla
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;updateEmail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;IPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
- &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// `contact.email` may be undefined, thus is unsafe!&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -136,7 +138,7 @@ This class of error is completely due to type mismatches: Not dealing with nulla
 
 &lt;h2 id=&quot;arent-types-too-constraining-and-troublesome&quot;&gt;Aren’t Types Too Constraining and Troublesome?&lt;/h2&gt;
 
-&lt;p&gt;There are two valid concerns of using a type system:&lt;/p&gt;
+&lt;p&gt;There are common concerns of using a type system:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -181,8 +183,8 @@ in pure JavaScript&lt;/strong&gt;!&lt;/p&gt;
 &lt;h2 id=&quot;adding-types-to-your-project-today&quot;&gt;Adding Types To Your Project Today!&lt;/h2&gt;
 
 &lt;p&gt;Now that I’ve convinced you that types are really great, then the next step is setting it up in your own
-project. I recommend Flow if want to perform a quick experiment, since the set up is faster.
-TypeScript is also great, but it will require a bit more work (e.g. renaming &lt;code&gt;.js&lt;/code&gt; files to &lt;code&gt;.ts&lt;/code&gt;).
+project. I recommend Flow if want to perform a quick experiment, since the set up is faster than the alternatives.
+TypeScript is also great, but it will require a bit more work (e.g. configuring &lt;code&gt;tsconfig.json&lt;/code&gt; and renaming &lt;code&gt;.js&lt;/code&gt; files to &lt;code&gt;.ts&lt;/code&gt;).
 In a real project you will need to weigh the pros and cons of each technology choice.&lt;/p&gt;
 
 &lt;h3 id=&quot;setting-up-flow&quot;&gt;Setting Up Flow&lt;/h3&gt;
