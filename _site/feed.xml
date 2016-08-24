@@ -129,7 +129,7 @@ This class of error is completely due to type mismatches: Not dealing with nulla
 
 &lt;h2 id=&quot;arent-types-too-constraining-and-troublesome&quot;&gt;Aren’t Types Too Constraining and Troublesome?&lt;/h2&gt;
 
-&lt;p&gt;There are common concerns of using a type system:&lt;/p&gt;
+&lt;p&gt;There are two common concerns of using a type system:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -272,7 +272,7 @@ start using types though, you will find that your application becomes easier to 
 
 &lt;p&gt;It is also seemless to integrate types into your application through Flow (or TypeScript). For even more powerful type
 systems in the front end, you can also check out &lt;a href=&quot;http://elm-lang.org/&quot;&gt;Elm&lt;/a&gt; and &lt;a href=&quot;http://www.purescript.org/&quot;&gt;PureScript&lt;/a&gt;
-– both or which are in the ML family of languages.&lt;/p&gt;
+– both of which are in the ML family of languages.&lt;/p&gt;
 
 &lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
 

@@ -126,7 +126,7 @@ Awesome!
 
 ## Aren't Types Too Constraining and Troublesome?
 
-There are common concerns of using a type system:
+There are two common concerns of using a type system:
 
 
 1. They are too troublesome to set up.
@@ -261,7 +261,7 @@ start using types though, you will find that your application becomes easier to 
 
 It is also seemless to integrate types into your application through Flow (or TypeScript). For even more powerful type
 systems in the front end, you can also check out [Elm](http://elm-lang.org/) and [PureScript](http://www.purescript.org/)
--- both or which are in the ML family of languages.
+-- both of which are in the ML family of languages.
 
 
 ## Further Reading
