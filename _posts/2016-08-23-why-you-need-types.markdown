@@ -5,6 +5,10 @@ title: Why You Need Types
 tags: [programming,javascript,flow,typescript]
 ---
 
+<div class="cover">
+    <img src="/images/flow-no-wordmark.png" height="400"/>
+</div>
+
 Dynamically typed languages like JavaScript provide a lot of expressiveness and power
 to the programmer. By not having to think about strict types, a program is more maleable since
 it will run no matter what, allowing the programmer to write code very quickly.

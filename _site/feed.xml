@@ -8,7 +8,11 @@
 		
 			<item>
 				<title>Why You Need Types</title>
-				<description>&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
+				<description>&lt;div class=&quot;cover&quot;&gt;
+    &lt;img src=&quot;/images/flow-no-wordmark.png&quot; height=&quot;400&quot; /&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
 to the programmer. By not having to think about strict types, a program is more maleable since
 it will run no matter what, allowing the programmer to write code very quickly.&lt;/p&gt;
 
