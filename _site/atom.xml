@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-08-24T21:52:09-04:00</updated>
+ <updated>2016-08-24T21:53:29-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -17,13 +17,13 @@
    <link href="http://jaysoo.ca/2016/08/23/why-you-need-types"/>
    <updated>2016-08-23T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2016/08/23/why-you-need-types</id>
-   <content type="html">&lt;div class=&quot;cover&quot;&gt;
-    &lt;img src=&quot;/images/flow-no-wordmark.png&quot; height=&quot;400&quot; /&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
+   <content type="html">&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
 to the programmer. By not having to think about strict types, a program is more maleable since
 it will run no matter what, allowing the programmer to write code very quickly.&lt;/p&gt;
+
+&lt;div class=&quot;cover&quot;&gt;
+    &lt;img src=&quot;/images/flow-no-wordmark.png&quot; height=&quot;400&quot; /&gt;
+&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;The problem with dynamic types is that it slows down development of an application over time&lt;/strong&gt;.
 This decrease in velocity can be attributed to a couple of factors.&lt;/p&gt;
