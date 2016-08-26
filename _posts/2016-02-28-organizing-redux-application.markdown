@@ -367,7 +367,7 @@ As for action creators, not much changes from the usual Redux application.
 
 {% highlight js %}
 // todos/actions.js
-import t from './actionTypes';
+import * as t from './actionTypes';
 
 export const add = (text) => ({
   type: t.ADD,
