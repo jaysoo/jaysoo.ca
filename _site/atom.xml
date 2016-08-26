@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-08-26T09:33:24-04:00</updated>
+ <updated>2016-08-26T09:40:32-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -214,7 +214,9 @@ files to &lt;code&gt;.ts&lt;/code&gt;). In a real project you will need to weigh
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
     &lt;strong&gt;Note:&lt;/strong&gt; To run Flow code you will need to strip out type annotations using Babel.
-    Follow &lt;a href=&quot;https://flowtype.org/docs/running.html&quot;&gt;this guide&lt;/a&gt; for more information.
+    Follow &lt;a href=&quot;https://flowtype.org/docs/running.html&quot;&gt;this guide&lt;/a&gt; for more information. Alernatively,
+    you can use the &lt;a href=&quot;https://flowtype.org/blog/2015/02/20/Flow-Comments.html&quot;&gt;comment syntax&lt;/a&gt;
+    if don&#39;t want to use a transpiler -- thanks to &lt;a href=&quot;https://glebbahmutov.com/&quot;&gt;Gleb&lt;/a&gt; for this tip.
 &lt;/div&gt;
 
 &lt;h3 id=&quot;gradually-adding-types&quot;&gt;Gradually Adding Types&lt;/h3&gt;

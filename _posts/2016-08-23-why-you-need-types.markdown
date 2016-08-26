@@ -200,7 +200,9 @@ This should produce no errors since you have not added the `// @flow` comment to
 
 <div class="alert alert-info">
     <strong>Note:</strong> To run Flow code you will need to strip out type annotations using Babel.
-    Follow <a href="https://flowtype.org/docs/running.html">this guide</a> for more information.
+    Follow <a href="https://flowtype.org/docs/running.html">this guide</a> for more information. Alernatively,
+    you can use the <a href="https://flowtype.org/blog/2015/02/20/Flow-Comments.html">comment syntax</a>
+    if don't want to use a transpiler -- thanks to <a href="https://glebbahmutov.com/">Gleb</a> for this tip.
 </div>
 
 ### Gradually Adding Types
