@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Search &mdash; Jack Hsu</title>
+    <title>Displaying URIs In Print CSS &mdash; Jack Hsu</title>
     
     <meta name="author" content="Jack Hsu">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
@@ -102,18 +102,112 @@
       <div class="container-fluid">
         <div class="content">
           
-
-<h2>Search</h2>
-
-<div id="search"></div>
-
-<div id="begin" class="hero-unit well">
-  <p>Please type in a query and hit enter to perform a search.</p>
-  <p>You can use title and tags filters by typing <code>title:</code> and <code>tags:</code>,
-  followed by the filter term.</p>
+<div class="page-header">
+  <h1>
+    Displaying URIs In Print CSS
+    
+</h1>
 </div>
 
-<div id="results"></div>
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>One of the fundamental features of webpages is the ability to link resources together. However, whenever you print a page, you lose all the URI information on that page. Fortunately, there is a easy way to retain these URIs even when the page is printed on paper: CSS.</p>
+<p>A lot of websites already use print CSS files, and with a few extra styles you can have the page print with the <code>href</code> attributes.</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">a</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s1">" ("</span> <span class="n">attr</span><span class="p">(</span><span class="n">href</span><span class="p">)</span> <span class="s1">") "</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This CSS will append the <code>href</code> attirbute of the <code>a</code> element to itself.  Of course, some URIs don't include the <code>http://</code>, so you might also need to add this CSS rule, which add your website's URI to the beginning of each link.</p>
+
+<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nt">a</span><span class="o">[</span><span class="nt">href</span><span class="o">^=</span><span class="s1">"/"</span><span class="o">]</span><span class="nd">:after</span> <span class="p">{</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s1">" (http://www.mywebsite.com"</span> <span class="n">attr</span><span class="p">(</span><span class="n">href</span><span class="p">)</span> <span class="s1">") "</span><span class="p">;</span>
+<span class="p">}</span>	</code></pre></figure>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2009/04/01/pythonistas-rejoice-curly-braces-are-in" title="Pythonistas Rejoice! Curly Braces Are In">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2009/04/21/not-another-ie6-rant" title="Not Another IE6 Rant">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2009/04/13/displaying-uris-in-print-css';
+    var disqus_url = 'http://jaysoo.ca/2009/04/13/displaying-uris-in-print-css';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>13 April 2009</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#css-ref">css <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/04/13/displaying-uris-in-print-css&amp;text=Displaying%20URIs%20In%20Print%20CSS&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
 
         </div>
       </div>
@@ -176,14 +270,6 @@
     <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="/assets/application.js"></script>
-    
-      <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-    
-      <script src="/date.js"></script>
-    
-      <script src="/visualsearch.js"></script>
-    
-      <script src="/search.v2.js"></script>
     
   </body>
 </html>

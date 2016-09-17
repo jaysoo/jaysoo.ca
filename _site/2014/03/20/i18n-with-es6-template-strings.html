@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>i18n with tagged template strings in ECMAScript 6 &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    i18n with tagged template strings in ECMAScript 6
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>One of the new features coming to ECMAScript 6 (ES6), the next version of
+JavaScript standards, is the <strong>template string</strong>. The simplest use cases for
+template strings are creating multiline strings, and doing string interpolation.</p>
+
+<p>Multiline string:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">s</span> <span class="o">=</span> <span class="err">`</span><span class="nx">This</span> <span class="nx">is</span>
+<span class="nx">a</span> <span class="nx">multiline</span>
+<span class="nx">string</span><span class="err">`</span><span class="p">;</span></code></pre></figure>
+
+<p>String interpolation:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="s1">'Bob'</span><span class="p">,</span> <span class="nx">lastName</span> <span class="o">=</span> <span class="s1">'Smith'</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">msg</span> <span class="o">=</span> <span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">firstName</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">lastName</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">;</span> <span class="c1">// 'Hello Bob Smith!'</span></code></pre></figure>
+
+<p>You can also <strong>tag</strong> a template string by adding an expression before it.
+When a template string is tagged, the literals and substitutions are passed to
+the tag function, and whatever returns from the function is the resulting value.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">foo</span><span class="p">(</span><span class="nx">literals</span><span class="p">,</span> <span class="p">...</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">foo</span><span class="err">`</span><span class="nx">What</span> <span class="k">do</span> <span class="nx">you</span> <span class="nx">get</span> <span class="k">if</span> <span class="nx">you</span> <span class="nx">multiply</span> <span class="nx">$</span><span class="p">{</span><span class="mi">6</span><span class="p">}</span> <span class="nx">by</span> <span class="nx">$</span><span class="p">{</span><span class="mi">9</span><span class="p">}?</span><span class="err">`</span><span class="p">;</span> <span class="c1">// 42</span>
+
+<span class="c1">// In the foo function:</span>
+<span class="c1">//   literals = ['What do you  get if you multiply ', ' by ', '?']</span>
+<span class="c1">//   values[0] = 6</span>
+<span class="c1">//   values[1] = 9</span></code></pre></figure>
+
+<p>This feature opens up some interesting syntactic sugar for producing and manipulating
+content. One such example is <strong>Internationalization</strong> or <strong>i18n</strong>.</p>
+
+<p>In this post we’ll look at:</p>
+
+<ul>
+  <li>Implementing a basic i18n tag function for translating messages.</li>
+  <li>Localization (l10n) of values using the <strong>Intl</strong> native object.</li>
+</ul>
+
+<p>This post requires some knowledge of new ES6 features such as array comprehensions,
+arrow functions, spreads, etc. If you are new to ES6, I suggest brushing up on the
+basics. I found Ariya’s <a href="http://ariya.ofilabs.com/tag/es6">posts on ES6</a> to be useful.</p>
+
+<h2 id="the-i18n-tag">The i18n tag</h2>
+
+<p>Let’s start with an example of how we want to use the <code class="highlighter-rouge">i18n</code> tag.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">'Bob'</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">amount</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="nx">i18n</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}</span><span class="err">:</span><span class="nx">c</span><span class="p">(</span><span class="nx">CAD</span><span class="p">)</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span></code></pre></figure>
+
+<p>Here, we are expecting to translate the literals into the language of our choosing.
+We are also adding optional annotations to the substitutions. In this case, the
+<code class="highlighter-rouge">amount</code> value has the <code class="highlighter-rouge">:c(CAD)</code> annotation, which marks it as a currency <strong>type</strong>
+that is in Canadian Dollars (CAD).</p>
+
+<p>If we translated this string to German, for example, we expect the result to be
+<code class="highlighter-rouge">'Hallo Bob, Sie haben 1.234,56 $CA auf Ihrem Bankkonto.'</code> Note that the currency
+amount has thousands and decimal separator as per German locale.</p>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>We’ll allow configuration of our <code class="highlighter-rouge">i18n</code> tag through <code class="highlighter-rouge">I18n.use</code>.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">messageBundle_de</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto.'</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span>
+  <span class="na">locale</span><span class="p">:</span> <span class="s1">'de-DE'</span><span class="p">,</span>
+  <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'EUR'</span><span class="p">,</span>
+  <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_de</span><span class="p">});</span>
+
+<span class="c1">// Now we can translate our string to German, with the Euro being the default currency</span>
+
+<span class="nx">i18n</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}</span><span class="err">:</span><span class="nx">c</span><span class="p">(</span><span class="nx">CAD</span><span class="p">)</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span>
+<span class="c1">// =&gt; Hallo Bob, Sie haben 1.234,56 $CA auf Ihrem Bankkonto.</span></code></pre></figure>
+
+<p>Let’s start with implementing the <code class="highlighter-rouge">I18n.use</code> method, which should return the
+tag function.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">I18n</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">use</span><span class="p">({</span><span class="nx">lang</span><span class="p">,</span> <span class="nx">defaultCurrency</span><span class="p">,</span> <span class="nx">messageBundle</span><span class="p">})</span> <span class="p">{</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">lang</span> <span class="o">=</span> <span class="nx">lang</span><span class="p">;</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">defaultCurrency</span> <span class="o">=</span> <span class="nx">defaultCurrency</span><span class="p">;</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">messageBundle</span> <span class="o">=</span> <span class="nx">messageBundle</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">translate</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="nx">translate</span><span class="p">(</span><span class="nx">literals</span><span class="p">,</span> <span class="p">...</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">translationKey</span> <span class="o">=</span> <span class="p">...;</span>
+    <span class="kd">let</span> <span class="nx">translationString</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">messages</span><span class="p">[</span><span class="nx">translationKey</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">translationString</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">localizedValues</span> <span class="o">=</span> <span class="p">...;</span>
+      <span class="k">return</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">_buildMessage</span><span class="p">(</span><span class="nx">translationString</span><span class="p">,</span> <span class="p">...</span><span class="nx">localizedValues</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="s1">'Error: translation missing!'</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">translationString</code> should match the keys in our message bundle. In our previous
+German translation example, this would be <code class="highlighter-rouge">'Hello {0}, you have {1} in your bank account.'</code>.</p>
+
+<p>The <code class="highlighter-rouge">localizedValues</code> array is a map of substitution <code class="highlighter-rouge">values</code> in their localized
+forms. For example, in German <code class="highlighter-rouge">1000.12</code> should show as <code class="highlighter-rouge">'1.000,12'</code>.</p>
+
+<p>Now, I will show a full implementation of the library.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Matches optional type annotations in i18n strings.</span>
+<span class="c1">// e.g. i18n`This is a number ${x}:n(2)` formats x as number</span>
+<span class="c1">//      with two fractional digits.</span>
+<span class="kr">const</span> <span class="nx">typeInfoRegex</span> <span class="o">=</span> <span class="sr">/^:</span><span class="se">([</span><span class="sr">a-z</span><span class="se">])(\((</span><span class="sr">.+</span><span class="se">)\))?</span><span class="sr">/</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">I18n</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">use</span><span class="p">({</span><span class="nx">locale</span><span class="p">,</span> <span class="nx">defaultCurrency</span><span class="p">,</span> <span class="nx">messageBundle</span><span class="p">})</span> <span class="p">{</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">locale</span> <span class="o">=</span> <span class="nx">locale</span><span class="p">;</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">defaultCurrency</span> <span class="o">=</span> <span class="nx">defaultCurrency</span><span class="p">;</span>
+    <span class="nx">I18n</span><span class="p">.</span><span class="nx">messageBundle</span> <span class="o">=</span> <span class="nx">messageBundle</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">translate</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="nx">translate</span><span class="p">(</span><span class="nx">literals</span><span class="p">,</span> <span class="p">...</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">translationKey</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">_buildKey</span><span class="p">(</span><span class="nx">literals</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">translationString</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">messageBundle</span><span class="p">[</span><span class="nx">translationKey</span><span class="p">];</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">translationString</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">typeInfoForValues</span> <span class="o">=</span> <span class="nx">literals</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">I18n</span><span class="p">.</span><span class="nx">_extractTypeInfo</span><span class="p">);</span>
+      <span class="kd">let</span> <span class="nx">localizedValues</span> <span class="o">=</span> <span class="nx">values</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">v</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">_localize</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">typeInfoForValues</span><span class="p">[</span><span class="nx">i</span><span class="p">]));</span>
+      <span class="k">return</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">_buildMessage</span><span class="p">(</span><span class="nx">translationString</span><span class="p">,</span> <span class="p">...</span><span class="nx">localizedValues</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="s1">'Error: translation missing!'</span><span class="p">;</span>
+  <span class="p">},</span>
+
+  <span class="na">_localizers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">s</span> <span class="cm">/*string*/</span><span class="p">:</span> <span class="nx">v</span> <span class="o">=&gt;</span> <span class="nx">v</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">(</span><span class="nx">I18n</span><span class="p">.</span><span class="nx">locale</span><span class="p">),</span>
+    <span class="nx">c</span> <span class="cm">/*currency*/</span><span class="p">:</span> <span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">currency</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="nx">v</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">(</span><span class="nx">I18n</span><span class="p">.</span><span class="nx">locale</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">style</span><span class="p">:</span> <span class="s1">'currency'</span><span class="p">,</span>
+        <span class="na">currency</span><span class="p">:</span> <span class="nx">currency</span> <span class="o">||</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">defaultCurrency</span>
+      <span class="p">})</span>
+    <span class="p">),</span>
+    <span class="nx">n</span> <span class="cm">/*number*/</span><span class="p">:</span> <span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">fractionalDigits</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="nx">v</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">(</span><span class="nx">I18n</span><span class="p">.</span><span class="nx">locale</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">minimumFractionDigits</span><span class="p">:</span> <span class="nx">fractionalDigits</span><span class="p">,</span>
+        <span class="na">maximumFractionDigits</span><span class="p">:</span> <span class="nx">fractionalDigits</span>
+      <span class="p">})</span>
+    <span class="p">)</span>
+  <span class="p">},</span>
+
+  <span class="nx">_extractTypeInfo</span><span class="p">(</span><span class="nx">literal</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">match</span> <span class="o">=</span> <span class="nx">typeInfoRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">literal</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">match</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="nx">match</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="na">options</span><span class="p">:</span> <span class="nx">match</span><span class="p">[</span><span class="mi">3</span><span class="p">]};</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span><span class="na">type</span><span class="p">:</span> <span class="s1">'s'</span><span class="p">,</span> <span class="na">options</span><span class="p">:</span> <span class="s1">''</span><span class="p">};</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+
+  <span class="nx">_localize</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="p">{</span><span class="nx">type</span><span class="p">,</span> <span class="nx">options</span><span class="p">})</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">_localizers</span><span class="p">[</span><span class="nx">type</span><span class="p">](</span><span class="nx">value</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="c1">// e.g. I18n._buildKey(['', ' has ', ':c in the']) == '{0} has {1} in the bank'</span>
+  <span class="nx">_buildKey</span><span class="p">(</span><span class="nx">literals</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">stripType</span> <span class="o">=</span> <span class="nx">s</span> <span class="o">=&gt;</span> <span class="nx">s</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">typeInfoRegex</span><span class="p">,</span> <span class="s1">''</span><span class="p">);</span>
+    <span class="kd">let</span> <span class="nx">lastPartialKey</span> <span class="o">=</span> <span class="nx">stripType</span><span class="p">(</span><span class="nx">literals</span><span class="p">[</span><span class="nx">literals</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+    <span class="kd">let</span> <span class="nx">prependPartialKey</span> <span class="o">=</span> <span class="p">(</span><span class="nx">memo</span><span class="p">,</span> <span class="nx">curr</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">stripType</span><span class="p">(</span><span class="nx">curr</span><span class="p">)}{</span><span class="nx">$</span><span class="p">{</span><span class="nx">i</span><span class="p">}}</span><span class="nx">$</span><span class="p">{</span><span class="nx">memo</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nx">literals</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nx">reduceRight</span><span class="p">(</span><span class="nx">prependPartialKey</span><span class="p">,</span> <span class="nx">lastPartialKey</span><span class="p">);</span>
+  <span class="p">},</span>
+
+  <span class="c1">// e.g. I18n._formatStrings('{0} {1}!', 'hello', 'world') == 'hello world!'</span>
+  <span class="nx">_buildMessage</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="p">...</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/{</span><span class="se">(\d)</span><span class="sr">}/g</span><span class="p">,</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">values</span><span class="p">[</span><span class="nb">Number</span><span class="p">(</span><span class="nx">index</span><span class="p">)]);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Usage</span>
+<span class="kd">let</span> <span class="nx">messageBundle_fr</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'Bonjour {0}, vous avez {1} dans votre compte bancaire.'</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">messageBundle_de</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto.'</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">messageBundle_zh_Hant</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'你好{0}，你有{1}在您的銀行帳戶。'</span>
+<span class="p">};</span>
+
+<span class="kd">let</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">'Bob'</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">amount</span> <span class="o">=</span> <span class="mf">1234.56</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">i18n</span><span class="p">;</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'fr-CA'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'CAD'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_fr</span><span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i18n</span> <span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">);</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'de-DE'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'EUR'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_de</span><span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i18n</span> <span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">);</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'zh-Hant-CN'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'CNY'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_zh_Hant</span><span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i18n</span> <span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">);</span></code></pre></figure>
+
+<p>One important thing to note here is that the <code class="highlighter-rouge">_localizers</code> are using the
+native <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl">Intl</a>
+object to localize values.</p>
+
+<h3 id="es-internationalization-api">ES Internationalization API</h3>
+
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl">Internationalization API</a>
+adds new methods to native types, such as <code class="highlighter-rouge">Number.prototype.toLocaleString()</code> and <code class="highlighter-rouge">Date.prototype.toLocaleDateString()</code>.</p>
+
+<p>These methods delegate to three objects: <code class="highlighter-rouge">Intl.Collator</code>, <code class="highlighter-rouge">Intl.NumberFormat</code>, and <code class="highlighter-rouge">Intl.DateTimeFormat</code>. The
+collator object enables string comparisons to be language sensitive, while the other two are pretty self-explanatory.</p>
+
+<p>An option of the <code class="highlighter-rouge">NumberFormat</code> we took advantage of in our implementation is the <code class="highlighter-rouge">style</code>. The style value can be
+<code class="highlighter-rouge">decimal</code> (default), <code class="highlighter-rouge">currency</code>, or <code class="highlighter-rouge">percent</code>. In our case, we used both the currency and decimal support for the <code class="highlighter-rouge">:c</code> and
+<code class="highlighter-rouge">:n</code> annotations respectively. For number localization, we also support rounding of fractional digits through the use of
+<code class="highlighter-rouge">minimumFractionDigits</code> and <code class="highlighter-rouge">maximumFractionDigits</code> options.</p>
+
+<h2 id="example-usages">Example usages</h2>
+
+<p>Now, we can translate our original string into different languages by configuring
+the <code class="highlighter-rouge">I18n</code> object using corresponding locales and message bundle.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">let</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">'Bob'</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">amount</span> <span class="o">=</span> <span class="mf">1234.56</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">i18n</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">messageBundle_fr</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'Bonjour {0}, vous avez {1} dans votre compte bancaire.'</span>
+<span class="p">};</span>
+<span class="kd">let</span> <span class="nx">messageBundle_de</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'Hallo {0}, Sie haben {1} auf Ihrem Bankkonto'</span>
+<span class="p">};</span>
+<span class="kd">let</span> <span class="nx">messageBundle_zh_Hant</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'Hello {0}, you have {1} in your bank account.'</span><span class="p">:</span> <span class="s1">'你好{0}，你有{1}在您的銀行帳戶。'</span>
+<span class="p">};</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'fr-CA'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'CAD'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_fr</span><span class="p">});</span>
+<span class="nx">i18n</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}</span><span class="err">:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">;</span>
+<span class="c1">// =&gt; 'Bonjour Bob, vous avez 1 234,56 $CA dans votre compte bancaire.'</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'de-DE'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'EUR'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_de</span><span class="p">});</span>
+<span class="nx">i18n</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}</span><span class="err">:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">;</span>
+<span class="c1">// =&gt; 'Hallo Bob, Sie haben 1.234,56 € auf Ihrem Bankkonto.'</span>
+
+<span class="nx">i18n</span> <span class="o">=</span> <span class="nx">I18n</span><span class="p">.</span><span class="nx">use</span><span class="p">({</span><span class="na">locale</span><span class="p">:</span> <span class="s1">'zh-Hant-CN'</span><span class="p">,</span> <span class="na">defaultCurrency</span><span class="p">:</span> <span class="s1">'CNY'</span><span class="p">,</span> <span class="na">messageBundle</span><span class="p">:</span> <span class="nx">messageBundle_zh_Hant</span><span class="p">});</span>
+<span class="nx">i18n</span><span class="err">`</span><span class="nx">Hello</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">},</span> <span class="nx">you</span> <span class="nx">have</span> <span class="nx">$</span><span class="p">{</span><span class="nx">amount</span><span class="p">}</span><span class="err">:</span><span class="nx">c</span> <span class="k">in</span> <span class="nx">your</span> <span class="nx">bank</span> <span class="nx">account</span><span class="p">.</span><span class="err">`</span><span class="p">;</span>
+<span class="c1">// =&gt; '你好Bob，你有￥1,234.56在您的銀行帳戶。'</span></code></pre></figure>
+
+<p>Here’s a link to an <a href="http://www.es6fiddle.net/i0rj2cc9/">ES6 Fiddle</a> for a live demo.</p>
+
+<h2 id="concluding-thoughts">Concluding thoughts</h2>
+
+<p>The tagged template string can be used to provide powerful DSL to JavaScript libraries.
+I chose to try my hand at adding simple i18n support. There are still a lot of pieces
+missing to provide a comprehensive i18n solution, but I hope to have shown how one
+may go about building out this framework.</p>
+
+<p>Pluralization can be a very tricky thing to tackle, and I am not qualified as of this
+writing to understand all the nuances of implementing this feature. Perhaps with
+a little more thinking, there may be some hope to add it in as well.</p>
+
+<p>In any case, I do see a lot of potential in tagged template strings to add clean, clear
+syntax for library functionalities.</p>
+
+<p><small>Edit (2014/03/21): Fixed German translation and added a conclusion section.</small></p>
+
+<p><small>Edit (2014/10/01): Updated examples to not use array comprehension since they were removed in ES6</small></p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2014/02/27/designing-angularjs-directives" title="Designing AngularJS Directives">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2014/10/14/async-form-errors-and-messages-in-angularjs" title="Asynchronous form errors and messages in AngularJS">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2014/03/20/i18n-with-es6-template-strings';
+    var disqus_url = 'http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>20 March 2014</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#es6-ref">es6 <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#i18n-ref">i18n <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings&amp;text=i18n%20with%20tagged%20template%20strings%20in%20ECMAScript%206&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

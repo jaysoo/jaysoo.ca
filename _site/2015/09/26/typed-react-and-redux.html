@@ -1,0 +1,667 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>React and Redux with TypeScript &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    React and Redux with TypeScript
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>The release of <a href="http://www.typescriptlang.org/">TypeSciprt</a> 1.6 includes support for <a href="http://facebook.github.io/react/">React</a> components.
+I decided to give it a whirl and see what TypeScript has to offer.</p>
+
+<p>The end result is a port of the <a href="https://github.com/rackt/redux">Redux</a> <a href="http://todomvc.com/">TodoMVC</a> example to TypeScript.
+(See <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">my repo on GitHub</a>)</p>
+
+<p>So why use types in the first place? Isn’t the dynamic and flexible nature of JavaScript what makes it so great in the first
+place? As strange as it sounds, I actually believe that adding more constraints to the system can result in <em>more</em> freedom.
+Of course, the type system has to be powerful and flexible enough to not get in your way.</p>
+
+<p>This post is meant for developers who work with JavaScript and has an interest in TypeScript and React. I will be showing
+examples using the Redux framework, but it is not a requirement. No prior knowledge of TypeScript is required, but you should have
+some familiarity with React.</p>
+
+<p>I will cover the following topics:</p>
+
+<ul>
+  <li>What are types, and why we need them?</li>
+  <li>How TypeScript can help us develop React applications.</li>
+  <li>Additional considerations when choosing TypeScript and React.</li>
+</ul>
+
+<div class="alert alert-info">
+  <strong>Update (2016-03-28):</strong> I've updated the <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">code</a> to use TypeScript 1.8.9, ReactJS 0.14.7, and Redux 3.0.6. It now uses <a href="https://github.com/typings/typings/"><code>typings</code></a> as opposed to <code>tsd</code>, which is the direction the community is moving towards.
+</div>
+
+<h2 id="types-are-good-for-you">Types are good for you</h2>
+
+<p>If you have experience in  Java (or in a similar statically typed language), you may be immediately turned off by types.
+The first thing to note is that a type in TypeScript is not a class. A more mathematical definition of a type is that a
+type is a name given to the set of inputs and outputs of a given function. That is, a type describes the interface of a function.
+This is the way I think about types.</p>
+
+<p>Say I have a function defined as follows:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">add</span> <span class="o">=</span> <span class="p">(</span><span class="nx">a</span><span class="err">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">b</span><span class="err">:</span> <span class="nx">number</span><span class="p">)</span><span class="err">:</span> <span class="nx">number</span> <span class="o">=&gt;</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">add</code> function above says that it takes in two parameters <code class="highlighter-rouge">a</code> and <code class="highlighter-rouge">b</code> both of type <code class="highlighter-rouge">number</code>, then outputs
+a <code class="highlighter-rouge">number</code>. Thus, if I write any of the following statements, I will get a compile error.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// '2' is not a number.</span>
+<span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'2'</span><span class="p">);</span>
+
+<span class="c1">// result declared to be string, but add returns a number.</span>
+<span class="kr">const</span> <span class="nx">result</span><span class="err">:</span> <span class="nx">string</span> <span class="o">=</span> <span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span></code></pre></figure>
+
+<p>If you are using an IDE that supports TypeScript you will get editor hints as you are typing.</p>
+
+<p><img src="/images/ts-ide-1.gif" alt="" /></p>
+
+<p>As seen above, types gives us two benefits.</p>
+
+<ol>
+  <li><strong>Catch errors early on</strong> during compile time, not runtime.</li>
+  <li>Serves as <strong>documentation</strong> for functions. And in editors that support TypeScript, we get <strong>type hints as we code</strong>.</li>
+</ol>
+
+<p>Expanding on point #2, the type hints are especially useful for options object, as seen in libraries like jQuery.</p>
+
+<p>Say I have this function defined below.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// The | here denotes a union type, which will be covered later in this post.</span>
+<span class="c1">// options? means the second parameter is not required.</span>
+<span class="kr">const</span> <span class="nx">doSomething</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="err">:</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span> <span class="o">|</span> <span class="nx">CustomClass</span><span class="p">,</span> <span class="nx">options</span><span class="p">?:</span> <span class="nx">Options</span><span class="p">)</span><span class="err">:</span> <span class="k">void</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>As a user of <code class="highlighter-rouge">doSomething</code> I might wonder what options I am allowed to pass in. With the <code class="highlighter-rouge">Options</code> type defined
+below, I will get hints in our editor as I code.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">interface</span> <span class="nx">Options</span> <span class="p">{</span>
+  <span class="nx">flag1</span><span class="p">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">flag2</span><span class="p">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">callback</span><span class="p">?:</span> <span class="p">(</span><span class="nx">c</span><span class="err">:</span> <span class="nx">CustomClass</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><img src="/images/ts-ide-2.png" alt="" /></p>
+
+<h3 id="more-on-types">More on types</h3>
+
+<p>Before we move on to React examples, I want to expand on types a bit more.</p>
+
+<p>As mentioned earlier, types in TypeScript are not classes. The following defines a <code class="highlighter-rouge">Todo</code> type, but does not create a class.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">interface</span> <span class="nx">Todo</span> <span class="p">{</span>
+  <span class="nx">id</span><span class="p">?:</span> <span class="nx">number</span><span class="p">;</span>
+  <span class="nl">text</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nl">completed</span><span class="p">:</span> <span class="kr">boolean</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">id?</code> syntax means that the <code class="highlighter-rouge">id</code> property is optional (since a new <code class="highlighter-rouge">Todo</code> may not have an ID yet).</p>
+
+<p>Given the above definition, I can now do the following.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Valid assignment.</span>
+<span class="kr">const</span> <span class="nx">t1</span><span class="err">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="na">text</span><span class="p">:</span> <span class="s1">'Finish this blog post'</span><span class="p">,</span>
+  <span class="na">completed</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">};</span>
+
+<span class="c1">// Type error because text is missing.</span>
+<span class="kr">const</span> <span class="nx">t2</span><span class="err">:</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="na">completed</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>What is more interesting is that I can use the type to form an interface over a function that operate over <code class="highlighter-rouge">Todo</code>s.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">completedTodos</span> <span class="o">=</span> <span class="p">(</span><span class="nx">todos</span><span class="err">:</span> <span class="nx">Todo</span><span class="p">[])</span><span class="err">:</span> <span class="nx">Todo</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">t</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">.</span><span class="nx">completed</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="c1">// This works.</span>
+<span class="nx">completedTodos</span><span class="p">([</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="s1">'Do something'</span><span class="p">,</span> <span class="na">completed</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="s1">'Do another thing'</span><span class="p">,</span> <span class="na">completed</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}</span>
+<span class="p">]);</span>
+
+<span class="c1">// These fail because inputs are the wrong type.</span>
+<span class="nx">completedTodos</span><span class="p">(</span><span class="s1">'Huh?'</span><span class="p">);</span>
+<span class="nx">completedTodos</span><span class="p">([{</span> <span class="na">text</span><span class="p">:</span> <span class="s1">'Missing completed property'</span> <span class="p">}]);</span></code></pre></figure>
+
+<p>Again, you will see errors in editors that support TypeScript as you are typing.</p>
+
+<h4 id="function-types">Function types</h4>
+
+<p>You can even define types for functions.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">interface</span> <span class="nx">NumberToString</span> <span class="p">{</span>
+  <span class="p">(</span><span class="nx">x</span><span class="err">:</span> <span class="nx">number</span><span class="p">)</span><span class="err">:</span> <span class="nx">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">applyNumberToString</span> <span class="o">=</span> <span class="p">(</span><span class="nx">f</span><span class="err">:</span> <span class="nx">NumberToString</span><span class="p">,</span> <span class="nx">x</span><span class="err">:</span> <span class="nx">number</span><span class="p">)</span><span class="err">:</span> <span class="nx">string</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">f</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="p">};</span></code></pre></figure>
+
+<h4 id="union-types-and-type-guards">Union types and type guards</h4>
+
+<p>The last thing I will show is union types. A variable of an union type can be assign any type within that union.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">type</span> <span class="nx">numberOrString</span> <span class="o">=</span> <span class="nx">number</span> <span class="o">|</span> <span class="nx">string</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">x</span><span class="err">:</span> <span class="nx">numberOrString</span><span class="p">;</span>
+
+<span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>    <span class="c1">// OK</span>
+<span class="nx">x</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>  <span class="c1">// OK</span>
+<span class="nx">x</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// BAD</span></code></pre></figure>
+
+<p>Notice that there are no interfaces or subclasses defined above for <code class="highlighter-rouge">numberOrString</code>. Union types can be combined with type
+guards to help manage branches within a function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">doubleIfNumber</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="err">:</span> <span class="nx">numberOrString</span><span class="p">)</span><span class="err">:</span> <span class="nx">numberOrString</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">x</span> <span class="o">===</span> <span class="s1">'number'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// This is OK because we know x is a number!</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">doubleIfNumber</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>   <span class="c1">// 4</span>
+<span class="nx">doubleIfNumber</span><span class="p">(</span><span class="s1">'2'</span><span class="p">);</span> <span class="c1">// '2'</span></code></pre></figure>
+
+<p>The above features are enough for us to jump into the TodoMVC application. If you want to learn more about TypeScript,
+I found the <a href="http://www.typescriptlang.org/Handbook">Handbook</a> to be a useful resource.</p>
+
+<h2 id="todomvc-in-react-redux-and-typescript">TodoMVC in React, Redux, and TypeScript</h2>
+
+<p>By now you have seen some of the benefits of using a powerful type system. But how does this fit in with React?</p>
+
+<p>With TypeScript 1.6, you can now write your React components in TSX files. The following is an example from my <a href="https://github.com/jaysoo/todomvc-redux-react-typescript">TodoMVC
+example</a>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// `The * as ____` here is a way to import ES6 default exports in ES6.</span>
+<span class="kr">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s1">'react'</span><span class="p">;</span>
+
+<span class="kr">interface</span> <span class="nx">TodoTextInputProps</span> <span class="p">{</span>
+  <span class="nl">onSave</span><span class="p">:</span> <span class="nb">Function</span><span class="p">;</span>
+  <span class="nx">text</span><span class="p">?:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nx">placeholder</span><span class="p">?:</span> <span class="nx">string</span><span class="p">,</span>
+  <span class="nx">editing</span><span class="p">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nx">newTodo</span><span class="p">?:</span> <span class="kr">boolean</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// This component's props have to match TodoTextInputProps inferface.</span>
+<span class="c1">// We can do the same for the component's state. In this example, it is set to any.</span>
+<span class="kr">class</span> <span class="nx">TodoTextInput</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span><span class="o">&lt;</span><span class="nx">TodoTextInputProps</span><span class="p">,</span> <span class="nx">any</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<div class="alert alert-info">
+  <p><strong>Note:</strong> Since React does not provide TypeScript definitions,
+  we cannot use it without providing <em>ambient</em> module definitions (e.g. <code>.d.ts</code> files).
+  In this case, I am using a tool called <code><a href="https://github.com/typings/typings/">typings</a></code>
+  to install the missing definitions.</p>
+  <p>
+  You can view the <code><a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/typings.json">typings.json</a></code>
+  file to see all of the definitions I have installed.
+  </p>
+</div>
+
+<h3 id="properties-interface-vs-reactproptypes">Properties interface vs React.PropTypes</h3>
+
+<p>Properties interface differs from <code class="highlighter-rouge">React.PropTypes</code> in that the latter will only give you errors during runtime. With
+Properties interface we can get feedback immediately from the compiler.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// This errors on compile because onSave is required but not specified.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span><span class="o">/&gt;</span></code></pre></figure>
+
+<p><img src="/images/tsx-error-2.png" alt="" /></p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// This errors because onSave is the wrong type.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span> <span class="nx">onSave</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="sr">/&gt;</span></code></pre></figure>
+
+<p><img src="/images/tsx-error-1.png" alt="" /></p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// This errors because onEdit is not a valid property.</span>
+<span class="o">&lt;</span><span class="nx">TodoTextInput</span> <span class="nx">onEdit</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{}}</span> <span class="nx">onSave</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{}}</span><span class="sr">/&gt;</span></code></pre></figure>
+
+<p><img src="/images/tsx-error-3.png" alt="" /></p>
+
+<p>Unfortunately, as of this writing Visual Studio Code (the editor I am using) does not seem to support TSX files yet.
+The above errors were from Webpack with ts-loader.</p>
+
+<h3 id="types-and-redux">Types and Redux</h3>
+
+<p>In the TodoMVC example, I defined a <code class="highlighter-rouge">Todo</code> type that is used throughout the application. It is used as the return
+type of
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/actions/todos.ts">actions/todos</a>
+. The state of
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/reducers/todos.ts">reducers/todos</a>
+is <code class="highlighter-rouge">Todo[]</code>. And <a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/MainSection.tsx">the</a>
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoItem.tsx">components</a>
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/blob/master/client/components/TodoTextInput.tsx">all</a> take in
+<code class="highlighter-rouge">Todo</code> or <code class="highlighter-rouge">Todo[]</code> as properties.</p>
+
+<p>This ensures that as I am coding, my actions and reducers (stores) all work with the correct types.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="cm">/* actions/todos.ts */</span>
+
+<span class="c1">// This action takes in a `string` and returns `Todo` as its payload.</span>
+<span class="kr">const</span> <span class="nx">addTodo</span> <span class="o">=</span> <span class="nx">createAction</span><span class="o">&lt;</span><span class="nx">Todo</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="nx">types</span><span class="p">.</span><span class="nx">ADD_TODO</span><span class="p">,</span>
+  <span class="p">(</span><span class="nx">text</span><span class="err">:</span> <span class="nx">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">text</span><span class="p">,</span> <span class="na">completed</span><span class="p">:</span> <span class="kc">false</span> <span class="p">})</span>
+<span class="p">);</span>
+
+<span class="cm">/* reducers/todos.ts */</span>
+
+<span class="c1">// This reducer takes current state of Todo[] and returns a new state of Todo[].</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">handleActions</span><span class="o">&lt;</span><span class="nx">Todo</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">({</span>
+  <span class="p">[</span><span class="nx">ADD_TODO</span><span class="p">]:</span> <span class="p">(</span><span class="na">state</span><span class="p">:</span> <span class="nx">Todo</span><span class="p">[],</span> <span class="na">action</span><span class="p">:</span> <span class="nx">Action</span><span class="p">):</span> <span class="nx">Todo</span><span class="p">[]</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[{</span>
+      <span class="na">id</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">maxId</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">todo</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">maxId</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">completed</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">completed</span><span class="p">,</span>
+      <span class="na">text</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">text</span>
+    <span class="p">},</span> <span class="p">...</span><span class="nx">state</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">// ...</span>
+<span class="p">},</span> <span class="nx">initialState</span><span class="p">);</span></code></pre></figure>
+
+<p>I now benefit from all the type hints and errors when working with my actions and reducers.</p>
+
+<p><img src="/images/ts-action.png" alt="" /></p>
+
+<h3 id="using-union-types-as-models">Using union types as models</h3>
+
+<p>Let’s add an initializing state to the <code class="highlighter-rouge">todos</code> reducer by introducing a <code class="highlighter-rouge">Model</code> union type for it.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// This denotes that the state is still initializing.</span>
+<span class="c1">// There is a progress property that is a number from 0-100 (%).</span>
+<span class="kr">export</span> <span class="kr">interface</span> <span class="nx">Initializing</span> <span class="p">{</span>
+  <span class="nl">progress</span><span class="p">:</span> <span class="nx">number</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="c1">// The model of our state can be either of these types.</span>
+<span class="kr">export</span> <span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="nx">Initializing</span> <span class="o">|</span> <span class="nx">Todo</span><span class="p">[];</span>
+
+<span class="c1">// Check if x is a type of Initializing. This can be used in type guards.</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">isInitializing</span> <span class="o">=</span> <span class="p">(</span><span class="nx">x</span><span class="err">:</span> <span class="nx">any</span><span class="p">)</span><span class="err">:</span> <span class="nx">x</span> <span class="nx">is</span> <span class="nx">Initializing</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">typeof</span> <span class="nx">x</span><span class="p">.</span><span class="nx">progress</span> <span class="o">===</span> <span class="s1">'number'</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>We’ll have to change our reducer’s state from type <code class="highlighter-rouge">Todo[]</code> to <code class="highlighter-rouge">Model</code>, and add type guards to our
+reduce functions.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="nx">handleActions</span><span class="o">&lt;</span><span class="nx">Model</span><span class="o">&gt;</span><span class="p">({</span>
+  <span class="p">[</span><span class="nx">ADD_TODO</span><span class="p">]:</span> <span class="p">(</span><span class="na">state</span><span class="p">:</span> <span class="nx">Model</span><span class="p">,</span> <span class="na">action</span><span class="p">:</span> <span class="nx">Action</span><span class="p">):</span> <span class="nx">Model</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="na">todos</span><span class="p">:</span> <span class="nx">Todo</span><span class="p">[];</span>
+
+    <span class="c1">// Type guard for state.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isInitializing</span><span class="p">(</span><span class="nx">state</span><span class="p">))</span> <span class="p">{</span>
+      <span class="c1">// If current state is initializing, set todos to empty array.</span>
+      <span class="nx">todos</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// Otherwise set to current state.</span>
+      <span class="nx">todos</span> <span class="o">=</span> <span class="nx">state</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="p">[{</span>
+      <span class="na">id</span><span class="p">:</span> <span class="nx">todos</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">maxId</span><span class="p">,</span> <span class="nx">todo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">todo</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">maxId</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">completed</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">completed</span><span class="p">,</span>
+      <span class="na">text</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">.</span><span class="nx">text</span>
+    <span class="p">},</span> <span class="p">...</span><span class="nx">todos</span><span class="p">];</span>
+  <span class="p">}</span>
+  <span class="c1">// ...</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>The type guard ensures that in the <code class="highlighter-rouge">else</code> branch, <code class="highlighter-rouge">state</code> is of type <code class="highlighter-rouge">Todo[]</code>, which is why the above code compiles.</p>
+
+<div class="alert alert-info">
+  <strong>Note:</strong> I chose to not use a class for <code>Initializing</code>, but used an interface instead. The
+  downside of this approach is that you cannot use <code>state instanceof Initializing</code> in the type guard since
+  interfaces are not available for reflection during runtime. It's up to you how you want to implement your own types.
+</div>
+
+<h4 id="rendering-the-initializing-state">Rendering the initializing state</h4>
+
+<p>Within my <code class="highlighter-rouge">App</code> component, I can use the same <code class="highlighter-rouge">Model</code> and type check function to render an initializing state.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">todos</span><span class="err">:</span> <span class="nx">Model</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">todos</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">dispatch</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">actions</span> <span class="o">=</span> <span class="nx">bindActionCreators</span><span class="p">(</span><span class="nx">TodoActions</span><span class="p">,</span> <span class="nx">dispatch</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isInitializing</span><span class="p">(</span><span class="nx">todos</span><span class="p">))</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">style</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">'font-size'</span><span class="p">:</span> <span class="s1">'24px'</span><span class="p">,</span>
+      <span class="s1">'text-align'</span><span class="p">:</span> <span class="s1">'center'</span>
+    <span class="p">};</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">p</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">style</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Initializing</span><span class="p">...</span> <span class="p">({</span><span class="nx">todos</span><span class="p">.</span><span class="nx">progress</span><span class="p">}</span><span class="o">%</span><span class="p">)</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="s2">"todoapp"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Header</span> <span class="nx">addTodo</span><span class="o">=</span><span class="p">{</span><span class="nx">actions</span><span class="p">.</span><span class="nx">addTodo</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">MainSection</span>
+          <span class="nx">todos</span><span class="o">=</span><span class="p">{</span><span class="nx">todos</span><span class="p">}</span>
+          <span class="nx">actions</span><span class="o">=</span><span class="p">{</span><span class="nx">actions</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The alternative to this approach might be to change our state to the following type.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// todos can now be undefined or null.</span>
+<span class="kr">interface</span> <span class="nx">Model</span> <span class="p">{</span>
+  <span class="nx">todos</span><span class="p">?:</span> <span class="nx">Todo</span><span class="p">[];</span>
+  <span class="nl">isInitializing</span><span class="p">:</span> <span class="kr">boolean</span><span class="p">;</span>
+  <span class="nl">initializationProgress</span><span class="p">:</span> <span class="nx">number</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This trades in the union type for a boolean flag to let us know why <code class="highlighter-rouge">todos</code> is <code class="highlighter-rouge">undefined</code> or <code class="highlighter-rouge">null</code>. This makes
+our state much harder to reason about when we add in more and more flags and metadata. From my experience with real-world
+applications, doing this type of thing is hard to avoid without types.</p>
+
+<p>This initialization example is a bit contrived, but I hope it shows the power behind the technique. I have a
+<a href="https://github.com/jaysoo/todomvc-redux-react-typescript/tree/union-types">branch</a>
+of that shows how the above code works in the TodoMVC app. Fair warning, it is not completely functional because I only
+did enough work to get a few examples.</p>
+
+<h2 id="closing-remarks">Closing Remarks</h2>
+
+<p>In this post I offered a glimpse of how TypeScript can help you when writing a React application. Some <strong>benefits</strong> you
+will receive are:</p>
+
+<ul>
+  <li>Type hints as you code (in editors that support TypeScript).</li>
+  <li>Type errors during compile time, or as you code in supported editors.</li>
+  <li>Guarantees against certain classes of errors when your application compiles successfully. (typos, wrong <code class="highlighter-rouge">props</code> usage, etc.)</li>
+  <li>Union types to simplify application state.</li>
+</ul>
+
+<p>Does this mean you should rewrite your React application in TypeScript right now? It’s up to you. There are <strong>downsides</strong>
+in choosing TypeScript.</p>
+
+<ul>
+  <li>Your favourite editor may not support TypeScript. Best editors right now would be
+<a href="https://www.jetbrains.com/webstorm/">WebStorm</a> or <a href="https://code.visualstudio.com/">Visual Studio Code</a> IMO.</li>
+  <li>
+    <s>As of this writing, Visual Studio Code does not support TSX files (at least from my observation).</s>
+    <p>(As Franck pointed out in the comments, you can point the <code class="highlighter-rouge">typescript.tsdk</code> option in your VSC <a href="https://code.visualstudio.com/Docs/customization/userandworkspace"><code class="highlighter-rouge">settings.json</code></a> file to the lib directory of your TypeScript install)</p>
+  </li>
+  <li>You will need to invest in more tools (TSD, ts-loader for Webpack, etc.).</li>
+</ul>
+
+<p>If you think the benefits outweigh the the costs, definitely give TypeScript a go!</p>
+
+<h2 id="resources">Resources</h2>
+
+<ul>
+  <li><a href="https://github.com/jaysoo/todomvc-redux-react-typescript">TodoMVC in React and Redux</a></li>
+  <li><a href="http://www.typescriptlang.org/Handbook">TypeScript Handbook</a></li>
+  <li><a href="http://www.jbrantly.com/typescript-and-jsx/">TypeScript and JSX</a></li>
+  <li><a href="https://github.com/rackt/redux/">Redux</a> (Flux-like framework)</li>
+  <li><a href="http://staxmanade.com/2015/08/playing-with-typescript-and-jsx/">Hello World with TypeScript and JSX</a> (This one helped me debug some errors)</li>
+</ul>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/06/25/when-learning-attitude-and-approach-matter" title="When Learning, Attitude and Approach Matter">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/11/21/avoid-unnecessary-indirection" title="Avoid Unnecessary Indirection">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/09/26/typed-react-and-redux';
+    var disqus_url = 'http://jaysoo.ca/2015/09/26/typed-react-and-redux';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>26 September 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#react-ref">react <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#flux-ref">flux <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#typescript-ref">typescript <span>2</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/09/26/typed-react-and-redux&amp;text=React%20and%20Redux%20with%20TypeScript&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

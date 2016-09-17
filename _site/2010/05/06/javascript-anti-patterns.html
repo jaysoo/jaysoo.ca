@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>JavaScript Anti-Patterns &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    JavaScript Anti-Patterns
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>There are plenty of posts discussing anti-patterns in other languages, like <a href="http://www.google.ca/search?q=java+antipatterns">Java</a> or <a href="http://www.google.ca/search?q=python+antipatterns">Python</a>. However, I haven&rsquo;t really seen much regarding JavaScript besides this <a href="http://stackoverflow.com/questions/377999/what-anti-patterns-exist-for-javascript">question</a> on StackOverflow. And most of the ones I found don&rsquo;t separate the DOM API and the JavaScript language itself.</p> 
+ 
+<p>So the following is a list of JavaScript anti-patterns that I&rsquo;ve compiled, with some explanations.</p> 
+ 
+<h3>Polluting the global namespace</h3> 
+ 
+<p>This is the biggest no-no, and is something all new JavaScript developers must learn. The reason you don&rsquo;t want to declare too many variables in the global namespace is the avoid conflicts with code written by others or yourself. Here&rsquo;s an example to illustrate this:</p> 
+ 
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+<span class="kd">function</span> <span class="nx">bar</span><span class="p">()</span> <span class="p">{</span> <span class="k">for</span> <span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{}</span> <span class="p">}</span>
+ 
+<span class="nx">i</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">();</span>
+<span class="nx">bar</span><span class="p">();</span>
+ 
+<span class="c1">// what is i here?</span></code></pre></figure>
+ 
+<p>In this example, <code>i=5</code> at the end of execution. This happens because the variable <code>i</code> both inside and outside the function left out the <code>var</code> declaration, thus the engine declares it in the global namespace. And if everyone&rsquo;s code rely on global variables, you may break someone else&rsquo;s code accidentally.</p> 
+ 
+<h3>Extending the Object prototype</h3> 
+ 
+<p>Never, never, never extend Object.prototype. By doing that you could break a lot of code that do things such as <code>for (var a in myObj)</code> &ndash; such as jQuery. That is the very reason why Crockford&rsquo;s jslint promotes the use of <code>hasOwnProperty()</code> check. But IMO that produces ugly code. The better way is to just leave <code>Object.prototype</code> alone.</p> 
+ 
+<h3>Using multiple var declarations instead of one</h3> 
+ 
+<p>In each scope you can make multiple variable declarations by separating each one with a comma. This makes code more readable, and performs better too (albeit by a very small margin).</p> 
+ 
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Don't do this</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">z</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+ 
+<span class="c1">// Do this</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">y</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="nx">z</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<h3>Using&nbsp;<em>new Array()</em>&nbsp;and&nbsp;<em>new Object()</em></h3> 
+<p>Please don&rsquo;t declare arrays and hashes like this.</p> 
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(),</span>
+    <span class="nx">hash</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+<span class="nx">hash</span><span class="p">.</span><span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nx">hash</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span></code></pre></figure>
+ 
+<p>When you do this instead.</p> 
+ 
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nx">hash</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">2</span> <span class="p">};</span></code></pre></figure>
+
+<h3>Not making use of truthy/falsey values: undefined, null, false, &rdquo;, [], etc.</h3> 
+<p>In JavaScript, a variable&rsquo;s value can be <em>truthy</em> or <em>falsey</em>. This mean that while the value isn&rsquo;t strictly equivalent to the boolean values true and false, they can be coerced into a boolean value.</p> 
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// No need for this!</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">someString</span> <span class="o">!=</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">someString</span> <span class="o">!=</span> <span class="s1">''</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="nx">someString</span><span class="p">);</span>
+ 
+<span class="c1">// This gives the same result and is much cleaner</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">someString</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="nx">someString</span><span class="p">);</span></code></pre></figure>
+
+<p>You can run quick tests in your browser to check if something is truthy or falsey.</p> 
+ 
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">a</span><span class="p">;</span> <span class="c1">// undefined</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">a</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'falsey'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="s1">''</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'falsey'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'truthy'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="kc">null</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'falsey'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="mi">0</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'falsey'</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="nx">alert</span><span class="p">(</span><span class="s1">'truthy'</span><span class="p">);</span> </code></pre></figure>
+
+<p> 
+<meta charset="utf-8" /></p> 
+<h3>Not making use of truthy/falsey values (part 2): for loops</h3> 
+<p>Another great use of truthy and falsey is in a for loop. In most other languages, the exit-check of the loop usually makes sure the index does not go out of bounds. But in JavaScript we can do one better!</p> 
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// an array of lower-case letters</span>
+<span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="p">...,</span> <span class="s1">'z'</span><span class="p">];</span>
+ 
+<span class="c1">// don't do this</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something with arr[i]</span>
+<span class="p">}</span>
+ 
+<span class="c1">// do this</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">curr</span><span class="p">;</span> <span class="nx">curr</span><span class="o">=</span><span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// do something with curr</span>
+<span class="p">}</span> </code></pre></figure>
+
+<p>The second for loop works because <code>arr[i]</code> is undefined if <code>i</code> is an out-of-bounds index, and <code>undefined</code> is falsey. Also, this method performs better (especially in IE 6/7 where <code>arr.length</code> lookup can be costly). <strong>Be careful</strong> not to use this approach if you know an array may contain a zero (0), or any other falsey values you don&rsquo;t want to prematurely exit from.</p> 
+
+<h3><s>Using switch statements</s></h3> 
+
+<div class="well">
+  <p><strong>Update: 2012-02-11</strong></p>
+  <p>Switch statements have been optimized in modern JavaScript engines. Function hashes are still very useful when you need code reuse, or when to refactor a complex function into smaller, simpler ones.</p>
+</div>
+<p><s>A lot of times when you use a switch statement in JavaScript, you really should be using function hashes. This is because switch statements in JavaScript don&rsquo;t perform as well as you&rsquo;re probably used to in other languages.</s></p> 
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// switch statement</span>
+<span class="kd">var</span> <span class="nx">x</span><span class="p">;</span>
+
+<span class="k">switch</span> <span class="p">(</span><span class="nx">something</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="s1">'foo'</span><span class="err">:</span>
+    <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="s1">'bar'</span><span class="err">:</span>
+    <span class="nx">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="nl">default</span><span class="p">:</span>
+    <span class="nx">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// function hashes</span>
+<span class="kd">var</span> <span class="nx">handlers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">foo</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">bar</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span> <span class="p">},</span>
+    <span class="na">_default</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">3</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span> <span class="nx">handlers</span><span class="p">[</span><span class="nx">something</span><span class="p">]</span> <span class="o">||</span> <span class="nx">handlers</span><span class="p">.</span><span class="nx">_default</span> <span class="p">)();</span></code></pre></figure>
+
+<h3>Not making use of truthy/falsey values (part 3): Converting a value using Boolean(x)</h3> 
+ 
+<p>Okay, I&rsquo;m not sure if this counts a an anti-pattern but it&rsquo;s more of a personal preference. Of course we should <em>never</em> use <code>Boolean('')</code> inside an if-check, but sometimes we want to convert any value into an actual boolean. What you should do instead of using <code>Boolean(x)</code> is to use <code>!!x</code>. This works because !x returns true if x is falsey, and false otherwise. We then negate that boolean again to get what we want.&nbsp;</p> 
+ 
+<h3>Using for-in loop over an array</h3> 
+ 
+<p>Arrays in JavaScript are special objects, so a for-in loop doesn&rsquo;t do what you think it does.</p> 
+ 
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'foo'</span><span class="p">,</span> <span class="nx">bar</span><span class="s1">', '</span><span class="nx">faz</span><span class="s1">', baz'</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">item</span> <span class="k">in</span> <span class="nx">arr</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// what is item here?</span>
+<span class="p">}</span></code></pre></figure>
+ 
+<p>You may think you'll get the values of the array above, but you actually get the indices inside the array. It&rsquo;s easier just to stick to normal for loops.</p> 
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2010/03/24/javascript-namespacing-function" title="JavaScript Namespacing">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2010/06/04/link-javascript-semicolon-insertion" title="Link: JavaScript Semicolon Insertion">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2010/05/06/javascript-anti-patterns';
+    var disqus_url = 'http://jaysoo.ca/2010/05/06/javascript-anti-patterns';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>06 May 2010</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#anti-patterns-ref">anti-patterns <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2010/05/06/javascript-anti-patterns&amp;text=JavaScript%20Anti-Patterns&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

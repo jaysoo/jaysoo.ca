@@ -1,0 +1,694 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>What the Flux? (On Flux, DDD, and CQRS) &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    What the Flux? (On Flux, DDD, and CQRS)
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p><a href="http://facebook.github.io/flux/docs/overview.html">Flux</a> is an application
+architecture designed by Facebook for their JavaScript applications. It was
+first introduced by Facebook in May 2014, and it has since
+garnered much interest in the JavaScript community.</p>
+
+<p>There are several implementations of Flux. Frameworks like <a href="fluxxor.com">Fluxxor</a>
+keep to the original Facebook Flux pattern, but reduces the amount of boilerplate
+code. While other frameworks like <a href="https://github.com/spoike/refluxjs">Reflux</a>
+and <a href="https://github.com/yoshuawuyts/barracks">Barracks</a> stray from the canonical
+Flux architecture by getting rid of the Dispatcher (Reflux) or ActionCreators
+(Barracks). So which framework should you choose?</p>
+
+<p>Before we get too wrapped up about what is canon, and whether we should be
+deviating from them, let’s consider a look into the past.</p>
+
+<p>While the Flux pattern may have found a new home in JavaScript applications,
+they have been explored before in <strong>Domain-Driven Design</strong> (DDD)
+and <strong>Command-Query Responsibility Segregation</strong> (CQRS).  I think it is useful
+to learn from these older concepts, and see what they may tell us about the present.</p>
+
+<h4 id="in-this-post-i-will">In this post I will:</h4>
+
+<ol>
+  <li>Give an overview of the Flux architecture.</li>
+  <li>Present the CQRS pattern.</li>
+  <li>Look at how Flux applies the concepts from CQRS.</li>
+  <li>Discuss when Flux is useful for a JavaScript application.</li>
+</ol>
+
+<div class="alert alert-info">
+  <p>
+    Knowledge of DDD is assumed, though the article still provides value without it.
+    To learn more about DDD, I recommend this <a href="http://www.infoq.com/minibooks/domain-driven-design-quickly">free ebook</a>
+    from InfoQ on the subject.
+  </p>
+  <p>
+    Examples will be shown in JavaScript, though the language isn't the focus of this post.
+  </p>
+</div>
+
+<h2 id="what-is-flux">What is Flux?</h2>
+
+<p>A common way to describe Flux is by comparing it to a <strong>Model-View-Controller</strong>
+(MVC) architecture.</p>
+
+<p>In MVC, a Model can be read by multiple Views, and can be updated by multiple
+Controllers. In a large application, this results in highly complex interactions
+where a single update to a Model can cause Views to notify their Controllers,
+which may trigger even more Model updates.</p>
+
+<p><img src="/images/mvc-diagram.png" alt="mvc-diagram" /></p>
+
+<p>Flux attempts to solve this complexity by forcing a unidirectional data flow.
+In this architecture, Views query Stores (not Models), and user interactions
+result in Actions that are submitted to a centralized Dispatcher. When the Actions
+are dispatched, Stores can then update themselves accordingly and notify Views
+of any changes. These changes in the Store prompts Views to query for new data.</p>
+
+<p><img src="/images/flux-diagram.png" alt="flux-diagram" /></p>
+
+<p>The main difference between MVC and Flux is the separation of queries and updates.
+In MVC, the Model is both updated by the Controller <em>and</em> queried by the View.
+In Flux, the data that a View gets from a Store is read-only. Stores can only be
+updated through Actions, which would affect the Stores themselves <em>not</em> the
+read-only data.</p>
+
+<p>The pattern described above is very close to CQRS as first described by Greg Young.</p>
+
+<h2 id="command-query-responsibility-segregation">Command-Query Responsibility Segregation</h2>
+
+<p>To understand CQRS, let’s first talk about the object pattern <strong>Command-Query
+Separation</strong> (CQS).</p>
+
+<p>CQS at an object level means:</p>
+
+<ol>
+  <li>If a method mutates the state of the object, it is a <em>command</em>, and it must not return a value.</li>
+  <li>If the method returns some value, it is a <em>query</em>, and it must not mutate state.</li>
+</ol>
+
+<p>In normal DDD, Aggregate objects are used for both command and query. We will also
+have Repositories that contain methods to find and persist Aggregate objects.</p>
+
+<p>CQRS simply takes CQS further by separating command and query into different objects.
+Aggregates would have no query methods, only command methods. Repositories would
+now only have a single query method (e.g. <code class="highlighter-rouge">find</code>), and a single persist method
+(e.g. <code class="highlighter-rouge">save</code>).</p>
+
+<p>In the CQRS pattern, you will find new objects not found in normal DDD.</p>
+
+<h3 id="query-model">Query Model</h3>
+
+<p>The <em>Query Model</em> is a pure data model, and is not meant to deliver domain
+behaviour. These models are denormalized, and meant for display and reporting.</p>
+
+<h3 id="query-processor">Query Processor</h3>
+
+<p>Query Models are usually retrieved by performing a query. The queries can be
+handled by a <em>Query Processor</em> that knows how to look up data, say from a database
+table.</p>
+
+<h3 id="command-model">Command Model</h3>
+
+<p>Command Models are different from normal Aggregates in that they only contain
+command methods. You can never “ask” it anything, only “tell” (in the Tell, Don’t
+Ask sense).</p>
+
+<p>As a command method completes, it publishes a Domain Event. This is crucial
+for updating the Query Model with the most recent changes to the Command Model.</p>
+
+<h3 id="domain-event">Domain Event</h3>
+
+<p>Domain Events lets Event Subscribers know that something has changed in the
+corresponding Command Model. They contain the <em>name</em> of the event, and a <em>payload</em>
+containing sufficient information for subscribers to correctly update Query Models.</p>
+
+<div class="alert">
+  <strong>Note:</strong> Domain Events are always in past tense since they describe what has
+  already occurred (e.g. <code>'ITEM_ADDED_TO_CART'</code>).
+</div>
+
+<h3 id="event-subscriber">Event Subscriber</h3>
+
+<p>An <em>Event Subscriber</em> receives all Domain Events published by the Command Model.
+When an event occurs, it updates the Query Model accordingly.</p>
+
+<h3 id="command">Command</h3>
+
+<p><em>Commands</em> are submitted as the means of executing behaviour on Command Models. A
+command contains the <em>name</em> of the behaviour to execute and a <em>payload</em>
+necessary to carry it out.</p>
+
+<div class="alert">
+  <strong>Note:</strong> Commands are always in imperative tense since they describe behaviours that
+  need to be executed (e.g. <code>AddItemToCart</code>).
+</div>
+
+<h3 id="command-handler">Command Handler</h3>
+
+<p>The submission of a Command is received by a <em>Command Handler</em>, which usually
+fetches an Command Model from its Repository, and executes a Command
+method on it.</p>
+
+<h2 id="an-example-in-e-commerce">An example in e-commerce</h2>
+
+<p>Let’s compare normal DDD with CQRS in the context of an e-commerce system with
+a shopping cart.</p>
+
+<h3 id="shopping-cart-with-normal-ddd">Shopping cart with normal DDD</h3>
+
+<p>In normal DDD, we may find an Aggregate <code class="highlighter-rouge">ShoppingCart</code> that contains multiple <code class="highlighter-rouge">CartItems</code>,
+as well as a corresponding Repository.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// The Aggregate model</span>
+<span class="kr">class</span> <span class="nx">ShoppingCart</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">({</span><span class="na">id</span><span class="p">:</span> <span class="nx">id</span><span class="p">,</span> <span class="na">cartItems</span><span class="p">:</span> <span class="nx">cartItems</span><span class="p">,</span> <span class="na">taxPercentage</span><span class="p">:</span> <span class="nx">taxPercentage</span><span class="p">,</span>
+                <span class="na">shippingAndHandling</span><span class="p">:</span> <span class="nx">shippingAndHandling</span><span class="p">})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">id</span> <span class="o">=</span> <span class="nx">id</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cartItems</span> <span class="o">=</span> <span class="nx">cartItems</span> <span class="o">||</span> <span class="p">[];</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">taxPercentage</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">taxPercentage</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">shippingAndHandling</span> <span class="o">=</span> <span class="nx">shippingAndHandling</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Command methods</span>
+  <span class="nx">addItem</span><span class="p">(</span><span class="nx">cartItem</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cartItems</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">cartItem</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">removeItem</span><span class="p">(</span><span class="nx">cartItem</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">cartItems</span> <span class="o">=</span> <span class="nx">cartItems</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">sku</span> <span class="o">!==</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">sku</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Query method</span>
+  <span class="nx">total</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">prices</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">shoppingCart</span><span class="p">.</span><span class="nx">cartItems</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">price</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">prices</span><span class="p">.</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">total</span><span class="p">,</span> <span class="nx">price</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">total</span> <span class="o">+</span> <span class="nx">price</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// A child of the Aggregate</span>
+<span class="kr">class</span> <span class="nx">CartItem</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">({</span><span class="na">sku</span><span class="p">:</span> <span class="nx">sku</span><span class="p">,</span> <span class="na">description</span><span class="p">:</span> <span class="nx">description</span><span class="p">,</span> <span class="na">price</span><span class="p">:</span> <span class="nx">price</span><span class="p">,</span> <span class="na">quantity</span><span class="p">:</span> <span class="nx">quantity</span><span class="p">})</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">sku</span> <span class="o">=</span> <span class="nx">sku</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">description</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">price</span> <span class="o">=</span> <span class="nx">price</span><span class="p">;</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">quantity</span> <span class="o">=</span> <span class="nx">quantity</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Repository to perform CRUD operations</span>
+<span class="kr">class</span> <span class="nx">ShoppingCartRepository</span> <span class="p">{</span>
+  <span class="nx">all</span><span class="p">()</span> <span class="p">{</span> <span class="cm">/* … */</span> <span class="p">}</span>
+  <span class="nx">findById</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* … */</span> <span class="p">}</span>
+  <span class="nx">create</span><span class="p">(</span><span class="nx">cart</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* … */</span> <span class="p">}</span>
+  <span class="nx">update</span><span class="p">(</span><span class="nx">cart</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* … */</span> <span class="p">}</span>
+  <span class="nx">destroy</span><span class="p">(</span><span class="nx">cart</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/* … */</span> <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Here, the <code class="highlighter-rouge">ShoppingCart</code> is responsible for both queries (<code class="highlighter-rouge">cartItems</code> and<code class="highlighter-rouge">total()</code>),
+and updates (<code class="highlighter-rouge">addItem()</code>, <code class="highlighter-rouge">removeItem()</code>, and normal property setters). The
+<code class="highlighter-rouge">ShoppingCartRepository</code> is used to perform CRUD operations on <code class="highlighter-rouge">ShoppingCart</code>.</p>
+
+<h3 id="shopping-cart-with-cqrs">Shopping cart with CQRS</h3>
+
+<p>In CQRS, we can do the following:</p>
+
+<ol>
+  <li>
+    <p>Convert the <code class="highlighter-rouge">ShoppingCart</code> into a Command Model. It would not have any query
+methods, only command methods. It also has the extra responsibility to
+publish two Domain Events (<code class="highlighter-rouge">'CART_ITEM_ADDED'</code>, <code class="highlighter-rouge">'CART_ITEM_REMOVED'</code>).</p>
+  </li>
+  <li>
+    <p>Create a Query Model for reading the shopping cart total (replacing the original
+<code class="highlighter-rouge">.total()</code> method). This Query Model can simply be a plain JavaScript object.</p>
+  </li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">    <span class="p">{</span>
+      <span class="nl">cartId</span><span class="p">:</span> <span class="mi">123</span><span class="p">,</span>
+      <span class="nx">total</span><span class="err">:</span> <span class="mf">129.95</span>
+    <span class="p">}</span>
+    </code></pre></figure>
+
+<ol>
+  <li>
+    <p>Create <code class="highlighter-rouge">CartTotalStore</code> that holds the query models in memory. This object
+acts like a Query Processor in that it knows how to look up out Query Models.</p>
+  </li>
+  <li>
+    <p>Create an Event Subscriber that will keep out Query Models updated whenever
+Domain Events are published. In this example we will assign this extra
+responsibility to the <code class="highlighter-rouge">CartTotalStore</code>, which is easier and closer to what Flux
+does.</p>
+  </li>
+  <li>
+    <p>Create a Command Handler <code class="highlighter-rouge">ShoppingCartCommandHandler</code> in order to execute
+behaviour on the Command Model. It will handle both <code class="highlighter-rouge">AddItemToCart</code> and
+  <code class="highlighter-rouge">RemoveItemFromCart</code> Commands.</p>
+  </li>
+</ol>
+
+<p><strong>Note:</strong> We are creating a Command Handler that is responsible for multiple Commands.
+In practice, we may choose to create one handler for each command.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// The Command Model publishes Domain Events.</span>
+<span class="kr">class</span> <span class="nx">ShoppingCart</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="cm">/* … */</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// …</span>
+  <span class="p">}</span>
+  <span class="nx">addItem</span><span class="p">(</span><span class="nx">cartItem</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// …</span>
+    <span class="nx">DomainEventPublisher</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'CART_ITEM_ADDED'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">cartId</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+      <span class="na">sku</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">sku</span><span class="p">,</span>
+      <span class="na">price</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">price</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">quantity</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+  <span class="nx">removeItem</span><span class="p">(</span><span class="nx">cartItem</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// …</span>
+    <span class="nx">DomainEventPublisher</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'CART_ITEM_REMOVED'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">cartId</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+      <span class="na">sku</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">sku</span><span class="p">,</span>
+      <span class="na">price</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">price</span><span class="p">,</span>
+      <span class="na">quantity</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">quantity</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// This object acts as both the Query Processor and Event Subscriber.</span>
+<span class="kr">class</span> <span class="nx">CartTotalStore</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Holds Query Models in memory.</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">totals</span> <span class="o">=</span> <span class="p">{};</span>
+
+    <span class="c1">// Subscribe to events that allows this store to update its Query Models.</span>
+    <span class="nx">DomainEventPublisher</span><span class="p">.</span><span class="nx">subscribeTo</span><span class="p">(</span><span class="s1">'ITEM_ADDED_TO_CART'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleItemAdded</span><span class="p">);</span>
+    <span class="nx">DomainEventPublisher</span><span class="p">.</span><span class="nx">subscribeTo</span><span class="p">(</span><span class="s1">'ITEM_REMOVED_FROM_CART'</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleItemRemoved</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Query method</span>
+  <span class="nx">forCart</span><span class="p">(</span><span class="nx">cartId</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">cartId</span><span class="p">:</span> <span class="nx">cartId</span><span class="p">,</span>
+      <span class="na">total</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">totals</span><span class="p">[</span><span class="nx">id</span><span class="p">]</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Methods to update Query Models.</span>
+  <span class="nx">handleItemAdded</span><span class="p">({</span><span class="na">cartId</span><span class="p">:</span> <span class="nx">cartId</span><span class="p">,</span> <span class="na">cartItem</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">})</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">totals</span><span class="p">[</span><span class="nx">cartId</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">newTotal</span> <span class="o">=</span> <span class="nx">total</span> <span class="o">+</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">price</span> <span class="o">*</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">quantity</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">totals</span><span class="p">[</span><span class="nx">cartId</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newTotal</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">handleItemRemoved</span><span class="p">({</span><span class="na">cartId</span><span class="p">:</span> <span class="nx">cartId</span><span class="p">,</span> <span class="na">cartItem</span><span class="p">:</span> <span class="nx">cartItem</span><span class="p">})</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">totals</span><span class="p">[</span><span class="nx">cartId</span><span class="p">]</span> <span class="o">||</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">newTotal</span> <span class="o">=</span> <span class="nx">total</span> <span class="o">-</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">price</span> <span class="o">*</span> <span class="nx">cartItem</span><span class="p">.</span><span class="nx">quantity</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">totals</span><span class="p">[</span><span class="nx">cartId</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newTotal</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// This Command Handler maps Commands to command methods ShoppingCart.</span>
+<span class="kr">class</span> <span class="nx">ShoppingCartCommandHandler</span> <span class="kr">extends</span> <span class="nx">CommandHandler</span> <span class="p">{</span>
+  <span class="nx">constructor</span><span class="p">(</span><span class="nx">repo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">repo</span> <span class="o">=</span> <span class="nx">repo</span><span class="p">;</span>
+
+    <span class="c1">// Assumes commands implement subscribe that appends the handler to themselves.</span>
+    <span class="nx">AddItemToCart</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">addItemToCart</span><span class="p">);</span>
+    <span class="nx">RemoveItemFromCart</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">removeItemFromCart</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">addItemToCart</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">cart</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">cartId</span><span class="p">);</span>
+    <span class="nx">cart</span><span class="p">.</span><span class="nx">addItem</span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">cartItem</span><span class="p">);</span> <span class="c1">// This publishes a Domain Event</span>
+  <span class="p">}</span>
+  <span class="nx">removeItemToCart</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">cart</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">repo</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">cartId</span><span class="p">);</span>
+    <span class="nx">cart</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">cartItem</span><span class="p">);</span> <span class="c1">// This publishes a Domain Event</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>You should now have an understanding of CQRS. Next, we will examine how Flux
+relates to CQRS.</p>
+
+<h2 id="flux-and-cqrs">Flux and CQRS</h2>
+
+<p>Let’s see how the different types of object in Flux map to the CQRS pattern.</p>
+
+<h3 id="actions">Actions</h3>
+
+<p>Actions are exactly the same as Domain Events. They should represent events
+that have happened in the past, and will cause updates to Query Models in the system.</p>
+
+<h3 id="dispatcher">Dispatcher</h3>
+
+<p>The Dispatcher is the Domain Event Publisher. It is a centralized place where
+Actions are published to. It also allows Stores to subscribe to Actions that
+are published in the system.</p>
+
+<h3 id="stores">Stores</h3>
+
+<p>Stores listen for Actions published through the dispatcher, and update themselves
+accordingly. In CQRS, they would be the Event Subscriber.</p>
+
+<p>In addition to being the Event Subscribers, they also act as Query Processors.
+This is intentionally similar to our implementation of <code class="highlighter-rouge">CartTotalStore</code>. In some
+CQRS systems, however, the Event Subscriber and Query Processor may not be the same
+object.</p>
+
+<h3 id="actioncreators">ActionCreators</h3>
+
+<p>ActionCreators are the Command Handlers. In this case, though, submitting Commands
+just means calling methods on the ActionCreator. As opposed to having Commands
+exist as a separate object.</p>
+
+<p>e.g. <code class="highlighter-rouge">ShoppingCartActionCreators.addItem(…)</code></p>
+
+<p>As you see, the canonical Flux architecture is only one way of implementing
+CQRS in a system. It also adds a lot of objects into a system, compared with
+a normal DDD approach. Is added bloat worth it?</p>
+
+<h2 id="when-should-i-flux">When should I Flux?</h2>
+
+<p>I don’t think this architectural pattern is appropriate for all situations. Like
+other tools under our belt, don’t use mindlessly apply the same patterns everywhere.</p>
+
+<p>In particular, Flux <em>may be inappropriate</em> if your views map well to your domain
+models. For example, in a simple CRUD application, you may have exactly three
+views for each model: index, show, and edit + delete. In this system, you will
+likely have just one controller and one view for each CRUD operation on your model,
+making the data flow very simple.</p>
+
+<p>Where Flux <em>shines</em> is in a system where you present multiple views that don’t map
+directly to your domain models. The views may be presenting data aggregated across
+multiple models and model classes.</p>
+
+<p>In our shopping cart example, we may have:</p>
+
+<ol>
+  <li>A view that lists out items in the cart.</li>
+  <li>A view that handles displaying subtotals, taxes, shipping &amp; handling, and totals.</li>
+  <li>A view that displays amount of items in cart, with a detailed dropdown.</li>
+</ol>
+
+<p><img src="/images/shopping-cart.png" alt="shopping-cart" /></p>
+
+<p>In this system, we don’t want to tie different views and controllers directly
+to a ShoppingCart model because changes to the model causes a complex data
+flow that is hard to reason about.</p>
+
+<h2 id="closing-thoughts">Closing thoughts</h2>
+
+<p>As you have seen, we can think about the canonical Flux architecture in terms
+familiar in CQRS.</p>
+
+<p>There are several object roles in CQRS.</p>
+
+<ul>
+  <li>Query Model</li>
+  <li>Query Processor</li>
+  <li>Command Model (Aggregate)</li>
+  <li>Commands</li>
+  <li>Command Handler</li>
+  <li>Domain Event</li>
+  <li>Domain Event Publisher</li>
+  <li>Event Subscriber</li>
+</ul>
+
+<p>In Facebook Flux some objects take on more than one role.  This is perfectly
+reasonable to do! When we encounter other Flux implementations, we could also
+discuss them using the different object roles in CQRS.</p>
+
+<p>Does this mean we should buy books and materials about CQRS and become experts
+on that? Not necessarily. But I think it is interesting to see how some of these
+old concepts are becoming new again.</p>
+
+<h3 id="further-readings">Further Readings</h3>
+
+<ul>
+  <li><a href="https://reactjsnews.com/the-state-of-flux/">The State of Flux</a></li>
+  <li><a href="http://www.infoq.com/minibooks/domain-driven-design-quickly">Domain-Driven Design Quicky</a> (ebook)</li>
+  <li><a href="http://martinfowler.com/bliki/CQRS.html">CQRS writeup by Martin Fowler</a></li>
+</ul>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2014/10/30/javascript-function-redux" title="JavaScript Function Redux (+ ES6!)">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/03/09/on-flux-stores-and-actions" title="On Flux Stores and Actions">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/02/06/what-the-flux';
+    var disqus_url = 'http://jaysoo.ca/2015/02/06/what-the-flux';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>06 February 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#flux-ref">flux <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#architecture-ref">architecture <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#ddd-ref">ddd <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#cqrs-ref">cqrs <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/02/06/what-the-flux&amp;text=What%20the%20Flux?%20(On%20Flux,%20DDD,%20and%20CQRS)&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

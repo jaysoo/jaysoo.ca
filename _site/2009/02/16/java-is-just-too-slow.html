@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Java Is Just Too Slow &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Java Is Just Too Slow
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>Java is <em>slow</em>. And by slow I don't mean it's execution speed. I'm talking about development speed.</p>
+<p><strong>Java forces you to plan too much</strong>. Don't get me wrong, there's nothing inherently bad about planning. The problem is that innovation and planning don't always go hand-in-hand. When you're making yet another boring spreadsheet application that's been done a million times before, you can plan out exactly what needs to be done before writing code because you know exactly what you need However, when you're innovating you need to code as you go. Your ideas may just work, it might need some tweaking, or it may turn out to be horrible. The point is, you won't know until you start hacking away at the code.</p>
+<p>Java is so verbose that in order to really work with it you need to plan ahead. You need to know what Objects you need to create, what methods and variables (private or public?) it should have, and how they need to interact with each other. Oh, and after all that you need to compile your code before seeing the result. As a simple demonstration of this, let's work with a JSON object in Java (using <a href="http://code.google.com/p/google-gson/">Gson</a>), then in Python (using <a href="http://pypi.python.org/pypi/simplejson/">simplejson</a>).</p>
+<p>Let's use the following JSON object:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
+  <span class="s1">'foo'</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s1">'bar'</span><span class="err">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">'baz'</span><span class="err">:</span> <span class="mi">20</span>
+  <span class="p">},</span>
+  <span class="s1">'phrase'</span><span class="err">:</span> <span class="s1">'Hello World!'</span><span class="p">,</span>
+  <span class="s1">'myArray'</span><span class="err">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Let's access some data in Java. Wait, first we need to create some Objects to deserialize the JSON string to.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kr">class</span> <span class="nx">MyObj1</span> <span class="p">{</span>
+  <span class="kr">private</span> <span class="kr">int</span> <span class="nx">bar</span><span class="p">;</span>
+  <span class="kr">private</span> <span class="kr">int</span> <span class="nx">baz</span><span class="p">;</span>
+  <span class="nx">MyObj1</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+<span class="kr">class</span> <span class="nx">MyObj2</span> <span class="p">{</span>
+  <span class="kr">private</span> <span class="nx">MyObj1</span> <span class="nx">foo</span><span class="p">;</span>
+  <span class="kr">private</span> <span class="nb">String</span> <span class="nx">phrase</span><span class="p">;</span>
+  <span class="kr">private</span> <span class="kr">int</span><span class="p">[]</span> <span class="nx">myArray</span><span class="p">;</span>
+  <span class="nx">MyObj2</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Now we can deserialize the JSON string and get some properties from it.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">json</span> <span class="o">=</span> <span class="s">"{'foo': {'bar': 10, 'baz': 20},"</span> <span class="o">+</span>
+      <span class="s">"'phrase': 'Hello World!',"</span> <span class="o">+</span>
+    <span class="s">"'myArray': [1, 2, 3, 4, 5]}"</span><span class="o">;</span>
+<span class="n">MyObj2</span> <span class="n">json</span> <span class="o">=</span> <span class="n">gson</span><span class="o">.</span><span class="na">fromJson</span><span class="o">(</span><span class="n">json</span><span class="o">,</span> <span class="n">MyObj2</span> <span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="n">system</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">json</span><span class="o">.</span><span class="na">foo</span><span class="o">.</span><span class="na">bar</span><span class="o">);</span> <span class="c1">//--&gt; 10</span>
+<span class="n">system</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">json</span><span class="o">.</span><span class="na">phrase</span><span class="o">);</span> <span class="c1">//--&gt; Hello World!</span>
+<span class="n">system</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">json</span><span class="o">.</span><span class="na">myArray</span><span class="o">[</span><span class="mi">1</span><span class="o">]);</span> <span class="c1">//--&gt; 2</span></code></pre></figure>
+
+<p>Now let's try the same thing in Python.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">simplejson</span>
+    
+<span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s">'{"foo": {"bar": 10,'</span> <span class="o">+</span>
+    <span class="s">'"baz": 20}, "phrase": "Hello World!",'</span> <span class="o">+</span>
+    <span class="s">'"myArray": [1, 2, 3, 4, 5]}'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s">'foo'</span><span class="p">][</span><span class="s">'bar'</span><span class="p">])</span> <span class="c">#--&gt; 10</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s">'phrase'</span><span class="p">])</span> <span class="c">#-&gt; Hello World!</span>
+<span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="p">[</span><span class="s">'myArray'</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="c">#--&gt; 2</span></code></pre></figure>
+
+<p>By the way, the above python code is 100% executable using the interactive shell assuming simplejson is installed (<code>easy_install simple-json</code>). The Java code will need some main method with whatever else, I just didn't bother -- usually my IDE at work writes all the skeleton code for me.</p>
+<p>So which do you think is simpler? If you knew you'll be dealing with a lot of JSON would you go with Python or Java? Another thing to keep in mind is that if I change the JSON string, the Python code would require virtually no effort, whereas the Java code will need class changes, recompiling, etc. Not to mention if I changed the array to something like <code>["I'm a string", 1234,&nbsp; {"a": 1, "b": 2}, 3, 4, 5]</code>. Sure you can do it in Java, but WHY? You can probably see why Java developers are forced into so many hour-long planning meetings. If you get the wrong the first time you really pay the price.</p>
+<p>To be successful on the Web you need a platform that allows you to be innovative. Traditionally, software development involves a long period of planning before any code is written. You go through iterations of UML diagrams before typing a sinlge line of code. This just won't cut it on the Web.</p>
+<p>Traditional software is like cartoon drawing. You usually start with some <a href="http://en.wikipedia.org/wiki/Storyboard">storyboard</a> sketches of the overall story. This gives the artists a way to previsualize the motion graphic before starting on the real thing. Web applications, on the other hand, is more like a bunch of sketches that are never quite finished. That is, web applications are always evolving, and this evolution happens in smaller steps, and more frequently. You need a language that can allow you to take these smaller steps, and I don't believe Java is the right tool for this.</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2009/02/14/javascript-anonymous-function-closure-and-you" title="JavaScript, Anonymous Function, Closure, and You">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2009/02/24/your-code-is-too-clever" title="Your Code Is Too Clever">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2009/02/16/java-is-just-too-slow';
+    var disqus_url = 'http://jaysoo.ca/2009/02/16/java-is-just-too-slow';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>16 February 2009</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#java-ref">java <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#python-ref">python <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#json-ref">json <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#web-ref">web <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/02/16/java-is-just-too-slow&amp;text=Java%20Is%20Just%20Too%20Slow&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

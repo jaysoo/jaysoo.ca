@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, Anonymous Function, Closure, and You &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    JavaScript, Anonymous Function, Closure, and You
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>There are many things that web developers <em>should</em> know about JavaScript, but the most basic of things are <a href="http://en.wikipedia.org/wiki/Anonymous_function">anonymous functions</a> and <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">closure</a>. Both are very powerful tools for anyone working with JavaScript.</p>
+<p>So what's so great about them you ask? Well, I think that's best explained using some examples.</p>
+<p>Let's say we want to implement a function that will take an integer representing a month, and return it's name as a string.<br />
+e.g. 1 -> 'January', 2 -->&nbsp; 'February', 9 --> 'September'</p>
+<p>We'll start out with a naive implementation, but perhaps one that first comes to mind.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">monthName</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">months</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'January'</span><span class="p">,</span>
+    <span class="s1">'February'</span><span class="p">,</span>
+    <span class="s1">'March'</span><span class="p">,</span>
+    <span class="s1">'April'</span><span class="p">,</span>
+    <span class="s1">'May'</span><span class="p">,</span>
+    <span class="s1">'June'</span><span class="p">,</span>
+    <span class="s1">'July'</span><span class="p">,</span>
+    <span class="s1">'August'</span><span class="p">,</span>
+    <span class="s1">'September'</span><span class="p">,</span>
+    <span class="s1">'October'</span><span class="p">,</span>
+    <span class="s1">'November'</span><span class="p">,</span>
+    <span class="s1">'December'</span>
+  <span class="p">];</span>
+
+  <span class="k">return</span> <span class="nx">months</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Simple right? But there's something wrong with this function. Take a look at the array declaration, it's inside the function! That means everytime you call the <em>monthsName</em> function, it'll create an array. This not only slows down your function, but it uses an unnecessary amount of memory.</p>
+<p>Our first improvement then, would be to move the array to the outside of the function.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">months</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s1">'January'</span><span class="p">,</span>
+  <span class="s1">'February'</span><span class="p">,</span>
+  <span class="s1">'March'</span><span class="p">,</span>
+  <span class="s1">'April'</span><span class="p">,</span>
+  <span class="s1">'May'</span><span class="p">,</span>
+  <span class="s1">'June'</span><span class="p">,</span>
+  <span class="s1">'July'</span><span class="p">,</span>
+  <span class="s1">'August'</span><span class="p">,</span>
+  <span class="s1">'September'</span><span class="p">,</span>
+  <span class="s1">'October'</span><span class="p">,</span>
+  <span class="s1">'November'</span><span class="p">,</span>
+  <span class="s1">'December'</span>
+<span class="p">];</span>
+
+<span class="kd">function</span> <span class="nx">monthName</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">months</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Great, now we only create array once! But wait, there's another problem. We've just moved the <em>months</em> array into the global namespace. This is bad because we might be overwriting a previously declared variable also named <em>months</em>. Similarly, someone later on might overwrite our <em>months</em> array. D'oh!</p>
+<p>Fortunately, there is a way around this. And this is where anonymous functions and closure come in. Let me show you the solution first.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">monthName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">months</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'January'</span><span class="p">,</span>
+    <span class="s1">'February'</span><span class="p">,</span>
+    <span class="s1">'March'</span><span class="p">,</span>
+    <span class="s1">'April'</span><span class="p">,</span>
+    <span class="s1">'May'</span><span class="p">,</span>
+    <span class="s1">'June'</span><span class="p">,</span>
+    <span class="s1">'July'</span><span class="p">,</span>
+    <span class="s1">'August'</span><span class="p">,</span>
+    <span class="s1">'September'</span><span class="p">,</span>
+    <span class="s1">'October'</span><span class="p">,</span>
+    <span class="s1">'November'</span><span class="p">,</span>
+    <span class="s1">'December'</span>
+  <span class="p">];</span>
+
+  <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">months</span><span class="p">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+  <span class="p">};</span>
+<span class="p">}();</span></code></pre></figure>
+
+<p>So how does this work?</p>
+<p>First, you'll notice the block of code inside the outter function is similar to our second solution, except that the function name has been dropped, and it is now the return value of the outter function. The outter function is executed immediately,&nbsp; and is assigned to the variable <em>monthName</em>. Thus <em>monthsName</em> is really the inner function. Sort of.</p>
+<p>Here is where closure comes in. The inner function refers to the <em>months</em> array declared outside of it, but because of closure, that array is bound to the function. So when we call the function <em>monthName</em> we are really calling the returned result of an anonymous function (which itself is an anonymous function). And this returned function has the <em>months</em> array bound to it.</p>
+<p>Here's another example using anonymous functions and closure to implement <a href="http://www.haskell.org/haskellwiki/Partial_application">Partial Application</a> in Javascript.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">papply</span><span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fixed</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">),</span>
+    <span class="nx">fn</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">fixed</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">)));</span>
+  <span class="p">};</span>
+<span class="p">}</span>    </code></pre></figure>
+
+<p>Of course, you can probably achieve everything I've shown here without anonymous functions or closure, but why make it hard for yourself? Learn these tools, use them to your advantage!</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2008/11/10/project-euler-problem-28" title="Thinking Analytically - Project Euler Problem 28">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2009/02/16/java-is-just-too-slow" title="Java Is Just Too Slow">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2009/02/14/javascript-anonymous-function-closure-and-you';
+    var disqus_url = 'http://jaysoo.ca/2009/02/14/javascript-anonymous-function-closure-and-you';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>14 February 2009</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#closure-ref">closure <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#anonymousfunction-ref">anonymousfunction <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#partialapplication-ref">partialapplication <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/02/14/javascript-anonymous-function-closure-and-you&amp;text=JavaScript,%20Anonymous%20Function,%20Closure,%20and%20You&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

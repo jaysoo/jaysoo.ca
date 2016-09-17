@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Creating Semantic, Reusable Directives in AngularJS &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Creating Semantic, Reusable Directives in AngularJS
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>One of the main benefits of Angular is the ability to easily extend HTML with new behaviours through the use
+of custom directives. Directives allow developers to match markers in the DOM with the intended behaviours.</p>
+
+<p>In this post we’ll cover:</p>
+
+<ul>
+  <li>Why writing semantic and reusable directives is desirable.</li>
+  <li>How to build directives on top of semantic HTML elements and attributes.</li>
+  <li>How to provide communication between directives via controllers.</li>
+  <li>How to provide basic animations using the <code class="highlighter-rouge">$animate</code> service.</li>
+</ul>
+
+<p>This post assume you have some experience with Angular directives.</p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p>The first question you may have is why we care about semantics when building directives. I will attempt to answer that
+question with a simple example of a view switcher.</p>
+
+<p>Here, we are using <code class="highlighter-rouge">ng-show</code> and <code class="highlighter-rouge">ng-click</code> to provide a view switcher between “show” and “edit” modes.</p>
+
+<pre>
+&lt;div ng-init="mode = 'show'"&gt;
+  &lt;div ng-show="mode == 'show'"&gt;
+    &lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
+    &lt;button ng-click="mode = 'edit'"&gt;
+      Edit
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div ng-show="mode == 'edit'"&gt;
+    &lt;p&gt;
+      &lt;input ng-model="user.name"&gt;
+    &lt;/p&gt;
+    &lt;button ng-click="mode = 'show'"&gt;
+      Done
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>Wow, we’ve just created a view switcher without writing any JavaScript! We could be happy with this and call it a day,
+but let’s take a look at a few issues that I see in the preceeding example.</p>
+
+<h3 id="unsemantic-attributes-in-the-html">1. Unsemantic Attributes In The HTML</h3>
+
+<p>The three attributes, <code class="highlighter-rouge">ng-init</code>, <code class="highlighter-rouge">ng-show</code>, and <code class="highlighter-rouge">ng-click</code> have no semantic meaning in the HTML. While this may not
+seem like a huge issue, I would argue that in a larger application semantics allow you more easily discern the
+intent of the added behaviours – in this case, view switching.</p>
+
+<h3 id="limited-reusability-of-the-component">2. Limited Reusability Of The Component</h3>
+
+<p>Because our HTML is wired for a very specific use-case, it is hard to reuse the component in other contexts.
+You could use <code class="highlighter-rouge">ng-include</code> to encapsulate the “show” and “edit” partials within the HTML, then use a controller to
+provide the <code class="highlighter-rouge">templateUrl</code> to each includes. Doing so is fragile at best, and still prevents reuse in the case
+where we have more than two modes.</p>
+
+<p>Maybe we can keep going down this path and use <code class="highlighter-rouge">ng-repeat</code> to allow any number of views and partials, but this
+might introduce more problems rather than solve existing problems. So let’s move on.</p>
+
+<h3 id="imperative-vs-declarative-views">3. Imperative vs Declarative Views</h3>
+
+<p>Our little HTML is imperative in that we are changing the program state (read mode) through
+the expression inside the <code class="highlighter-rouge">ng-click</code> attribute. This is going against the spirit of Angular, which encourages
+declarative programming over imperative programming.</p>
+
+<h2 id="a-better-approach">A Better Approach</h2>
+
+<p>Let’s now take a look at a better potential markup for our view switcher.</p>
+
+<pre>
+&lt;views&gt;
+  &lt;view name="show" initial&gt;
+    &lt;p&gt;Hi, &#123;&#123; user.name &#125;&#125;&lt;/p&gt;
+    &lt;button view-target="edit"&gt;
+      Edit
+    &lt;/button&gt;
+  &lt;/view&gt;
+  &lt;view name="edit"&gt;
+    &lt;p&gt;
+      &lt;input ng-model="user.name" /&gt;
+    &lt;/p&gt;
+    &lt;button view-target="show"&gt;
+      Done
+    &lt;/button&gt;
+  &lt;/view&gt;
+&lt;/views&gt;
+</pre>
+
+<p>From this new HTML we see that there is an outer <code class="highlighter-rouge">views</code> component which holds multiple child <code class="highlighter-rouge">view</code> components.
+The <code class="highlighter-rouge">initial</code> attribute  of a <code class="highlighter-rouge">&lt;view&gt;</code> denotes the default, and the elements with a <code class="highlighter-rouge">view-target</code> attribute will
+activate the view matched by <code class="highlighter-rouge">name</code>.</p>
+
+<p>I hope the contrast between our first and second example is clear. If not, please leave a comment! :)</p>
+
+<h3 id="implementation-details">Implementation Details</h3>
+
+<p>Let’s skip ahead a bit and look at the full implementation first. (We’ll go over the details right after!)</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'views-directive'</span><span class="p">,</span> <span class="p">[]);</span>
+
+<span class="c1">// Outer views component</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'views'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">restrict</span><span class="p">:</span> <span class="s1">'E'</span><span class="p">,</span>
+    <span class="na">controller</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">registeredViews</span> <span class="o">=</span> <span class="p">{};</span>
+
+      <span class="k">this</span><span class="p">.</span><span class="nx">$registerView</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ctrl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">registeredViews</span><span class="p">[</span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">$name</span><span class="p">]</span> <span class="o">=</span> <span class="nx">ctrl</span><span class="p">;</span>
+      <span class="p">};</span>
+
+      <span class="c1">// viewName matches the `name` attribute on &amp;lt;view&amp;gt;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$switchTo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">viewName</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">k</span> <span class="k">in</span> <span class="nx">registeredViews</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">k</span> <span class="o">==</span> <span class="nx">viewName</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">views</span><span class="p">[</span><span class="nx">k</span><span class="p">].</span><span class="nx">$show</span><span class="p">();</span>
+          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">views</span><span class="p">[</span><span class="nx">k</span><span class="p">].</span><span class="nx">$hide</span><span class="p">();</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">};</span>
+    <span class="p">},</span>
+    <span class="na">link</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">element</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">viewsCtrl</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">element</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'click'</span><span class="p">,</span> <span class="s1">'[view-target]'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">viewName</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">element</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">'view-target'</span><span class="p">);</span>
+        <span class="nx">viewsCtrl</span><span class="p">.</span><span class="nx">$switchTo</span><span class="p">(</span><span class="nx">viewName</span><span class="p">);</span>
+      <span class="p">});</span>
+
+      <span class="c1">// Make the view controls available on the scope</span>
+      <span class="nx">scope</span><span class="p">.</span><span class="nx">$views</span> <span class="o">=</span> <span class="nx">viewsCtrl</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="c1">// Inner view components</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">restrict</span><span class="p">:</span> <span class="s1">'E'</span><span class="p">,</span>
+    <span class="na">require</span><span class="p">:</span> <span class="p">[</span><span class="s1">'view'</span><span class="p">,</span> <span class="s1">'^views'</span><span class="p">],</span>
+    <span class="na">controller</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$element</span><span class="p">,</span> <span class="nx">$attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$name</span> <span class="o">=</span> <span class="nx">$attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$show</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span> <span class="p">};</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$hide</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span> <span class="p">};</span>
+    <span class="p">},</span>
+    <span class="na">link</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">el</span><span class="p">,</span> <span class="nx">attrs</span><span class="p">,</span> <span class="nx">ctrls</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">viewCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+      <span class="kd">var</span> <span class="nx">viewsCtrl</span> <span class="o">=</span> <span class="nx">ctrls</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+      <span class="nx">viewsCtrl</span><span class="p">.</span><span class="nx">$registerView</span><span class="p">(</span><span class="nx">viewCtrl</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">attrs</span><span class="p">.</span><span class="nx">initial</span> <span class="o">!==</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">viewCtrl</span><span class="p">.</span><span class="nx">$show</span><span class="p">();</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">viewCtrl</span><span class="p">.</span><span class="nx">$hide</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>We’ve created two directives:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">views</code> - outer component responsible for registration of views and switching between different views.</li>
+  <li><code class="highlighter-rouge">view</code> - inner component responsible for showing and hiding the corresponding &lt;view&gt; DOM element.</li>
+</ul>
+
+<h4 id="the-outer-directive">The Outer Directive</h4>
+
+<p>The controller of the outer <code class="highlighter-rouge">views</code> directive provides a method <code class="highlighter-rouge">$registerView</code> for registering a <code class="highlighter-rouge">view</code> controller to
+itself (we’ll touch on this shortly), and a method <code class="highlighter-rouge">$switchTo</code> for switching to a view by it’s <code class="highlighter-rouge">name</code>.</p>
+
+<p>In the link function, click events on elements decorated with the <code class="highlighter-rouge">view-target</code> attribute is delegated to the <code class="highlighter-rouge">$switchTo</code>
+method of the controller. This provides the behaviour of showing a view as specified inside the HTML (and hiding all others).</p>
+
+<p>The last line of the link function makes the views controller available on its scope. This is useful if we need to
+programmatically switch between views inside other application controllers. For example…</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'my-app'</span><span class="p">,</span> <span class="p">[]).</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'MyCtrl'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">AsyncService</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">submitForm</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">};</span>
+
+    <span class="c1">// Call save on an async service, then switch to 'show' on success</span>
+    <span class="nx">AsyncService</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">$scope</span><span class="p">.</span><span class="nx">$views</span><span class="p">.</span><span class="nx">$switchTo</span><span class="p">(</span><span class="s1">'show'</span><span class="p">);</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></figure>
+
+<h4 id="the-inner-directive">The Inner Directive</h4>
+
+<p>The <code class="highlighter-rouge">view</code> directive requires two controllers:</p>
+
+<ul>
+  <li>Its own controller which performs the actual show and hide in the DOM.</li>
+  <li>A parent <code class="highlighter-rouge">views</code> directive’s controller to register itself with.</li>
+</ul>
+
+<p>The link function first registers its own controller with the parent, then it checks if it is the <code class="highlighter-rouge">initial</code> view. If so,
+it will call the <code class="highlighter-rouge">$show()</code> method, otherwise it calls <code class="highlighter-rouge">$hide()</code>.</p>
+
+<h2 id="bonus-going-the-distance-with-animations">Bonus: Going The Distance With Animations</h2>
+
+<p>If you are as much of fan of <code class="highlighter-rouge">ngAnimate</code> as I am, you will definitely want to make your directives compatible with the
+animation framework.</p>
+
+<p>To make animations work, we can simply switch out the <code class="highlighter-rouge">.show()</code> and <code class="highlighter-rouge">.hide()</code> method calls in the inner <code class="highlighter-rouge">view</code> directive
+with <code class="highlighter-rouge">$animate.addClass()</code> and <code class="highlighter-rouge">$animate.removeClass()</code>. We will also need to provide CSS animations for showing and
+hiding.</p>
+
+<p>JavaScript:</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Must require the ngAnimate module</span>
+<span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'views-directive'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'ngAnimate'</span><span class="p">]);</span>
+
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'view'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$animate</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="na">controller</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$element</span><span class="p">,</span> <span class="nx">$attrs</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$name</span> <span class="o">=</span> <span class="nx">$attrs</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$show</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$animate</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">$element</span><span class="p">,</span> <span class="s1">'view-hide'</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">$hide</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$animate</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">$element</span><span class="p">,</span> <span class="s1">'view-hide'</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>CSS:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>views { position: relative; }
+
+view {
+  position: absolute;
+  top: 0;
+  width: 500px;
+}
+
+view.view-hide { display: none; }
+
+view.view-hide-remove, view.view-hide-add { display: block !important; }
+
+view.view-hide-add {
+  animation: .3s hide;
+  -webkit-animation: .3s hide;
+}
+
+@keyframes hide {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+@-webkit-keyframes hide {
+  from { opacity:1; }
+  to { opacity:0; }
+}
+
+view.view-hide-remove {
+  animation: .3s show;
+  -webkit-animation: .3s show;
+}
+
+@keyframes show {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@-webkit-keyframes show {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+</code></pre>
+</div>
+
+<p>With very little JavaScript changes, and a bit of CSS we’ve just added animations to our directive!</p>
+
+<p>The full example can be found on <a href="http://embed.plnkr.co/N5Sj7gMg9bpCTFtPBXV9/preview">Plunker</a>.</p>
+
+<h2 id="wrap-up-future-proofing-your-components">Wrap-Up, Future-Proofing Your Components</h2>
+
+<p>We’ve learned how to extend HTML through the use of Angular directives. You may notice that the final HTML of our
+component contains almost no Angular (with the exception of <code class="highlighter-rouge">ng-model</code>). This fits very well with AngularJS 2.0’s goal
+of integrating with <a href="http://w3c.github.io/webcomponents/spec/custom/">Web Components</a> and other frameworks, such as
+<a href="http://www.polymer-project.org/">Polymer</a>.</p>
+
+<p>Also note that our final solution allows us to use an arbitrary number of views within our HTML without any hassle!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;views&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a view-target="foo"&gt;Foo&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a view-target="bar"&gt;Bar&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a view-target="faz"&gt;Faz&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a view-target="baz"&gt;Baz&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;view name="foo" initial&gt;...&lt;/view&gt;
+    &lt;view name="bar"&gt;...&lt;/view&gt;
+    &lt;view name="faz"&gt;...&lt;/view&gt;
+    &lt;view name="baz"&gt;...&lt;/view&gt;
+&lt;/views&gt;
+</code></pre>
+</div>
+
+<p>Please keep in mind that the examples shown here are not production-ready, and are missing a lot of pieces, such
+cleaning up on scope’s <code class="highlighter-rouge">$destroy</code> event.</p>
+
+<p>I’ve touched a little bit on animations in Angular. If you want to learn more, please do read
+<a href="http://www.yearofmoo.com/2013/08/remastered-animation-in-angularjs-1-2.html">Year of Moo’s post on animations in AngularJS 2.0</a>,
+and also refer to the official <a href="http://docs.angularjs.org/api/ngAnimate.$animate">$animate docs</a>.</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2012/05/09/coffeescript-mixins" title="Mixins in CoffeeScript and Backbone.js">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2014/01/27/gruntjs-vs-gulpjs" title="Grunt vs Gulp - Beyond the Numbers">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2014/01/20/semantic-angularjs-directives';
+    var disqus_url = 'http://jaysoo.ca/2014/01/20/semantic-angularjs-directives';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>20 January 2014</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#angular-ref">angular <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#directives-ref">directives <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2014/01/20/semantic-angularjs-directives&amp;text=Creating%20Semantic,%20Reusable%20Directives%20in%20AngularJS&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

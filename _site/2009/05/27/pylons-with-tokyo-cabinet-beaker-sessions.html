@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Pylons with Tokyo Cabinet Beaker Sessions &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags">Tags</a></li>
+    	
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Pylons with Tokyo Cabinet Beaker Sessions
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>Maintaining a session is something most web apps need to do, and all web frameworks implement some sort of session management system.</p>
+<p><a href="http://pylonshq.com/">Pylons</a> allows you to specify the type of session your web app should use: database, file, memcached, etc. The great thing about it is that you can easily implement your own session manager and plug it right in.</p>
+<p>Here I am implementing a session manager that uses <a href="http://tokyocabinet.sourceforge.net/">Tokyo Cabinet</a> and <a href="http://json.org">JSON</a> (instead of cPickle). The simplejson module now has speedups that use C extensions so load and dump are more or less on par with cPickle. With JSON serialization you'll be able to share the session data in apps written in other languages (such as Java, Perl, Ruby).</p>
+<p>Tokyo Cabinet is a class of DBM that is a key-value store. It differs from RDBMS in that data are stored solely as key-value pairs, with no relations to each other. The advantage over RDBMS is that Tokyo Cabinet is lightning fast in comparison. If you're familiar with memcached, you can think of it like memcached except with persistent data. Since sessions need to be accessed frequently, and sessions are essentially key-value pairs -- a key/namespace mapping to a session object -- I thought it'd be a good candidate to use Tokyo Cabinet.</p>
+<p>Assuming you already have a Pylons project setup, let's create a file under [project path]/lib/ called <em>tcjson.py</em> (Tokyo Cabinet JSON... get it?), and fill it with the following.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">beaker.container</span> <span class="kn">import</span> <span class="n">NamespaceManager</span><span class="p">,</span> <span class="n">Container</span>
+<span class="kn">from</span> <span class="nn">beaker.synchronization</span> <span class="kn">import</span> <span class="n">file_synchronizer</span>
+<span class="kn">from</span> <span class="nn">beaker.util</span> <span class="kn">import</span> <span class="n">verify_directory</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="kn">from</span> <span class="nn">pytyrant</span> <span class="kn">import</span> <span class="n">PyTyrant</span>
+<span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">InvalidCacheBackendError</span><span class="p">(</span><span class="s">"PyTyrant cache backend requires the 'pytyrant' library"</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+  <span class="kn">import</span> <span class="nn">json</span>
+<span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
+  <span class="k">try</span><span class="p">:</span> 
+    <span class="kn">import</span> <span class="nn">simplejson</span> <span class="kn">as</span> <span class="nn">json</span>
+  <span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">InvalidCacheBackendError</span><span class="p">(</span><span class="s">"PyTyrant cache backend requires the 'simplejson' library"</span><span class="p">)</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TokyoCabinetManager</span><span class="p">(</span><span class="n">NamespaceManager</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lock_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">NamespaceManager</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">namespace</span><span class="p">)</span>
+     
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">MissingCacheParameter</span><span class="p">(</span><span class="s">"url is required"</span><span class="p">)</span> 
+    
+    <span class="k">if</span> <span class="n">lock_dir</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">lock_dir</span> <span class="o">=</span> <span class="n">lock_dir</span>
+    <span class="k">elif</span> <span class="n">data_dir</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">lock_dir</span> <span class="o">=</span> <span class="n">data_dir</span> <span class="o">+</span> <span class="s">"/container_tcd_lock"</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock_dir</span><span class="p">:</span>
+      <span class="n">verify_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lock_dir</span><span class="p">)</span>            
+    
+    <span class="n">host</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">':'</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tc</span> <span class="o">=</span> <span class="n">PyTyrant</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">get_creation_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">file_synchronizer</span><span class="p">(</span>
+      <span class="n">identifier</span> <span class="o">=</span><span class="s">"tccontainer/funclock/</span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="p">,</span>
+      <span class="n">lock_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock_dir</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_format_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span> <span class="o">+</span> <span class="s">'_'</span>  
+
+  <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_key</span><span class="p">(</span><span class="n">key</span><span class="p">)))</span>
+
+  <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_key</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">has_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span>
+
+  <span class="k">def</span> <span class="nf">set_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_key</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span>  <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    
+  <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_format_key</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+
+  <span class="k">def</span> <span class="nf">do_remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+  
+  <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">TokyoCabinetContainer</span><span class="p">(</span><span class="n">Container</span><span class="p">):</span>
+  <span class="n">namespace_manager</span> <span class="o">=</span> <span class="n">TokyoCabinetManager</span></code></pre></figure>
+
+<p>Now, put this in your <em>[project path]/config/environment.py</em> file.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">investor.lib.tcjson</span> <span class="kn">as</span> <span class="nn">tcjson</span> 
+<span class="kn">import</span> <span class="nn">beaker</span>
+<span class="n">beaker</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clsmap</span><span class="p">[</span><span class="s">'ext:tcjson'</span><span class="p">]</span> <span class="o">=</span> <span class="n">tcjson</span><span class="o">.</span><span class="n">TokyoCabinetManager</span></code></pre></figure>
+
+<p>You can then specify <em>ext:tcjson</em> as your beaker session in your INI file (e.g. development.ini).</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">beaker.session.type <span class="o">=</span> ext:tcjson
+beaker.session.url <span class="o">=</span> 127.0.0.1:1978</code></pre></figure>
+
+<p>Fire up your app and it should be using Tokyo Cabinet for your sessions! :)</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2009/05/27/playing-around-with-pylons" title="Playing around with Pylons">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2009/07/07/html-5-comments" title="HTML 5 Comments">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions';
+    var disqus_url = 'http://jaysoo.ca/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>27 May 2009</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#pylons-ref">pylons <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#python-ref">python <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#tokyocabinet-ref">tokyocabinet <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#beaker-ref">beaker <span>1</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions&amp;text=Pylons%20with%20Tokyo%20Cabinet%20Beaker%20Sessions&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+
