@@ -802,7 +802,7 @@ one.&lt;/p&gt;
 &lt;p&gt;The three rules presented in this post are:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Organize by featues&lt;/li&gt;
+  &lt;li&gt;Organize by features&lt;/li&gt;
   &lt;li&gt;Create strict module boundaries&lt;/li&gt;
   &lt;li&gt;Avoid circular dependencies&lt;/li&gt;
 &lt;/ol&gt;

@@ -559,7 +559,7 @@ one.
 
 The three rules presented in this post are:
 
-1. Organize by featues
+1. Organize by features
 2. Create strict module boundaries
 3. Avoid circular dependencies
 
