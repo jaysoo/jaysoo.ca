@@ -23,11 +23,12 @@ in Angular 1.
 
 See my [GitHub repository](https://github.com/jaysoo/todomvc-angular1-components) for the full working source code.
 
-
 <div class="alert alert-warning">
   <strong>Warning:</strong> This post was written for AngularJS 1.4 and may contain outdated information.
   Please see <a href="http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/">this post</a>
-  for things to watch out for when reading older Angular posts.
+  for things to watch out for when reading older Angular posts. If you would like me to update the content of this post,
+  please ping me on Twitter at <a href="https://twitter.com/jay_soo">@jay_soo</a>. If there are enough interest, I might
+  make an update.
 </div>
 
 ### Before We Begin...

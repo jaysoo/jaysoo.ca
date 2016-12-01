@@ -3317,7 +3317,9 @@ in Angular 1.&lt;/p&gt;
 &lt;div class=&quot;alert alert-warning&quot;&gt;
   &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
   Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;this post&lt;/a&gt;
-  for things to watch out for when reading older Angular posts.
+  for things to watch out for when reading older Angular posts. If you would like me to update the content of this post,
+  please ping me on Twitter at &lt;a href=&quot;https://twitter.com/jay_soo&quot;&gt;@jay_soo&lt;/a&gt;. If there are enough interest, I might
+  make an update.
 &lt;/div&gt;
 
 &lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
