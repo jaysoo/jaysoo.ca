@@ -1,0 +1,548 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Containers and  Components in Angular 1 &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Containers and  Components in Angular 1
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>In this post, I want to explore a different approach to writing directives in
+Angular 1. As we know, building applications in Angular 2 is going to be
+different from what we’re used to in Angular 1. For example, <code class="highlighter-rouge">ng-controller</code> will
+be gone, and components will be the building blocks of applications.</p>
+
+<p>What exactly is a component? It is essentially a thing that encapsulates an
+internal state and manages external interactions. The interactions could be with
+the user or with other components.</p>
+
+<p>Since I’ve been working heavily with <a href="https://facebook.github.io/react/index.html">React</a>
+recently, I want to see how we can borrow some ideas from there and apply them
+to Angular 1 directives.</p>
+
+<p>In particular, I want to explore the idea of <strong><a href="https://www.youtube.com/watch?v=KYzlpRvWZ6c&amp;t=1351">Containers and Components</a></strong>
+in Angular 1.</p>
+
+<p>See my <a href="https://github.com/jaysoo/todomvc-angular1-components">GitHub repository</a> for the full working source code.</p>
+
+<h3 id="before-we-begin">Before We Begin…</h3>
+
+<p>I will be writing directives in the following pattern. Please read the comments
+for reasoning.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="c1">// Always isolate scope to better encapsulate internal state.</span>
+  <span class="c1">// Also serves as documentation for what the directive accepts.</span>
+  <span class="na">scope</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">message</span><span class="p">:</span> <span class="s1">'='</span> <span class="c1">// &lt;hello message="'world'"&gt;&lt;/hello&gt;</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Inline template for locality. Keeping template close to controller</span>
+  <span class="c1">// makes code easier to reason about.</span>
+  <span class="na">template</span><span class="p">:</span> <span class="err">`</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="p">{{</span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">message</span><span class="p">}}</span><span class="o">!&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>  <span class="err">`</span><span class="p">,</span>
+
+  <span class="c1">// Always declare a controller class. Having a controller</span>
+  <span class="c1">// class also us to test it in isolation if needed.</span>
+  <span class="c1">// Even if there are no methods on the class, Angular still</span>
+  <span class="c1">// requires it to be defined in order to bind properties to it.</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">()</span> <span class="p">{}</span>
+  <span class="p">},</span>
+
+  <span class="c1">// Set properties on controller instance instead of the scope.</span>
+  <span class="c1">// Internal state of the directive should be captured entirely by the</span>
+  <span class="c1">// controller instance. This reduces the amount of objects we have to</span>
+  <span class="c1">// deal with.</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// Standardize the controller instance property on the scope. This should</span>
+  <span class="c1">// be the only property you access on the scope (only because we have to).</span>
+  <span class="c1">// Since we are using isolate scope, there are no clashes with other</span>
+  <span class="c1">// controller instances.</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<p>So without further ado, let’s begin.</p>
+
+<h2 id="the-container">The Container</h2>
+
+<p>The idea is simple. A <em>container</em> is responsible for data fetching and passing data
+down to its child components to render. The <em>components</em> are concerned with
+rendering the UI based on the data passed down. They can also handle UI interactions.</p>
+
+<p><img src="/images/container-components-2.svg" alt="" /></p>
+
+<p>Notice that services only interact with containers and never components. Essentially,
+containers are the data layers of the application.</p>
+
+<p><em>Why</em> is this pattern useful? Separation of concerns of course!</p>
+
+<h2 id="a-concrete-example">A Concrete Example</h2>
+
+<p>Say, we have the following component.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'userGreeting'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;p&gt;Hello {{ctrl.user.name}}&lt;/p&gt;'</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">userService</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// Get user from remote source, then update state.</span>
+      <span class="nx">userService</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">user</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<p>This code definitely works. But what if we want to reuse the component using different
+services, or no service at all? Dependency injection in Angular helps,
+but they are not always necessary nor the best solution.</p>
+
+<p>We can instead separate the data fetching concern with the rendering concern.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// 1. The container that talks to userService.</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'userGreetingContainer'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;user-greeting user="ctrl.user"&gt;&lt;/user-greeting&gt;'</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">userService</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userService</span> <span class="o">=</span> <span class="nx">userService</span><span class="p">;</span>
+
+      <span class="c1">// Data fetching, same as before.</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userService</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">user</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span>
+
+<span class="c1">// 2. The component that renders UI based on the user data passed into it.</span>
+<span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'userGreeting'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">scope</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">user</span><span class="p">:</span> <span class="s1">'='</span>
+  <span class="p">},</span>
+  <span class="na">template</span><span class="p">:</span> <span class="s1">'&lt;p&gt;Hello {{ctrl.user.name}}&lt;/p&gt;'</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<p>What happened here? Well, we definitely introduced more code. The main benefit
+here though is that we can easily test the message rendering without having
+to provide test doubles.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">describe</span><span class="p">(</span><span class="s1">'userGreeting'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'greets user'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+    <span class="kr">const</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">$compile</span><span class="p">(</span>
+      <span class="s1">'&lt;user-greeting user="user"&gt;&lt;/user-greeting&gt;'</span>
+    <span class="p">)(</span><span class="nx">scope</span><span class="p">);</span>
+
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Bob'</span><span class="p">};</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">html</span><span class="p">()).</span><span class="nx">to</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/Hello Bob/</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>The other advantage of this approach is that we can plug the component into
+other containers. As long as the container passes data through the <code class="highlighter-rouge">user</code>
+attribute to <code class="highlighter-rouge">userGreeting</code> then everything will just work!</p>
+
+<h2 id="interaction-with-data-services">Interaction with data services</h2>
+
+<p>Certain interactions with the UI should affect application data. Form submissions
+may require new resources to be created.</p>
+
+<p>A component can accept <em>callbacks</em> that will be invoked when certain events
+happen. In Angular, this is done with the <code class="highlighter-rouge">&amp;</code> attribute on an isolate scope.
+The container can pass its handlers to child components as callbacks,
+but interaction with data services still reside in the container.</p>
+
+<p>Let’s say we want to add a feature for users to double-click on their name in the
+greeting to edit it. When a double-click event occurs, the name is replaced
+with an input box where the user can type in a new name and hit Enter to save.</p>
+
+<p>The editable name component is as follows.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'editableUserName'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">scope</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">user</span><span class="p">:</span> <span class="s1">'='</span><span class="p">,</span>
+    <span class="na">saveCallback</span><span class="p">:</span> <span class="s1">'&amp;onSave'</span> <span class="c1">// Rename the onSave attribute for clarity.</span>
+  <span class="p">},</span>
+  <span class="na">template</span><span class="p">:</span> <span class="err">`</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">dblclick</span><span class="o">=</span><span class="s2">"ctrl.edit()"</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">show</span><span class="o">=</span><span class="s2">"!ctrl.isEditing()"</span><span class="o">&gt;</span>
+        <span class="p">{{</span><span class="nx">ctrl</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span>
+      <span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="nx">form</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">submit</span><span class="o">=</span><span class="s2">"ctrl.saveUser()"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">show</span><span class="o">=</span><span class="s2">"ctrl.isEditing()"</span>
+               <span class="nx">ng</span><span class="o">-</span><span class="nx">model</span><span class="o">=</span><span class="s2">"ctrl.userForm.name"</span> 
+               <span class="nx">ng</span><span class="o">-</span><span class="nx">blur</span><span class="o">=</span><span class="s2">"ctrl.reset()"</span> <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="sr">/form</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="err">`</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="nx">edit</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// Set a temporary form object for editing.</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userForm</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="k">this</span><span class="p">.</span><span class="nx">user</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nx">reset</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userForm</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">isEditing</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="o">!!</span><span class="k">this</span><span class="p">.</span><span class="nx">userForm</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">saveUser</span><span class="p">()</span> <span class="p">{</span>
+      <span class="c1">// Invoke callback from container.</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">saveCallback</span><span class="p">({</span><span class="na">user</span><span class="p">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">userForm</span><span class="p">});</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<p>Now, in the <code class="highlighter-rouge">userGreeting</code> directive, we replace the user name
+with the new UI directive. We also need to chain the <code class="highlighter-rouge">onSave</code> callback
+from container to the child <code class="highlighter-rouge">editableUserName</code> directive.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'userGreeting'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">scope</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">user</span><span class="p">:</span> <span class="s1">'='</span><span class="p">,</span>
+    <span class="nx">saveCallback</span> <span class="s1">'&amp;onSave'</span> <span class="c1">// NEW: Take in onSave callback from container.</span>
+  <span class="p">},</span>
+  <span class="c1">// NEW: Pass user data and onSave callback to child component.</span>
+  <span class="na">template</span><span class="p">:</span> <span class="err">`</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+      <span class="nx">Hello</span>
+      <span class="o">&lt;</span><span class="nx">editable</span><span class="o">-</span><span class="nx">user</span><span class="o">-</span><span class="nx">name</span>
+        <span class="nx">user</span><span class="o">=</span><span class="s2">"ctrl.user"</span>
+        <span class="nx">on</span><span class="o">-</span><span class="nx">save</span><span class="o">=</span><span class="s2">"ctrl.handleSave(user)"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="sr">/editable-user-name</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>  <span class="err">`</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="c1">// NEW: Chain the callback from child to container.</span>
+    <span class="nx">handleSave</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">saveCallback</span><span class="p">({</span><span class="na">user</span><span class="p">:</span> <span class="nx">user</span><span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<p>And finally, we pass the callback from the container, which handles actual
+service invocation.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">m</span><span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">'userGreetingContainer'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="c1">// NEW: Pass the onSave callback.</span>
+  <span class="na">template</span><span class="p">:</span> <span class="err">`</span>
+    <span class="o">&lt;</span><span class="nx">user</span><span class="o">-</span><span class="nx">greeting</span> 
+      <span class="nx">user</span><span class="o">=</span><span class="s2">"ctrl.user"</span>
+      <span class="nx">on</span><span class="o">-</span><span class="nx">save</span><span class="o">=</span><span class="s2">"ctrl.handleSave(user)"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="sr">/user-greeting</span><span class="err">&gt;
+</span>  <span class="err">`</span><span class="p">,</span>
+  <span class="na">controller</span><span class="p">:</span> <span class="kr">class</span> <span class="p">{</span>
+    <span class="nx">constructor</span><span class="p">(</span><span class="nx">userService</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userService</span> <span class="o">=</span> <span class="nx">userService</span><span class="p">;</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">userService</span><span class="p">.</span><span class="nx">get</span><span class="p">().</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">user</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// NEW: Save handler that calls service then updates state.</span>
+    <span class="nx">handleSave</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">userService</span><span class="p">.</span><span class="nx">save</span><span class="p">(</span><span class="nx">user</span><span class="p">).</span><span class="nx">then</span><span class="p">((</span><span class="nx">u</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">user</span> <span class="o">=</span> <span class="nx">u</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">bindToController</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">controllerAs</span><span class="p">:</span> <span class="s1">'ctrl'</span>
+<span class="p">}));</span></code></pre></figure>
+
+<div class="alert alert-info">
+  <p><strong>Note:</strong> The <code>editableUserName</code> component never modifies
+  its own state directly (e.g. set <code>this.user</code>). Instead, when the
+  <code>userGreetingContainer.handleSave()</code> method is resolved, the container updates
+  its own state. And since it passes the <code>user</code> object to components,
+  the components will get the updated object automatically.</p>
+</div>
+
+<p>Phew, we’re done! Below you will find the finished product.</p>
+
+<iframe style="width: 100%; height: 110px; background-color: white; margin: 20px 0" sandbox="allow-same-origin allow-scripts" src="http://embed.plnkr.co/Htwcx8ff2GuBOk3vLMGT/preview"></iframe>
+
+<p>Feel free to <a href="http://plnkr.co/edit/Htwcx8ff2GuBOk3vLMGT">fork it</a> and play around
+with it yourself.</p>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>We can group directives into two types: <strong>container</strong> and UI <strong>components</strong>.</li>
+  <li>Containers are the data layers. They handle interactions with data services and pass data to components.</li>
+  <li>Components render data, and they do not mutate this data.</li>
+  <li>Containers can pass handlers, that interact with data services, as callbacks to components.</li>
+</ul>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/03/13/avoiding-composability-issues-with-angular-1-directives/" title="Avoiding Composability Issues With Angular 1 Directives">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2015/06/02/why-you-should-care-about-flux/" title="Why You Should Care About Flux">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2015/03/30/container-component-pattern-in-angular-1/';
+    var disqus_url = 'http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>30 March 2015</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#angular-ref">angular <span>6</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1/&amp;text=Containers%20and%20%20Components%20in%20Angular%201&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas/">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas/">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection/">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

@@ -290,8 +290,8 @@ systems in the front end, you can also check out &lt;a href=&quot;http://elm-lan
 &lt;/ul&gt;
 </description>
 				<pubDate>Tue, 23 Aug 2016 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2016/08/23/why-you-need-types</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/08/23/why-you-need-types</guid>
+				<link>http://jaysoo.ca/2016/08/23/why-you-need-types/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2016/08/23/why-you-need-types/</guid>
 			</item>
 		
 			<item>
@@ -812,8 +812,8 @@ on your software projects.&lt;/p&gt;
 
 </description>
 				<pubDate>Sun, 28 Feb 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/02/28/organizing-redux-application</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/02/28/organizing-redux-application</guid>
+				<link>http://jaysoo.ca/2016/02/28/organizing-redux-application/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2016/02/28/organizing-redux-application/</guid>
 			</item>
 		
 			<item>
@@ -1379,8 +1379,8 @@ for more functional programming with ReactJS.&lt;/p&gt;
 
 </description>
 				<pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/01/13/functional-programming-little-ideas</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/01/13/functional-programming-little-ideas</guid>
+				<link>http://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</guid>
 			</item>
 		
 			<item>
@@ -1645,8 +1645,8 @@ a user interaction could lead to further actions that do not require further int
 
 </description>
 				<pubDate>Sun, 03 Jan 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas</guid>
+				<link>http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</guid>
 			</item>
 		
 			<item>
@@ -2042,8 +2042,8 @@ more easily reason about your system as a whole. You may then get the insight ne
 &lt;p&gt;&lt;small&gt;Edit (2015-12-13): Fixed typos in code example.&lt;/small&gt;&lt;/p&gt;
 </description>
 				<pubDate>Sat, 21 Nov 2015 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection</guid>
+				<link>http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</guid>
 			</item>
 		
 			<item>
@@ -2448,8 +2448,8 @@ in choosing TypeScript.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Sat, 26 Sep 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/09/26/typed-react-and-redux</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/09/26/typed-react-and-redux</guid>
+				<link>http://jaysoo.ca/2015/09/26/typed-react-and-redux/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/09/26/typed-react-and-redux/</guid>
 			</item>
 		
 			<item>
@@ -2728,8 +2728,8 @@ in your learning sessions.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Thu, 25 Jun 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter</guid>
+				<link>http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter/</guid>
 			</item>
 		
 			<item>
@@ -3048,8 +3048,8 @@ us to add additional behaviour or metadata to the original component.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Tue, 09 Jun 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection</guid>
+				<link>http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection/</guid>
 			</item>
 		
 			<item>
@@ -3290,8 +3290,8 @@ application.&lt;/p&gt;
 &lt;p&gt;Have you tried Flux? What are your thoughts?&lt;/p&gt;
 </description>
 				<pubDate>Tue, 02 Jun 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux</guid>
+				<link>http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux/</guid>
 			</item>
 		
 			<item>
@@ -3576,8 +3576,8 @@ with it yourself.&lt;/p&gt;
 
 </description>
 				<pubDate>Mon, 30 Mar 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1</guid>
+				<link>http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1/</link>
+				<guid isPermaLink="true">http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1/</guid>
 			</item>
 		
 	</channel>

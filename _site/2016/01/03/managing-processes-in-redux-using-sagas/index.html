@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Managing Side Effects In React + Redux Using Sagas &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Managing Side Effects In React + Redux Using Sagas
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p><a href="https://github.com/rackt/redux/">Redux</a> is a Flux-like framework that has exploded in
+popularity within the React community. It reduces complexity by enforcing a unidirectional
+data flow, the use of single state atom, and pure reduce functions for state updates.</p>
+
+<p>For me, there has always been one thorn in the React+Flux setup, which is that more
+complicated processes involving <strong>coordination of action creators and side-effects</strong> are <strong>hard to handle</strong>.
+Solutions using component lifecycle methods (<code class="highlighter-rouge">componentDidUpdate</code>, <code class="highlighter-rouge">componentWillUpdate</code>, etc.), and action creators
+returning <a href="https://github.com/gaearon/redux-thunk">thunks</a> do work, but they seem out of place
+in certain situations.</p>
+
+<p>To illustrate what I mean, let’s take a look at a simple <strong>Timer</strong> app. Note, the source code of the full solution
+can be found <a href="https://github.com/jaysoo/example-redux-saga">here</a>.</p>
+
+<h2 id="the-timer-app">The Timer App</h2>
+
+<p>This app will allow users to <em>start</em> and <em>stop</em> a timer, as well as provide the ability to <em>reset</em> it.</p>
+
+<p><img src="/images/timer-app.png" alt="" /></p>
+
+<p>We can think of the app as a finite state machine that transitions between two states:
+<strong>Stopped</strong> and <strong>Running</strong> (as shown in the simplified diagram below). While the timer is in
+Running state, it will update the timer every <em>1 second</em>.</p>
+
+<p><img src="/images/timer.svg" alt="" /></p>
+
+<p>So let’s go over the basic app setup first, then I’ll show how <em>sagas</em> can help manage side-effects
+using processes outside of action creators and components.</p>
+
+<h3 id="actions">Actions</h3>
+
+<p>There are four <a href="https://github.com/jaysoo/example-redux-saga/blob/master/src/timer/actions.js">actions</a> in our module.</p>
+
+<ol>
+  <li><code class="highlighter-rouge">START</code> - Transitions the timer to Running state.</li>
+  <li><code class="highlighter-rouge">TICK</code> - Increments the timer on each tick.</li>
+  <li><code class="highlighter-rouge">STOP</code> - Transitions the timer to Stopped state.</li>
+  <li><code class="highlighter-rouge">RESET</code> - Resets the timer back to zero.</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// actions.js</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">{</span> <span class="na">start</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'START'</span> <span class="p">})</span>
+               <span class="p">,</span> <span class="na">tick</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'TICK'</span> <span class="p">})</span>
+               <span class="p">,</span> <span class="na">stop</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'STOP'</span> <span class="p">})</span>
+               <span class="p">,</span> <span class="na">reset</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'RESET'</span> <span class="p">})</span>
+               <span class="p">};</span></code></pre></figure>
+
+<h3 id="state-model-and-reducer">State Model and Reducer</h3>
+
+<p>The timer state consists of two properties: <code class="highlighter-rouge">status</code> and <code class="highlighter-rouge">seconds</code>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">type</span> <span class="nx">Model</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">status</span><span class="p">:</span> <span class="nx">string</span><span class="p">;</span>
+  <span class="nl">seconds</span><span class="p">:</span> <span class="nx">number</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Where <code class="highlighter-rouge">status</code> is one of <code class="highlighter-rouge">Running</code> or <code class="highlighter-rouge">Stopped</code>, and <code class="highlighter-rouge">seconds</code> is the accumulated seconds count
+since the timer has started.</p>
+
+<p>Then the <a href="https://github.com/jaysoo/example-redux-saga/blob/master/src/timer/reducer.js">reducer</a> is implemented as follows.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// reducer.js</span>
+
+<span class="kr">const</span> <span class="nx">INITIAL_STATE</span> <span class="o">=</span> <span class="p">{</span> <span class="na">status</span><span class="p">:</span> <span class="s1">'Stopped'</span>
+                      <span class="p">,</span> <span class="na">seconds</span><span class="p">:</span> <span class="mi">0</span>
+                      <span class="p">};</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">INITIAL_STATE</span><span class="p">,</span> <span class="nx">action</span> <span class="o">=</span> <span class="kc">null</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="s1">'START'</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span><span class="p">,</span> <span class="na">status</span><span class="p">:</span> <span class="s1">'Running'</span> <span class="p">};</span>
+    <span class="k">case</span> <span class="s1">'STOP'</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span><span class="p">,</span> <span class="na">status</span><span class="p">:</span> <span class="s1">'Stopped'</span> <span class="p">};</span>
+    <span class="k">case</span> <span class="s1">'TICK'</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span><span class="p">,</span> <span class="na">seconds</span><span class="p">:</span> <span class="nx">state</span><span class="p">.</span><span class="nx">seconds</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">};</span>
+    <span class="k">case</span> <span class="s1">'RESET'</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span><span class="p">,</span> <span class="na">seconds</span><span class="p">:</span> <span class="mi">0</span> <span class="p">};</span>
+    <span class="nl">default</span><span class="p">:</span>
+      <span class="k">return</span> <span class="nx">state</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<h3 id="timer-view">Timer View</h3>
+
+<p>The view is straight-forward if we keep it side-effect free. It renders the current time
+and status, and also invokes corresponding callback functions when the user clicks
+on Reset, Start, or Stop buttons.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="kr">const</span> <span class="nx">Timer</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">stop</span><span class="p">,</span> <span class="nx">reset</span><span class="p">,</span> <span class="nx">state</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+      <span class="p">{</span> <span class="nx">getFormattedTime</span><span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">}</span> <span class="p">({</span> <span class="nx">state</span><span class="p">.</span><span class="nx">status</span> <span class="p">})</span>
+    <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">button</span>
+      <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">state</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">'Running'</span><span class="p">}</span>
+      <span class="nx">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="nx">reset</span><span class="p">()}</span><span class="o">&gt;</span>
+      <span class="nx">Reset</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">button</span>
+      <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">state</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">'Running'</span><span class="p">}</span>
+      <span class="nx">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="nx">start</span><span class="p">()}</span><span class="o">&gt;</span>
+      <span class="nx">Start</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">button</span>
+      <span class="nx">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">state</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">'Stopped'</span><span class="p">}</span>
+      <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">stop</span><span class="p">}</span><span class="o">&gt;</span>
+      <span class="nx">Stop</span>
+    <span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="p">);</span></code></pre></figure>
+
+<h2 id="problem-how-to-handle-periodic-updates">Problem: How to Handle Periodic Updates?</h2>
+
+<p>The app can now transition between Running and Stopped states, but there isn’t a mechanism for scheduling
+periodic updates to the timer.</p>
+
+<p>In a typical Redux+React app, there are two ways we can handle the updates.</p>
+
+<ol>
+  <li>The view can call the action creator periodically.</li>
+  <li>The action creator can return a thunk that will dispatch <code class="highlighter-rouge">TICK</code> actions periodically.</li>
+</ol>
+
+<h3 id="solution-1-letting-view-dispatch-updates">Solution 1: Letting View Dispatch Updates</h3>
+
+<p>For #1, the view will have to wait for state to transition from Stopped to Started, and then
+start the periodic dispatches. This means we have to use a stateful component.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">class</span> <span class="nx">Timer</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+  <span class="nx">componentWillReceiveProps</span><span class="p">(</span><span class="nx">nextProps</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="p">{</span> <span class="nl">state</span><span class="p">:</span> <span class="p">{</span> <span class="nl">status</span><span class="p">:</span> <span class="nx">currStatus</span> <span class="p">}</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">;</span>
+    <span class="kr">const</span> <span class="p">{</span> <span class="nl">state</span><span class="p">:</span> <span class="p">{</span> <span class="nl">status</span><span class="p">:</span> <span class="nx">nextStatus</span> <span class="p">}</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">nextProps</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">currState</span> <span class="o">===</span> <span class="s1">'Stopped'</span> <span class="o">&amp;&amp;</span> <span class="nx">nextState</span> <span class="o">===</span> <span class="s1">'Running'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_startTimer</span><span class="p">();</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">currState</span> <span class="o">===</span> <span class="s1">'Running'</span> <span class="o">&amp;&amp;</span> <span class="nx">nextState</span> <span class="o">===</span> <span class="s1">'Stopped'</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_stopTimer</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">_startTimer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_intervalId</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">tick</span><span class="p">();</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="nx">_stopTimer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">_intervalId</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// ...</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>This does work, but it makes our view <strong>stateful and impure</strong>. Another problem is that our component is now responsible for more than
+just rendering HTML and capturing user interaction. It now causes side-effects, which makes the view and application as a whole harder
+to reason about. This may not be a huge deal in a small app such as this one, but in a larger application you want to keep
+side-effects at the boundaries of the system.</p>
+
+<p>So what about using thunks?</p>
+
+<h3 id="solution-2-using-thunks-in-action-creator">Solution 2: Using Thunks in Action Creator</h3>
+
+<p>An alternative to the view approach is to use <a href="https://github.com/gaearon/redux-thunk">thunks</a> in our action creator. We can change the <code class="highlighter-rouge">start</code> action
+creator to the following.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="na">start</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+    <span class="p">(</span><span class="nx">dispatch</span><span class="p">,</span> <span class="nx">getState</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// This transitions state to Running</span>
+      <span class="nx">dispatch</span><span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'START'</span> <span class="p">});</span>
+
+      <span class="c1">// Check every 1 second if we are still Running.</span>
+      <span class="c1">// If so, then dispatch a `TICK`, otherwise stop</span>
+      <span class="c1">// the timer.</span>
+      <span class="kr">const</span> <span class="nx">intervalId</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="p">{</span> <span class="nx">status</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">getState</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">'Running'</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">dispatch</span><span class="p">({</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'TICK'</span> <span class="p">});</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">clearInterval</span><span class="p">(</span><span class="nx">intervalId</span><span class="p">);</span>
+        <span class="p">}</span>
+      <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+  <span class="c1">// ...</span>
+<span class="p">};</span></code></pre></figure>
+
+<p>The start action creator will now dispatch a <code class="highlighter-rouge">START</code> action as soon as it is invoked. Then, a <code class="highlighter-rouge">TICK</code> action
+is dispatched every 1 second, as long as the timer is still Running.</p>
+
+<p>The issue I have with this approach is that the action creator is doing too much. It is also
+harder to test this action creator because it is no longer just returning data.</p>
+
+<h2 id="better-solution-using-sagas-to-manage-the-timer">Better Solution: Using Sagas to Manage the Timer</h2>
+
+<p>The project <a href="https://github.com/yelouafi/redux-saga">redux-saga</a> reifies side effects into artifacts called
+<em>Effects</em>. The Effects can be generated by another artifact called <em>Sagas</em>. The concept of sagas, as far as
+I know, comes from the world of CQRS and Event Sourcing. There
+<a href="https://groups.google.com/forum/#!msg/dddcqrs/_c7rxQUrZTE/SPaDC9CJF_YJ">are some debates</a> on what sagas
+are, but you can think of them as <strong>long-live processes</strong> that interacts with the system by:</p>
+
+<ol>
+  <li>Reacting to actions dispatched in the system.</li>
+  <li>Dispatches new actions into the system.</li>
+  <li>Can “wake itself” using internal mechanisms without actions being dispatched. e.g. waking up on interval</li>
+</ol>
+
+<p>In redux-saga, a saga is a generator function that can run indefinitely inside the system. It can be woken up
+when a specific action is dispatched. It can dispatch additional actions, and has access to the application state atom.</p>
+
+<p>For example, if we want to dispatch periodic <code class="highlighter-rouge">TICK</code>s whenever the timer is Running, we can do the following.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">function</span><span class="o">*</span> <span class="nx">runTimer</span><span class="p">(</span><span class="nx">getState</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// The sagasMiddleware will start running this generator.</span>
+
+  <span class="c1">// Wake up when user starts timer.</span>
+  <span class="k">while</span><span class="p">(</span><span class="k">yield</span> <span class="nx">take</span><span class="p">(</span><span class="s1">'START'</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// This side effect is not run yet, so it can be treated</span>
+      <span class="c1">// as data, making it easier to test if needed.</span>
+      <span class="k">yield</span> <span class="nx">call</span><span class="p">(</span><span class="nx">wait</span><span class="p">,</span> <span class="nx">ONE_SECOND</span><span class="p">);</span>
+
+      <span class="c1">// Check if the timer is still running.</span>
+      <span class="c1">// If so, then dispatch a TICK.</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">getState</span><span class="p">().</span><span class="nx">status</span> <span class="o">===</span> <span class="s1">'Running'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">yield</span> <span class="nx">put</span><span class="p">(</span><span class="nx">actions</span><span class="p">.</span><span class="nx">tick</span><span class="p">());</span>
+      <span class="c1">// Otherwise, go idle until user starts the timer again.</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>As you can see, a saga uses normal JavaScript control flow constructs to coordinate
+side-effects and action creators. The <code class="highlighter-rouge">take</code> function wakes the saga up when the <code class="highlighter-rouge">START</code> action
+is dispatched. The <code class="highlighter-rouge">put</code> function causes the new <code class="highlighter-rouge">TICK</code> actions to be dispatched. And the <code class="highlighter-rouge">call</code> function
+allows us model the wait effect in a structure that does not cause it to run – similar to a <a href="https://github.com/folktale/data.task">Task</a>.</p>
+
+<p>By using a saga, we are able to keep our view and action creators as pure functions. It also allows
+us to model state transitions using familiar JavaScript constructs.</p>
+
+<h2 id="wrap-up">Wrap Up</h2>
+
+<p>Sagas are a way to manage side-effects within the system. They are a good fit when you need a
+long-running process that coordinates multiple action creators and side-effects.</p>
+
+<p>Sagas react to actions, as well as internal mechanisms (e.g time-based effects).
+They are especially useful when you need to manage side-effects outside of the normal Flux workflow. For example,
+a user interaction could lead to further actions that do not require further interaction from the user.</p>
+
+<p>Lastly, whenever you can model your solution as a finite state machine, sagas are worth a try.</p>
+
+<p>If you want to see the full source code of the Timer app, see the <a href="https://github.com/jaysoo/example-redux-saga">repository here</a>.</p>
+
+<p>Have you tried using sagas yet? What are your thoughts?</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2015/11/21/avoid-unnecessary-indirection/" title="Avoid Unnecessary Indirection">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2016/01/13/functional-programming-little-ideas/" title="The Little Idea of Functional Programming">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2016/01/03/managing-processes-in-redux-using-sagas/';
+    var disqus_url = 'http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>03 January 2016</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#programming-ref">programming <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#javascript-ref">javascript <span>33</span></a></li>
+     
+    	<li><a href="/tags.html#redux-ref">redux <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#flux-ref">flux <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#react-ref">react <span>5</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/&amp;text=Managing%20Side%20Effects%20In%20React%20+%20Redux%20Using%20Sagas&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas/">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection/">Avoid Unnecessary Indirection</a></li>
+      
+      <li><a href="/2015/09/26/typed-react-and-redux/">React and Redux with TypeScript</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-12-01T16:36:01-05:00</updated>
+ <updated>2016-12-01T16:45:20-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -14,7 +14,7 @@
  
  <entry>
    <title>Why You Need Types</title>
-   <link href="http://jaysoo.ca/2016/08/23/why-you-need-types"/>
+   <link href="http://jaysoo.ca/2016/08/23/why-you-need-types/"/>
    <updated>2016-08-23T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2016/08/23/why-you-need-types</id>
    <content type="html">&lt;p&gt;Dynamically typed languages like JavaScript provide a lot of expressiveness and power
@@ -302,7 +302,7 @@ systems in the front end, you can also check out &lt;a href=&quot;http://elm-lan
  
  <entry>
    <title>Rules For Structuring (Redux) Applications</title>
-   <link href="http://jaysoo.ca/2016/02/28/organizing-redux-application"/>
+   <link href="http://jaysoo.ca/2016/02/28/organizing-redux-application/"/>
    <updated>2016-02-28T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2016/02/28/organizing-redux-application</id>
    <content type="html">&lt;p&gt;As our applications grow, we often find that file structure and organization
@@ -824,7 +824,7 @@ on your software projects.&lt;/p&gt;
  
  <entry>
    <title>The Little Idea of Functional Programming</title>
-   <link href="http://jaysoo.ca/2016/01/13/functional-programming-little-ideas"/>
+   <link href="http://jaysoo.ca/2016/01/13/functional-programming-little-ideas/"/>
    <updated>2016-01-13T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2016/01/13/functional-programming-little-ideas</id>
    <content type="html">&lt;p&gt;A little known fact about me is that I took &lt;a href=&quot;https://en.wikipedia.org/wiki/Wing_Chun&quot;&gt;Wing Chun&lt;/a&gt;
@@ -1391,7 +1391,7 @@ for more functional programming with ReactJS.&lt;/p&gt;
  
  <entry>
    <title>Managing Side Effects In React + Redux Using Sagas</title>
-   <link href="http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas"/>
+   <link href="http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/"/>
    <updated>2016-01-03T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/rackt/redux/&quot;&gt;Redux&lt;/a&gt; is a Flux-like framework that has exploded in
@@ -1657,7 +1657,7 @@ a user interaction could lead to further actions that do not require further int
  
  <entry>
    <title>Avoid Unnecessary Indirection</title>
-   <link href="http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection"/>
+   <link href="http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/"/>
    <updated>2015-11-21T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection</id>
    <content type="html">&lt;p&gt;In programming, indirection is the ability to hold references to something, as opposed to the value itself.
@@ -2054,7 +2054,7 @@ more easily reason about your system as a whole. You may then get the insight ne
  
  <entry>
    <title>React and Redux with TypeScript</title>
-   <link href="http://jaysoo.ca/2015/09/26/typed-react-and-redux"/>
+   <link href="http://jaysoo.ca/2015/09/26/typed-react-and-redux/"/>
    <updated>2015-09-26T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/09/26/typed-react-and-redux</id>
    <content type="html">&lt;p&gt;The release of &lt;a href=&quot;http://www.typescriptlang.org/&quot;&gt;TypeSciprt&lt;/a&gt; 1.6 includes support for &lt;a href=&quot;http://facebook.github.io/react/&quot;&gt;React&lt;/a&gt; components.
@@ -2460,7 +2460,7 @@ in choosing TypeScript.&lt;/p&gt;
  
  <entry>
    <title>When Learning, Attitude and Approach Matter</title>
-   <link href="http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter"/>
+   <link href="http://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter/"/>
    <updated>2015-06-25T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/06/25/when-learning-attitude-and-approach-matter</id>
    <content type="html">&lt;p&gt;As programmers, one of the most important skills to have is being able to learn quickly. It doesn’t
@@ -2740,7 +2740,7 @@ in your learning sessions.&lt;/p&gt;
  
  <entry>
    <title>React Contexts and Dependency Injection</title>
-   <link href="http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection"/>
+   <link href="http://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection/"/>
    <updated>2015-06-09T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/06/09/react-contexts-and-dependency-injection</id>
    <content type="html">&lt;p&gt;In this post I want to explore the idea of using &lt;em&gt;contexts&lt;/em&gt; in React to
@@ -3060,7 +3060,7 @@ us to add additional behaviour or metadata to the original component.&lt;/p&gt;
  
  <entry>
    <title>Why You Should Care About Flux</title>
-   <link href="http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux"/>
+   <link href="http://jaysoo.ca/2015/06/02/why-you-should-care-about-flux/"/>
    <updated>2015-06-02T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/06/02/why-you-should-care-about-flux</id>
    <content type="html">&lt;p&gt;If you have not been developing using &lt;a href=&quot;https://facebook.github.io/flux/&quot;&gt;Flux&lt;/a&gt; yet I would strongly urge you to check it out.&lt;/p&gt;
@@ -3302,7 +3302,7 @@ application.&lt;/p&gt;
  
  <entry>
    <title>Containers and  Components in Angular 1</title>
-   <link href="http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1"/>
+   <link href="http://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1/"/>
    <updated>2015-03-30T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/03/30/container-component-pattern-in-angular-1</id>
    <content type="html">&lt;p&gt;In this post, I want to explore a different approach to writing directives in
@@ -3588,7 +3588,7 @@ with it yourself.&lt;/p&gt;
  
  <entry>
    <title>Avoiding Composability Issues With Angular 1 Directives</title>
-   <link href="http://jaysoo.ca/2015/03/13/avoiding-composability-issues-with-angular-1-directives"/>
+   <link href="http://jaysoo.ca/2015/03/13/avoiding-composability-issues-with-angular-1-directives/"/>
    <updated>2015-03-13T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/03/13/avoiding-composability-issues-with-angular-1-directives</id>
    <content type="html">&lt;p&gt;In Angular 1, directives are a way for developers to extend HTML. This means
@@ -3692,7 +3692,7 @@ applied to Angular 1 directives.&lt;/p&gt;
  
  <entry>
    <title>On Flux Stores and Actions</title>
-   <link href="http://jaysoo.ca/2015/03/09/on-flux-stores-and-actions"/>
+   <link href="http://jaysoo.ca/2015/03/09/on-flux-stores-and-actions/"/>
    <updated>2015-03-09T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2015/03/09/on-flux-stores-and-actions</id>
    <content type="html">&lt;p&gt;There’s been a lot of discussion on what Flux is, the different variations, and
@@ -3921,7 +3921,7 @@ concepts that can be tried with Stores within our own client-side applications.&
  
  <entry>
    <title>What the Flux? (On Flux, DDD, and CQRS)</title>
-   <link href="http://jaysoo.ca/2015/02/06/what-the-flux"/>
+   <link href="http://jaysoo.ca/2015/02/06/what-the-flux/"/>
    <updated>2015-02-06T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2015/02/06/what-the-flux</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://facebook.github.io/flux/docs/overview.html&quot;&gt;Flux&lt;/a&gt; is an application
@@ -4352,7 +4352,7 @@ old concepts are becoming new again.&lt;/p&gt;
  
  <entry>
    <title>JavaScript Function Redux (+ ES6!)</title>
-   <link href="http://jaysoo.ca/2014/10/30/javascript-function-redux"/>
+   <link href="http://jaysoo.ca/2014/10/30/javascript-function-redux/"/>
    <updated>2014-10-30T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2014/10/30/javascript-function-redux</id>
    <content type="html">&lt;p&gt;JavaScript functions can be confusing sometimes. There are many ways to define
@@ -4574,11 +4574,11 @@ methods!&lt;/p&gt;
  
  <entry>
    <title>Asynchronous form errors and messages in AngularJS</title>
-   <link href="http://jaysoo.ca/2014/10/14/async-form-errors-and-messages-in-angularjs"/>
+   <link href="http://jaysoo.ca/2014/10/14/async-form-errors-and-messages-in-angularjs/"/>
    <updated>2014-10-14T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2014/10/14/async-form-errors-and-messages-in-angularjs</id>
    <content type="html">&lt;p&gt;Angular 1.3.0 (superluminal-fudge) has been &lt;a href=&quot;http://angularjs.blogspot.ca/2014/10/angularjs-130-superluminal-nudge.html&quot;&gt;released&lt;/a&gt;!
-In a &lt;a href=&quot;/2014/02/27/designing-angularjs-directives&quot;&gt;previous post&lt;/a&gt;, I presented a framework on top
+In a &lt;a href=&quot;/2014/02/27/designing-angularjs-directives/&quot;&gt;previous post&lt;/a&gt;, I presented a framework on top
 of AngularJS 1.2 to handle asynchronous form validations and error message display concerns. This has been made
 much easier in AngularJS 1.3!&lt;/p&gt;
 
@@ -4753,7 +4753,7 @@ model value. And lastly, we looked at the debounce option of ngModel to optimize
  
  <entry>
    <title>i18n with tagged template literals in ECMAScript 2015</title>
-   <link href="http://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals"/>
+   <link href="http://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals/"/>
    <updated>2014-03-20T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals</id>
    <content type="html">&lt;p&gt;One of the new features of ECMAScript 2015 are &lt;a href=&quot;https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals&quot;&gt;&lt;strong&gt;template literals&lt;/strong&gt;&lt;/a&gt;.
@@ -5034,7 +5034,7 @@ syntax for library functionalities.&lt;/p&gt;
  
  <entry>
    <title>Designing AngularJS Directives</title>
-   <link href="http://jaysoo.ca/2014/02/27/designing-angularjs-directives"/>
+   <link href="http://jaysoo.ca/2014/02/27/designing-angularjs-directives/"/>
    <updated>2014-02-27T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2014/02/27/designing-angularjs-directives</id>
    <content type="html">&lt;p&gt;Throughout your adventures with Angular, you will undoubtedly come across situations where custom directives make sense.
@@ -5055,7 +5055,7 @@ directives. And finally, I will show an implementation for these directives.&lt;
 &lt;p&gt;&lt;span class=&quot;muted&quot;&gt;&lt;em&gt;Note: This is a repost from the &lt;a href=&quot;http://engineering.nulogy.com/posts/designing-angularjs-directives/&quot;&gt;Nulogy Engineering Blog&lt;/a&gt;&lt;/em&gt;&lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;span class=&quot;muted&quot;&gt;Since the introduction of ngMessages and asyncValidators in AngularJS 1.3, I’ve written a 
-&lt;a href=&quot;/2014/10/14/async-form-errors-and-messages-in-angularjs&quot;&gt;new post&lt;/a&gt;
+&lt;a href=&quot;/2014/10/14/async-form-errors-and-messages-in-angularjs/&quot;&gt;new post&lt;/a&gt;
 to cover form validations. The designing process in this post is still valid, but I would recommend using the new
 AngularJS features to handle error messages and async validations.&lt;/span&gt;&lt;/p&gt;
 
@@ -5415,7 +5415,7 @@ proposing is for developers to think top-level design first and implementation s
  
  <entry>
    <title>AngularDart, Web Components, and the Future</title>
-   <link href="http://jaysoo.ca/2014/02/20/angulardart-webcomponents-and-the-future"/>
+   <link href="http://jaysoo.ca/2014/02/20/angulardart-webcomponents-and-the-future/"/>
    <updated>2014-02-20T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2014/02/20/angulardart-webcomponents-and-the-future</id>
    <content type="html">&lt;p&gt;&lt;strong&gt;AngularJS&lt;/strong&gt; has been instrumental in changing the way I develop web applications. From building imperative views where
@@ -5625,7 +5625,7 @@ way we build and structure our applications.&lt;/p&gt;
  
  <entry>
    <title>Grunt vs Gulp - Beyond the Numbers</title>
-   <link href="http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs"/>
+   <link href="http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs/"/>
    <updated>2014-01-27T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs</id>
    <content type="html">&lt;blockquote&gt;
@@ -5836,7 +5836,7 @@ focus of this post.&lt;/em&gt;&lt;/small&gt;&lt;/p&gt;
  
  <entry>
    <title>Creating Semantic, Reusable Directives in AngularJS</title>
-   <link href="http://jaysoo.ca/2014/01/20/semantic-angularjs-directives"/>
+   <link href="http://jaysoo.ca/2014/01/20/semantic-angularjs-directives/"/>
    <updated>2014-01-20T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2014/01/20/semantic-angularjs-directives</id>
    <content type="html">&lt;p&gt;One of the main benefits of Angular is the ability to easily extend HTML with new behaviours through the use
@@ -6155,7 +6155,7 @@ and also refer to the official &lt;a href=&quot;http://docs.angularjs.org/api/ng
  
  <entry>
    <title>Mixins in CoffeeScript and Backbone.js</title>
-   <link href="http://jaysoo.ca/2012/05/09/coffeescript-mixins"/>
+   <link href="http://jaysoo.ca/2012/05/09/coffeescript-mixins/"/>
    <updated>2012-05-09T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2012/05/09/coffeescript-mixins</id>
    <content type="html">&lt;p&gt;I’m a big fan of &lt;a href=&quot;http://coffeescript.org/&quot;&gt;CoffeeScript&lt;/a&gt;. It makes working with Backbone.js so much nicer than doing it
@@ -6212,7 +6212,7 @@ for adding support for mixins, but no progress was made.&lt;/p&gt;
  
  <entry>
    <title>Please use UMD for your JavaScript libraries</title>
-   <link href="http://jaysoo.ca/2012/04/18/umd"/>
+   <link href="http://jaysoo.ca/2012/04/18/umd/"/>
    <updated>2012-04-18T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2012/04/18/umd</id>
    <content type="html">&lt;p&gt;I think all JavaScript module writers should start using &lt;a href=&quot;https://github.com/umdjs/umd&quot;&gt;UMD&lt;/a&gt; when defining their modules.
@@ -6247,7 +6247,7 @@ a big favour by using one of the UMD variants.&lt;/p&gt;
  
  <entry>
    <title>Backbone.js vs Ember.js</title>
-   <link href="http://jaysoo.ca/2012/02/16/backbone-vs-ember"/>
+   <link href="http://jaysoo.ca/2012/02/16/backbone-vs-ember/"/>
    <updated>2012-02-16T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2012/02/16/backbone-vs-ember</id>
    <content type="html">&lt;p&gt;There is a &lt;a href=&quot;http://javascriptjabber.com/004-jsj-backbone-js-with-jeremy-ashkenas/&quot;&gt;JS Jabber&lt;/a&gt;
@@ -6268,7 +6268,7 @@ to the current state of web development.&lt;/p&gt;
  
  <entry>
    <title>Cascading: Include header in the output for text-delimited files</title>
-   <link href="http://jaysoo.ca/2012/02/10/cascading-output-csv-with-header"/>
+   <link href="http://jaysoo.ca/2012/02/10/cascading-output-csv-with-header/"/>
    <updated>2012-02-10T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2012/02/10/cascading-output-csv-with-header</id>
    <content type="html">&lt;p&gt;I recently started working on pipelines using Hadoop to run MapReduce jobs. 
@@ -6345,7 +6345,7 @@ which will be called before anything is written to the sink.&lt;/p&gt;
  
  <entry>
    <title>Added Search to Website</title>
-   <link href="http://jaysoo.ca/2012/02/02/added-search-to-website"/>
+   <link href="http://jaysoo.ca/2012/02/02/added-search-to-website/"/>
    <updated>2012-02-02T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2012/02/02/added-search-to-website</id>
    <content type="html">&lt;p&gt;I added searching capabilities to this static website. 
@@ -6381,7 +6381,7 @@ at least for the time being.&lt;/p&gt;
  
  <entry>
    <title>Migrated to Jekyll</title>
-   <link href="http://jaysoo.ca/2012/02/01/migrated-to-jekyll"/>
+   <link href="http://jaysoo.ca/2012/02/01/migrated-to-jekyll/"/>
    <updated>2012-02-01T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2012/02/01/migrated-to-jekyll</id>
    <content type="html">&lt;p&gt;I decided to use &lt;a href=&quot;https://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt; for my personal website/blog.
@@ -6414,7 +6414,7 @@ at some point.&lt;/p&gt;
  
  <entry>
    <title>openid4java Fix For openid.org URLs</title>
-   <link href="http://jaysoo.ca/2011/05/25/openid4java-fix-for-openid-org-urls"/>
+   <link href="http://jaysoo.ca/2011/05/25/openid4java-fix-for-openid-org-urls/"/>
    <updated>2011-05-25T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2011/05/25/openid4java-fix-for-openid-org-urls</id>
    <content type="html">&lt;p&gt;We were having trouble at work with our OpenID login. When a user tried to sign in with an openid.org URL, openid4java would try an YadisException.&lt;/p&gt;
@@ -6442,7 +6442,7 @@ at some point.&lt;/p&gt;
  
  <entry>
    <title>Toki Underground and The Queen Vic</title>
-   <link href="http://jaysoo.ca/2011/03/25/toki-underground-and-the-queen-vic"/>
+   <link href="http://jaysoo.ca/2011/03/25/toki-underground-and-the-queen-vic/"/>
    <updated>2011-03-25T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2011/03/25/toki-underground-and-the-queen-vic</id>
    <content type="html">&lt;p&gt;&amp;nbsp;Launched two more websites: &lt;a href=&quot;http://tokiunderground.com/&quot;&gt;Toki Underground&lt;/a&gt; and &lt;a href=&quot;http://thequeenvicdc.com/&quot;&gt;The Queen Vic&lt;/a&gt;. Both are restaurants on H Street in Washington D.C., and both were designed by Alexis Thornlow.&lt;/p&gt;
@@ -6452,7 +6452,7 @@ at some point.&lt;/p&gt;
  
  <entry>
    <title>CSS3 for Internet Explorer</title>
-   <link href="http://jaysoo.ca/2011/03/20/css3-internet-explorer"/>
+   <link href="http://jaysoo.ca/2011/03/20/css3-internet-explorer/"/>
    <updated>2011-03-20T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2011/03/20/css3-internet-explorer</id>
    <content type="html">&lt;p&gt;I have been using a lot of CSS3 in my projects this past year. CSS3 makes it much easier to implement design elements such as rounded corners, non-native fonts, etc.&lt;/p&gt;
@@ -6486,7 +6486,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Kissette.com launched</title>
-   <link href="http://jaysoo.ca/2010/07/26/kissette-com-launched"/>
+   <link href="http://jaysoo.ca/2010/07/26/kissette-com-launched/"/>
    <updated>2010-07-26T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2010/07/26/kissette-com-launched</id>
    <content type="html">I'm happy to announce the launch of Kissette's website: &lt;a href=&quot;http://kissette.com&quot;&gt;kissette.com&lt;/a&gt;. The design was done by Sandra (of Kissette), while I worked on the web stuff. This is the first website I've built with HTML5 in mind. The audio players on the website are fully functional on the iPhone and iPad (via the &amp;lt;audio&amp;gt; tag). Some notable JavaScript libraries I used:
@@ -6501,7 +6501,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>New site address and new website</title>
-   <link href="http://jaysoo.ca/2010/06/16/new-site-address-and-new-website"/>
+   <link href="http://jaysoo.ca/2010/06/16/new-site-address-and-new-website/"/>
    <updated>2010-06-16T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2010/06/16/new-site-address-and-new-website</id>
    <content type="html">&lt;p&gt;I'm using &lt;a href=&quot;http://jaysoo.ca&quot;&gt;jaysoo.ca&lt;/a&gt; now. I'm not sure if it'll be the domain I primarily use, but it makes sense since it's my username for many websites (github, hacker news, etc.).&lt;/p&gt;
@@ -6511,7 +6511,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Link: JavaScript Semicolon Insertion</title>
-   <link href="http://jaysoo.ca/2010/06/04/link-javascript-semicolon-insertion"/>
+   <link href="http://jaysoo.ca/2010/06/04/link-javascript-semicolon-insertion/"/>
    <updated>2010-06-04T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2010/06/04/link-javascript-semicolon-insertion</id>
    <content type="html">&lt;p&gt;Read a really good post on automatic semicolon insertion (ASI) in JavaScript. I highly recommend reading it if you're not familiar with how ASI works.&lt;/p&gt;
@@ -6523,7 +6523,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>JavaScript Anti-Patterns</title>
-   <link href="http://jaysoo.ca/2010/05/06/javascript-anti-patterns"/>
+   <link href="http://jaysoo.ca/2010/05/06/javascript-anti-patterns/"/>
    <updated>2010-05-06T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2010/05/06/javascript-anti-patterns</id>
    <content type="html">&lt;p&gt;There are plenty of posts discussing anti-patterns in other languages, like &lt;a href=&quot;http://www.google.ca/search?q=java+antipatterns&quot;&gt;Java&lt;/a&gt; or &lt;a href=&quot;http://www.google.ca/search?q=python+antipatterns&quot;&gt;Python&lt;/a&gt;. However, I haven&amp;rsquo;t really seen much regarding JavaScript besides this &lt;a href=&quot;http://stackoverflow.com/questions/377999/what-anti-patterns-exist-for-javascript&quot;&gt;question&lt;/a&gt; on StackOverflow. And most of the ones I found don&amp;rsquo;t separate the DOM API and the JavaScript language itself.&lt;/p&gt; 
@@ -6668,7 +6668,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>JavaScript Namespacing</title>
-   <link href="http://jaysoo.ca/2010/03/24/javascript-namespacing-function"/>
+   <link href="http://jaysoo.ca/2010/03/24/javascript-namespacing-function/"/>
    <updated>2010-03-24T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2010/03/24/javascript-namespacing-function</id>
    <content type="html">&lt;p&gt;One of the first things you learn programming in JavaScript is, &quot;&lt;a href=&quot;http://yuiblog.com/blog/2006/06/01/global-domination/&quot;&gt;Global variables are evil&lt;/a&gt;.&quot; This is especially true when writing a JavaScript library, but I'd take that advise even otherwise to avoid unnecessary headaches.&lt;/p&gt;
@@ -6725,7 +6725,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Reserved JavaScript Words in Safari</title>
-   <link href="http://jaysoo.ca/2010/02/12/reserved-words-in-safari"/>
+   <link href="http://jaysoo.ca/2010/02/12/reserved-words-in-safari/"/>
    <updated>2010-02-12T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2010/02/12/reserved-words-in-safari</id>
    <content type="html">&lt;p&gt;I ran into a problem today where the RIA I'm building works for all browsers except Safari -- specifically Safari 4, not sure about 3.&lt;/p&gt;
@@ -6755,7 +6755,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Not all jQuery selectors are created equal</title>
-   <link href="http://jaysoo.ca/2009/12/24/javascript-optimization-not-all-jquery-selectors-are-equal"/>
+   <link href="http://jaysoo.ca/2009/12/24/javascript-optimization-not-all-jquery-selectors-are-equal/"/>
    <updated>2009-12-24T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/12/24/javascript-optimization-not-all-jquery-selectors-are-equal</id>
    <content type="html">&lt;p&gt;The good thing about JavaScript libraries such as jQuery is that developers can focus on functionality without having to worry too much about cross-browser compatibility. However, often times it is still very useful to know why happens behind the abstractions.&lt;/p&gt;
@@ -6771,7 +6771,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>JavaScript: Optimizing loops</title>
-   <link href="http://jaysoo.ca/2009/12/23/javascript-optimizing-loops"/>
+   <link href="http://jaysoo.ca/2009/12/23/javascript-optimizing-loops/"/>
    <updated>2009-12-23T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/12/23/javascript-optimizing-loops</id>
    <content type="html">&lt;p&gt;When looping through very large arrays, you may find this tip useful: it's much fast to use a while loop to iterate through an array than a for loop.&lt;/p&gt;
@@ -6804,7 +6804,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Java control flow exercises</title>
-   <link href="http://jaysoo.ca/2009/09/18/java-control-flow-exercises"/>
+   <link href="http://jaysoo.ca/2009/09/18/java-control-flow-exercises/"/>
    <updated>2009-09-18T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/09/18/java-control-flow-exercises</id>
    <content type="html">&lt;p&gt;I came upon an interesting &lt;a href=&quot;http://www.eiffelroom.org/blog/manus_eiffel/and_people_are_still_using_java&quot;&gt;blog post about Java control flow&lt;/a&gt;. The author listed six examples (from &lt;a href=&quot;http://se.inf.ethz.ch/laser/2009/&quot;&gt;LASER 2009&lt;/a&gt; summer school on Software Testing) of pseudo Java code, and you have to determine what the value of the &lt;code&gt;int b&lt;/code&gt; is, as well as whether an &lt;code&gt;Exception&lt;/code&gt; is thrown or not. You can assume the program will execute with proper syntax, and proper &lt;code&gt;throws Exception&lt;/code&gt; on the method signature.&lt;/p&gt;
@@ -6898,7 +6898,7 @@ filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,
  
  <entry>
    <title>Unix history and bang commands</title>
-   <link href="http://jaysoo.ca/2009/09/16/unix-history-and-bang-commands"/>
+   <link href="http://jaysoo.ca/2009/09/16/unix-history-and-bang-commands/"/>
    <updated>2009-09-16T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/09/16/unix-history-and-bang-commands</id>
    <content type="html">&lt;p&gt;shell Unix provides many useful tools, one of them being then &lt;code&gt;history&lt;/code&gt; command.&lt;/p&gt;
@@ -6968,7 +6968,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>Sub-pixel Art and Typeface</title>
-   <link href="http://jaysoo.ca/2009/09/15/sub-pixel-art-and-typeface"/>
+   <link href="http://jaysoo.ca/2009/09/15/sub-pixel-art-and-typeface/"/>
    <updated>2009-09-15T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/09/15/sub-pixel-art-and-typeface</id>
    <content type="html">&lt;p&gt;I never knew favicons require such care and dedication to make them more appealing to our eyes.&lt;/p&gt;
@@ -6980,7 +6980,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>ReCSS Bookmarklet</title>
-   <link href="http://jaysoo.ca/2009/09/11/recss-bookmarklet"/>
+   <link href="http://jaysoo.ca/2009/09/11/recss-bookmarklet/"/>
    <updated>2009-09-11T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/09/11/recss-bookmarklet</id>
    <content type="html">&lt;p&gt;I've been using this &lt;a href=&quot;javascript:void(function(){var%20i,a,s;a=document.getElementsByTagName('link');for(i=0;i&lt;a.length;i++){s=a[i];if(s.rel.toLowerCase().indexOf('stylesheet')&gt;=0&amp;&amp;s.href)%20{var%20h=s.href.replace(/(&amp;|%5C?)forceReload=\d+/,'');s.href=h+(h.indexOf('?')&gt;=0?'&amp;':'?')+'forceReload='+(new%20Date().valueOf())}}})();&quot;&gt;ReCSS bookmarkle&lt;/a&gt;t for a long time now... it's one of the best tools I've found on the web. You drag-and-drop the bookmarket to your bookmarks toolbar, and when you need to force-reload the CSS on a page, just click on it and viola! No need to reload the entire page to see updated stylesheets.&lt;/p&gt;
@@ -6990,7 +6990,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>Project Euler - Problem 230: Fibonacci Words</title>
-   <link href="http://jaysoo.ca/2009/08/27/project-euler-problem-230-fibonacci-words"/>
+   <link href="http://jaysoo.ca/2009/08/27/project-euler-problem-230-fibonacci-words/"/>
    <updated>2009-08-27T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/08/27/project-euler-problem-230-fibonacci-words</id>
    <content type="html">&lt;p&gt;I wrote a Python script to solve &lt;a href=&quot;http://projecteuler.net/index.php?section=problems&amp;id=230&quot;&gt;Problem 230&lt;/a&gt; on Project Euler. You can read the problem via the link. It involves a sequence known as &lt;a href=&quot;http://en.wikipedia.org/wiki/Fibonacci_word&quot;&gt;Fibonacci Word&lt;/a&gt;. The sequences goes as follows:&lt;/p&gt;
@@ -7031,7 +7031,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>Launched Morris Lum's Photography Website</title>
-   <link href="http://jaysoo.ca/2009/08/20/launched-morris-lums-photography-website"/>
+   <link href="http://jaysoo.ca/2009/08/20/launched-morris-lums-photography-website/"/>
    <updated>2009-08-20T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/08/20/launched-morris-lums-photography-website</id>
    <content type="html">&lt;p&gt;I just recently helping a friend launch his photography website, done entirely in Django 1.1.&lt;/p&gt;
@@ -7053,7 +7053,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>HTML 5 Comments</title>
-   <link href="http://jaysoo.ca/2009/07/07/html-5-comments"/>
+   <link href="http://jaysoo.ca/2009/07/07/html-5-comments/"/>
    <updated>2009-07-07T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/07/07/html-5-comments</id>
    <content type="html">&lt;p&gt;One change that I think most people are overlooking is the change to HTML comments in HTML 5. If you read the &lt;a href=&quot;http://dev.w3.org/html5/spec/#comments&quot;&gt;working draft&lt;/a&gt; of the HTML 5 spec, you'll notice that previously valid comment markup may no longer be valid in HTML 5.&lt;/p&gt;
@@ -7083,7 +7083,7 @@ file1	file3&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
  
  <entry>
    <title>Pylons with Tokyo Cabinet Beaker Sessions</title>
-   <link href="http://jaysoo.ca/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions"/>
+   <link href="http://jaysoo.ca/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions/"/>
    <updated>2009-05-27T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/05/27/pylons-with-tokyo-cabinet-beaker-sessions</id>
    <content type="html">&lt;p&gt;Maintaining a session is something most web apps need to do, and all web frameworks implement some sort of session management system.&lt;/p&gt;
@@ -7183,7 +7183,7 @@ beaker.session.url &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 127.0.0.1:1978
  
  <entry>
    <title>Playing around with Pylons</title>
-   <link href="http://jaysoo.ca/2009/05/27/playing-around-with-pylons"/>
+   <link href="http://jaysoo.ca/2009/05/27/playing-around-with-pylons/"/>
    <updated>2009-05-27T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/05/27/playing-around-with-pylons</id>
    <content type="html">&lt;p&gt;I started playing with a Python web framework called &lt;a href=&quot;http://www.sqlalchemy.org/&quot;&gt;Pylons&lt;/a&gt;. I've been using &lt;a href=&quot;http://djangoproject.com&quot;&gt;Django&lt;/a&gt; for the last little while, but after hearing many positive feedback about the Pylons, so I decided it's time to get my hands dirty.&lt;/p&gt;
@@ -7208,7 +7208,7 @@ beaker.session.url &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; 127.0.0.1:1978
  
  <entry>
    <title>Cheating on Speed Sudoku -- How to Prevent Greasemonkey Scripts</title>
-   <link href="http://jaysoo.ca/2009/05/07/cheating-on-speed-sudoku"/>
+   <link href="http://jaysoo.ca/2009/05/07/cheating-on-speed-sudoku/"/>
    <updated>2009-05-07T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/05/07/cheating-on-speed-sudoku</id>
    <content type="html">&lt;div class=&quot;hero-unit well&quot;&gt;
@@ -7239,7 +7239,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Not Another IE6 Rant</title>
-   <link href="http://jaysoo.ca/2009/04/21/not-another-ie6-rant"/>
+   <link href="http://jaysoo.ca/2009/04/21/not-another-ie6-rant/"/>
    <updated>2009-04-21T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/04/21/not-another-ie6-rant</id>
    <content type="html">&lt;p&gt;For the last few months I've seen some aggressive campaigning to rid the online world of &lt;a href=&quot;http://en.wikipedia.org/wiki/Internet_Explorer_6&quot;&gt;Internet Explorer 6&lt;/a&gt;. Many web developers and designers have been supporting this browser for what seems like forever, and now that IE6 is losing market shares fast, it seems like a good time to make the final push to kill it.&lt;/p&gt;
@@ -7253,7 +7253,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Displaying URIs In Print CSS</title>
-   <link href="http://jaysoo.ca/2009/04/13/displaying-uris-in-print-css"/>
+   <link href="http://jaysoo.ca/2009/04/13/displaying-uris-in-print-css/"/>
    <updated>2009-04-13T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/04/13/displaying-uris-in-print-css</id>
    <content type="html">&lt;p&gt;One of the fundamental features of webpages is the ability to link resources together. However, whenever you print a page, you lose all the URI information on that page. Fortunately, there is a easy way to retain these URIs even when the page is printed on paper: CSS.&lt;/p&gt;
@@ -7274,7 +7274,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Pythonistas Rejoice! Curly Braces Are In</title>
-   <link href="http://jaysoo.ca/2009/04/01/pythonistas-rejoice-curly-braces-are-in"/>
+   <link href="http://jaysoo.ca/2009/04/01/pythonistas-rejoice-curly-braces-are-in/"/>
    <updated>2009-04-01T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/04/01/pythonistas-rejoice-curly-braces-are-in</id>
    <content type="html">&lt;p class=&quot;well&quot;&gt;Update: April Fools :)&lt;/p&gt;
@@ -7295,7 +7295,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>The Language Of Hackers</title>
-   <link href="http://jaysoo.ca/2009/03/30/the-language-of-hackers"/>
+   <link href="http://jaysoo.ca/2009/03/30/the-language-of-hackers/"/>
    <updated>2009-03-30T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/03/30/the-language-of-hackers</id>
    <content type="html">&lt;p&gt;Today, Jeff Atwood made a post on his blog titled &lt;a href=&quot;http://www.codinghorror.com/blog/archives/001248.html&quot;&gt;&lt;em&gt;The Ugly American Programming&lt;/em&gt;&lt;/a&gt;. In this post, Jeff talks about the the ugly american attitude, in which one presumes that everyone else should speak English. He asserts that while this attitude is unacceptable in all other areas of modern societies, we as programmers are exempt from such scrutiny. He ends his post by saying that,&lt;/p&gt;
@@ -7331,7 +7331,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Programming Language Trends (Java==Cobol?)</title>
-   <link href="http://jaysoo.ca/2009/03/12/programming-language-trends-java-cobol"/>
+   <link href="http://jaysoo.ca/2009/03/12/programming-language-trends-java-cobol/"/>
    <updated>2009-03-12T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/03/12/programming-language-trends-java-cobol</id>
    <content type="html">&lt;p&gt;I ran some queries through &lt;a href=&quot;http://www.google.com/insights&quot;&gt;Google Insights&lt;/a&gt;, just for fun. One of the queries I ran was &lt;a href=&quot;http://www.google.com/insights/search/#cat=31&amp;q=python%2Cjava%2Cruby%2Cerlang%2Ccobol&amp;cmpt=q&quot;&gt;python vs. java vs. ruby vs. erlang vs. cobol&lt;/a&gt;, under the Programming category. Here's the resulting graph of growth relative to category.&lt;/p&gt;
@@ -7357,7 +7357,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>2008 Turing Award Winner: Barbara H. Liskov</title>
-   <link href="http://jaysoo.ca/2009/03/12/2008-turing-award-winner-barbara-h-liskov"/>
+   <link href="http://jaysoo.ca/2009/03/12/2008-turing-award-winner-barbara-h-liskov/"/>
    <updated>2009-03-12T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/03/12/2008-turing-award-winner-barbara-h-liskov</id>
    <content type="html">&lt;p&gt;Congratulations to Barbara Liskov for being the receipient of the &lt;a href=&quot;http://awards.acm.org/citation.cfm?id=1108679&amp;srt=year&amp;year=2008&amp;aw=140&amp;ao=AMTURING&quot;&gt;2008 Turing Award&lt;/a&gt;, the first woman receipient.&lt;/p&gt;
@@ -7372,7 +7372,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>But We're Not [Insert Web Firm]</title>
-   <link href="http://jaysoo.ca/2009/03/10/but-were-not-insert-web-firm"/>
+   <link href="http://jaysoo.ca/2009/03/10/but-were-not-insert-web-firm/"/>
    <updated>2009-03-10T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2009/03/10/but-were-not-insert-web-firm</id>
    <content type="html">&lt;p&gt;I've heard on a few occasions where someone tells me, &quot;You know that's a great idea but we just can't do it. We're not Google.&quot; It can also be subsituted with Amazon, Yahoo, or any other big web firms. Actually, once I've even heard the excuse, &quot;But we're not a tech firm.&quot; &lt;/p&gt;
@@ -7393,7 +7393,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Video manipulation in Firefox 3.1 using HTML 5</title>
-   <link href="http://jaysoo.ca/2009/03/04/video-manipulation-in-firefox-3-1-using-html-5"/>
+   <link href="http://jaysoo.ca/2009/03/04/video-manipulation-in-firefox-3-1-using-html-5/"/>
    <updated>2009-03-04T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/03/04/video-manipulation-in-firefox-3-1-using-html-5</id>
    <content type="html">&lt;p&gt;Here's an cool &lt;a href=&quot;https://developer.mozilla.org/En/Manipulating_video_using_canvas&quot;&gt;post&lt;/a&gt; from the Mozilla Developer Center regarding the new &lt;code&gt;&amp;lt;video&amp;gt;&amp;lt;/video&amp;gt;&lt;/code&gt; in Firefox 3.1. The demo featured is a video filmed with a green screen, and the green screen is replaced with an image in real-time using JavaScript.&lt;/p&gt;
@@ -7403,7 +7403,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Your Code Is Too Clever</title>
-   <link href="http://jaysoo.ca/2009/02/24/your-code-is-too-clever"/>
+   <link href="http://jaysoo.ca/2009/02/24/your-code-is-too-clever/"/>
    <updated>2009-02-24T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/02/24/your-code-is-too-clever</id>
    <content type="html">&lt;p&gt;As programmers we are often to &lt;a href=&quot;http://en.wikipedia.org/wiki/KISS_principle&quot;&gt;keep things simple&lt;/a&gt;, and not to be too clever. While I agree with these principles most of the time, I hope that they are not used as an excuse to avoid finding better solutions for our problems.&lt;/p&gt;
@@ -7449,7 +7449,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>Java Is Just Too Slow</title>
-   <link href="http://jaysoo.ca/2009/02/16/java-is-just-too-slow"/>
+   <link href="http://jaysoo.ca/2009/02/16/java-is-just-too-slow/"/>
    <updated>2009-02-16T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/02/16/java-is-just-too-slow</id>
    <content type="html">&lt;p&gt;Java is &lt;em&gt;slow&lt;/em&gt;. And by slow I don't mean it's execution speed. I'm talking about development speed.&lt;/p&gt;
@@ -7512,7 +7512,7 @@ for website authors to prevent Greasemonkey from loading on their website now --
  
  <entry>
    <title>JavaScript, Anonymous Function, Closure, and You</title>
-   <link href="http://jaysoo.ca/2009/02/14/javascript-anonymous-function-closure-and-you"/>
+   <link href="http://jaysoo.ca/2009/02/14/javascript-anonymous-function-closure-and-you/"/>
    <updated>2009-02-14T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2009/02/14/javascript-anonymous-function-closure-and-you</id>
    <content type="html">&lt;p&gt;There are many things that web developers &lt;em&gt;should&lt;/em&gt; know about JavaScript, but the most basic of things are &lt;a href=&quot;http://en.wikipedia.org/wiki/Anonymous_function&quot;&gt;anonymous functions&lt;/a&gt; and &lt;a href=&quot;http://en.wikipedia.org/wiki/Closure_(computer_science)&quot;&gt;closure&lt;/a&gt;. Both are very powerful tools for anyone working with JavaScript.&lt;/p&gt;
@@ -7605,7 +7605,7 @@ e.g. 1 -&gt; 'January', 2 --&gt;&amp;nbsp; 'February', 9 --&gt; 'September'&lt;/
  
  <entry>
    <title>Thinking Analytically - Project Euler Problem 28</title>
-   <link href="http://jaysoo.ca/2008/11/10/project-euler-problem-28"/>
+   <link href="http://jaysoo.ca/2008/11/10/project-euler-problem-28/"/>
    <updated>2008-11-10T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2008/11/10/project-euler-problem-28</id>
    <content type="html">&lt;p&gt;In this post, I will show a method for analyzing Problem 28 on &lt;a href=&quot;http://projecteuler.net/&quot;&gt;Project Euler&lt;/a&gt;

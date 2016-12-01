@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Project Euler - Problem 230: Fibonacci Words &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-right" action="/search.html" method="GET">
+              <input id="q" name="q" type="text" class="search-query" placeholder="Search">
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Project Euler - Problem 230: Fibonacci Words
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>I wrote a Python script to solve <a href="http://projecteuler.net/index.php?section=problems&id=230">Problem 230</a> on Project Euler. You can read the problem via the link. It involves a sequence known as <a href="http://en.wikipedia.org/wiki/Fibonacci_word">Fibonacci Word</a>. The sequences goes as follows:</p>
+
+    A
+    B
+    AB
+    BAB
+    ABBAB
+    BABABBAB
+    ...
+
+<p>The above sequence of words is Fibonacci in that the length of the words form the sequence 1, 1, 2, 3, 5, 8, ...</p>
+<p>My solution uses the <a href="http://en.wikipedia.org/wiki/Golden_ratio">Golden Ratio</a> as a way to figure out whether we are in the A or B. The relationship between <a href="http://en.wikipedia.org/wiki/Fibonacci">Fibonacci</a> sequence and Gold Ratio is pretty well known.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">g</span> <span class="o">=</span> <span class="mf">1.6180339887498949</span> <span class="c"># golden ratio</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">'14159265358979323846264338327950288419716939937510'</span> <span class="o">+</span>
+    <span class="s">'58209749445923078164062862089986280348253421170679'</span><span class="p">,</span>
+    <span class="s">'82148086513282306647093844609550582231725359408128'</span> <span class="o">+</span>
+    <span class="s">'48111745028410270193852110555964462294895493038196'</span>
+<span class="p">)</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">D</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">l</span>
+    <span class="n">j</span> <span class="o">=</span>  <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">l</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">j</span><span class="o">//</span><span class="n">g</span> <span class="o">*</span> <span class="n">g</span> <span class="o">&lt;</span> <span class="n">j</span> <span class="k">else</span> <span class="mi">0</span> <span class="c"># magic</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+
+<span class="k">print</span> <span class="nb">sum</span><span class="p">([</span><span class="mi">10</span><span class="o">**</span><span class="n">i</span> <span class="o">*</span> <span class="n">D</span><span class="p">((</span><span class="mi">127</span> <span class="o">+</span> <span class="mi">19</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span><span class="o">**</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">18</span><span class="p">)])</span></code></pre></figure>
+
+<p>Another good read about this topic is the <a href="http://en.wikipedia.org/wiki/L-System">L-system</a>, and also the <a href="http://mathforum.org/dr.math/faq/faq.golden.ratio.html">Fibonacci Rectangle</a>.</p>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2009/08/20/launched-morris-lums-photography-website/" title="Launched Morris Lum's Photography Website">&larr; Previous</a></li>
+      
+        <li><a href="/archive.html">Archive</a></li>
+      
+        <li class="next"><a href="/2009/09/11/recss-bookmarklet/" title="ReCSS Bookmarklet">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2009/08/27/project-euler-problem-230-fibonacci-words/';
+    var disqus_url = 'http://jaysoo.ca/2009/08/27/project-euler-problem-230-fibonacci-words/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>27 August 2009</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags.html#projecteuler-ref">projecteuler <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#math-ref">math <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#python-ref">python <span>7</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2009/08/27/project-euler-problem-230-fibonacci-words/&amp;text=Project%20Euler%20-%20Problem%20230:%20Fibonacci%20Words&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas/">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas/">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+      <li><a href="/2015/11/21/avoid-unnecessary-indirection/">Avoid Unnecessary Indirection</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+
