@@ -1,13 +1,14 @@
 ---
 created_at: 2014-03-20 23:00Z
 layout: post
-title: i18n with tagged template strings in ECMAScript 6
+title: i18n with tagged template literals in ECMAScript 2015
+redirect_from: 
+  - /2014/03/20/i18n-with-es6-template-strings
 tags: [javascript, es6, i18n]
 ---
 
-One of the new features coming to ECMAScript 6 (ES6), the next version of
-JavaScript standards, is the **template string**. The simplest use cases for
-template strings are creating multiline strings, and doing string interpolation.
+One of the new features of ECMAScript 2015 are [**template literals**](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals).
+The simplest use cases for template literals are creating multiline strings, and doing string interpolation.
 
 Multiline string:
 {% highlight javascript %}
@@ -22,19 +23,19 @@ let firstName = 'Bob', lastName = 'Smith';
 let msg = `Hello ${firstName} ${lastName}!`; // 'Hello Bob Smith!'
 {% endhighlight %}
 
-You can also **tag** a template string by adding an expression before it.
-When a template string is tagged, the literals and substitutions are passed to
+You can also **tag** template literals by adding an expression before it.
+When template literals are tagged, the strings and place holder substitutions are passed to
 the tag function, and whatever returns from the function is the resulting value.
 
 {% highlight javascript %}
-function foo(literals, ...values) {
+function foo(strings, ...values) {
   return 42;
 }
 
 foo`What do you get if you multiply ${6} by ${9}?`; // 42
 
 // In the foo function:
-//   literals = ['What do you  get if you multiply ', ' by ', '?']
+//   strings = ['What do you  get if you multiply ', ' by ', '?']
 //   values[0] = 6
 //   values[1] = 9
 {% endhighlight %}
@@ -62,8 +63,8 @@ i18n`Hello ${name}, you have ${amount}:c(CAD) in your bank account.`
 {% endhighlight %}
 
 Here, we are expecting to translate the literals into the language of our choosing.
-We are also adding optional annotations to the substitutions. In this case, the
-`amount` value has the `:c(CAD)` annotation, which marks it as a currency **type**
+We are also adding optional annotations to the place holders. In this case, the
+`amount` place holder has the `:c(CAD)` annotation, which marks it as a currency **type**
 that is in Canadian Dollars (CAD).
 
 If we translated this string to German, for example, we expect the result to be
@@ -103,7 +104,7 @@ let I18n = {
     return I18n.translate;
   },
 
-  translate(literals, ...values) {
+  translate(strings, ...values) {
     let translationKey = ...;
     let translationString = I18n.messages[translationKey];
 
@@ -120,7 +121,7 @@ let I18n = {
 The `translationString` should match the keys in our message bundle. In our previous
 German translation example, this would be `'Hello {0}, you have {1} in your bank account.'`.
 
-The `localizedValues` array is a map of substitution `values` in their localized
+The `localizedValues` array is a map of `values` in their localized
 forms. For example, in German `1000.12` should show as `'1.000,12'`.
 
 Now, I will show a full implementation of the library.
@@ -139,12 +140,12 @@ let I18n = {
     return I18n.translate;
   },
 
-  translate(literals, ...values) {
-    let translationKey = I18n._buildKey(literals);
+  translate(strings, ...values) {
+    let translationKey = I18n._buildKey(strings);
     let translationString = I18n.messageBundle[translationKey];
 
     if (translationString) {
-      let typeInfoForValues = literals.slice(1).map(I18n._extractTypeInfo);
+      let typeInfoForValues = strings.slice(1).map(I18n._extractTypeInfo);
       let localizedValues = values.map((v, i) => I18n._localize(v, typeInfoForValues[i]));
       return I18n._buildMessage(translationString, ...localizedValues);
     }
@@ -168,8 +169,8 @@ let I18n = {
     )
   },
 
-  _extractTypeInfo(literal) {
-    let match = typeInfoRegex.exec(literal);
+  _extractTypeInfo(str) {
+    let match = typeInfoRegex.exec(str);
     if (match) {
       return {type: match[1], options: match[3]};
     } else {
@@ -182,12 +183,12 @@ let I18n = {
   },
 
   // e.g. I18n._buildKey(['', ' has ', ':c in the']) == '{0} has {1} in the bank'
-  _buildKey(literals) {
+  _buildKey(strings) {
     let stripType = s => s.replace(typeInfoRegex, '');
-    let lastPartialKey = stripType(literals[literals.length - 1]);
+    let lastPartialKey = stripType(strings[strings.length - 1]);
     let prependPartialKey = (memo, curr, i) => `${stripType(curr)}{${i}}${memo}`;
 
-    return literals.slice(0, -1).reduceRight(prependPartialKey, lastPartialKey);
+    return strings.slice(0, -1).reduceRight(prependPartialKey, lastPartialKey);
   },
 
   // e.g. I18n._formatStrings('{0} {1}!', 'hello', 'world') == 'hello world!'
@@ -280,7 +281,7 @@ Here's a link to an [ES6 Fiddle](http://www.es6fiddle.net/i0rj2cc9/) for a live 
 
 ## Concluding thoughts
 
-The tagged template string can be used to provide powerful DSL to JavaScript libraries.
+The tagged template literals can be used to provide powerful DSL to JavaScript libraries.
 I chose to try my hand at adding simple i18n support. There are still a lot of pieces
 missing to provide a comprehensive i18n solution, but I hope to have shown how one
 may go about building out this framework.
@@ -289,7 +290,7 @@ Pluralization can be a very tricky thing to tackle, and I am not qualified as of
 writing to understand all the nuances of implementing this feature. Perhaps with
 a little more thinking, there may be some hope to add it in as well.
 
-In any case, I do see a lot of potential in tagged template strings to add clean, clear
+In any case, I do see a lot of potential in tagged template literals to add clean, clear
 syntax for library functionalities.
 
 <small>Edit (2014/03/21): Fixed German translation and added a conclusion section.</small>

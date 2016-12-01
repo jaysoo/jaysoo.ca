@@ -7,6 +7,8 @@ http://jaysoo.ca/pages
 http://jaysoo.ca/search
 http://jaysoo.ca/sitemap.txt
 http://jaysoo.ca/tags
+http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings
+http://jaysoo.ca/2015/03/13/different-approach-to-angular-directives
 
 http://jaysoo.ca/2016/08/23/why-you-need-types
 http://jaysoo.ca/2016/02/28/organizing-redux-application
@@ -23,7 +25,7 @@ http://jaysoo.ca/2015/03/09/on-flux-stores-and-actions
 http://jaysoo.ca/2015/02/06/what-the-flux
 http://jaysoo.ca/2014/10/30/javascript-function-redux
 http://jaysoo.ca/2014/10/14/async-form-errors-and-messages-in-angularjs
-http://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings
+http://jaysoo.ca/2014/03/20/i18n-with-es2015-template-literals
 http://jaysoo.ca/2014/02/27/designing-angularjs-directives
 http://jaysoo.ca/2014/02/20/angulardart-webcomponents-and-the-future
 http://jaysoo.ca/2014/01/27/gruntjs-vs-gulpjs
