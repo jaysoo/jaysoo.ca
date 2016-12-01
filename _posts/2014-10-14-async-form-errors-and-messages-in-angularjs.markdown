@@ -16,6 +16,13 @@ In this post we will cover three new features:
 - $asyncValidators on NgModelController
 - ngModelOptions
 
+
+<div class="alert alert-warning">
+  <strong>Warning:</strong> This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see <a href="http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/">This post</a>
+  for things to watch out for when reading older Angular posts.
+</div>
+
 ## New messaging framework
 
 The **ngMessages** module adds two directives that are designed to show and hide messages based on the state of the object

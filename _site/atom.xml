@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-12-01T16:45:20-05:00</updated>
+ <updated>2016-12-01T17:03:14-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -3323,6 +3323,12 @@ in Angular 1.&lt;/p&gt;
 
 &lt;p&gt;See my &lt;a href=&quot;https://github.com/jaysoo/todomvc-angular1-components&quot;&gt;GitHub repository&lt;/a&gt; for the full working source code.&lt;/p&gt;
 
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
+
 &lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
 
 &lt;p&gt;I will be writing directives in the following pattern. Please read the comments
@@ -3600,6 +3606,12 @@ is set to &lt;code class=&quot;highlighter-rouge&quot;&gt;'EA'&lt;/code&gt;, mea
 The reason is that attributes are hard to compose. When multiple attribute
 directives exist on one element, it can be challenging to figure out the resulting
 behaviour.&lt;/p&gt;
+
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
 
 &lt;h2 id=&quot;composability-issues-with-attributes&quot;&gt;Composability issues with attributes&lt;/h2&gt;
 
@@ -4590,6 +4602,12 @@ much easier in AngularJS 1.3!&lt;/p&gt;
   &lt;li&gt;ngModelOptions&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
+
 &lt;h2 id=&quot;new-messaging-framework&quot;&gt;New messaging framework&lt;/h2&gt;
 
 &lt;p&gt;The &lt;strong&gt;ngMessages&lt;/strong&gt; module adds two directives that are designed to show and hide messages based on the state of the object
@@ -5044,6 +5062,12 @@ These situations typically involve DOM manipulations, or calling a jQuery plugin
 problem that will first be solved without custom directives. I will then provide some motivation for creating custom
 directives. And finally, I will show an implementation for these directives.&lt;/p&gt;
 
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
+
 &lt;p&gt;&lt;strong&gt;In this post we’ll cover:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
@@ -5430,6 +5454,12 @@ changes. The list goes on.&lt;/p&gt;
   &lt;li&gt;AngularJS developers&lt;/li&gt;
   &lt;li&gt;Developers that enjoy learning about new web technologies&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
 
 &lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
 
@@ -5852,6 +5882,12 @@ of custom directives. Directives allow developers to match markers in the DOM wi
 &lt;/ul&gt;
 
 &lt;p&gt;This post assume you have some experience with Angular directives.&lt;/p&gt;
+
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
 
 &lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
 

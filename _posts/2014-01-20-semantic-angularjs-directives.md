@@ -17,6 +17,12 @@ In this post we'll cover:
 
 This post assume you have some experience with Angular directives.
 
+<div class="alert alert-warning">
+  <strong>Warning:</strong> This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see <a href="http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/">This post</a>
+  for things to watch out for when reading older Angular posts.
+</div>
+
 ## Motivation
 
 The first question you may have is why we care about semantics when building directives. I will attempt to answer that

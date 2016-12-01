@@ -23,6 +23,13 @@ in Angular 1.
 
 See my [GitHub repository](https://github.com/jaysoo/todomvc-angular1-components) for the full working source code.
 
+
+<div class="alert alert-warning">
+  <strong>Warning:</strong> This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see <a href="http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/">This post</a>
+  for things to watch out for when reading older Angular posts.
+</div>
+
 ### Before We Begin...
 
 I will be writing directives in the following pattern. Please read the comments

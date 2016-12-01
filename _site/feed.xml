@@ -3314,6 +3314,12 @@ in Angular 1.&lt;/p&gt;
 
 &lt;p&gt;See my &lt;a href=&quot;https://github.com/jaysoo/todomvc-angular1-components&quot;&gt;GitHub repository&lt;/a&gt; for the full working source code.&lt;/p&gt;
 
+&lt;div class=&quot;alert alert-warning&quot;&gt;
+  &lt;strong&gt;Warning:&lt;/strong&gt; This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see &lt;a href=&quot;http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/&quot;&gt;This post&lt;/a&gt;
+  for things to watch out for when reading older Angular posts.
+&lt;/div&gt;
+
 &lt;h3 id=&quot;before-we-begin&quot;&gt;Before We Begin…&lt;/h3&gt;
 
 &lt;p&gt;I will be writing directives in the following pattern. Please read the comments

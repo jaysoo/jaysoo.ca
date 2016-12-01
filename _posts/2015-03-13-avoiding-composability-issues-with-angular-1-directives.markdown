@@ -17,6 +17,13 @@ The reason is that attributes are hard to compose. When multiple attribute
 directives exist on one element, it can be challenging to figure out the resulting
 behaviour.
 
+
+<div class="alert alert-warning">
+  <strong>Warning:</strong> This post was written for AngularJS 1.4 and may contain outdated information.
+  Please see <a href="http://www.codelord.net/2016/11/23/spotting-outdated-angular-1-dot-x-posts/">This post</a>
+  for things to watch out for when reading older Angular posts.
+</div>
+
 ## Composability issues with attributes
 
 Say I have these two directives that changes text colour depending on a value it observes.
