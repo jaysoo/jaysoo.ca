@@ -3,7 +3,7 @@ created_at: 2014-03-20 23:00Z
 layout: post
 title: i18n with tagged template literals in ECMAScript 2015
 redirect_from: 
-  - /2014/03/20/i18n-with-es6-template-strings
+  - /2014/03/20/i18n-with-es6-template-strings/
 tags: [javascript, es6, i18n]
 ---
 

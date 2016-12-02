@@ -3,7 +3,7 @@ created_at: 2015-03-13 00:23Z
 layout: post
 title: Avoiding Composability Issues With Angular 1 Directives
 redirect_from:
-  - /2015/03/13/different-approach-to-angular-directives
+  - /2015/03/13/different-approach-to-angular-directives/
 tags: [javascript, angular]
 ---
 
