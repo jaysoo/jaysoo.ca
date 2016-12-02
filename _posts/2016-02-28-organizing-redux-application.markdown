@@ -273,7 +273,7 @@ when `a` is imported by `b` (due to circular dependencies).
 
 The implication here is that we **cannot both have `projects` depend on action types within
 `todos` *and* `todos` depend on action types within `projects.`** You can get
-around restriction in clever ways, but if you go down this road I can guarantee you that it
+around this restriction in clever ways, but if you go down this road I can guarantee you that it
 will come to bite you later on!
 
 #### Don't make hairballs!

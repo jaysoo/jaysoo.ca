@@ -539,7 +539,7 @@ when &lt;code class=&quot;highlighter-rouge&quot;&gt;a&lt;/code&gt; is imported 
 
 &lt;p&gt;The implication here is that we &lt;strong&gt;cannot both have &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt; depend on action types within
 &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt; &lt;em&gt;and&lt;/em&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt; depend on action types within &lt;code class=&quot;highlighter-rouge&quot;&gt;projects.&lt;/code&gt;&lt;/strong&gt; You can get
-around restriction in clever ways, but if you go down this road I can guarantee you that it
+around this restriction in clever ways, but if you go down this road I can guarantee you that it
 will come to bite you later on!&lt;/p&gt;
 
 &lt;h4 id=&quot;dont-make-hairballs&quot;&gt;Don’t make hairballs!&lt;/h4&gt;
