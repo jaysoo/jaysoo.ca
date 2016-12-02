@@ -2,7 +2,7 @@
 <script type="text/javascript">
     {% if site.safe == false %}var disqus_developer = 1;{% endif %}
     var disqus_shortname = '{{ site.JB.comments.disqus.short_name }}';
-    var disqus_identifier = '{{ page.url }}';
+    var disqus_identifier = '{{ page.url }}'.replace(/\/$/, '');
     var disqus_url = '{{ site.url }}{{ page.url }}';
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function() {
