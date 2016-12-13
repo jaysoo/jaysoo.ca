@@ -4,13 +4,269 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-12-05T21:47:31-05:00</updated>
+ <updated>2016-12-13T01:03:41-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
    <email>jack.hsu@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Additional Guidelines For (Redux) Project Structure</title>
+   <link href="http://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/"/>
+   <updated>2016-12-12T00:00:00-05:00</updated>
+   <id>hhttp://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure</id>
+   <content type="html">&lt;p&gt;In this series we are looking at code organization in the context of a React and Redux application. The takeaways for the “Three Rules” presented here
+should be applicable to any application, not just React/Redux.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Series contents&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/&quot;&gt;Part 1 - Three Rules for Structuring (Redux) Applications&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-1-organize-by-feature&quot;&gt;Rule #1: Organize by feature&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-2-create-strict-module-boundaries&quot;&gt;Rule #2: Create strict module boundaries&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-3-avoid-circular-dependencies&quot;&gt;Rule #3: Avoid circular dependencies&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/&quot;&gt;Part 2 - The Anatomy Of A React &amp;amp; Redux Module (Applying The Three Rules)&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#module-index-and-constants&quot;&gt;Module index and constants&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#actions--action-creators&quot;&gt;Actions &amp;amp; Action creators&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#model&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#reducers&quot;&gt;Reducers&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#selectors&quot;&gt;Selectors&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#components&quot;&gt;Components&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Part 3 - Additional Guidelines For (Redux) Project Structure
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#what-to-do-with-common-components&quot;&gt;What to do with common components?&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#exporting-and-testing-connected-components&quot;&gt;Exporting and testing connected components&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#normalizing-application-state&quot;&gt;Normalizing application state&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;The Three Rules I presented in the first post are purposely minimal. I don’t believe in being too prescriptive on project structure, since a lot of
+it will depend on the type of project or personal preferences.&lt;/p&gt;
+
+&lt;p&gt;What I want to do in this post is to present other (hopefully helpful!) guidelines for those looking for help with code organization.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-to-do-with-common-components&quot;&gt;What to do with common components?&lt;/h2&gt;
+
+&lt;p&gt;In a lot of applications, there will be common components that are used everywhere. Some examples could be &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Image&amp;gt;&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Title&amp;gt;&lt;/code&gt; components
+that are not related to any feature per se.&lt;/p&gt;
+
+&lt;p&gt;My recommendation for these components is to do one of two things.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Keep the common components outside of the &lt;code class=&quot;highlighter-rouge&quot;&gt;modules/&lt;/code&gt; directory.&lt;/li&gt;
+  &lt;li&gt;Make a &lt;code class=&quot;highlighter-rouge&quot;&gt;core&lt;/code&gt; module that includes all of these components.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;introducing-a-separate-components-folder&quot;&gt;Introducing a separate components folder&lt;/h3&gt;
+
+&lt;p&gt;In this case, your application structure may be as follows.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;common&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt; 
+    &lt;span class=&quot;nx&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;feature&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;actions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;reducer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;By moving common components outside of the &lt;code class=&quot;highlighter-rouge&quot;&gt;modules&lt;/code&gt;, it &lt;em&gt;may&lt;/em&gt; send a stronger signal that these components
+are not coupled to any part of the application state.&lt;/p&gt;
+
+&lt;h3 id=&quot;using-a-core-module-for-common-concerns&quot;&gt;Using a core module for common concerns&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;up&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;entire&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;application&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt; 
+        &lt;span class=&quot;nx&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;actions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;reducer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Using a &lt;code class=&quot;highlighter-rouge&quot;&gt;core&lt;/code&gt; module to group common components reduces the number of “things” in system (everything is a module!), but perhaps
+at the cost of having a wider definition of what a “module” is – e.g. it may or may not manage a slice of the application state.&lt;/p&gt;
+
+&lt;p&gt;Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too 
+many components in there. If a component is part of a new feature then make sure a new feature module is created!&lt;/p&gt;
+
+&lt;h2 id=&quot;exporting-and-testing-connected-components&quot;&gt;Exporting and testing connected components&lt;/h2&gt;
+
+&lt;p&gt;A connected component in a Redux application is one that is wired up to query from the state (using selectors), and can
+dispatch actions.&lt;/p&gt;
+
+&lt;p&gt;I tend to expose connected components from my modules. The reasoning behind this is that the consumers of those components
+don’t necessarily want to wire up an unconnected component each time that they are used.&lt;/p&gt;
+
+&lt;p&gt;For example, the public interface of a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Todo&amp;gt;&lt;/code&gt; component should be its ID, and perhaps any additional options or callbacks.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;123&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;dark&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;large&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;onUpdate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{...}&lt;/span&gt;
+&lt;span class=&quot;sr&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This hides all of the internal details of data flow within the &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt; module.&lt;/p&gt;
+
+&lt;p&gt;Contrast the above to an unconnected component.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{...}&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;actions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{...}&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;theme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;dark&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;large&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;onUpdate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{...}&lt;/span&gt;
+&lt;span class=&quot;sr&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;In the unconnected case, the consumer of the component has the additional responsibility of providing the queried &lt;code class=&quot;highlighter-rouge&quot;&gt;todo&lt;/code&gt; object,
+as well as any required &lt;code class=&quot;highlighter-rouge&quot;&gt;actions&lt;/code&gt; functions (e.g. action creators). This means that you would have to keep repeating the same code
+of importing action creators and selectors, and connecting them each time a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Todo&amp;gt;&lt;/code&gt; is used!&lt;/p&gt;
+
+&lt;p&gt;Now, there is one downside of exporting connected components. It makes &lt;strong&gt;unit testing more complicated&lt;/strong&gt;, because each time you test
+the component, you have instantiate the Redux store with the correct reducers, etc.&lt;/p&gt;
+
+&lt;p&gt;One way to deal with this &lt;em&gt;is&lt;/em&gt; to always test these components with stores. This has the benefit of being closer to integration tests,
+however, it makes testing pure renders a lot more cumbersome. That is, if you just want to test that the component renders correctly,
+given a set of inputs, then having to deal with stores is not ideal.&lt;/p&gt;
+
+&lt;p&gt;A simple solution is to export both the connected &lt;em&gt;and&lt;/em&gt; unconnected components. The unconnected component can be exported only within
+the module for testing purposes.&lt;/p&gt;
+
+&lt;p&gt;For example, a test for &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Todo&amp;gt;&lt;/code&gt; may be as follows.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// In todos/components/__tests__/Todo-test.js&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shallow&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'enzyme'&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tape'&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'../'&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// This named export is unconnected.&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'it renders correctly'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Finish writing post'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;wrapper&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;shallow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/Finish writing post/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;wrapper&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()),&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'renders text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Given that the component is as follows.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// In todos/components/Todo.js&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Exporting named, unconnected component for testing purposes.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;actions&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/p&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// The default export is the connected component.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(...)(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And in the &lt;code class=&quot;highlighter-rouge&quot;&gt;todos/index.js&lt;/code&gt; we would only export the connected component.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// In todos/index.js&lt;/span&gt;
+
+&lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./components/Todo'&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;normalizing-application-state&quot;&gt;Normalizing application state&lt;/h2&gt;
+
+&lt;p&gt;The last guideline is the always normalize your application state. This makes it much more natural to work with selectors from other modules.&lt;/p&gt;
+
+&lt;p&gt;For example, the &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt; module can keep its records in a map.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;todos&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;byId&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Item One&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;done&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;2&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Item Two&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;done&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;3&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Item Three&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;done&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then, in other modules (such as &lt;code class=&quot;highlighter-rouge&quot;&gt;projects&lt;/code&gt;), we can reference Todos by their IDs.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;projects&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;byId&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;100&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Some Project&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;todos&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// These IDs should exist in the `todos` state.&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;By normalizing data, we can &lt;strong&gt;avoid stale data&lt;/strong&gt; issue, since we never duplicate the same object twice in the system. Any references to an entity has
+to use its ID, not an object reference or a clone.&lt;/p&gt;
+
+&lt;p&gt;As an added bonus, this normalization of state plays very nicely with connected components.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/h2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;Todos&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;project&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todoId&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Todo&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;todoId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/p&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;closing&quot;&gt;Closing&lt;/h2&gt;
+
+&lt;p&gt;In this series, we &lt;a href=&quot;/2016/02/28/organizing-redux-application/&quot;&gt;began&lt;/a&gt; by looking at the Three Rules for structuring applications.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Organize by features&lt;/li&gt;
+  &lt;li&gt;Create strict module boundaries&lt;/li&gt;
+  &lt;li&gt;Avoid circular dependencies&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Then, in the &lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/&quot;&gt;second post&lt;/a&gt;, we went into in-depth examples of how to structure each module with our application.&lt;/p&gt;
+
+&lt;p&gt;And lastly, in this post we explored additional guidelines to help with code organization.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Where do common/unconnected/dumb components fit in?&lt;/li&gt;
+  &lt;li&gt;Exporting and testing connected components&lt;/li&gt;
+  &lt;li&gt;Normalizing application state&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I hope this series has proven useful to you. Feel free to leave a comment, or reach me on Twitter (&lt;a href=&quot;https://twitter.com/jay_soo&quot;&gt;@jay_soo&lt;/a&gt;)!&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Why You Need Types</title>
@@ -301,11 +557,45 @@ systems in the front end, you can also check out &lt;a href=&quot;http://elm-lan
  </entry>
  
  <entry>
-   <title>Rules For Structuring (Redux) Applications</title>
+   <title>Three Rules For Structuring (Redux) Applications</title>
    <link href="http://jaysoo.ca/2016/02/28/organizing-redux-application/"/>
    <updated>2016-02-28T00:00:00-05:00</updated>
    <id>hhttp://jaysoo.ca/2016/02/28/organizing-redux-application</id>
-   <content type="html">&lt;p&gt;As our applications grow, we often find that file structure and organization
+   <content type="html">&lt;p&gt;In this series we are looking at code organization in the context of a React and Redux application. The takeaways for the “Three Rules” presented here
+should be applicable to any application, not just React/Redux.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Series contents&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Part 1 - Three Rules for Structuring (Redux) Applications
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-1-organize-by-feature&quot;&gt;Rule #1: Organize by feature&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-2-create-strict-module-boundaries&quot;&gt;Rule #2: Create strict module boundaries&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-3-avoid-circular-dependencies&quot;&gt;Rule #3: Avoid circular dependencies&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/&quot;&gt;Part 2 - The Anatomy Of A React &amp;amp; Redux Module (Applying The Three Rules)&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#module-index-and-constants&quot;&gt;Module index and constants&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#actions--action-creators&quot;&gt;Actions &amp;amp; Action creators&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#model&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#reducers&quot;&gt;Reducers&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#selectors&quot;&gt;Selectors&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#components&quot;&gt;Components&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/&quot;&gt;Part 3 - Additional Guidelines For (Redux) Project Structure&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#what-to-do-with-common-components&quot;&gt;What to do with common components?&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#exporting-and-testing-connected-components&quot;&gt;Exporting and testing connected components&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#normalizing-application-state&quot;&gt;Normalizing application state&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;As our applications grow, we often find that file structure and organization
 to be crucial for the maintainability of application code.&lt;/p&gt;
 
 &lt;p&gt;What I want to do in this post is to present three organizational rules that I
@@ -383,7 +673,7 @@ files, it is much better to have them sitting in the same location.&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;strong&gt;Note:&lt;/strong&gt; I will go into the details of what's inside the files
-  later in this post.
+  in the next post.
 &lt;/div&gt;
 
 &lt;p&gt;In a large project, organizing by feature affords you the ability to focus on the feature
@@ -567,13 +857,101 @@ inside the hairball, it would be hard &lt;em&gt;not&lt;/em&gt; to break somethin
 dependencies. Don’t fight against it. Instead, use that energy to properly factor
 your modules.&lt;/p&gt;
 
+&lt;p&gt;Now that we have our three rules, there is one last topic I want to discuss: How to detect project smells.&lt;/p&gt;
+
+&lt;h3 id=&quot;litmus-test-for-project-structure&quot;&gt;Litmus test for project structure&lt;/h3&gt;
+
+&lt;p&gt;It is important for us to have the tools to tell us when something smells in our code.
+From experience, just because a project starts out clean doesn’t mean it’ll stay that way.
+Thus, I want to present an easy method to detect project structure smells.&lt;/p&gt;
+
+&lt;p&gt;Every once in a while, pick a module in your application and &lt;strong&gt;try to extract it as
+an external module&lt;/strong&gt; (e.g. a NodeJS module, Ruby gem, etc). You don’t have to actually
+do it, but at least think it through. If you can perform this extraction without much
+effort then you know it is well factored. The term “effort” here remains undefined, so you
+need to come up with your own measure (whether subjective or objective).&lt;/p&gt;
+
+&lt;p&gt;Run this experiment with other modules in your application. Jot down any problems you
+find in your experiments: circular dependencies, modules breaching boundaries, etc.&lt;/p&gt;
+
+&lt;p&gt;Whether you choose to take action based on your findings is up to you. Afterall, the
+software industry is all about tradeoffs. But at the very least it should give you a much better
+insight into your project structure.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Project structure isn’t a particularly exciting topic to discuss. It is, however, an important
+one.&lt;/p&gt;
+
+&lt;p&gt;The three rules presented in this post are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Organize by features&lt;/li&gt;
+  &lt;li&gt;Create strict module boundaries&lt;/li&gt;
+  &lt;li&gt;Avoid circular dependencies&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/&quot;&gt;next post&lt;/a&gt;, we will
+dive deeper into code examples and learn how these rules can be applied to a React and Redux project.&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>The Anatomy Of A React & Redux Module (Applying The Three Rules)</title>
+   <link href="http://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/"/>
+   <updated>2016-02-28T00:00:00-05:00</updated>
+   <id>hhttp://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code</id>
+   <content type="html">&lt;p&gt;In this series we are looking at code organization in the context of a React and Redux application. The takeaways for the “Three Rules” presented here
+should be applicable to any application, not just React/Redux.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Series contents&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/&quot;&gt;Part 1 - Three Rules for Structuring (Redux) Applications&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-1-organize-by-feature&quot;&gt;Rule #1: Organize by feature&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-2-create-strict-module-boundaries&quot;&gt;Rule #2: Create strict module boundaries&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/organizing-redux-application/#rule-3-avoid-circular-dependencies&quot;&gt;Rule #3: Avoid circular dependencies&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Part 2 - The Anatomy of a React &amp;amp; Redux Module (Applying The Three Rules)
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#module-index-and-constants&quot;&gt;Module index and constants&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#actions--action-creators&quot;&gt;Actions &amp;amp; Action creators&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#model&quot;&gt;Model&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#reducers&quot;&gt;Reducers&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#selectors&quot;&gt;Selectors&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#components&quot;&gt;Components&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/&quot;&gt;Part 3 - Additional Guidelines For (Redux) Project Structure&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#what-to-do-with-common-components&quot;&gt;What to do with common components?&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#exporting-and-testing-connected-components&quot;&gt;Exporting and testing connected components&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/#normalizing-application-state&quot;&gt;Normalizing application state&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;In this post, we are expanding on the &lt;a href=&quot;/2016/02/28/organizing-redux-application/&quot;&gt;three rules of structuring applications&lt;/a&gt;
+and diving deeper into the contents of the different files with a Redux and React application.&lt;/p&gt;
+
+&lt;p&gt;This post will be specifically about React and Redux, so feel free to skip to the next post if you are not interested in these libraries.&lt;/p&gt;
+
 &lt;h2 id=&quot;in-depth-example-and-recommendations&quot;&gt;In-depth example and recommendations&lt;/h2&gt;
 
-&lt;p&gt;I want to do a deeper dive into the contents of the different files within a Redux
-and React application. This section will be specifically about these frameworks, so
-feel free to skip if you are not interested in them. :)&lt;/p&gt;
+&lt;p&gt;Recall the three rules presented in the previous post:&lt;/p&gt;
 
-&lt;p&gt;Let’s take a look at our TODO app again. (I added constants, model, and selectors into this example)&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Organize by features&lt;/li&gt;
+  &lt;li&gt;Create strict module boundaries&lt;/li&gt;
+  &lt;li&gt;Avoid circular dependencies&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now, let’s take a look at our TODO app again. (I added constants, model, and selectors into this example)&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
@@ -615,11 +993,11 @@ surface where modules can interface with each other.&lt;/p&gt;
   &lt;a href=&quot;https://github.com/erikras/ducks-modular-redux&quot;&gt;Ducks&lt;/a&gt; structure.
 &lt;/div&gt;
 
-&lt;h3 id=&quot;action-types--action-creators&quot;&gt;Action types &amp;amp; Action creators&lt;/h3&gt;
+&lt;h3 id=&quot;actions--action-creators&quot;&gt;Actions &amp;amp; Action creators&lt;/h3&gt;
 
 &lt;p&gt;Action types are just string constants within Redux. The only thing I’ve changed here
-is that I prefixed each type with “todos/” in order to create a namespace for the module. This
-avoid name collisions with other modules in the application.&lt;/p&gt;
+is that I prefixed each type with “todos/” in order to create a namespace for the module.
+This helps to avoid name collisions with other modules in the application.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// todos/actionTypes.js&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ADD&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'todos/ADD'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -701,7 +1079,7 @@ instead of relying on a static key.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// todos/reducer.js&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./actionTypes'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;State&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./model'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;State&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'./model'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;initialState&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;State&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;
   &lt;span class=&quot;na&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Use Redux'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
@@ -781,43 +1159,27 @@ way to unit test the mapping of state to props without relying on component test
   &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;TodoList&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;That’s it in terms of my recommendations. But before we go, there is one last topic I want
-to discuss: How to detect project smells.&lt;/p&gt;
+&lt;h3 id=&quot;other-responsibilities&quot;&gt;Other responsibilities&lt;/h3&gt;
 
-&lt;h2 id=&quot;litmus-test-for-project-structure&quot;&gt;Litmus test for project structure&lt;/h2&gt;
+&lt;p&gt;There are many other things that could be included in a module. For example, you may be using &lt;a href=&quot;https://github.com/yelouafi/redux-saga&quot;&gt;redux-saga&lt;/a&gt;,
+which should definitely be included in your module structure – where each module can optionally expose a root saga.&lt;/p&gt;
 
-&lt;p&gt;It is important for us to have the tools to tell us when something smells in our code.
-From experience, just because a project starts out clean doesn’t mean it’ll stay that way.
-Thus, I want to present an easy method to detect project structure smells.&lt;/p&gt;
+&lt;p&gt;Other things that you may include are route handlers (or containers) for use with &lt;a href=&quot;https://github.com/ReactTraining/react-router&quot;&gt;react-router&lt;/a&gt; – or a similar routing library.&lt;/p&gt;
 
-&lt;p&gt;Every once in a while, pick a module in your application and &lt;strong&gt;try to extract it as
-an external module&lt;/strong&gt; (e.g. a NodeJS module, Ruby gem, etc). You don’t have to actually
-do it, but at least think it through. If you can perform this extraction without much
-effort then you know it is well factored. The term “effort” here remains undefined, so you
-need to come up with your own measure (whether subjective or objective).&lt;/p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 
-&lt;p&gt;Run this experiment with other modules in your application. Jot down any problems you
-find in your experiments: circular dependencies, modules breaching boundaries, etc.&lt;/p&gt;
+&lt;p&gt;We’ve seen in this post how to break down a React/Redux module into individual core responsibilities.&lt;/p&gt;
 
-&lt;p&gt;Whether you choose to take action based on your findings is up to you. Afterall, the
-software industry is all about tradeoffs. But at the very least it should give you a much better
-insight into your project structure.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Index and constants - The public API and constants.&lt;/li&gt;
+  &lt;li&gt;Actions and action creators - Information that flow through the application.&lt;/li&gt;
+  &lt;li&gt;Model - Types and utilities for the model.&lt;/li&gt;
+  &lt;li&gt;Reducers - Updates module state.&lt;/li&gt;
+  &lt;li&gt;Selectors - Queries module state.&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h2 id=&quot;closing&quot;&gt;Closing&lt;/h2&gt;
-
-&lt;p&gt;Project structure isn’t a particularly exciting topic to discuss. It is, however, an important
-one.&lt;/p&gt;
-
-&lt;p&gt;The three rules presented in this post are:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Organize by features&lt;/li&gt;
-  &lt;li&gt;Create strict module boundaries&lt;/li&gt;
-  &lt;li&gt;Avoid circular dependencies&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Whether you are using Redux and React or not, I highly recommend following these rules
-on your software projects.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;/2016/12/12/additional-guidelines-for-project-structure/&quot;&gt;last post&lt;/a&gt;
+of this series on code organization, we will discuss additional guidelines that fall outside of the “Three Rules.”&lt;/p&gt;
 
 </content>
  </entry>

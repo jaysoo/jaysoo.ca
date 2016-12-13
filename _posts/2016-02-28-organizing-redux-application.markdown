@@ -1,8 +1,33 @@
 ---
 created_at: 2016-02-28 06:38Z
 layout: post
-title: Rules For Structuring (Redux) Applications
+title: Three Rules For Structuring (Redux) Applications
+redirect_from:
+  - /2016/02/28/organizing-redux-application/
 tags: [programming,javascript,react,redux]
+---
+
+In this series we are looking at code organization in the context of a React and Redux application. The takeaways for the "Three Rules" presented here
+should be applicable to any application, not just React/Redux.
+
+**Series contents**
+
+- Part 1 - Three Rules for Structuring (Redux) Applications
+  - [Rule #1: Organize by feature]({% post_url 2016-02-28-organizing-redux-application %}#rule-1-organize-by-feature)
+  - [Rule #2: Create strict module boundaries]({% post_url 2016-02-28-organizing-redux-application %}#rule-2-create-strict-module-boundaries)
+  - [Rule #3: Avoid circular dependencies]({% post_url 2016-02-28-organizing-redux-application %}#rule-3-avoid-circular-dependencies)
+- [Part 2 - The Anatomy Of A React & Redux Module (Applying The Three Rules)]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %})
+  - [Module index and constants]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#module-index-and-constants)
+  - [Actions & Action creators]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#actions--action-creators)
+  - [Model]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#model)
+  - [Reducers]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#reducers)
+  - [Selectors]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#selectors)
+  - [Components]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}#components)
+- [Part 3 - Additional Guidelines For (Redux) Project Structure]({% post_url 2016-12-12-additional-guidelines-for-project-structure %})
+  - [What to do with common components?]({% post_url 2016-12-12-additional-guidelines-for-project-structure %}#what-to-do-with-common-components)
+  - [Exporting and testing connected components]({% post_url 2016-12-12-additional-guidelines-for-project-structure %}#exporting-and-testing-connected-components)
+  - [Normalizing application state]({% post_url 2016-12-12-additional-guidelines-for-project-structure %}#normalizing-application-state)
+
 ---
 
 As our applications grow, we often find that file structure and organization
@@ -91,7 +116,7 @@ rootReducer.js
 
 <div class="alert alert-info">
   <strong>Note:</strong> I will go into the details of what's inside the files
-  later in this post.
+  in the next post.
 </div>
 
 In a large project, organizing by feature affords you the ability to focus on the feature
@@ -292,248 +317,9 @@ By following Rule #2, it should make it hard for you to create these circular
 dependencies. Don't fight against it. Instead, use that energy to properly factor
 your modules.
 
-## In-depth example and recommendations
+Now that we have our three rules, there is one last topic I want to discuss: How to detect project smells.
 
-I want to do a deeper dive into the contents of the different files within a Redux
-and React application. This section will be specifically about these frameworks, so
-feel free to skip if you are not interested in them. :)
-
-Let's take a look at our TODO app again. (I added constants, model, and selectors into this example)
-
-{% highlight js %}
-todos/
-  components/
-  actions.js
-  actionTypes.js
-  constants.js
-  index.js
-  model.js
-  reducer.js
-  selectors.js
-index.js
-rootReducer.js
-{% endhighlight %}
-
-We can break these modules down by their responsibilities.
-
-### Module index and constants
-
-The module index is responsible for maintaining its public API. This is the exposed
-surface where modules can interface with each other.
-
-A minimum Redux + React application should be something like this.
-
-{% highlight js %}
-// todos/constants.js
-
-// This will be used later in our root reducer and selectors
-export const NAME = 'todos';
-{% endhighlight %}
-
-
-{% highlight js %}
-// todos/index.js
-import * as actions from './actions';
-import * as components from './components';
-import * as constants from './constants';
-import reducer from './reducer';
-import * as selectors from './selectors';
-
-export default { actions, components, constants, reducer, selectors };
-{% endhighlight %}
-
-<div class="alert alert-info">
-  <strong>Note:</strong> This is similar to the
-  <a href="https://github.com/erikras/ducks-modular-redux">Ducks</a> structure.
-</div>
-
-### Action types & Action creators
-
-Action types are just string constants within Redux. The only thing I've changed here
-is that I prefixed each type with "todos/" in order to create a namespace for the module. This
-avoid name collisions with other modules in the application.
-
-{% highlight js %}
-// todos/actionTypes.js
-export const ADD = 'todos/ADD';
-export const DELETE = 'todos/DELETE';
-export const EDIT = 'todos/EDIT';
-export const COMPLETE = 'todos/COMPLETE';
-export const COMPLETE_ALL = 'todos/COMPLETE_ALL';;
-export const CLEAR_COMPLETED = 'todos/CLEAR_COMPLETED';
-{% endhighlight %}
-
-As for action creators, not much changes from the usual Redux application.
-
-{% highlight js %}
-// todos/actions.js
-import * as t from './actionTypes';
-
-export const add = (text) => ({
-  type: t.ADD,
-  payload: { text }
-});
-
-// ...
-{% endhighlight %}
-
-Note that I don't necessarily need to use `addTodo` since I'm already in the `todos` module. In other
-modules I may use an action creator as follows.
-
-{% highlight js %}
-import todos from 'todos';
-
-// ...
-
-todos.actions.add('Do that thing');
-{% endhighlight %}
-
-### Model
-
-The `model.js` file is where I like to keep things that are related to the module's state.
-
-This is especially useful if you are using TypeScript or Flow.
-
-{% highlight js %}
-// todos/model.js
-export type Todo = {
-  id?: number;
-  text: string;
-  completed: boolean;
-};
-
-// This is the model of our module state (e.g. return type of the reducer)
-export type State = Todo[];
-
-// Some utility functions that operates on our model
-export const filterCompleted = todos => todos.filter(t => t.completed);
-
-export const filterActive = todos => todos.filter(t => !t.completed);
-{% endhighlight %}
-
-### Reducers
-
-For the reducers, each module should maintain their own state as before. However, there is one
-particular coupling that should be solved. That is, a module's reducer does not usually get to
-choose where it is mounted in the overall application state atom.
-
-This is problematic, because it means our **module selectors** (which we will cover next) will be
-**indirectly coupled to the root reducer**. In turn, the module components will also be coupled
-to the root reducer.
-
-We can solve this issue by giving control to the `todos` module on where it should be mounted
-in the state atom.
-
-{% highlight js %}
-// rootReducer.js
-import { combineReducers } from 'redux';
-import todos from './todos';
-
-export default combineReducers({
-  [todos.constants.NAME]: todos.reducer
-});
-{% endhighlight %}
-
-This removes the coupling between our `todos` module and root reducer. Of course, you don't
-*have* to do it this way. Other options include relying on naming conventions (e.g. `todos` module
-state is mounted under "todos" key in the state atom), or you can use module factory functions
-instead of relying on a static key.
-
-And the reducer would look as follows.
-
-{% highlight js %}
-// todos/reducer.js
-import t from './actionTypes';
-import { State } from './model';
-
-const initialState: State = [{
-  text: 'Use Redux',
-  completed: false,
-  id: 0
-}];
-
-export (state = initialState, action: any): State => {
-  switch (action.type) {
-    case t.ADD:
-      return [
-        // ...
-      ];
-    // ...
-  }
-};
-{% endhighlight %}
-
-### Selectors
-
-Selectors provide a way to query data from the module state. While they are not
-normally named as such in a Redux project, they are always present.
-
-The first argument of `connect` is a selector in that it selects values out of
-the state atom, and returns an object representing a component's props.
-
-I would urge that common selectors by placed in the `selectors.js` file so they
-can not only be reused within the module, but potentially be used by other modules
-in the application.
-
-I highly recommend that you check out [`reselect`](https://github.com/reactjs/reselect)
-as it provides a way to build composable selectors that are automatically memoized.
-
-{% highlight js %}
-// todos/selectors.js
-import { createSelector } from 'reselect';
-import _ from 'lodash';
-import { NAME } from './constants';
-import { filterActive, filterCompleted } from './model';
-
-export const getAll = state => state[NAME];
-
-export const getCompleted = _.compose(filterCompleted, getAll);
-
-export const getActive = _.compose(filterActive, getAll);
-
-export const getCounts = createSelector(
-  getAll,
-  getCompleted,
-  getActive,
-  (allTodos, completedTodos, activeTodos) => ({
-    all: allTodos.length,
-    completed: completedTodos.length,
-    active: activeTodos.length
-  })
-);
-{% endhighlight %}
-
-### Components
-
-And lastly, we have our React components. I encourage you to use shared
-selectors here as much as possible. It gives you the advantage of having an easy
-way to unit test the mapping of state to props without relying on component tests.
-
-Here's an example of a TODO list component.
-
-{% highlight js %}
-import { createStructuredSelector } from 'reselect';
-import { getAll } from '../selectors';
-import TodoItem from './TodoItem';
-
-const TodoList = ({ todos }) => (
-  <div>
-    todos.map(t => <TodoItem todo={t}/>)
-  </div>
-);
-
-export default connect(
-  createStructuredSelector({
-    todos: getAll
-  })
-)(TodoList);
-{% endhighlight %}
-
-
-That's it in terms of my recommendations. But before we go, there is one last topic I want
-to discuss: How to detect project smells.
-
-## Litmus test for project structure
+### Litmus test for project structure
 
 It is important for us to have the tools to tell us when something smells in our code.
 From experience, just because a project starts out clean doesn't mean it'll stay that way.
@@ -552,7 +338,7 @@ Whether you choose to take action based on your findings is up to you. Afterall,
 software industry is all about tradeoffs. But at the very least it should give you a much better
 insight into your project structure.
 
-## Closing
+## Summary
 
 Project structure isn't a particularly exciting topic to discuss. It is, however, an important
 one.
@@ -563,6 +349,7 @@ The three rules presented in this post are:
 2. Create strict module boundaries
 3. Avoid circular dependencies
 
-Whether you are using Redux and React or not, I highly recommend following these rules
-on your software projects.
+In the [next post]({% post_url 2016-02-28-applying-code-organization-rules-to-concrete-redux-code %}), we will
+dive deeper into code examples and learn how these rules can be applied to a React and Redux project.
+
 

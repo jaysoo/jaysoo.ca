@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Additional Guidelines For (Redux) Project Structure &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Additional Guidelines For (Redux) Project Structure
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>In this series we are looking at code organization in the context of a React and Redux application. The takeaways for the “Three Rules” presented here
+should be applicable to any application, not just React/Redux.</p>
+
+<p><strong>Series contents</strong></p>
+
+<ul>
+  <li><a href="/2016/02/28/organizing-redux-application/">Part 1 - Three Rules for Structuring (Redux) Applications</a>
+    <ul>
+      <li><a href="/2016/02/28/organizing-redux-application/#rule-1-organize-by-feature">Rule #1: Organize by feature</a></li>
+      <li><a href="/2016/02/28/organizing-redux-application/#rule-2-create-strict-module-boundaries">Rule #2: Create strict module boundaries</a></li>
+      <li><a href="/2016/02/28/organizing-redux-application/#rule-3-avoid-circular-dependencies">Rule #3: Avoid circular dependencies</a></li>
+    </ul>
+  </li>
+  <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/">Part 2 - The Anatomy Of A React &amp; Redux Module (Applying The Three Rules)</a>
+    <ul>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#module-index-and-constants">Module index and constants</a></li>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#actions--action-creators">Actions &amp; Action creators</a></li>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#model">Model</a></li>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#reducers">Reducers</a></li>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#selectors">Selectors</a></li>
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/#components">Components</a></li>
+    </ul>
+  </li>
+  <li>Part 3 - Additional Guidelines For (Redux) Project Structure
+    <ul>
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/#what-to-do-with-common-components">What to do with common components?</a></li>
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/#exporting-and-testing-connected-components">Exporting and testing connected components</a></li>
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/#normalizing-application-state">Normalizing application state</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>The Three Rules I presented in the first post are purposely minimal. I don’t believe in being too prescriptive on project structure, since a lot of
+it will depend on the type of project or personal preferences.</p>
+
+<p>What I want to do in this post is to present other (hopefully helpful!) guidelines for those looking for help with code organization.</p>
+
+<h2 id="what-to-do-with-common-components">What to do with common components?</h2>
+
+<p>In a lot of applications, there will be common components that are used everywhere. Some examples could be <code class="highlighter-rouge">&lt;Image&gt;</code> or <code class="highlighter-rouge">&lt;Title&gt;</code> components
+that are not related to any feature per se.</p>
+
+<p>My recommendation for these components is to do one of two things.</p>
+
+<ol>
+  <li>Keep the common components outside of the <code class="highlighter-rouge">modules/</code> directory.</li>
+  <li>Make a <code class="highlighter-rouge">core</code> module that includes all of these components.</li>
+</ol>
+
+<h3 id="introducing-a-separate-components-folder">Introducing a separate components folder</h3>
+
+<p>In this case, your application structure may be as follows.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">src</span><span class="o">/</span>
+  <span class="nx">components</span><span class="o">/</span>       <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">are</span> <span class="nx">common</span> <span class="nx">components</span>
+    <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span> 
+    <span class="nx">Title</span><span class="p">.</span><span class="nx">js</span>
+    <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nx">modules</span><span class="o">/</span>          <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">are</span> <span class="nx">the</span> <span class="nx">feature</span> <span class="nx">modules</span>
+    <span class="nx">todos</span><span class="o">/</span>
+      <span class="nx">components</span><span class="o">/</span>
+      <span class="nx">actions</span><span class="p">.</span><span class="nx">js</span>
+      <span class="nx">reducer</span><span class="p">.</span><span class="nx">js</span>
+      <span class="p">...</span></code></pre></figure>
+
+<p>By moving common components outside of the <code class="highlighter-rouge">modules</code>, it <em>may</em> send a stronger signal that these components
+are not coupled to any part of the application state.</p>
+
+<h3 id="using-a-core-module-for-common-concerns">Using a core module for common concerns</h3>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">src</span><span class="o">/</span>
+  <span class="nx">modules</span><span class="o">/</span>          <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">modules</span> <span class="nx">make</span> <span class="nx">up</span> <span class="nx">the</span> <span class="nx">entire</span> <span class="nx">application</span>
+    <span class="nx">core</span><span class="o">/</span>
+      <span class="nx">components</span><span class="o">/</span>
+        <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span> 
+        <span class="nx">Title</span><span class="p">.</span><span class="nx">js</span>
+        <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+    <span class="nx">todos</span><span class="o">/</span>
+      <span class="nx">components</span><span class="o">/</span>
+      <span class="nx">actions</span><span class="p">.</span><span class="nx">js</span>
+      <span class="nx">reducer</span><span class="p">.</span><span class="nx">js</span>
+      <span class="p">...</span></code></pre></figure>
+
+<p>Using a <code class="highlighter-rouge">core</code> module to group common components reduces the number of “things” in system (everything is a module!), but perhaps
+at the cost of having a wider definition of what a “module” is – e.g. it may or may not manage a slice of the application state.</p>
+
+<p>Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too 
+many components in there. If a component is part of a new feature then make sure a new feature module is created!</p>
+
+<h2 id="exporting-and-testing-connected-components">Exporting and testing connected components</h2>
+
+<p>A connected component in a Redux application is one that is wired up to query from the state (using selectors), and can
+dispatch actions.</p>
+
+<p>I tend to expose connected components from my modules. The reasoning behind this is that the consumers of those components
+don’t necessarily want to wire up an unconnected component each time that they are used.</p>
+
+<p>For example, the public interface of a <code class="highlighter-rouge">&lt;Todo&gt;</code> component should be its ID, and perhaps any additional options or callbacks.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="o">&lt;</span><span class="nx">Todo</span>
+  <span class="nx">id</span><span class="o">=</span><span class="p">{</span><span class="mi">123</span><span class="p">}</span>
+  <span class="nx">theme</span><span class="o">=</span><span class="s2">"dark"</span>
+  <span class="nx">size</span><span class="o">=</span><span class="s2">"large"</span>
+  <span class="nx">onUpdate</span><span class="o">=</span><span class="p">{...}</span>
+<span class="sr">/&gt;</span></code></pre></figure>
+
+<p>This hides all of the internal details of data flow within the <code class="highlighter-rouge">todos</code> module.</p>
+
+<p>Contrast the above to an unconnected component.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="o">&lt;</span><span class="nx">Todo</span>
+  <span class="nx">todo</span><span class="o">=</span><span class="p">{...}</span>
+  <span class="nx">actions</span><span class="o">=</span><span class="p">{...}</span>
+
+  <span class="nx">theme</span><span class="o">=</span><span class="s2">"dark"</span>
+  <span class="nx">size</span><span class="o">=</span><span class="s2">"large"</span>
+  <span class="nx">onUpdate</span><span class="o">=</span><span class="p">{...}</span>
+<span class="sr">/&gt;</span></code></pre></figure>
+
+<p>In the unconnected case, the consumer of the component has the additional responsibility of providing the queried <code class="highlighter-rouge">todo</code> object,
+as well as any required <code class="highlighter-rouge">actions</code> functions (e.g. action creators). This means that you would have to keep repeating the same code
+of importing action creators and selectors, and connecting them each time a <code class="highlighter-rouge">&lt;Todo&gt;</code> is used!</p>
+
+<p>Now, there is one downside of exporting connected components. It makes <strong>unit testing more complicated</strong>, because each time you test
+the component, you have instantiate the Redux store with the correct reducers, etc.</p>
+
+<p>One way to deal with this <em>is</em> to always test these components with stores. This has the benefit of being closer to integration tests,
+however, it makes testing pure renders a lot more cumbersome. That is, if you just want to test that the component renders correctly,
+given a set of inputs, then having to deal with stores is not ideal.</p>
+
+<p>A simple solution is to export both the connected <em>and</em> unconnected components. The unconnected component can be exported only within
+the module for testing purposes.</p>
+
+<p>For example, a test for <code class="highlighter-rouge">&lt;Todo&gt;</code> may be as follows.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// In todos/components/__tests__/Todo-test.js</span>
+
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">shallow</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'enzyme'</span>
+<span class="kr">import</span> <span class="nx">test</span> <span class="nx">from</span> <span class="s1">'tape'</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">Todo</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'../'</span> <span class="c1">// This named export is unconnected.</span>
+
+<span class="nx">test</span><span class="p">(</span><span class="s1">'it renders correctly'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">t</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">todo</span> <span class="o">=</span> <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">text</span><span class="p">:</span> <span class="s1">'Finish writing post'</span> <span class="p">}</span>
+  <span class="kr">const</span> <span class="nx">wrapper</span> <span class="o">=</span> <span class="nx">shallow</span><span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Todo</span> <span class="nx">todo</span><span class="o">=</span><span class="p">{</span><span class="nx">todo</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>  <span class="p">)</span>
+
+  <span class="nx">t</span><span class="p">.</span><span class="nx">ok</span><span class="p">(</span><span class="sr">/Finish writing post/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">wrapper</span><span class="p">.</span><span class="nx">html</span><span class="p">()),</span> <span class="s1">'renders text'</span><span class="p">)</span>
+
+  <span class="nx">t</span><span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>Given that the component is as follows.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// In todos/components/Todo.js</span>
+
+<span class="c1">// Exporting named, unconnected component for testing purposes.</span>
+<span class="kr">export</span> <span class="kr">const</span> <span class="nx">Todo</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">todo</span><span class="p">,</span> <span class="nx">actions</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">todo</span><span class="p">.</span><span class="nx">text</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>    <span class="p">...</span>
+  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="p">)</span>
+
+<span class="c1">// The default export is the connected component.</span>
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">connect</span><span class="p">(...)(</span><span class="nx">Todo</span><span class="p">)</span></code></pre></figure>
+
+<p>And in the <code class="highlighter-rouge">todos/index.js</code> we would only export the connected component.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// In todos/index.js</span>
+
+<span class="kr">export</span> <span class="nx">Todo</span> <span class="nx">from</span> <span class="s1">'./components/Todo'</span></code></pre></figure>
+
+<h2 id="normalizing-application-state">Normalizing application state</h2>
+
+<p>The last guideline is the always normalize your application state. This makes it much more natural to work with selectors from other modules.</p>
+
+<p>For example, the <code class="highlighter-rouge">todos</code> module can keep its records in a map.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+  <span class="s2">"todos"</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s2">"byId"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"1"</span><span class="err">:</span> <span class="p">{</span> <span class="s2">"id"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"Item One"</span><span class="p">,</span> <span class="s2">"done"</span><span class="err">:</span> <span class="kc">false</span> <span class="p">},</span>
+      <span class="s2">"2"</span><span class="err">:</span> <span class="p">{</span> <span class="s2">"id"</span><span class="err">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"Item Two"</span><span class="p">,</span> <span class="s2">"done"</span><span class="err">:</span> <span class="kc">true</span> <span class="p">},</span>
+      <span class="s2">"3"</span><span class="err">:</span> <span class="p">{</span> <span class="s2">"id"</span><span class="err">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"text"</span><span class="err">:</span> <span class="s2">"Item Three"</span><span class="p">,</span> <span class="s2">"done"</span><span class="err">:</span> <span class="kc">false</span> <span class="p">},</span>
+      <span class="p">...</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Then, in other modules (such as <code class="highlighter-rouge">projects</code>), we can reference Todos by their IDs.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="p">{</span>
+  <span class="s2">"projects"</span><span class="err">:</span> <span class="p">{</span>
+    <span class="s2">"byId"</span><span class="err">:</span> <span class="p">{</span>
+      <span class="s2">"100"</span><span class="err">:</span> <span class="p">{</span>
+        <span class="s2">"id"</span><span class="err">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="err">:</span> <span class="s2">"Some Project"</span><span class="p">,</span>
+        <span class="s2">"todos"</span><span class="err">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="c1">// These IDs should exist in the `todos` state.</span>
+      <span class="p">},</span>
+      <span class="p">...</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>By normalizing data, we can <strong>avoid stale data</strong> issue, since we never duplicate the same object twice in the system. Any references to an entity has
+to use its ID, not an object reference or a clone.</p>
+
+<p>As an added bonus, this normalization of state plays very nicely with connected components.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Project</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">project</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span><span class="p">{</span> <span class="nx">project</span><span class="p">.</span><span class="nx">name</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+      <span class="nx">Todos</span><span class="err">:</span>
+      <span class="p">{</span>
+        <span class="nx">project</span><span class="p">.</span><span class="nx">todos</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">todoId</span> <span class="o">=&gt;</span> <span class="p">(</span>
+          <span class="o">&lt;</span><span class="nx">Todo</span> <span class="nx">id</span><span class="o">=</span><span class="p">{</span><span class="nx">todoId</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>        <span class="p">)</span>
+      <span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="closing">Closing</h2>
+
+<p>In this series, we <a href="/2016/02/28/organizing-redux-application/">began</a> by looking at the Three Rules for structuring applications.</p>
+
+<ol>
+  <li>Organize by features</li>
+  <li>Create strict module boundaries</li>
+  <li>Avoid circular dependencies</li>
+</ol>
+
+<p>Then, in the <a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/">second post</a>, we went into in-depth examples of how to structure each module with our application.</p>
+
+<p>And lastly, in this post we explored additional guidelines to help with code organization.</p>
+
+<ul>
+  <li>Where do common/unconnected/dumb components fit in?</li>
+  <li>Exporting and testing connected components</li>
+  <li>Normalizing application state</li>
+</ul>
+
+<p>I hope this series has proven useful to you. Feel free to leave a comment, or reach me on Twitter (<a href="https://twitter.com/jay_soo">@jay_soo</a>)!</p>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2016/08/23/why-you-need-types/" title="Why You Need Types">&larr; Previous</a></li>
+      
+        <li><a href="/archive">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2016/12/12/additional-guidelines-for-project-structure/'.replace(/\/$/, '');
+    var disqus_url = 'http://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>12 December 2016</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags#programming-ref">programming <span>8</span></a></li>
+     
+    	<li><a href="/tags#javascript-ref">javascript <span>35</span></a></li>
+     
+    	<li><a href="/tags#react-ref">react <span>7</span></a></li>
+     
+    	<li><a href="/tags#redux-ref">redux <span>4</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/&amp;text=Additional%20Guidelines%20For%20(Redux)%20Project%20Structure&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Three Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/">The Anatomy Of A React & Redux Module (Applying The Three Rules)</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas/">The Little Idea of Functional Programming</a></li>
+      
+      <li><a href="/2016/01/03/managing-processes-in-redux-using-sagas/">Managing Side Effects In React + Redux Using Sagas</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+
