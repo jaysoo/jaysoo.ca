@@ -184,9 +184,9 @@ export Todo from './components/Todo'
 
 ## Normalizing application state
 
-The last guideline is the always normalize your application state. This makes it much more natural to work with selectors from other modules.
+The last guideline is to always normalize your application state. This makes it much more natural to work with selectors from other modules.
 
-For example, the `todos` module can keep its records in a map.
+For example, the `todos` module can hold its records in an object/map. A map is a good structure to use here since it allows easier lookup and deletion.
 
 {% highlight js %}
 {
@@ -219,7 +219,7 @@ Then, in other modules (such as `projects`), we can reference Todos by their IDs
 }
 {% endhighlight %}
 
-By normalizing data, we can **avoid stale data** issue, since we never duplicate the same object twice in the system. Any references to an entity has
+By normalizing data, we can **avoid stale data** issues, since we never duplicate the same object twice in the system. Any references to an entity has
 to use its ID, not an object reference or a clone.
 
 As an added bonus, this normalization of state plays very nicely with connected components.
@@ -241,6 +241,33 @@ const Project = ({ project }) => (
 )
 {% endhighlight %}
 
+### Reducing to normalized states
+
+This also means that we need to handle loading normalized data. You can either do this using a saga -- where you use `put` to dispatch
+the appropriate loading actions -- or you can use thunks.
+
+{% highlight js %}
+// Using saga
+function* requestProject(id) {
+  const response = yield call(fetch, `/projects/${id}`)
+  yield put({ type: 'todos/LOAD', payload: response.todos })
+  yield put({ type: 'projects/LOAD', payload: [response.project] })
+}
+
+// Using thunks
+const requestProject = async (id) => {
+  return (dispatch) => {
+    const response = await fetch(`/projects/${id}`)
+
+    // Dispatch events to both todos and projects module so we can store the normalized data.
+    dispatch({ type: 'todos/LOAD', payload: response.todos })
+    dispatch({ type: 'projects/LOAD', payload: [response.project] })
+  }
+}
+{% endhighlight %}
+
+If you are interested in learning more about sagas, I have a blog post about them [here](http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/).
+
 
 ## Closing
 
@@ -258,7 +285,7 @@ And lastly, in this post we explored additional guidelines to help with code org
 - Exporting and testing connected components
 - Normalizing application state
 
-I hope this series has proven useful to you. Feel free to leave a comment, or reach me on Twitter ([@jay_soo](https://twitter.com/jay_soo))!
+I hope this series has proven useful to you. Feel free to leave a comment, or reach me on [Twitter](https://twitter.com/jay_soo)!
 
 
 
