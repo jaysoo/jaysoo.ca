@@ -173,7 +173,7 @@ that are not related to any feature per se.</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">src</span><span class="o">/</span>
   <span class="nx">components</span><span class="o">/</span>       <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">are</span> <span class="nx">common</span> <span class="nx">components</span>
-    <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span> 
+    <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span>
     <span class="nx">Title</span><span class="p">.</span><span class="nx">js</span>
     <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
   <span class="nx">modules</span><span class="o">/</span>          <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">are</span> <span class="nx">the</span> <span class="nx">feature</span> <span class="nx">modules</span>
@@ -192,7 +192,7 @@ are not coupled to any part of the application state.</p>
   <span class="nx">modules</span><span class="o">/</span>          <span class="o">&lt;--</span> <span class="nx">These</span> <span class="nx">modules</span> <span class="nx">make</span> <span class="nx">up</span> <span class="nx">the</span> <span class="nx">entire</span> <span class="nx">application</span>
     <span class="nx">core</span><span class="o">/</span>
       <span class="nx">components</span><span class="o">/</span>
-        <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span> 
+        <span class="nx">Image</span><span class="p">.</span><span class="nx">js</span>
         <span class="nx">Title</span><span class="p">.</span><span class="nx">js</span>
         <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
     <span class="nx">todos</span><span class="o">/</span>
@@ -204,7 +204,7 @@ are not coupled to any part of the application state.</p>
 <p>Using a <code class="highlighter-rouge">core</code> module to group common components reduces the number of “things” in system (everything is a module!), but perhaps
 at the cost of having a wider definition of what a “module” is – e.g. it may or may not manage a slice of the application state.</p>
 
-<p>Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too 
+<p>Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too
 many components in there. If a component is part of a new feature then make sure a new feature module is created!</p>
 
 <h2 id="exporting-and-testing-connected-components">Exporting and testing connected components</h2>
@@ -242,7 +242,7 @@ as well as any required <code class="highlighter-rouge">actions</code> functions
 of importing action creators and selectors, and connecting them each time a <code class="highlighter-rouge">&lt;Todo&gt;</code> is used!</p>
 
 <p>Now, there is one downside of exporting connected components. It makes <strong>unit testing more complicated</strong>, because each time you test
-the component, you have instantiate the Redux store with the correct reducers, etc.</p>
+the component, you have to instantiate the Redux store with the correct reducers, etc.</p>
 
 <p>One way to deal with this <em>is</em> to always test these components with stores. This has the benefit of being closer to integration tests,
 however, it makes testing pure renders a lot more cumbersome. That is, if you just want to test that the component renders correctly,
@@ -293,7 +293,7 @@ the module for testing purposes.</p>
 
 <h2 id="normalizing-application-state">Normalizing application state</h2>
 
-<p>The last guideline is to always normalize your application state. This makes it much more natural to work with selectors from other modules.</p>
+<p>The last guideline is to always normalize your application state. This makes it much more natural to work with connected components and selectors from other modules.</p>
 
 <p>For example, the <code class="highlighter-rouge">todos</code> module can hold its records in an object/map. A map is a good structure to use here since it allows easier lookup and deletion.</p>
 
@@ -326,7 +326,7 @@ the module for testing purposes.</p>
 <p>By normalizing data, we can <strong>avoid stale data</strong> issues, since we never duplicate the same object twice in the system. Any references to an entity has
 to use its ID, not an object reference or a clone.</p>
 
-<p>As an added bonus, this normalization of state plays very nicely with connected components.</p>
+<p>And as noted earlier, this normalization of state plays very nicely with connected components.</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Project</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">project</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
   <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>

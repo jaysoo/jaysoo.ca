@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2016-12-13T08:49:50-05:00</updated>
+ <updated>2016-12-13T09:53:36-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -74,7 +74,7 @@ that are not related to any feature per se.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;common&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt; 
+    &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;are&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;feature&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;
@@ -93,7 +93,7 @@ are not coupled to any part of the application state.&lt;/p&gt;
   &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;          &lt;span class=&quot;o&quot;&gt;&amp;lt;--&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;These&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;modules&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;up&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;entire&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;application&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;core&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
       &lt;span class=&quot;nx&quot;&gt;components&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt; 
+        &lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
         &lt;span class=&quot;nx&quot;&gt;Title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
         &lt;span class=&quot;nx&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
     &lt;span class=&quot;nx&quot;&gt;todos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;
@@ -105,7 +105,7 @@ are not coupled to any part of the application state.&lt;/p&gt;
 &lt;p&gt;Using a &lt;code class=&quot;highlighter-rouge&quot;&gt;core&lt;/code&gt; module to group common components reduces the number of “things” in system (everything is a module!), but perhaps
 at the cost of having a wider definition of what a “module” is – e.g. it may or may not manage a slice of the application state.&lt;/p&gt;
 
-&lt;p&gt;Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too 
+&lt;p&gt;Regardless of whether you use a core module, or separate out common components, just make sure you don’t end up throwing too
 many components in there. If a component is part of a new feature then make sure a new feature module is created!&lt;/p&gt;
 
 &lt;h2 id=&quot;exporting-and-testing-connected-components&quot;&gt;Exporting and testing connected components&lt;/h2&gt;
@@ -143,7 +143,7 @@ as well as any required &lt;code class=&quot;highlighter-rouge&quot;&gt;actions&
 of importing action creators and selectors, and connecting them each time a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Todo&amp;gt;&lt;/code&gt; is used!&lt;/p&gt;
 
 &lt;p&gt;Now, there is one downside of exporting connected components. It makes &lt;strong&gt;unit testing more complicated&lt;/strong&gt;, because each time you test
-the component, you have instantiate the Redux store with the correct reducers, etc.&lt;/p&gt;
+the component, you have to instantiate the Redux store with the correct reducers, etc.&lt;/p&gt;
 
 &lt;p&gt;One way to deal with this &lt;em&gt;is&lt;/em&gt; to always test these components with stores. This has the benefit of being closer to integration tests,
 however, it makes testing pure renders a lot more cumbersome. That is, if you just want to test that the component renders correctly,
@@ -194,7 +194,7 @@ the module for testing purposes.&lt;/p&gt;
 
 &lt;h2 id=&quot;normalizing-application-state&quot;&gt;Normalizing application state&lt;/h2&gt;
 
-&lt;p&gt;The last guideline is to always normalize your application state. This makes it much more natural to work with selectors from other modules.&lt;/p&gt;
+&lt;p&gt;The last guideline is to always normalize your application state. This makes it much more natural to work with connected components and selectors from other modules.&lt;/p&gt;
 
 &lt;p&gt;For example, the &lt;code class=&quot;highlighter-rouge&quot;&gt;todos&lt;/code&gt; module can hold its records in an object/map. A map is a good structure to use here since it allows easier lookup and deletion.&lt;/p&gt;
 
@@ -227,7 +227,7 @@ the module for testing purposes.&lt;/p&gt;
 &lt;p&gt;By normalizing data, we can &lt;strong&gt;avoid stale data&lt;/strong&gt; issues, since we never duplicate the same object twice in the system. Any references to an entity has
 to use its ID, not an object reference or a clone.&lt;/p&gt;
 
-&lt;p&gt;As an added bonus, this normalization of state plays very nicely with connected components.&lt;/p&gt;
+&lt;p&gt;And as noted earlier, this normalization of state plays very nicely with connected components.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Project&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;

@@ -50,7 +50,7 @@ In this case, your application structure may be as follows.
 {% highlight js %}
 src/
   components/       <-- These are common components
-    Image.js 
+    Image.js
     Title.js
     index.js
   modules/          <-- These are the feature modules
@@ -72,7 +72,7 @@ src/
   modules/          <-- These modules make up the entire application
     core/
       components/
-        Image.js 
+        Image.js
         Title.js
         index.js
     todos/
@@ -85,7 +85,7 @@ src/
 Using a `core` module to group common components reduces the number of "things" in system (everything is a module!), but perhaps
 at the cost of having a wider definition of what a "module" is -- e.g. it may or may not manage a slice of the application state.
 
-Regardless of whether you use a core module, or separate out common components, just make sure you don't end up throwing too 
+Regardless of whether you use a core module, or separate out common components, just make sure you don't end up throwing too
 many components in there. If a component is part of a new feature then make sure a new feature module is created!
 
 ## Exporting and testing connected components
@@ -127,7 +127,7 @@ as well as any required `actions` functions (e.g. action creators). This means t
 of importing action creators and selectors, and connecting them each time a `<Todo>` is used!
 
 Now, there is one downside of exporting connected components. It makes **unit testing more complicated**, because each time you test
-the component, you have instantiate the Redux store with the correct reducers, etc.
+the component, you have to instantiate the Redux store with the correct reducers, etc.
 
 One way to deal with this *is* to always test these components with stores. This has the benefit of being closer to integration tests,
 however, it makes testing pure renders a lot more cumbersome. That is, if you just want to test that the component renders correctly,
@@ -184,7 +184,7 @@ export Todo from './components/Todo'
 
 ## Normalizing application state
 
-The last guideline is to always normalize your application state. This makes it much more natural to work with selectors from other modules.
+The last guideline is to always normalize your application state. This makes it much more natural to work with connected components and selectors from other modules.
 
 For example, the `todos` module can hold its records in an object/map. A map is a good structure to use here since it allows easier lookup and deletion.
 
@@ -222,7 +222,7 @@ Then, in other modules (such as `projects`), we can reference Todos by their IDs
 By normalizing data, we can **avoid stale data** issues, since we never duplicate the same object twice in the system. Any references to an entity has
 to use its ID, not an object reference or a clone.
 
-As an added bonus, this normalization of state plays very nicely with connected components.
+And as noted earlier, this normalization of state plays very nicely with connected components.
 
 
 {% highlight js %}
