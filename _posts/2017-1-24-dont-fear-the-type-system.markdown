@@ -6,14 +6,14 @@ tags: [programming,kotlin,types,java,ruby]
 ---
 
 There's been a lot of talk about static types recently. I've especially noticed that folks who
-usually work with dynamically typed languages (JavaScript, Ruby, Python, etc.) have become big
+usually work with dynamically typed languages have become big
 proponents of static typing -- and I count myself amongst them.
 
 Being a fan of Robert C. Martin (aka Uncle Bob) for a long time, it was a surprise for me to
 see that he has written not [one](http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html),
 but [two](http://blog.cleancoder.com/uncle-bob/2017/01/13/TypesAndTests.html) blog posts on
-the subject of "strong static types" becoming trendier. Something he refers to as going down
-*The Dark Path*, which I vehemently disagree with.
+the subject of *The Dark Path*. He refers to the trend of languages becoming more "strongly" typed
+as this dark path. Something I disagree with.
 
 Now, I'm not against people holding differing opinions, and it is important that we remain open
 to opposing views. What I disagree with is the spread of fear through misinformation.
@@ -165,26 +165,31 @@ with dependent types, such as <a href="http://docs.idris-lang.org/en/latest/tuto
 
 Often times we as programmers want the freedom to do whatever we want. Constraints simply get in our way when we are trying to do our job!
 
-Well, I think this mentality is misguided. If we program without constraints, then our brain is forced keep track of all possibilities
-in our program. Can I trust an `add(a, b)` function in Ruby to do the right thing? Will it blow up if I call it with `nil` or `str`? What am
+I think this mentality is misguided. If we program without constraints, then our brain is forced keep track of all possibilities
+in our program. Can I trust an `add(a, b)` function in Ruby to do the correct thing? Will it blow up if I call it with `nil` or `str`? What am
 I getting in return? An `int`? Can it be `nil`?
 
 What if I pass the result of `add` into another function? Now I have just compounded the problem even further!
 
-Without contraints, programs are impossible to reason about!
+Without contraints, our programs are *impossible to reason about* and the task of understanding it can be a huge mental drain. But *with* constraints, we can
+liberate our mind to focus on higher level abstractions.
 
-In order to *add constraints* into a Ruby program, we turn to tests and TDD. This helps us immensely because an incorrect program should not
-pass our tests.
+### Contraints a la carte
 
-In Java, the *type system helps us add constraints*. We no longer need to consider calling `add` with non-integers, *and* we know its return
-type must be an integer (and maybe null). This means we no longer need those tests for all other type errors!
+When we want to add constraints in the system, we can either do it via static types or by adding tests.
 
-Finally, in Kotlin, we can express that the `add` function cannot receive null references, thus there is no point in testing these cases. And of course,
-we should still be testing for behaviour that cannot be encoded in the type system.
+In dynamic languages such as Ruby, we only have tests to work with, so we typically turn to TDD. This helps us immensely because we are forced
+to think about valid types and behaviour before writing code.
 
-<strong>Note:</strong> I am not advocating for always choosing the most powerful type system. There are certainly trade-offs in choosing
-these languages, so you have to weigh the value and cost of adoption for your team and project.
-</div>
+In Java, we can have some language-level constraints via static types, but we can also add more constraints via tests. In our tests, we no longer
+need to consider testing `add` with non-integers since the program will not compile anyway. Furthermore, we also do not need to test that the return
+type *must* be integer, since that is guaranteed statically as well -- except for the `null` case. This removes some burden on the programmer to write
+certain classes of type tests.
+
+Finally, in Kotlin, we can express that the `add` function *cannot* receive null references, thus there is little value in testing for those cases.
+And of course, we should still be testing for behaviour that cannot be encoded in the type system.
+
+When it comes to preventing defects, both tests and static types can help greatly, so we should be taking advantage of both!
 
 ## Expressivity of a type system
 
@@ -192,125 +197,149 @@ So far, we've seen how constraints are helpful when writing software. The more p
 our programs.
 
 We can also say that a powerful type system, such as the one found in Kotlin, provides an increase in *expressivity*. For example, if I designed my function
-to take null references, then I can express that information using nullable types.
+to handle null inputs, then I can express that information statically using nullable types.
 
-The expressivity of Kotlin goes beyond nullable types though. There are many other features that you can encode into your program.
+The expressivity of Kotlin goes beyond nullable types though. There are many other constraints that you can encode into your program.
 
 We will examine one more featured of Kotlin, **the sealed class**, and how it can help write better software.
 
 ### Sealed classes
 
-Sealed classes can be used to represent restricted class hierarchies. When a class is marked as sealed, then it can only be extended by its own nested classes.
+Sealed classes can be used to represent restricted class hierarchies. When a class is marked as sealed, it can only be extended by its nested classes.
 
-Here's an example of a `Maybe` type, which can either have a value (of any type), or be nothing.
+Here's an example of a `Either<A,B>` type, which can have either a left value of type `A` and a right value of type `B`. It is biased towards
+the right, meaning that mapping over its value will only map the right side. The left side can be considered as an error or exceptional value.
 
 {% highlight java %}
-sealed class Maybe<A>() {
-    class Nothing<A>(): Maybe<A>()
-    class Just<A>(val value: A) : Maybe<A>()
+sealed class Either<A,B>() {
+    class Left<A,B>(val value: A): Either<A,B>()
+    class Right<A,B>(val value: B) : Either<A,B>()
 
     override fun toString(): String = when(this) {
-        is Nothing -> "Nothing"
-        is Just<*> -> "Just: ${this.value.toString()}"
+        is Left -> "Left: ${this.value}"
+        is Right -> "Right: ${this.value}"
     }
 }
 {% endhighlight %}
 
 The sealed class hierarchy allows us to express a [*tagged union*](https://en.wikipedia.org/wiki/Tagged_union). That is, we can write a type, which can take
-on any value in the sealed set of subclasses. In this case, we can use do the following.
+on any value within the sealed set of subclasses. In this case, we can use do the following.
 
 {% highlight java %}
-var x: Maybe<String> = Maybe.Just("Hello")
-println(x) // Prints: "Just: Hello"
+var x: Either<Int,String> = Either.Left(404)
+println(x) // Prints: "Left: 0"
 
-x = Maybe.Nothing()
-println(x) // Prints: "Nothing"
+x = Either.Right("Success!")
+println(x) // prints "Right: Success!"
 {% endhighlight %}
 
-The advantage of sealed classes is that *when* expressions can be checked to be exhaustive. If we miss a case in a `when` expression, the compiler will
-error, informing us that the expression is not complete. To gain this exhaustive guarantee, we needed the constraint that the base class cannot be extended
+The advantage of using a sealed class is that the *when* expressions can be statically checked to be exhaustive. If we miss a case in a `when` expression,
+the compiler will inform us that it is not total. To gain this exhaustive guarantee, we need the constraint that the base class will not be extended
 further by addtional subclasses.
 
-Again, the constraint of disallowing extension gives us *more expressiveness*.
+Again, the *constraint* of disallowing extension gives us *more expressiveness*. In this case, we can now define a tagged union using sealed class hierarchies.
 
-Let's look at how we can take advantage of sealed classes by implementing a `map` function for `Maybe`, which will only map values over a function.
+#### Exhaustive pattern matching
 
-{% highlight java %}
+Let's look at how we can take advantage of the exhaustive pattern matching by implementing two functions:
 
-fun <A, B>map(a: Maybe<A>, fn: (a: A) -> B): Maybe<B> = when(a) {
-    is Maybe.Just -> Maybe.Just(fn(a.value))
-}
+1. The `of` function which will return a boxed right value.
+2. The `flatMap` function which will apply a transform function to the boxed right value -- ignoring left value.
 
-{% endhighlight %}
-
-Here, are pattern matching against the type of `Maybe`, and when we see `Maybe.Just`, we will just return its value.
-
-Now, the compiler will complain that `when` is missing the `Nothing` branch. To fix this, we just need to add that branch in the function.
+Here is the `of` function, which returns a boxed right value.
 
 {% highlight java %}
-fun <A, B>map(a: Maybe<A>, fn: (a: A) -> B): Maybe<B> = when(a) {
-    is Maybe.Nothing -> a as Maybe<B>
-    is Maybe.Just -> Maybe.Just(fn(a.value))
-}
-{% endhighlight %}
-
-And we can now use the `map` function as follows.
-
-{% highlight java %}
-val upper = { str: String -> str.toUpperCase() }
-
-println(map(Maybe.Just("hello"), upper)) // Prints: "Just: HELLO"
-
-println(map(Maybe.Nothing(), upper)) // Prints: "Nothing"
-{% endhighlight %}
-
-We can also implement a `Maybe.of` function that will take a value and return a boxed `Maybe`, and the `flatMap` function that will apply
-a transform function against the value inside a `Maybe` box.
-
-{% highlight java %}
-sealed class Maybe<A>() {
+sealed class Either<A,B>() {
     // ...
 
-    fun <B>flatMap(transform: (a: A) -> B): Maybe<B> = when(this) {
-        is Maybe.Nothing -> Maybe.Nothing()
-        is Maybe.Just -> Maybe.Just(transform(this.value))
-    }
-
     companion object {
-        fun <A>of(a: A?): Maybe<A> {
-            return if (a != null) Maybe.Just(a) else Maybe.Nothing()
+        fun <A,B>of(b: B): Either<A,B> {
+            return Either.Right<A,B>(b)
         }
     }
 }
 {% endhighlight %}
 
-The *companion object* can be thought of as an object containing static methods on the base class. We can now use the new functions as follows.
+The companion object can be thought of as an object containing static methods on the base class. We can now use the new function as follows.
 
 {% highlight java %}
-println(Maybe.of("Bye").flatMap(upper)) // Prints: "Just: BYE"
+// Left Int value could be an error code
+val x: Either<Int,String> = Either.of("Hello")
+{% endhighlight %}
 
-println(Maybe.of(null).flatMap(upper)) // Prints: "Nothing"
+And, here is the `flatMap` function to transform the right boxed value.
 
+{% highlight java %}
+sealed class Either<A,B>() {
+    // ...
+
+    // There is actually an error in this implemention!
+    fun <C>flatMap(transform: (x: B) -> C): Either<A,C> = when(this) {
+        is Right -> Right(transform(this.value))
+    }
+}
+{% endhighlight %}
+
+We are pattern matching against the type of `Either`, and when we see `Right`, we return its value. Pretty straight-forward right?
+
+But not so fast! There is an **error** here. The compiler will complain that the `when` expression is missing the `Left` branch.
+To fix this, we need to add a check for `Left` as well, to make the pattern match exhaustive.
+
+{% highlight java %}
+sealed class Either<A,B>() {
+    // ...
+
+    fun <C>flatMap(transform: (x: B) -> C): Either<A,C> = when(this) {
+        is Left -> Left(this.value)
+        is Right -> Right(transform(this.value))
+    }
+}
+{% endhighlight %}
+
+And we can now use the `flatMap` function as follows.
+
+{% highlight java %}
 val exclaim = { s: String -> "$s!" }
+val upper = { s: String -> s.toUpperCase() }
 
-println(Maybe.of("Bye")
+val x: Either<Int,String> = Either.of("Hello")
+
+println(x
         .flatMap(exclaim)
-        .flatMap(upper)) // Prints: "Just: BYE!"
+        .flatMap(upper)) // Prints "Right: HELLO!"
 
-println(Maybe.of(null)
+x = Either.Left(404)
+
+println(x
         .flatMap(exclaim)
-        .flatMap(upper)) // Prints: "Nothing"
-{% endhighlight%}
+        .flatMap(upper)) // Prints "Left: 404" because flatMap ignores left value
+{% endhighlight %}
 
-As you may have noticed, the `Maybe` type is a monad.
+(As you may have noticed, the `Either` type is a monad.)
 
-We could have achieved similar results in Java using a `final` class, but it would be impossible to guarantee exhaustiveness of pattern
-matching, achieved using `when` expressions in Kotlin. This is where tests comes in of course, but tests can only provide guarantees
-for a given set of examples, whereas types can provide language guarantees.
+Now, we could have achieved similar results in Java using a `final` class, but it would be impossible to guarantee the exhaustiveness of pattern
+matching, which is achieved using `when` expressions in Kotlin. This is where tests comes in of course, but tests can only provide guarantees
+for the given set of examples, whereas types can provide language-level guarantees.
 
-If we specify another subclass in a sealed class, then there is no way we could have tested for that in our test suite. This is where
+If we specify *another subclass* in a sealed class, then there is no way we would have tested for that in our test suite. This is where
 the type system can help us out tremendously.
 
+Moreover, without nullable types, even a simple expression such as `Either.Right(...).flatMap(upper)` can explode on us, because we forgot
+to check for null reference on the input to upper (since `null` is a valid `String`).
+
+## Closing
+
+There has been some discussion on the value of more and more powerful type systems -- such as in Kotlin. The concerns regarding additional
+language-level constraints are valid, but I truly believe that adding more language-level constraints will provide us with more freedom
+in the long run.
+
+Just as testing allows us to constrain the types and behaviour of our programs, so too can static type checking provide even stronger guarantees.
+Testing shows that the program behaves correctly given a set of examples, whereas static types provide guarantees for all programs.
+
+If programmers are given the ability to encode their design into their code, it will create less ambiguous programs. The decrease
+in ambiguity helps us reason about our code much better, therefore making less mistakes.
+
+I hope you enjoyed this post. And if you haven't already, I hope you will consider going down *The Dark Path* with me and try out one of these languages!
 
 ## Suggested Resources
 

@@ -117,14 +117,14 @@
   <div class="span8">
     <div class="post-body">
       <p>There’s been a lot of talk about static types recently. I’ve especially noticed that folks who
-usually work with dynamically typed languages (JavaScript, Ruby, Python, etc.) have become big
+usually work with dynamically typed languages have become big
 proponents of static typing – and I count myself amongst them.</p>
 
-<p>Being a fan of Robert C. Martin (aka Uncle Bob) for a long time, it was a surprise for me to 
+<p>Being a fan of Robert C. Martin (aka Uncle Bob) for a long time, it was a surprise for me to
 see that he has written not <a href="http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html">one</a>,
 but <a href="http://blog.cleancoder.com/uncle-bob/2017/01/13/TypesAndTests.html">two</a> blog posts on
-the subject of “strong static types” becoming trendier. Something he refers to as going down
-<em>The Dark Path</em>, which I vehemently disagree with.</p>
+the subject of <em>The Dark Path</em>. He refers to the trend of languages becoming more “strongly” typed
+as this dark path. Something I disagree with.</p>
 
 <p>Now, I’m not against people holding differing opinions, and it is important that we remain open
 to opposing views. What I disagree with is the spread of fear through misinformation.</p>
@@ -187,7 +187,7 @@ of programs that erroneously call it with unsupported types.</p>
 <p>Running this program will result in a null pointer exception (NPE).</p>
 
 <p>To deal with nulls, most programmers employ a number of patterns and tests, such as guard-clauses
-and using preconditions to reject invalid parameters early. You can see examples of these patterns in the 
+and using preconditions to reject invalid parameters early. You can see examples of these patterns in the
 book <a href="https://www.confidentruby.com/">Confident Ruby</a> – FYI, it is a great book if you work with Ruby.</p>
 
 <p>But, can we do better?</p>
@@ -270,26 +270,31 @@ with dependent types, such as <a href="http://docs.idris-lang.org/en/latest/tuto
 
 <p>Often times we as programmers want the freedom to do whatever we want. Constraints simply get in our way when we are trying to do our job!</p>
 
-<p>Well, I think this mentality is misguided. If we program without constraints, then our brain is forced keep track of all possibilities
-in our program. Can I trust an <code class="highlighter-rouge">add(a, b)</code> function in Ruby to do the right thing? Will it blow up if I call it with <code class="highlighter-rouge">nil</code> or <code class="highlighter-rouge">str</code>? What am
+<p>I think this mentality is misguided. If we program without constraints, then our brain is forced keep track of all possibilities
+in our program. Can I trust an <code class="highlighter-rouge">add(a, b)</code> function in Ruby to do the correct thing? Will it blow up if I call it with <code class="highlighter-rouge">nil</code> or <code class="highlighter-rouge">str</code>? What am
 I getting in return? An <code class="highlighter-rouge">int</code>? Can it be <code class="highlighter-rouge">nil</code>?</p>
 
 <p>What if I pass the result of <code class="highlighter-rouge">add</code> into another function? Now I have just compounded the problem even further!</p>
 
-<p>Without contraints, programs are impossible to reason about!</p>
+<p>Without contraints, our programs are <em>impossible to reason about</em> and the task of understanding it can be a huge mental drain. But <em>with</em> constraints, we can
+liberate our mind to focus on higher level abstractions.</p>
 
-<p>In order to <em>add constraints</em> into a Ruby program, we turn to tests and TDD. This helps us immensely because an incorrect program should not
-pass our tests.</p>
+<h3 id="contraints-a-la-carte">Contraints a la carte</h3>
 
-<p>In Java, the <em>type system helps us add constraints</em>. We no longer need to consider calling <code class="highlighter-rouge">add</code> with non-integers, <em>and</em> we know its return
-type must be an integer (and maybe null). This means we no longer need those tests for all other type errors!</p>
+<p>When we want to add constraints in the system, we can either do it via static types or by adding tests.</p>
 
-<p>Finally, in Kotlin, we can express that the <code class="highlighter-rouge">add</code> function cannot receive null references, thus there is no point in testing these cases. And of course,
-we should still be testing for behaviour that cannot be encoded in the type system.</p>
+<p>In dynamic languages such as Ruby, we only have tests to work with, so we typically turn to TDD. This helps us immensely because we are forced
+to think about valid types and behaviour before writing code.</p>
 
-<p><strong>Note:</strong> I am not advocating for always choosing the most powerful type system. There are certainly trade-offs in choosing
-these languages, so you have to weigh the value and cost of adoption for your team and project.
-&lt;/div&gt;</p>
+<p>In Java, we can have some language-level constraints via static types, but we can also add more constraints via tests. In our tests, we no longer
+need to consider testing <code class="highlighter-rouge">add</code> with non-integers since the program will not compile anyway. Furthermore, we also do not need to test that the return
+type <em>must</em> be integer, since that is guaranteed statically as well – except for the <code class="highlighter-rouge">null</code> case. This removes some burden on the programmer to write
+certain classes of type tests.</p>
+
+<p>Finally, in Kotlin, we can express that the <code class="highlighter-rouge">add</code> function <em>cannot</em> receive null references, thus there is little value in testing for those cases.
+And of course, we should still be testing for behaviour that cannot be encoded in the type system.</p>
+
+<p>When it comes to preventing defects, both tests and static types can help greatly, so we should be taking advantage of both!</p>
 
 <h2 id="expressivity-of-a-type-system">Expressivity of a type system</h2>
 
@@ -297,101 +302,137 @@ these languages, so you have to weigh the value and cost of adoption for your te
 our programs.</p>
 
 <p>We can also say that a powerful type system, such as the one found in Kotlin, provides an increase in <em>expressivity</em>. For example, if I designed my function
-to take null references, then I can express that information using nullable types.</p>
+to handle null inputs, then I can express that information statically using nullable types.</p>
 
-<p>The expressivity of Kotlin goes beyond nullable types though. There are many other features that you can encode into your program.</p>
+<p>The expressivity of Kotlin goes beyond nullable types though. There are many other constraints that you can encode into your program.</p>
 
 <p>We will examine one more featured of Kotlin, <strong>the sealed class</strong>, and how it can help write better software.</p>
 
 <h3 id="sealed-classes">Sealed classes</h3>
 
-<p>Sealed classes can be used to represent restricted class hierarchies. When a class is marked as sealed, then it can only be extended by its own nested classes.</p>
+<p>Sealed classes can be used to represent restricted class hierarchies. When a class is marked as sealed, it can only be extended by its nested classes.</p>
 
-<p>Here’s an example of a <code class="highlighter-rouge">Maybe</code> type, which can either have a value (of any type), or be nothing.</p>
+<p>Here’s an example of a <code class="highlighter-rouge">Either&lt;A,B&gt;</code> type, which can have either a left value of type <code class="highlighter-rouge">A</code> and a right value of type <code class="highlighter-rouge">B</code>. It is biased towards
+the right, meaning that mapping over its value will only map the right side. The left side can be considered as an error or exceptional value.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span> <span class="o">{</span>
-    <span class="kd">class</span> <span class="nc">Nothing</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;():</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span>
-    <span class="kd">class</span> <span class="nc">Just</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;(</span><span class="n">val</span> <span class="nl">value:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span>
-
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">class</span> <span class="nc">Left</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;(</span><span class="n">val</span> <span class="nl">value:</span> <span class="n">A</span><span class="o">):</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span>
+    <span class="kd">class</span> <span class="nc">Right</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;(</span><span class="n">val</span> <span class="nl">value:</span> <span class="n">B</span><span class="o">)</span> <span class="o">:</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span>
 
     <span class="n">override</span> <span class="n">fun</span> <span class="nf">toString</span><span class="o">():</span> <span class="n">String</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">is</span> <span class="n">Nothing</span> <span class="o">-&gt;</span> <span class="s">"Nothing"</span>
-        <span class="n">is</span> <span class="n">Just</span><span class="o">&lt;*&gt;</span> <span class="o">-&gt;</span> <span class="s">"Just: ${this.value.toString()}"</span>
+        <span class="n">is</span> <span class="n">Left</span> <span class="o">-&gt;</span> <span class="s">"Left: ${this.value}"</span>
+        <span class="n">is</span> <span class="n">Right</span> <span class="o">-&gt;</span> <span class="s">"Right: ${this.value}"</span>
     <span class="o">}</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>The sealed class hierarchy allows us to express a <a href="https://en.wikipedia.org/wiki/Tagged_union"><em>tagged union</em></a>. That is, we can write a type, which can take
-on any value in the sealed set of subclasses. In this case, we can use do the following.</p>
+on any value within the sealed set of subclasses. In this case, we can use do the following.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="nl">x:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
-<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Just: Hello"</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="nl">x:</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">Left</span><span class="o">(</span><span class="mi">404</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Left: 0"</span>
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">()</span>
-<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">Right</span><span class="o">(</span><span class="s">"Success!"</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// prints "Right: Success!"</span></code></pre></figure>
 
-<p>The advantage of sealed classes is that <em>when</em> expressions can be checked to be exhaustive. If we miss a case in a <code class="highlighter-rouge">when</code> expression, the compiler will
-error, informing us that the expression is not complete. To gain this exhaustive guarantee, we needed the constraint that the base class cannot be extended
+<p>The advantage of using a sealed class is that the <em>when</em> expressions can be statically checked to be exhaustive. If we miss a case in a <code class="highlighter-rouge">when</code> expression,
+the compiler will inform us that it is not total. To gain this exhaustive guarantee, we need the constraint that the base class will not be extended
 further by addtional subclasses.</p>
 
-<p>Again, the constraint of disallowing extension gives us <em>more expressiveness</em>.</p>
+<p>Again, the <em>constraint</em> of disallowing extension gives us <em>more expressiveness</em>. In this case, we can now define a tagged union using sealed class hierarchies.</p>
 
-<p>Let’s look at how we can take advantage of sealed classes by implementing a <code class="highlighter-rouge">map</code> function for <code class="highlighter-rouge">Maybe</code>, which will only map values over a function.</p>
+<h4 id="exhaustive-pattern-matching">Exhaustive pattern matching</h4>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">map</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">fn:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">fn</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
-<span class="o">}</span></code></pre></figure>
+<p>Let’s look at how we can take advantage of the exhaustive pattern matching by implementing two functions:</p>
 
-<p>Here, are pattern matching against the type of <code class="highlighter-rouge">Maybe</code>, and when we see <code class="highlighter-rouge">Maybe.Just</code>, we will just return its value.</p>
+<ol>
+  <li>The <code class="highlighter-rouge">of</code> function which will return a boxed right value.</li>
+  <li>The <code class="highlighter-rouge">flatMap</code> function which will apply a transform function to the boxed right value – ignoring left value.</li>
+</ol>
 
-<p>Now, the compiler will complain that <code class="highlighter-rouge">when</code> is missing the <code class="highlighter-rouge">Nothing</code> branch. To fix this, we just need to add that branch in the function.</p>
+<p>Here is the <code class="highlighter-rouge">of</code> function, which returns a boxed right value.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">map</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">fn:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="n">as</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span>
-    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">fn</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
-<span class="o">}</span></code></pre></figure>
-
-<p>And we can now use the <code class="highlighter-rouge">map</code> function as follows.</p>
-
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">val</span> <span class="n">upper</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">str:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">str</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">}</span>
-
-<span class="n">println</span><span class="o">(</span><span class="n">map</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="s">"hello"</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: HELLO"</span>
-
-<span class="n">println</span><span class="o">(</span><span class="n">map</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">(),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
-
-<p>We can also implement a <code class="highlighter-rouge">Maybe.of</code> function that will take a value and return a boxed <code class="highlighter-rouge">Maybe</code>, and the <code class="highlighter-rouge">flatMap</code> function that will apply
-a transform function against the value inside a <code class="highlighter-rouge">Maybe</code> box.</p>
-
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span> <span class="o">{</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span> <span class="o">{</span>
     <span class="c1">// ...</span>
 
     <span class="n">companion</span> <span class="n">object</span> <span class="o">{</span>
-        <span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="n">of</span><span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">?):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="nf">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">()</span>
-            <span class="o">}</span>
+        <span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;</span><span class="n">of</span><span class="o">(</span><span class="nl">b:</span> <span class="n">B</span><span class="o">):</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">Either</span><span class="o">.</span><span class="na">Right</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;(</span><span class="n">b</span><span class="o">)</span>
         <span class="o">}</span>
     <span class="o">}</span>
-<span class="o">}</span>
-
-
-<span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">flatMap</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">transform:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">){</span>
-    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="n">as</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span>
-    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">map</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">transform</span><span class="o">)</span>
 <span class="o">}</span></code></pre></figure>
 
-<p>The <em>companion object</em> can be thought of as an object containing static methods on the base class. We can now use the new functions as follows.</p>
+<p>The companion object can be thought of as an object containing static methods on the base class. We can now use the new function as follows.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Left Int value could be an error code</span>
+<span class="n">val</span> <span class="nl">x:</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span></code></pre></figure>
 
-<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: Bye"</span>
+<p>And, here is the <code class="highlighter-rouge">flatMap</code> function to transform the right boxed value.</p>
 
-<span class="n">val</span> <span class="n">exclaim</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">s:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="s">"${s}!"</span> <span class="o">}</span>
-<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">),</span> <span class="n">exclaim</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: BYE!"</span>
-<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span> <span class="n">exclaim</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
 
-<p>We’ve just implemented the Maybe monad in Kotlin.</p>
+    <span class="c1">// There is actually an error in this implemention!</span>
+    <span class="n">fun</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="n">flatMap</span><span class="o">(</span><span class="nl">transform:</span> <span class="o">(</span><span class="nl">x:</span> <span class="n">B</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="o">):</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">C</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">is</span> <span class="n">Right</span> <span class="o">-&gt;</span> <span class="n">Right</span><span class="o">(</span><span class="n">transform</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>We are pattern matching against the type of <code class="highlighter-rouge">Either</code>, and when we see <code class="highlighter-rouge">Right</code>, we return its value. Pretty straight-forward right?</p>
+
+<p>But not so fast! There is an <strong>error</strong> here. The compiler will complain that the <code class="highlighter-rouge">when</code> expression is missing the <code class="highlighter-rouge">Left</code> branch.
+To fix this, we need to add a check for <code class="highlighter-rouge">Left</code> as well, to make the pattern match exhaustive.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">B</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="n">fun</span> <span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="n">flatMap</span><span class="o">(</span><span class="nl">transform:</span> <span class="o">(</span><span class="nl">x:</span> <span class="n">B</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="o">):</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">A</span><span class="o">,</span><span class="n">C</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">is</span> <span class="n">Left</span> <span class="o">-&gt;</span> <span class="n">Left</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">)</span>
+        <span class="n">is</span> <span class="n">Right</span> <span class="o">-&gt;</span> <span class="n">Right</span><span class="o">(</span><span class="n">transform</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>And we can now use the <code class="highlighter-rouge">flatMap</code> function as follows.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">val</span> <span class="n">exclaim</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">s:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="s">"$s!"</span> <span class="o">}</span>
+<span class="n">val</span> <span class="n">upper</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">s:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">}</span>
+
+<span class="n">val</span> <span class="nl">x:</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">x</span>
+        <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">exclaim</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints "Right: HELLO!"</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">Left</span><span class="o">(</span><span class="mi">404</span><span class="o">)</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">x</span>
+        <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">exclaim</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints "Left: 404" because flatMap ignores left value</span></code></pre></figure>
+
+<p>(As you may have noticed, the <code class="highlighter-rouge">Either</code> type is a monad.)</p>
+
+<p>Now, we could have achieved similar results in Java using a <code class="highlighter-rouge">final</code> class, but it would be impossible to guarantee the exhaustiveness of pattern
+matching, which is achieved using <code class="highlighter-rouge">when</code> expressions in Kotlin. This is where tests comes in of course, but tests can only provide guarantees
+for the given set of examples, whereas types can provide language-level guarantees.</p>
+
+<p>If we specify <em>another subclass</em> in a sealed class, then there is no way we would have tested for that in our test suite. This is where
+the type system can help us out tremendously.</p>
+
+<p>Moreover, without nullable types, even a simple expression such as <code class="highlighter-rouge">Either.Right(...).flatMap(upper)</code> can explode on us, because we forgot
+to check for null reference on the input to upper (since <code class="highlighter-rouge">null</code> is a valid <code class="highlighter-rouge">String</code>).</p>
+
+<h2 id="closing">Closing</h2>
+
+<p>There has been some discussion on the value of more and more powerful type systems – such as in Kotlin. The concerns regarding additional
+language-level constraints are valid, but I truly believe that adding more language-level constraints will provide us with more freedom
+in the long run.</p>
+
+<p>Just as testing allows us to constrain the types and behaviour of our programs, so too can static type checking provide even stronger guarantees.
+Testing shows that the program behaves correctly given a set of examples, whereas static types provide guarantees for all programs.</p>
+
+<p>If programmers are given the ability to encode their design into their code, it will create less ambiguous programs. The decrease
+in ambiguity helps us reason about our code much better, therefore making less mistakes.</p>
+
+<p>I hope you enjoyed this post. And if you haven’t already, I hope you will consider going down <em>The Dark Path</em> with me and try out one of these languages!</p>
 
 <h2 id="suggested-resources">Suggested Resources</h2>
 
