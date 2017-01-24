@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Don't Fear the Type System &mdash; Jack Hsu</title>
+    
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/assets/application.css">
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Don't Fear the Type System
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      <p>There’s been a lot of talk about static types recently. I’ve especially noticed that folks who
+usually work with dynamically typed languages (JavaScript, Ruby, Python, etc.) have become big
+proponents of static typing – and I count myself amongst them.</p>
+
+<p>Being a fan of Robert C. Martin (aka Uncle Bob) for a long time, it was a surprise for me to 
+see that he has written not <a href="http://blog.cleancoder.com/uncle-bob/2017/01/11/TheDarkPath.html">one</a>,
+but <a href="http://blog.cleancoder.com/uncle-bob/2017/01/13/TypesAndTests.html">two</a> blog posts on
+the subject of “strong static types” becoming trendier. Something he refers to as going down
+<em>The Dark Path</em>, which I vehemently disagree with.</p>
+
+<p>Now, I’m not against people holding differing opinions, and it is important that we remain open
+to opposing views. What I disagree with is the spread of fear through misinformation.</p>
+
+<blockquote>
+  <p>Fear is the path to the dark side.</p>
+
+  <p>Fear leads to anger.</p>
+
+  <p>Anger leads to hate.</p>
+
+  <p>Hate leads to suffering.</p>
+
+  <p>– Yoda</p>
+</blockquote>
+
+<p>In this post, I want to address some of the concerns made against “strong” static types. And I
+want to present a few reasons for why you may want to consider languages with more powerful
+type systems, such as Kotlin, for your own projects.</p>
+
+<h2 id="the-power-of-a-type-system">The power of a type system</h2>
+
+<p>Firstly, I don’t really like using the term <em>strong</em> typing. It’s <a href="https://gist.github.com/garybernhardt/122909856b570c5c457a6cd674795a9c#strong-and-weak-typing">ambiguous</a>,
+and not that useful when discussing type systems. For the purpose of discussion, I describe
+the power of a type system as the level of expressivity it affords the programmer.</p>
+
+<p>In a dynamic language like Ruby, you cannot encode any type information in code, thus it is
+not very powerful. Take this simple example of an <code class="highlighter-rouge">add</code> function in Ruby.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>The only guarantee that we can get with this <code class="highlighter-rouge">add</code> function is that it will run. The only
+static check that can be performed is that the program has <em>valid syntax</em>.</p>
+
+<p>This means that <code class="highlighter-rouge">add(1, '2')</code> is a valid program, but if you run it then <code class="highlighter-rouge">TypeError</code>
+will be thrown.</p>
+
+<p>Now, if we look at the same function in Java, we end up with something like this.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span><span class="n">Integer</span><span class="o">,</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">add</span> <span class="o">=</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">;</span></code></pre></figure>
+
+<p>If we invoke the function with <code class="highlighter-rouge">add.apply(1, "2")</code>, then the program is invalid and will not compile
+because <code class="highlighter-rouge">"2"</code> is not an <code class="highlighter-rouge">Integer</code> – even though it is syntactically valid!</p>
+
+<p>The difference between the Ruby and Java functions is that in the latter function, we were able
+to encode <em>constraints</em> about the valid types that it accepts. This is what we refer to as a
+<em>static type system</em>.</p>
+
+<p>The main advantage of having a static type system is that we get more guarantees about our program
+without having to run it. By <em>constraining</em> <code class="highlighter-rouge">add</code> to only integer parameters, we rule out a whole class
+of programs that erroneously call it with unsupported types.</p>
+
+<p>There is, however, still a way to compile a valid program that will result in a runtime exception.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// Passing null reference is still a valid Integer!</span>
+<span class="n">add</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span></code></pre></figure>
+
+<p>Running this program will result in a null pointer exception (NPE).</p>
+
+<p>To deal with nulls, most programmers employ a number of patterns and tests, such as guard-clauses
+and using preconditions to reject invalid parameters early. You can see examples of these patterns in the 
+book <a href="https://www.confidentruby.com/">Confident Ruby</a> – FYI, it is a great book if you work with Ruby.</p>
+
+<p>But, can we do better?</p>
+
+<h3 id="null-references-the-billion-dollar-mistake">Null References: The Billion Dollar Mistake</h3>
+
+<p>The inventor of null reference, Tony Hoare, has famously referred to it as the “Billion Dollar Mistake.”</p>
+
+<p>The reason that null is so dangerous is that it subverts all static type checking in many programming languages.
+The onus is on the programmer to be very careful at all times, because there is no guarantee that they will
+not receive a null reference at any point in the program.</p>
+
+<p>For this reason, many newer programming languages include the concept of <em>nullable types</em>.</p>
+
+<p>Let’s see how the add function can be implemented in Kotlin (another language that runs on the JVM).</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">}</span></code></pre></figure>
+
+<p>If we try to call the function with <code class="highlighter-rouge">add(1, "2")</code> then we will get a static type error, since we did not declare <code class="highlighter-rouge">b</code>
+as a nullable type <code class="highlighter-rouge">Int?</code>. In case we want to allow nullable types, we need to <em>explicitly</em> declare them, which will force us to handle
+null references whenever we use those values.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// This is not valid because we did not handle the null case of b.</span>
+<span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span><span class="o">?</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">}</span>
+
+<span class="c1">// This is valid since we handled nullable b.</span>
+<span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span><span class="o">?</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">else</span> <span class="kc">null</span> <span class="o">}</span></code></pre></figure>
+
+<p>And since Kotlin infers the return type correctly as <code class="highlighter-rouge">Int?</code>, you cannot use it without checking for null again.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span><span class="o">?</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">else</span> <span class="kc">null</span> <span class="o">}</span>
+
+<span class="c1">// Won't compile because add(1, null) is nullable.</span>
+<span class="n">add</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span></code></pre></figure>
+
+<p>And just as going from Ruby to Java provides more guarantees about the correctness of our programs, so too does going
+from Java to Kotlin provide even more guarantees of correctness. By introducing nullable types, Kotlin eliminates
+a whole class of runtime errors.</p>
+
+<h2 id="whose-job-is-it-to-prevent-defects">Whose job is it to prevent defects?</h2>
+
+<p>The main thesis in the Dark Path blog post is that the responsibility is on the programmer to prevent defects,
+and that we shouldn’t keep adding language features just to prevent defects.</p>
+
+<blockquote>
+  <p>Defects are the fault of programmers. It is programmers who create defects - not languages.</p>
+</blockquote>
+
+<p>He goes on to claim that languages are adding features such as nullable types, because programmers are not testing their code.</p>
+
+<blockquote>
+  <p>Why are these languages adopting all these features? Because programmers <em>are not testing</em> their code.</p>
+</blockquote>
+
+<p>I completely agree that programmers are responsible for preventing defects, and that testing <em>is</em> important. I, however, also
+think that the static type checking is a great tool for eliminating whole classes of errors that we don’t have to write
+tests for.</p>
+
+<p>If we can specify function parameters are integers, then the static type checker can let us know when we mistakenly call it with strings.
+And in the same vein, if we can specify function parameters are nullable integers, then the type checker can let us know
+when we mistakenly call it with nulls.</p>
+
+<p>In fact, with more powerful type systems, there are a whole class of tests that you don’t have to write!. Example-based testing
+only guarantees that the code is correct for the <em>given examples</em>, but types make guarantees about <em>all programs</em> in the language.
+(There are also other types of testing, such as propery-based testing, but that is out of scope for this post.)</p>
+
+<p>Of course, you can override the null safeties in Kotlin using the <code class="highlighter-rouge">!!</code> operator (e.g. <code class="highlighter-rouge">add(1, null)!! + 1</code>), and then you’re back to runtime NPEs.
+But so too can you simply skip or delete failing tests because you are too lazy to fix the program properly. The discussion should
+not be types versus, but <strong>types <em>and</em> tests</strong>.</p>
+
+<p>The main benefit of types and tests are that they both <em>constrain</em> what a valid program can be. Tests can provide guarantees about
+runtime constraints and behaviour, and types provide guarantees about compile-time constraints.</p>
+
+<div class="alert alert-info">
+<strong>Note:</strong> I left out behaviour guarantees in a type system since in most languages, this it not possible. However, there are languages
+with dependent types, such as <a href="http://docs.idris-lang.org/en/latest/tutorial/theorems.html">Idris</a>, that can achieve this with theorem proving.
+</div>
+
+<h2 id="constraints-liberate-liberties-constrain">Constraints liberate. Liberties constrain.</h2>
+
+<p>Often times we as programmers want the freedom to do whatever we want. Constraints simply get in our way when we are trying to do our job!</p>
+
+<p>Well, I think this mentality is misguided. If we program without constraints, then our brain is forced keep track of all possibilities
+in our program. Can I trust an <code class="highlighter-rouge">add(a, b)</code> function in Ruby to do the right thing? Will it blow up if I call it with <code class="highlighter-rouge">nil</code> or <code class="highlighter-rouge">str</code>? What am
+I getting in return? An <code class="highlighter-rouge">int</code>? Can it be <code class="highlighter-rouge">nil</code>?</p>
+
+<p>What if I pass the result of <code class="highlighter-rouge">add</code> into another function? Now I have just compounded the problem even further!</p>
+
+<p>Without contraints, programs are impossible to reason about!</p>
+
+<p>In order to <em>add constraints</em> into a Ruby program, we turn to tests and TDD. This helps us immensely because an incorrect program should not
+pass our tests.</p>
+
+<p>In Java, the <em>type system helps us add constraints</em>. We no longer need to consider calling <code class="highlighter-rouge">add</code> with non-integers, <em>and</em> we know its return
+type must be an integer (and maybe null). This means we no longer need those tests for all other type errors!</p>
+
+<p>Finally, in Kotlin, we can express that the <code class="highlighter-rouge">add</code> function cannot receive null references, thus there is no point in testing these cases. And of course,
+we should still be testing for behaviour that cannot be encoded in the type system.</p>
+
+<p><strong>Note:</strong> I am not advocating for always choosing the most powerful type system. There are certainly trade-offs in choosing
+these languages, so you have to weigh the value and cost of adoption for your team and project.
+&lt;/div&gt;</p>
+
+<h2 id="expressivity-of-a-type-system">Expressivity of a type system</h2>
+
+<p>So far, we’ve seen how constraints are helpful when writing software. The more powerful the type system is, the more constraints we can encode into
+our programs.</p>
+
+<p>We can also say that a powerful type system, such as the one found in Kotlin, provides an increase in <em>expressivity</em>. For example, if I designed my function
+to take null references, then I can express that information using nullable types.</p>
+
+<p>The expressivity of Kotlin goes beyond nullable types though. There are many other features that you can encode into your program.</p>
+
+<p>We will examine one more featured of Kotlin, <strong>the sealed class</strong>, and how it can help write better software.</p>
+
+<h3 id="sealed-classes">Sealed classes</h3>
+
+<p>Sealed classes can be used to represent restricted class hierarchies. When a class is marked as sealed, then it can only be extended by its own nested classes.</p>
+
+<p>Here’s an example of a <code class="highlighter-rouge">Maybe</code> type, which can either have a value (of any type), or be nothing.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">class</span> <span class="nc">Nothing</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;():</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span>
+    <span class="kd">class</span> <span class="nc">Just</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;(</span><span class="n">val</span> <span class="nl">value:</span> <span class="n">A</span><span class="o">)</span> <span class="o">:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span>
+
+
+    <span class="n">override</span> <span class="n">fun</span> <span class="nf">toString</span><span class="o">():</span> <span class="n">String</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">is</span> <span class="n">Nothing</span> <span class="o">-&gt;</span> <span class="s">"Nothing"</span>
+        <span class="n">is</span> <span class="n">Just</span><span class="o">&lt;*&gt;</span> <span class="o">-&gt;</span> <span class="s">"Just: ${this.value.toString()}"</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>The sealed class hierarchy allows us to express a <a href="https://en.wikipedia.org/wiki/Tagged_union"><em>tagged union</em></a>. That is, we can write a type, which can take
+on any value in the sealed set of subclasses. In this case, we can use do the following.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="nl">x:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Just: Hello"</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">()</span>
+<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
+
+<p>The advantage of sealed classes is that <em>when</em> expressions can be checked to be exhaustive. If we miss a case in a <code class="highlighter-rouge">when</code> expression, the compiler will
+error, informing us that the expression is not complete. To gain this exhaustive guarantee, we needed the constraint that the base class cannot be extended
+further by addtional subclasses.</p>
+
+<p>Again, the constraint of disallowing extension gives us <em>more expressiveness</em>.</p>
+
+<p>Let’s look at how we can take advantage of sealed classes by implementing a <code class="highlighter-rouge">map</code> function for <code class="highlighter-rouge">Maybe</code>, which will only map values over a function.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">map</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">fn:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">fn</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Here, are pattern matching against the type of <code class="highlighter-rouge">Maybe</code>, and when we see <code class="highlighter-rouge">Maybe.Just</code>, we will just return its value.</p>
+
+<p>Now, the compiler will complain that <code class="highlighter-rouge">when</code> is missing the <code class="highlighter-rouge">Nothing</code> branch. To fix this, we just need to add that branch in the function.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">map</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">fn:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="n">as</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span>
+    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">fn</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">value</span><span class="o">))</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>And we can now use the <code class="highlighter-rouge">map</code> function as follows.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">val</span> <span class="n">upper</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">str:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">str</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">}</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">map</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="s">"hello"</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: HELLO"</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">map</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">(),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
+
+<p>We can also implement a <code class="highlighter-rouge">Maybe.of</code> function that will take a value and return a boxed <code class="highlighter-rouge">Maybe</code>, and the <code class="highlighter-rouge">flatMap</code> function that will apply
+a transform function against the value inside a <code class="highlighter-rouge">Maybe</code> box.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">sealed</span> <span class="kd">class</span> <span class="nc">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="n">companion</span> <span class="n">object</span> <span class="o">{</span>
+        <span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="n">of</span><span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">?):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="nf">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span><span class="o">()</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+
+<span class="n">fun</span> <span class="o">&lt;</span><span class="n">A</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span><span class="n">flatMap</span><span class="o">(</span><span class="nl">a:</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;,</span> <span class="nl">transform:</span> <span class="o">(</span><span class="nl">a:</span> <span class="n">A</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">B</span><span class="o">):</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">when</span><span class="o">(</span><span class="n">a</span><span class="o">){</span>
+    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Nothing</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="n">as</span> <span class="n">Maybe</span><span class="o">&lt;</span><span class="n">B</span><span class="o">&gt;</span>
+    <span class="n">is</span> <span class="n">Maybe</span><span class="o">.</span><span class="na">Just</span> <span class="o">-&gt;</span> <span class="n">map</span><span class="o">(</span><span class="n">a</span><span class="o">,</span> <span class="n">transform</span><span class="o">)</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>The <em>companion object</em> can be thought of as an object containing static methods on the base class. We can now use the new functions as follows.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span>
+
+<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: Bye"</span>
+
+<span class="n">val</span> <span class="n">exclaim</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">s:</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="s">"${s}!"</span> <span class="o">}</span>
+<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">),</span> <span class="n">exclaim</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Just: BYE!"</span>
+<span class="n">println</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">flatMap</span><span class="o">(</span><span class="n">Maybe</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="kc">null</span><span class="o">),</span> <span class="n">exclaim</span><span class="o">),</span> <span class="n">upper</span><span class="o">))</span> <span class="c1">// Prints: "Nothing"</span></code></pre></figure>
+
+<p>We’ve just implemented the Maybe monad in Kotlin.</p>
+
+<h2 id="suggested-resources">Suggested Resources</h2>
+
+<ul>
+  <li>
+    <p><a href="https://kotlinlang.org/docs/reference/">Kotlin Language Reference</a></p>
+  </li>
+  <li>
+    <p><a href="https://gist.github.com/garybernhardt/122909856b570c5c457a6cd674795a9c#strong-and-weak-typing">Gary Bernhardt’s write-up of types</a> provide good insights
+into static vs dynamic, and strong vs weak.</p>
+  </li>
+  <li>
+    <p><a href="https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare">Null References: The Billion Dollar Mistake</a> (video)</p>
+  </li>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=GqmsQeSzMdw">Constraints Liberate, Liberties Constrain</a> (video)</p>
+  </li>
+</ul>
+
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2016/12/12/additional-guidelines-for-project-structure/" title="Additional Guidelines For (Redux) Project Structure">&larr; Previous</a></li>
+      
+        <li><a href="/archive">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2017/01/24/dont-fear-the-type-system/'.replace(/\/$/, '');
+    var disqus_url = 'http://jaysoo.ca/2017/01/24/dont-fear-the-type-system/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="//disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>24 January 2017</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags#programming-ref">programming <span>9</span></a></li>
+     
+    	<li><a href="/tags#kotlin-ref">kotlin <span>1</span></a></li>
+     
+    	<li><a href="/tags#types-ref">types <span>1</span></a></li>
+     
+    	<li><a href="/tags#java-ref">java <span>6</span></a></li>
+     
+    	<li><a href="/tags#ruby-ref">ruby <span>4</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=http://jaysoo.ca/2017/01/24/dont-fear-the-type-system/&amp;text=Don't%20Fear%20the%20Type%20System&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/">Additional Guidelines For (Redux) Project Structure</a></li>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Three Rules For Structuring (Redux) Applications</a></li>
+      
+      <li><a href="/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/">The Anatomy Of A React & Redux Module (Applying The Three Rules)</a></li>
+      
+      <li><a href="/2016/01/13/functional-programming-little-ideas/">The Little Idea of Functional Programming</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+
