@@ -135,7 +135,7 @@ and that we shouldn't keep adding language features just to prevent defects.
 
 He goes on to claim that languages are adding features such as nullable types, because programmers are not testing their code.
 
-> Why are these languages adopting all these features? Because programmers *are not testing* their code.
+> Why are these languages adopting all these features? Because programmers *are not testing* their code. 
 
 I completely agree that programmers are responsible for preventing defects, and that testing *is* important. I, however, also
 think that the static type checking is a great tool for eliminating whole classes of errors that we don't have to write
@@ -208,7 +208,6 @@ Here's an example of a `Maybe` type, which can either have a value (of any type)
 sealed class Maybe<A>() {
     class Nothing<A>(): Maybe<A>()
     class Just<A>(val value: A) : Maybe<A>()
-
 
     override fun toString(): String = when(this) {
         is Nothing -> "Nothing"
@@ -305,6 +304,7 @@ for a given set of examples, whereas types can provide language guarantees.
 
 If we specify another subclass in a sealed class, then there is no way we could have tested for that in our test suite. This is where
 the type system can help us out tremendously.
+
 
 ## Suggested Resources
 
