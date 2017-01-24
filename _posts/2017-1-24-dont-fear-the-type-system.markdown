@@ -291,9 +291,16 @@ println(Maybe.of(null).flatMap(upper)) // Prints: "Nothing"
 
 println(Maybe.of("Bye").flatMap(upper)) // Prints: "Just: Bye"
 
-val exclaim = { s: String -> "${s}!" }
-println(Maybe.of("Bye").flatMap(exclaim).flatMap(upper)) // Prints: "Just: BYE!"
-println(Maybe.of(null).flatMap(exclaim).flatMap(upper)) // Prints: "Nothing"
+val exclaim = { s: String -> "$s!" }
+
+println(Maybe.of("Bye")
+        .flatMap(exclaim)
+        .flatMap(upper)) // Prints: "Just: BYE!"
+
+println(Maybe.of(null)
+        .flatMap(exclaim)
+        .flatMap(upper)) // Prints: "Nothing"
+
 {% endhighlight%}
 
 As you may have noticed, the `Maybe` type is a monad.
