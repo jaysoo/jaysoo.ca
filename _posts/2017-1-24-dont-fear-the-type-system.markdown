@@ -287,9 +287,9 @@ sealed class Maybe<A>() {
 The *companion object* can be thought of as an object containing static methods on the base class. We can now use the new functions as follows.
 
 {% highlight java %}
-println(Maybe.of(null).flatMap(upper)) // Prints: "Nothing"
+println(Maybe.of("Bye").flatMap(upper)) // Prints: "Just: BYE"
 
-println(Maybe.of("Bye").flatMap(upper)) // Prints: "Just: Bye"
+println(Maybe.of(null).flatMap(upper)) // Prints: "Nothing"
 
 val exclaim = { s: String -> "$s!" }
 
@@ -300,7 +300,6 @@ println(Maybe.of("Bye")
 println(Maybe.of(null)
         .flatMap(exclaim)
         .flatMap(upper)) // Prints: "Nothing"
-
 {% endhighlight%}
 
 As you may have noticed, the `Maybe` type is a monad.
