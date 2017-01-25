@@ -345,7 +345,7 @@ Testing shows that the program behaves correctly given a set of examples, wherea
 If programmers are given the ability to encode their design into their code, it will create less ambiguous programs. The decrease
 in ambiguity helps us reason about our code much better, therefore making less mistakes.
 
-I hope you enjoyed this post. And if you haven't already, I hope you will consider going down *The Dark Path* with me and try out one of these languages!
+I hope you enjoyed this post. And if you haven't already, I hope you will consider coming down *The Dark Path* with me and try out one of these languages!
 
 ## Suggested Resources
 
