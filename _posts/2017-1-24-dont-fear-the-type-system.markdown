@@ -87,7 +87,7 @@ But, can we do better?
 
 ### Null References: The Billion Dollar Mistake
 
-The inventor of null reference, Tony Hoare, has famously referred to it as the "Billion Dollar Mistake."
+The inventor of null reference, Tony Hoare, has famously referred to it as the ["Billion Dollar Mistake."](https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare)
 
 The reason that null is so dangerous is that it subverts all static type checking in many programming languages.
 The onus is on the programmer to be very careful at all times, because there is no guarantee that they will
