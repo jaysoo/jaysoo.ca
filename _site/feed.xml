@@ -119,6 +119,12 @@ null references whenever we use those values.&lt;/p&gt;
 from Java to Kotlin provide even more guarantees of correctness. By introducing nullable types, Kotlin eliminates
 a whole class of runtime errors.&lt;/p&gt;
 
+&lt;div class=&quot;alert alert-warn&quot;&gt;
+&lt;strong&gt;Note:&lt;/strong&gt; There is an issue of potential null errors coming from the Java side, even though they are all checked on the Kotlin side.
+This is because Kotlin does not assume all values coming from the Java side to be nullable, so you will still need to guard against
+this yourself.
+&lt;/div&gt;
+
 &lt;h2 id=&quot;whose-job-is-it-to-prevent-defects&quot;&gt;Whose job is it to prevent defects?&lt;/h2&gt;
 
 &lt;p&gt;The main thesis in the Dark Path blog post is that the responsibility is on the programmer to prevent defects,
@@ -139,7 +145,7 @@ think that the static type checking is a great tool for eliminating whole classe
 tests for.&lt;/p&gt;
 
 &lt;p&gt;If we can specify function parameters are integers, then the static type checker can let us know when we mistakenly call it with strings.
-And in the same vein, if we can specify function parameters are nullable integers, then the type checker can let us know
+And in the same vein, if we can specify function parameters as integers, then the type checker can let us know
 when we mistakenly call it with nulls.&lt;/p&gt;
 
 &lt;p&gt;In fact, with more powerful type systems, there are a whole class of tests that you don’t have to write!. Example-based testing
