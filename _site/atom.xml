@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-01-25T20:18:15-05:00</updated>
+ <updated>2017-01-25T20:26:20-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -163,7 +163,7 @@ only guarantees that the code is correct for the &lt;em&gt;given examples&lt;/em
 
 &lt;p&gt;Of course, you can override the null safeties in Kotlin using the &lt;code class=&quot;highlighter-rouge&quot;&gt;!!&lt;/code&gt; operator (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;add(1, null)!! + 1&lt;/code&gt;), and then you’re back to runtime NPEs.
 But so too can you simply skip or delete failing tests because you are too lazy to fix the program properly. The discussion should
-not be types versus, but &lt;strong&gt;types &lt;em&gt;and&lt;/em&gt; tests&lt;/strong&gt;.&lt;/p&gt;
+not be types versus tests, but &lt;strong&gt;types &lt;em&gt;and&lt;/em&gt; tests&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;The main benefit of types and tests are that they both &lt;em&gt;constrain&lt;/em&gt; what a valid program can be. Tests can provide guarantees about
 runtime constraints and behaviour, and types provide guarantees about compile-time constraints.&lt;/p&gt;

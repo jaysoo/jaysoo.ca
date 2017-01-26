@@ -262,7 +262,7 @@ only guarantees that the code is correct for the <em>given examples</em>, but ty
 
 <p>Of course, you can override the null safeties in Kotlin using the <code class="highlighter-rouge">!!</code> operator (e.g. <code class="highlighter-rouge">add(1, null)!! + 1</code>), and then you’re back to runtime NPEs.
 But so too can you simply skip or delete failing tests because you are too lazy to fix the program properly. The discussion should
-not be types versus, but <strong>types <em>and</em> tests</strong>.</p>
+not be types versus tests, but <strong>types <em>and</em> tests</strong>.</p>
 
 <p>The main benefit of types and tests are that they both <em>constrain</em> what a valid program can be. Tests can provide guarantees about
 runtime constraints and behaviour, and types provide guarantees about compile-time constraints.</p>
