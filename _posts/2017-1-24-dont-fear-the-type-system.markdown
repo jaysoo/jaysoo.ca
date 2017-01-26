@@ -163,7 +163,7 @@ The main benefit of types and tests are that they both *constrain* what a valid 
 runtime constraints and behaviour, and types provide guarantees about compile-time constraints.
 
 <div class="alert alert-info">
-<strong>Note:</strong> I left out behaviour guarantees in a type system since in most languages, this it not possible. However, there are languages
+<strong>Note:</strong> I left out behaviour guarantees in a type system since in most languages, this is not possible. However, there are languages
 with dependent types, such as <a href="http://docs.idris-lang.org/en/latest/tutorial/theorems.html">Idris</a>, that can achieve this with theorem proving.
 </div>
 

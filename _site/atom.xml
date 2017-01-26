@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-01-25T20:30:15-05:00</updated>
+ <updated>2017-01-26T08:49:38-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -169,7 +169,7 @@ not be types versus tests, but &lt;strong&gt;types &lt;em&gt;and&lt;/em&gt; test
 runtime constraints and behaviour, and types provide guarantees about compile-time constraints.&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
-&lt;strong&gt;Note:&lt;/strong&gt; I left out behaviour guarantees in a type system since in most languages, this it not possible. However, there are languages
+&lt;strong&gt;Note:&lt;/strong&gt; I left out behaviour guarantees in a type system since in most languages, this is not possible. However, there are languages
 with dependent types, such as &lt;a href=&quot;http://docs.idris-lang.org/en/latest/tutorial/theorems.html&quot;&gt;Idris&lt;/a&gt;, that can achieve this with theorem proving.
 &lt;/div&gt;
 
