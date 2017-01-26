@@ -233,7 +233,7 @@ on any value within the sealed set of subclasses. In this case, we can use do th
 
 {% highlight java %}
 var x: Either<Int,String> = Either.Left(404)
-println(x) // Prints: "Left: 0"
+println(x) // Prints: "Left: 404"
 
 x = Either.Right("Success!")
 println(x) // prints "Right: Success!"
