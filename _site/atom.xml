@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-01-24T22:36:37-05:00</updated>
+ <updated>2017-01-25T19:57:28-05:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -107,7 +107,7 @@ not receive a null reference at any point in the program.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;a:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;b:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;If we try to call the function with &lt;code class=&quot;highlighter-rouge&quot;&gt;add(1, &quot;2&quot;)&lt;/code&gt; then we will get a static type error, since we did not declare &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt;
+&lt;p&gt;If we try to call the function with &lt;code class=&quot;highlighter-rouge&quot;&gt;add(1, null)&lt;/code&gt; then we will get a static type error, since we did not declare &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt;
 as a nullable type &lt;code class=&quot;highlighter-rouge&quot;&gt;Int?&lt;/code&gt;. In case we want to allow nullable types, we need to &lt;em&gt;explicitly&lt;/em&gt; declare them, which will force us to handle
 null references whenever we use those values.&lt;/p&gt;
 

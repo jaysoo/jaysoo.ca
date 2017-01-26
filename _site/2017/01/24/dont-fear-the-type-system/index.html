@@ -206,7 +206,7 @@ not receive a null reference at any point in the program.</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">}</span></code></pre></figure>
 
-<p>If we try to call the function with <code class="highlighter-rouge">add(1, "2")</code> then we will get a static type error, since we did not declare <code class="highlighter-rouge">b</code>
+<p>If we try to call the function with <code class="highlighter-rouge">add(1, null)</code> then we will get a static type error, since we did not declare <code class="highlighter-rouge">b</code>
 as a nullable type <code class="highlighter-rouge">Int?</code>. In case we want to allow nullable types, we need to <em>explicitly</em> declare them, which will force us to handle
 null references whenever we use those values.</p>
 

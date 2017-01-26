@@ -101,7 +101,7 @@ Let's see how the add function can be implemented in Kotlin (another language th
 var add = { a: Int, b: Int -> a + b }
 {% endhighlight %}
 
-If we try to call the function with `add(1, "2")` then we will get a static type error, since we did not declare `b`
+If we try to call the function with `add(1, null)` then we will get a static type error, since we did not declare `b`
 as a nullable type `Int?`. In case we want to allow nullable types, we need to *explicitly* declare them, which will force us to handle
 null references whenever we use those values.
 
