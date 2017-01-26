@@ -118,7 +118,7 @@ And since Kotlin infers the return type correctly as `Int?`, you cannot use it w
 {% highlight java %}
 var add = { a: Int, b: Int? -> if (b != null) a + b else null }
 
-// Won't compile because add(1, null) is nullable.
+// Won't compile because return type from add(1, null) is nullable.
 add(1, null) + 2
 {% endhighlight %}
 

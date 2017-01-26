@@ -220,7 +220,7 @@ null references whenever we use those values.</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="n">add</span> <span class="o">=</span> <span class="o">{</span> <span class="nl">a:</span> <span class="n">Int</span><span class="o">,</span> <span class="nl">b:</span> <span class="n">Int</span><span class="o">?</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">else</span> <span class="kc">null</span> <span class="o">}</span>
 
-<span class="c1">// Won't compile because add(1, null) is nullable.</span>
+<span class="c1">// Won't compile because return type from add(1, null) is nullable.</span>
 <span class="n">add</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="kc">null</span><span class="o">)</span> <span class="o">+</span> <span class="mi">2</span></code></pre></figure>
 
 <p>And just as going from Ruby to Java provides more guarantees about the correctness of our programs, so too does going
