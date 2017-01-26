@@ -335,7 +335,7 @@ the right, meaning that mapping over its value will only map the right side. The
 on any value within the sealed set of subclasses. In this case, we can use do the following.</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">var</span> <span class="nl">x:</span> <span class="n">Either</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">Left</span><span class="o">(</span><span class="mi">404</span><span class="o">)</span>
-<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Left: 0"</span>
+<span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// Prints: "Left: 404"</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">Either</span><span class="o">.</span><span class="na">Right</span><span class="o">(</span><span class="s">"Success!"</span><span class="o">)</span>
 <span class="n">println</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="c1">// prints "Right: Success!"</span></code></pre></figure>
