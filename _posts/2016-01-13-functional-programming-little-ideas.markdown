@@ -484,7 +484,11 @@ Now that we have the two new functions `maybeMakeUrl` and `maybeHttpGet`, we can
 
 {% highlight js %}
 // searchVideos :: String -> Task Error (Either String [Video])
-const searchVideos = compose(lift(lift(toVideos)), maybeHttpGet(Empty), makeUrl);
+const searchVideos = compose(
+  lift(lift(toVideos)),
+  maybeHttpGet(Empty),
+  maybeMakeUrl
+);
 {% endhighlight %}
 
 Notice that all other functions remain unchanged (`makeUrl`, `httpGet`, `toVideo`, `toVideos`).

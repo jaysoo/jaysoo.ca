@@ -557,7 +557,11 @@ Introduction to recursive types</a> post of F# for fun and profit to be a good r
 <p>Now that we have the two new functions <code class="highlighter-rouge">maybeMakeUrl</code> and <code class="highlighter-rouge">maybeHttpGet</code>, we can change <code class="highlighter-rouge">searchVideos</code> to the following.</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// searchVideos :: String -&gt; Task Error (Either String [Video])</span>
-<span class="kr">const</span> <span class="nx">searchVideos</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">)),</span> <span class="nx">maybeHttpGet</span><span class="p">(</span><span class="nx">Empty</span><span class="p">),</span> <span class="nx">makeUrl</span><span class="p">);</span></code></pre></figure>
+<span class="kr">const</span> <span class="nx">searchVideos</span> <span class="o">=</span> <span class="nx">compose</span><span class="p">(</span>
+  <span class="nx">lift</span><span class="p">(</span><span class="nx">lift</span><span class="p">(</span><span class="nx">toVideos</span><span class="p">)),</span>
+  <span class="nx">maybeHttpGet</span><span class="p">(</span><span class="nx">Empty</span><span class="p">),</span>
+  <span class="nx">maybeMakeUrl</span>
+<span class="p">);</span></code></pre></figure>
 
 <p>Notice that all other functions remain unchanged (<code class="highlighter-rouge">makeUrl</code>, <code class="highlighter-rouge">httpGet</code>, <code class="highlighter-rouge">toVideo</code>, <code class="highlighter-rouge">toVideos</code>).
 We simply introduced two new functions, and refactored the final search function to handle Maybe and Either.</p>
