@@ -236,7 +236,7 @@ For example,
 
 {% highlight js %}
 const withColor = color => Component => props => (
-  <Component {...props} color="color"/>
+  <Component {...props} color={color}/>
 )
 {% endhighlight %}
 

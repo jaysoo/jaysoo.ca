@@ -363,8 +363,8 @@ mapping its value through the <code class="highlighter-rouge">map</code> functio
 <p>For example,</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">withColor</span> <span class="o">=</span> <span class="nx">color</span> <span class="o">=&gt;</span> <span class="nx">Component</span> <span class="o">=&gt;</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">(</span>
-  <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="nx">color</span><span class="o">=</span><span class="s2">"color"</span><span class="o">/&gt;</span>
-<span class="p">)</span></code></pre></figure>
+  <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="nx">color</span><span class="o">=</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span><span class="p">)</span></code></pre></figure>
 
 <p>The <code class="highlighter-rouge">withColor</code> HOC takes a color (e.g. <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">#fff</code>, <code class="highlighter-rouge">rgb(0,0,0)</code>, etc.), <em>then</em> a component
 that uses the <code class="highlighter-rouge">color</code> prop, and <em>then</em> returns a component that is the original, but with the
