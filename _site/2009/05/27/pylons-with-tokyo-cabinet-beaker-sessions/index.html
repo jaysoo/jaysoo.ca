@@ -128,6 +128,10 @@
 <div class="row">
   <div class="span8">
     <div class="post-body">
+      
+
+      
+
       <p>Maintaining a session is something most web apps need to do, and all web frameworks implement some sort of session management system.</p>
 <p><a href="http://pylonshq.com/">Pylons</a> allows you to specify the type of session your web app should use: database, file, memcached, etc. The great thing about it is that you can easily implement your own session manager and plug it right in.</p>
 <p>Here I am implementing a session manager that uses <a href="http://tokyocabinet.sourceforge.net/">Tokyo Cabinet</a> and <a href="http://json.org">JSON</a> (instead of cPickle). The simplejson module now has speedups that use C extensions so load and dump are more or less on par with cPickle. With JSON serialization you'll be able to share the session data in apps written in other languages (such as Java, Perl, Ruby).</p>

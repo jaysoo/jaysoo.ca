@@ -5,18 +5,8 @@ title: "Deconstructing the React Component"
 tags: [programming,javascript,react,functional programming]
 description: A functional approach to building React applications.
 image: /images/5386093672_e14ef0a6df_z.jpg
+image_caption: Photo by Mark Sebastian
 ---
-
-<div class="byline">
-  A functional approach to building React applications.
-</div>
-
-<figure class="title-image">
-  <img src="/images/5386093672_e14ef0a6df_z.jpg" alt="" class="title-image__image"/>
-  <figcaption class="title-image__caption">
-    Photo by Mark Sebastian
-  </figcaption>
-</figure>
 
 In this three-part series, I want to take a functional approach to building React applications.
 
