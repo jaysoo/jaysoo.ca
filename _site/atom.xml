@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-04-30T12:58:18-04:00</updated>
+ <updated>2017-04-30T15:55:12-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -17,14 +17,14 @@
    <link href="http://jaysoo.ca/2017/04/29/learn-fp-with-react-part-1/"/>
    <updated>2017-04-29T00:00:00-04:00</updated>
    <id>hhttp://jaysoo.ca/2017/04/29/learn-fp-with-react-part-1</id>
-   <content type="html">&lt;p&gt;In this three-part series, I want to take a more functional approach building React applications.&lt;/p&gt;
+   <content type="html">&lt;p&gt;In this three-part series, I want to take a functional approach building React applications.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Series contents:&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Part 1 - Deconstructing the React Component&lt;/li&gt;
   &lt;li&gt;Part 2 - Read-only context with Reader monad&lt;/li&gt;
-  &lt;li&gt;Part 3 - State management with Reducer and Component&lt;/li&gt;
+  &lt;li&gt;Part 3 - Functional state management with Reducer&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
@@ -51,21 +51,21 @@ so it’s probably easier to read the posts. ;)&lt;/p&gt;
 with immutable elements? Pass them to functions of course!&lt;/p&gt;
 
 &lt;p&gt;Let’s look at three &lt;strong&gt;pure&lt;/strong&gt; functions that take in an element and outputs another element. We say that these functions
-are pure because they do not have any observable side-effects – just &lt;em&gt;data in, and data out&lt;/em&gt;.&lt;/p&gt;
+are pure because they do not have any observable side-effects – just &lt;em&gt;data in&lt;/em&gt;, and &lt;em&gt;data out&lt;/em&gt;.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;uppercase&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
   &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;textTransform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'uppercase'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
 &lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;clap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;👏&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;👏&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;clap&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;👏&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;👏&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
 &lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fontStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'italic'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fontStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'italic'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
 &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt; 
 
 The type for an element is &lt;code&gt;React.Element&lt;/code&gt;, which are &lt;em&gt;objects&lt;/em&gt; in category theory.
-Other objects are &lt;code&gt;String&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;, etc.&lt;/p&gt;
+Other examples of objects are &lt;code&gt;String&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;, etc.&lt;/p&gt;
 
 &lt;p&gt;The pure functions &lt;code&gt;uppercase&lt;/code&gt;, &lt;code&gt;clap&lt;/code&gt;,
 and &lt;code&gt;emphasize&lt;/code&gt; are &lt;em&gt;morphisms&lt;/em&gt; in category theory. A morphism is a mapping between two objects --
@@ -85,7 +85,7 @@ via JSX &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Greeting name=&q
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ReactDOM&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'react-dom'&lt;/span&gt;
 
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;example1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;contrivedEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
   &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;uppercase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -93,33 +93,33 @@ via JSX &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Greeting name=&q
   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;example1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'alice'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#root'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contrivedEx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'alice'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;querySelector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#root'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;This will render “&lt;em&gt;👏 Hello ALICE! 👏&lt;/em&gt;” on the screen.&lt;/p&gt;
+&lt;p&gt;This will render “&lt;em&gt;👏 HELLO ALICE! 👏&lt;/em&gt;” on the screen.&lt;/p&gt;
 
-&lt;p&gt;The function &lt;code class=&quot;highlighter-rouge&quot;&gt;example1&lt;/code&gt; has two responsibilities:&lt;/p&gt;
+&lt;p&gt;The function &lt;code class=&quot;highlighter-rouge&quot;&gt;contrivedEx&lt;/code&gt; has two responsibilities:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;strong&gt;Run&lt;/strong&gt; the computation &lt;code class=&quot;highlighter-rouge&quot;&gt;Greeting&lt;/code&gt; to get an element out.&lt;/li&gt;
   &lt;li&gt;&lt;strong&gt;Map&lt;/strong&gt; the resulting element through multiple functions, then returning the final result.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Let’s formalize these two concepts next.&lt;/p&gt;
+&lt;p&gt;Let’s formalize these two concepts.&lt;/p&gt;
 
 &lt;h2 id=&quot;look-at-my-shiny-new-box&quot;&gt;Look at my shiny new box!&lt;/h2&gt;
 
-&lt;p&gt;We’ll throw the original &lt;code class=&quot;highlighter-rouge&quot;&gt;Greeting&lt;/code&gt; computation into a box, which I will call &lt;strong&gt;View&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;We can wrap the original &lt;code class=&quot;highlighter-rouge&quot;&gt;Greeting&lt;/code&gt; computation in a box, which I will call &lt;strong&gt;View&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
   &lt;span class=&quot;na&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Throw in some computation, and let's call boxed value `Greeting`.&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Greeting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;c1&quot;&gt;// Throw in some computation, and now we have a boxed value`.&lt;/span&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;To get the value out of the box, we just need to &lt;em&gt;fold&lt;/em&gt; it.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;Greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;As you can see, the &lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt; function let’s us extract the value out of the box.&lt;/p&gt;
 
@@ -127,8 +127,7 @@ via JSX &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Greeting name=&q
 
 &lt;p&gt;&lt;img src=&quot;/images/1-view-fold.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;This is very tedious, so let’s define a mapping function that can operate on our
-boxed values.&lt;/p&gt;
+&lt;p&gt;This is very tedious, so let’s define a mapping function that can operate on the values within our boxes.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// I've shortened this since `props =&amp;gt; computation(props)` is the same as `computation`&lt;/span&gt;
@@ -141,27 +140,26 @@ boxed values.&lt;/p&gt;
 through the provided function &lt;code class=&quot;highlighter-rouge&quot;&gt;f&lt;/code&gt;. Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; is pure a function, and we 
 can still maintain a reference to the original box.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SuperGreeting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Greeting&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;superGreeting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;uppercase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   
 
-&lt;span class=&quot;nx&quot;&gt;SuperGreeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//  &amp;lt;span&amp;gt;👏 &amp;lt;span style={{ fontStyle: 'italic' }}&amp;gt;&amp;lt;span style={{ textTransform: 'uppercase' }}&amp;gt;&amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt; 👏&amp;lt;/span&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;superGreeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//  &amp;lt;span&amp;gt;👏 &amp;lt;span style={{ fontStyle: 'italic' }}&amp;gt;&amp;lt;span style={{ textTransform: 'uppercase' }}&amp;gt;&amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt; 👏&amp;lt;/span&amp;gt;&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;// Our original box is unmodified.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;Greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Also, note that mapping a view does not do anything other than return a new box. All &lt;strong&gt;computations
-are delayed&lt;/strong&gt; until we call the &lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt; function. This is a really useful property since we 
-perform multiple transformations without needing to work with concrete values.&lt;/p&gt;
+&lt;p&gt;All &lt;strong&gt;computations are delayed&lt;/strong&gt; until we call the &lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt; function. This is a really useful property since we 
+can perform multiple transformations without needing to work with concrete values.&lt;/p&gt;
 
 &lt;p&gt;We can visualize &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; as follows.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/2-view-map.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The morphisms can operate on values (elements), or we can bring them into the world of boxes (Views)
-by mapping from box to box. You can extract an element at any point by folding it down, but now
+and map from box to box. You can extract an element at any point by folding it down, but now
 we don’t have to until we really need it!&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
@@ -181,7 +179,7 @@ There are two mathematical laws that functors must obey:
 
 &lt;p&gt;
 We can use these laws to our advantage when composing applications. For example,
-out previous &lt;code&gt;SuperGreeting&lt;/code&gt; view can be optimized by calling &lt;code&gt;map&lt;/code&gt;
+out previous &lt;code&gt;superGreeting&lt;/code&gt; view can be optimized by calling &lt;code&gt;map&lt;/code&gt;
 only once, using the composition &lt;code&gt;compose(clap, emphasize, uppercase)&lt;/code&gt;.
 &lt;/p&gt;
 &lt;p&gt;
@@ -190,10 +188,22 @@ is identical to &lt;code&gt;Greeting.map(compose(clap, emphasize, uppercase))&lt
 &lt;/p&gt;
 &lt;/div&gt;
 
+&lt;p&gt;While we’re at it, let’s also make the View a &lt;em&gt;Pointed Functor&lt;/em&gt; by allowing us to make a &lt;em&gt;single value&lt;/em&gt; into
+a View using the &lt;code class=&quot;highlighter-rouge&quot;&gt;View.of&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Folding the view back down from a `View.of` just returns the original element.&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;.fold&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt; /&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;hr /&gt;
+
 &lt;p&gt;A quick aside on &lt;code class=&quot;highlighter-rouge&quot;&gt;compose&lt;/code&gt;. I’m using a library called &lt;a href=&quot;ramdajs.com/docs&quot;&gt;Ramda&lt;/a&gt; that provides a lot of
 utilities for functional programming, include &lt;code class=&quot;highlighter-rouge&quot;&gt;compose&lt;/code&gt;. The composition is applied from right-to-left,
-so &lt;code class=&quot;highlighter-rouge&quot;&gt;f(g(x))&lt;/code&gt; is the same as &lt;code class=&quot;highlighter-rouge&quot;&gt;compose(f, g)(x)&lt;/code&gt;. The mathematical symbol “∘” denotes a composition –
+so &lt;code class=&quot;highlighter-rouge&quot;&gt;f(g(x))&lt;/code&gt; is the same as &lt;code class=&quot;highlighter-rouge&quot;&gt;compose(f, g)(x)&lt;/code&gt;. The mathematical symbol “∘” also denotes a composition –
 .e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;f ∘ g === compose(f, g)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;hr /&gt;
 
 &lt;p&gt;Okay, moving on!&lt;/p&gt;
 
@@ -202,22 +212,15 @@ so &lt;code class=&quot;highlighter-rouge&quot;&gt;f(g(x))&lt;/code&gt; is the s
 &lt;p&gt;So, isn’t the &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt; box kind of like higher-order components (HOC)? Which we already have in “normal” React.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// Normal React HOC&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
-
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;red&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'red'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;// Our view composition&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;red2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'red'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Here, we have two mostly useless functions. When given a component or view,
-both functions return something that is identical to the original argument.&lt;/p&gt;
+&lt;p&gt;Here, we have two functions that when given a component or view,
+returns something that is like the original component, but in red.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;MyComponent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MyComponent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Hoc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MyComponent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;Hoc/&amp;gt; === &amp;lt;MyComponent/&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;idView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;identity2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// idView.fold() === myView.fold()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The difference between HOC and View is that the latter formalizes the concept of
+&lt;p&gt;The difference between the HOC and the View is that the latter formalizes the concept of
 mapping its value through the &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; function.&lt;/p&gt;
 
 &lt;p&gt;But wait, there is something that HOCs can do that Views cannot (yet).&lt;/p&gt;
@@ -229,7 +232,7 @@ mapping its value through the &lt;code class=&quot;highlighter-rouge&quot;&gt;ma
 &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;withColor&lt;/code&gt; HOC takes a color (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;red&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;#fff&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;rgb(0,0,0)&lt;/code&gt;, etc.), &lt;em&gt;then&lt;/em&gt; a component
-that uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;color&lt;/code&gt; prop, &lt;em&gt;then&lt;/em&gt; returns a component that is the original, but with the
+that uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;color&lt;/code&gt; prop, and &lt;em&gt;then&lt;/em&gt; returns a component that is the original, but with the
 &lt;code class=&quot;highlighter-rouge&quot;&gt;color&lt;/code&gt; prop already provided.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
@@ -239,13 +242,13 @@ that uses the &lt;code class=&quot;highlighter-rouge&quot;&gt;color&lt;/code&gt;
 
 &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Red&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span style={{ color: 'red' }}&amp;gt;red&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Whereas our &lt;code class=&quot;highlighter-rouge&quot;&gt;identity&lt;/code&gt; HOC is mapping over the resulting &lt;em&gt;value&lt;/em&gt;, the &lt;code class=&quot;highlighter-rouge&quot;&gt;withColor&lt;/code&gt; HOC is mapping
-over the &lt;em&gt;input&lt;/em&gt; props. Since &lt;code class=&quot;highlighter-rouge&quot;&gt;View.map&lt;/code&gt; maps over the value (element),  there is no chance for us
-to map over the original input.&lt;/p&gt;
+&lt;p&gt;Whereas the &lt;code class=&quot;highlighter-rouge&quot;&gt;red&lt;/code&gt; HOC is mapping over the resulting &lt;em&gt;value&lt;/em&gt;, the &lt;code class=&quot;highlighter-rouge&quot;&gt;withColor&lt;/code&gt; HOC is mapping
+over the &lt;em&gt;input&lt;/em&gt; props. And since &lt;code class=&quot;highlighter-rouge&quot;&gt;view.map&lt;/code&gt; maps over the value (element), there is no chance for us
+to map over the original input to a view’s computation.&lt;/p&gt;
 
-&lt;p&gt;So what can we do? Do we admit defeat?&lt;/p&gt;
+&lt;p&gt;So is there anything we can do?&lt;/p&gt;
 
-&lt;p&gt;Of course not. We just need to formalize this new concept!&lt;/p&gt;
+&lt;p&gt;Of course! We just need to formalize this new concept.&lt;/p&gt;
 
 &lt;h2 id=&quot;mapping-over-inputs&quot;&gt;Mapping over inputs&lt;/h2&gt;
 
@@ -258,7 +261,7 @@ at a concrete example with our previous color computation.&lt;/p&gt;
 
 &lt;span class=&quot;nx&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'blue'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span style={{ color: 'blue' }}&amp;gt;blue&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Here, we have a type &lt;code class=&quot;highlighter-rouge&quot;&gt;Props&lt;/code&gt; that is an object containing the color, and we the &lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt; is the
+&lt;p&gt;Here, we have &lt;code class=&quot;highlighter-rouge&quot;&gt;Props&lt;/code&gt; that is some data that contains color, and &lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt; is the
 resulting &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;span&amp;gt;&lt;/code&gt; based on the color passed in.&lt;/p&gt;
 
 &lt;p&gt;What we want to do now, is to map over the input props before passing them into the computation.
@@ -268,14 +271,14 @@ This can be done by defining a nifty new function called &lt;code class=&quot;hi
   &lt;span class=&quot;na&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
   
   &lt;span class=&quot;na&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
   &lt;span class=&quot;na&quot;&gt;contramap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
-   &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Note that in &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; we call &lt;code class=&quot;highlighter-rouge&quot;&gt;f&lt;/code&gt; with the resulting value, but with &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt;
-we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the input props, and then the result is passed to the computation.&lt;/p&gt;
+&lt;p&gt;Note that with &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; we call &lt;code class=&quot;highlighter-rouge&quot;&gt;f&lt;/code&gt; with the resulting value, but with &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt;
+we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the input props, and &lt;em&gt;then&lt;/em&gt; that result is passed to the computation as input.&lt;/p&gt;
 
 &lt;p&gt;So, with our new function, we can do the following.&lt;/p&gt;
 
@@ -283,11 +286,11 @@ we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the 
 
 &lt;span class=&quot;nx&quot;&gt;blue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;span style={{ color: 'blue' }}&amp;gt;blue&amp;lt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Awesome! We can now map over results and contramp over inputs!&lt;/p&gt;
+&lt;p&gt;Awesome! We can now map over results and contramap over inputs!&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt;
-  The View box is now also a &lt;em&gt;Contravariant&lt;/em&gt;, in addition to being a functor. You can think of
+  The View is now also a &lt;em&gt;Contravariant&lt;/em&gt;, in addition to being a functor. You can think of
   contravariants as any object that provides the &lt;code&gt;contramap&lt;/code&gt; function.
   &lt;/p&gt;
 
@@ -302,12 +305,7 @@ we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the 
 
   &lt;p&gt;
   The main difference between &lt;code&gt;map&lt;/code&gt; and &lt;code&gt;contramap&lt;/code&gt; is that composition
-  with the latter is reversed. In fact, we can call functors &lt;a href=&quot;http://mathworld.wolfram.com/CovariantFunctor.html&quot;&gt;Covariant Functors&lt;/a&gt;,
-  and contravariants &lt;a href=&quot;http://mathworld.wolfram.com/ContravariantFunctor.html&quot;&gt;Contravariant Functors&lt;/a&gt;.
-  But perhaps covariance/contravariance is a topic for another post.
-  &lt;/p&gt;
-
-  &lt;p&gt;We can visualize the difference with these two pictures&lt;/p&gt;
+  with the latter is reversed. We can visualize the difference with these two pictures&lt;/p&gt;
 
   &lt;div style=&quot;display: flex; justify-content: center; align-items: center; text-align: center&quot;&gt;
     &lt;p style=&quot;flex: 1&quot;&gt;
@@ -324,19 +322,17 @@ we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the 
 &lt;h3 id=&quot;no-need-for-hocs&quot;&gt;No need for HOCs&lt;/h3&gt;
 
 &lt;p&gt;Now that we’ve captured both &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt; use cases of HOCs, we no longer need them! We only need to consider
-whether we are mapping over or input to decide which function we should call.&lt;/p&gt;
+whether we are mapping over result or input to decide whether we want &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;By formalizing these concepts we can be more explicit and precise about &lt;em&gt;what&lt;/em&gt; we are mapping over, and &lt;em&gt;how&lt;/em&gt; we are mapping.
-Additionally, we have math laws to help us compose our program, which is awesoem!&lt;/p&gt;
-
-&lt;p&gt;From this point forward, I will no longer mention HOCs in this series since they are not needed.&lt;/p&gt;
+Additionally, we have mathematical laws to help us compose our program, which is awesome!&lt;/p&gt;
 
 &lt;h2 id=&quot;quick-recap&quot;&gt;Quick Recap&lt;/h2&gt;
 
 &lt;p&gt;So far we’ve seen how we can:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Put a computation of the form &lt;code class=&quot;highlighter-rouge&quot;&gt;Props -&amp;gt; Element&lt;/code&gt; into a box.&lt;/li&gt;
+  &lt;li&gt;Put a computation of the form &lt;code class=&quot;highlighter-rouge&quot;&gt;Props -&amp;gt; Element&lt;/code&gt; into a box (View).&lt;/li&gt;
   &lt;li&gt;Take the value out via &lt;code class=&quot;highlighter-rouge&quot;&gt;fold&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Map over the resulting element via &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt;.&lt;/li&gt;
   &lt;li&gt;Map over the input props via &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt;.&lt;/li&gt;
@@ -352,8 +348,8 @@ Additionally, we have math laws to help us compose our program, which is awesoem
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;c&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;We can see that these arrays (&lt;code class=&quot;highlighter-rouge&quot;&gt;a&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;) are functors since they implement &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; that
-obey the functor laws – Feel free to verify this for yourself!&lt;/p&gt;
+&lt;p&gt;We can see that arrays are functors since they implement a &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; function that
+obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
 
 &lt;p&gt;But arrays have something our View does not: a way to combine two arrays into a new array.&lt;/p&gt;
 
@@ -379,11 +375,7 @@ obey the functor laws – Feel free to verify this for yourself!&lt;/p&gt;
         &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;other&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
       &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// We'll also define View.of that takes existing elements and wraps them in a box.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// The computation in this case just returns the element.&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;And now we can &lt;code class=&quot;highlighter-rouge&quot;&gt;concat&lt;/code&gt; like a boss!&lt;/p&gt;
 
@@ -391,7 +383,7 @@ obey the functor laws – Feel free to verify this for yourself!&lt;/p&gt;
 &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hello&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
 &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;footer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;©&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Bob&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;McBob&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2017&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
 &lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'red'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/header&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
+&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'red'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/header&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
 &lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;greeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;contramap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})))&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;footer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;footer&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'blue'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/footer&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
 &lt;/span&gt;
@@ -406,12 +398,15 @@ obey the functor laws – Feel free to verify this for yourself!&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/5-awesome-app.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Just for fun, we can also make View a &lt;em&gt;Monoid&lt;/em&gt; by providing an &lt;code class=&quot;highlighter-rouge&quot;&gt;View.empty()&lt;/code&gt; function.&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;Just for fun, we can also make View a &lt;em&gt;Monoid&lt;/em&gt; by providing an &lt;code class=&quot;highlighter-rouge&quot;&gt;empty&lt;/code&gt; function.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;empty&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;This way we can do &lt;code class=&quot;highlighter-rouge&quot;&gt;centered.concat(View.empty())&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;View.empty().concat(centered)&lt;/code&gt;, and
-both would result in just &lt;code class=&quot;highlighter-rouge&quot;&gt;centered&lt;/code&gt; again.&lt;/p&gt;
+both would result in just &lt;code class=&quot;highlighter-rouge&quot;&gt;centered&lt;/code&gt; again. (Okay, this isn’t totally true due to the extra &lt;code class=&quot;highlighter-rouge&quot;&gt;div&lt;/code&gt;s, but
+the rendered result &lt;em&gt;looks&lt;/em&gt; the same).&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt; 
@@ -424,6 +419,8 @@ both would result in just &lt;code class=&quot;highlighter-rouge&quot;&gt;center
   &lt;/ol&gt;
 &lt;/p&gt;
 &lt;/div&gt;
+
+&lt;hr /&gt;
 
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 
@@ -442,8 +439,17 @@ both would result in just &lt;code class=&quot;highlighter-rouge&quot;&gt;center
 &lt;p&gt;But we are not done yet since our View still hasn’t recreated two key features of React components:
 &lt;em&gt;context&lt;/em&gt; and &lt;em&gt;state&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;Next up, we will replicate the React context using the Reader monad. So stay tuned!&lt;/p&gt;
+&lt;p&gt;In the next post, we will replicate the React context using the Reader monad. So stay tuned!&lt;/p&gt;
 
+&lt;p&gt;But you’re dying for more functional programming content like this, I can recommend the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/hemanth/functional-programming-jargon&quot;&gt;Functional Programming Jargon&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html&quot;&gt;Functors, Applicatives, And Monads In Pictures&lt;/a&gt; by Aditya Bhargava&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=SfWR3dKnFIo&quot;&gt;Oh Composable World!&lt;/a&gt; (video) by Brian Lonsdorf&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript&quot;&gt;Professor Frisby Introduces Composable Functional JavaScript&lt;/a&gt; (course) by Brian Lonsdorf&lt;/li&gt;
+  &lt;li&gt;Brian Lonsdorf on &lt;a href=&quot;https://medium.com/@drboolean&quot;&gt;Medium&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/drboolean&quot;&gt;Twitter&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content>
  </entry>
  
