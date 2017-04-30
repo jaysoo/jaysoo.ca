@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-04-30T18:04:10-04:00</updated>
+ <updated>2017-04-30T18:13:44-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -22,8 +22,6 @@
 &lt;/div&gt;
 
 &lt;figure class=&quot;title-image&quot;&gt;
-  &lt;meta property=&quot;og:image&quot; content=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; /&gt;
-  &lt;meta name=&quot;twitter:image&quot; content=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; /&gt;
   &lt;img src=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; alt=&quot;&quot; class=&quot;title-image__image&quot; /&gt;
   &lt;figcaption class=&quot;title-image__caption&quot;&gt;
     Photo by Mark Sebastian

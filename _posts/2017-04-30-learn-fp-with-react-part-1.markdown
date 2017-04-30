@@ -3,6 +3,7 @@ created_at: 2017-04-30 20:39Z
 layout: post
 title: "Deconstructing the React Component"
 tags: [programming,javascript,react,functional programming]
+image: /images/5386093672_e14ef0a6df_z.jpg
 ---
 
 <div class="byline">
@@ -10,8 +11,6 @@ tags: [programming,javascript,react,functional programming]
 </div>
 
 <figure class="title-image">
-  <meta property="og:image" content="/images/5386093672_e14ef0a6df_z.jpg"/>
-  <meta name="twitter:image" content="/images/5386093672_e14ef0a6df_z.jpg"/>
   <img src="/images/5386093672_e14ef0a6df_z.jpg" alt="" class="title-image__image"/>
   <figcaption class="title-image__caption">
     Photo by Mark Sebastian
