@@ -224,7 +224,7 @@ const red2 = view => view.map(x => {% raw %}<span style={{ color: 'red' }}>{x}</
 {% endhighlight %}
 
 Here, we have two functions that when given a component or view,
-returns something that is like the original component, but in red.
+returns something that is like the original input, but in red.
 
 The difference between the HOC and the View is that the latter formalizes the concept of
 mapping its value through the `map` function.
