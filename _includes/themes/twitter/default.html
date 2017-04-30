@@ -22,12 +22,22 @@
 
     <meta content="{{ page.title }}" property="og:title"/>
     <meta content="{{ site.title }}" property="og:site"/>
-    <meta content="{{ page.title }}" name="twitter:title"/>
-    <meta content="{{ site.title }}" name="twitter:site"/>
+   
+    <meta name="twitter:creator" content="@jay_soo">
+    <meta name="twitter:title" content="{{ page.title }}"/>
+    <meta name="twitter:site" content="{{ site.title }}"/>
+
+
+    {% if page.image %}
+      <meta property="og:description" content={{ page.description }}/>
+      <meta name="twitter:description" content={{ page.description }}/>
+    {% endif %}
+    
     {% if page.image %}
       <meta content="{{ site.url }}{{ page.image }}" property="og:image"/>
-      <meta name="twitter:card" content="summary_large_image"/>
-      <meta content="{{ site.url }}{{ page.image }}" name="twitter:image"/>
+
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="{{ site.url }}{{ page.image }}"/>
     {% endif %}
   </head>
   <body>

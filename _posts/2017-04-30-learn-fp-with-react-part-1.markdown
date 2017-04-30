@@ -3,6 +3,7 @@ created_at: 2017-04-30 20:39Z
 layout: post
 title: "Deconstructing the React Component"
 tags: [programming,javascript,react,functional programming]
+description: A functional approach to building React applications.
 image: /images/5386093672_e14ef0a6df_z.jpg
 ---
 
