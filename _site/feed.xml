@@ -8,7 +8,20 @@
 		
 			<item>
 				<title>Deconstructing the React Component</title>
-				<description>&lt;p&gt;In this three-part series, I want to take a functional approach building React applications.&lt;/p&gt;
+				<description>&lt;div class=&quot;byline&quot;&gt;
+  A functional approach to building React applications.
+&lt;/div&gt;
+
+&lt;figure class=&quot;title-image&quot;&gt;
+  &lt;meta property=&quot;og:image&quot; content=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; /&gt;
+  &lt;meta name=&quot;twitter:image&quot; content=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; /&gt;
+  &lt;img src=&quot;/images/5386093672_e14ef0a6df_z.jpg&quot; alt=&quot;&quot; class=&quot;title-image__image&quot; /&gt;
+  &lt;figcaption class=&quot;title-image__caption&quot;&gt;
+    Photo by Mark Sebastian
+  &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;In this three-part series, I want to take a functional approach to building React applications.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Series contents:&lt;/strong&gt;&lt;/p&gt;
 
