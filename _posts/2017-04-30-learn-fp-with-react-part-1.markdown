@@ -1,5 +1,5 @@
 ---
-created_at: 2017-04-29 20:39Z
+created_at: 2017-04-30 20:39Z
 layout: post
 title: "Deconstructing the React Component"
 tags: [programming,javascript,react]

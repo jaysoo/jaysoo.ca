@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="http://jaysoo.ca/atom.xml" rel="self"/>
  <link href="http://jaysoo.ca"/>
- <updated>2017-04-30T15:55:12-04:00</updated>
+ <updated>2017-04-30T16:02:17-04:00</updated>
  <id>http://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Deconstructing the React Component</title>
-   <link href="http://jaysoo.ca/2017/04/29/learn-fp-with-react-part-1/"/>
-   <updated>2017-04-29T00:00:00-04:00</updated>
-   <id>hhttp://jaysoo.ca/2017/04/29/learn-fp-with-react-part-1</id>
+   <link href="http://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/"/>
+   <updated>2017-04-30T00:00:00-04:00</updated>
+   <id>hhttp://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1</id>
    <content type="html">&lt;p&gt;In this three-part series, I want to take a functional approach building React applications.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Series contents:&lt;/strong&gt;&lt;/p&gt;
