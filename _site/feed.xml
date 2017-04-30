@@ -3,8 +3,8 @@
 	<channel>
 		<title>Jack Hsu</title>
 		<description>Web developer blogging about technology</description>		
-		<link>http://jaysoo.ca</link>
-		<atom:link href="http://jaysoo.ca/feed.xml" rel="self" type="application/rss+xml" />
+		<link>https://jaysoo.ca</link>
+		<atom:link href="https://jaysoo.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>Deconstructing the React Component</title>
@@ -454,8 +454,8 @@ the rendered result &lt;em&gt;looks&lt;/em&gt; the same).&lt;/p&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Sun, 30 Apr 2017 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/</guid>
+				<link>https://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/</guid>
 			</item>
 		
 			<item>
@@ -804,8 +804,8 @@ into static vs dynamic, and strong vs weak.&lt;/p&gt;
 
 </description>
 				<pubDate>Tue, 24 Jan 2017 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2017/01/24/dont-fear-the-type-system/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2017/01/24/dont-fear-the-type-system/</guid>
+				<link>https://jaysoo.ca/2017/01/24/dont-fear-the-type-system/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2017/01/24/dont-fear-the-type-system/</guid>
 			</item>
 		
 			<item>
@@ -1085,8 +1085,8 @@ the appropriate loading actions – or you can use thunks.&lt;/p&gt;
 
 </description>
 				<pubDate>Mon, 12 Dec 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/</guid>
+				<link>https://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/</guid>
 			</item>
 		
 			<item>
@@ -1373,8 +1373,8 @@ systems in the front end, you can also check out &lt;a href=&quot;http://elm-lan
 &lt;/ul&gt;
 </description>
 				<pubDate>Tue, 23 Aug 2016 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2016/08/23/why-you-need-types/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/08/23/why-you-need-types/</guid>
+				<link>https://jaysoo.ca/2016/08/23/why-you-need-types/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/08/23/why-you-need-types/</guid>
 			</item>
 		
 			<item>
@@ -1714,8 +1714,8 @@ dive deeper into code examples and learn how these rules can be applied to a Rea
 
 </description>
 				<pubDate>Sun, 28 Feb 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/02/28/organizing-redux-application/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/02/28/organizing-redux-application/</guid>
+				<link>https://jaysoo.ca/2016/02/28/organizing-redux-application/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/02/28/organizing-redux-application/</guid>
 			</item>
 		
 			<item>
@@ -2001,8 +2001,8 @@ of this series on code organization, we will discuss additional guidelines that 
 
 </description>
 				<pubDate>Sun, 28 Feb 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/</guid>
+				<link>https://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/02/28/applying-code-organization-rules-to-concrete-redux-code/</guid>
 			</item>
 		
 			<item>
@@ -2572,8 +2572,8 @@ for more functional programming with ReactJS.&lt;/p&gt;
 
 </description>
 				<pubDate>Wed, 13 Jan 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</guid>
+				<link>https://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/01/13/functional-programming-little-ideas/</guid>
 			</item>
 		
 			<item>
@@ -2838,8 +2838,8 @@ a user interaction could lead to further actions that do not require further int
 
 </description>
 				<pubDate>Sun, 03 Jan 2016 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</guid>
+				<link>https://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2016/01/03/managing-processes-in-redux-using-sagas/</guid>
 			</item>
 		
 			<item>
@@ -3235,8 +3235,8 @@ more easily reason about your system as a whole. You may then get the insight ne
 &lt;p&gt;&lt;small&gt;Edit (2015-12-13): Fixed typos in code example.&lt;/small&gt;&lt;/p&gt;
 </description>
 				<pubDate>Sat, 21 Nov 2015 00:00:00 -0500</pubDate>
-				<link>http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</guid>
+				<link>https://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2015/11/21/avoid-unnecessary-indirection/</guid>
 			</item>
 		
 			<item>
@@ -3641,8 +3641,8 @@ in choosing TypeScript.&lt;/p&gt;
 &lt;/ul&gt;
 </description>
 				<pubDate>Sat, 26 Sep 2015 00:00:00 -0400</pubDate>
-				<link>http://jaysoo.ca/2015/09/26/typed-react-and-redux/</link>
-				<guid isPermaLink="true">http://jaysoo.ca/2015/09/26/typed-react-and-redux/</guid>
+				<link>https://jaysoo.ca/2015/09/26/typed-react-and-redux/</link>
+				<guid isPermaLink="true">https://jaysoo.ca/2015/09/26/typed-react-and-redux/</guid>
 			</item>
 		
 	</channel>

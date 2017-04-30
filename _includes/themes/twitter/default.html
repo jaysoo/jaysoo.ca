@@ -25,8 +25,8 @@
     <meta content="{{ page.title }}" name="twitter:title"/>
     <meta content="{{ site.title }}" name="twitter:site"/>
     {% if page.image %}
-      <meta content="{{ page.image }}" property="og:image"/>
-      <meta content="{{ page.image }}" name="twitter:card"/>
+      <meta content="{{ site.url }}{{ page.image }}" property="og:image"/>
+      <meta content="{{ site.url }}{{ page.image }}" name="twitter:card"/>
     {% endif %}
   </head>
   <body>
