@@ -280,7 +280,6 @@ can still maintain a reference to the original box.</p>
   <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">uppercase</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">emphasize</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">clap</span><span class="p">)</span>
-  
 
 <span class="nx">superGreeting</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">//  &lt;span&gt;👏 &lt;span style={{ fontStyle: 'italic' }}&gt;&lt;span style={{ textTransform: 'uppercase' }}&gt;&lt;span&gt;Hello Alice!&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; 👏&lt;/span&gt;</span>
 
@@ -315,7 +314,7 @@ There are two mathematical laws that functors must obey:
 
 <p>
 We can use these laws to our advantage when composing applications. For example,
-out previous <code>superGreeting</code> view can be optimized by calling <code>map</code>
+our previous <code>superGreeting</code> view can be optimized by calling <code>map</code>
 only once, using the composition <code>compose(clap, emphasize, uppercase)</code>.
 </p>
 <p>

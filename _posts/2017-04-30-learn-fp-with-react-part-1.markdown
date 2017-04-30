@@ -146,7 +146,6 @@ const superGreeting = greeting
   .map(uppercase)
   .map(emphasize)
   .map(clap)
-  
 
 superGreeting.fold({ name: 'Alice' }) // {% raw %} <span>👏 <span style={{ fontStyle: 'italic' }}><span style={{ textTransform: 'uppercase' }}><span>Hello Alice!</span></span></span> 👏</span>{% endraw %}
 
@@ -182,7 +181,7 @@ There are two mathematical laws that functors must obey:
 
 <p>
 We can use these laws to our advantage when composing applications. For example,
-out previous <code>superGreeting</code> view can be optimized by calling <code>map</code>
+our previous <code>superGreeting</code> view can be optimized by calling <code>map</code>
 only once, using the composition <code>compose(clap, emphasize, uppercase)</code>.
 </p>
 <p>

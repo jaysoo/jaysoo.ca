@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-04-30T18:31:18-04:00</updated>
+ <updated>2017-04-30T18:38:46-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -144,7 +144,6 @@ can still maintain a reference to the original box.&lt;/p&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;uppercase&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  
 
 &lt;span class=&quot;nx&quot;&gt;superGreeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Alice'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//  &amp;lt;span&amp;gt;👏 &amp;lt;span style={{ fontStyle: 'italic' }}&amp;gt;&amp;lt;span style={{ textTransform: 'uppercase' }}&amp;gt;&amp;lt;span&amp;gt;Hello Alice!&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt; 👏&amp;lt;/span&amp;gt;&lt;/span&gt;
 
@@ -179,7 +178,7 @@ There are two mathematical laws that functors must obey:
 
 &lt;p&gt;
 We can use these laws to our advantage when composing applications. For example,
-out previous &lt;code&gt;superGreeting&lt;/code&gt; view can be optimized by calling &lt;code&gt;map&lt;/code&gt;
+our previous &lt;code&gt;superGreeting&lt;/code&gt; view can be optimized by calling &lt;code&gt;map&lt;/code&gt;
 only once, using the composition &lt;code&gt;compose(clap, emphasize, uppercase)&lt;/code&gt;.
 &lt;/p&gt;
 &lt;p&gt;
