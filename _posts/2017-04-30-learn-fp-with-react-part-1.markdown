@@ -219,7 +219,7 @@ So, isn't the `View` box kind of like higher-order components (HOC)? Which we al
 // Normal React HOC
 const red = Component => () => {% raw %}<span style={{ color: 'red' }}><Component/></span>{% endraw %}
 
-// Our view composition
+// A map in our view
 const red2 = view => view.map(x => {% raw %}<span style={{ color: 'red' }}>{x}</span>{% endraw %})
 {% endhighlight %}
 
