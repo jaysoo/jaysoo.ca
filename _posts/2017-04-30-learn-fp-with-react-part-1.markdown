@@ -414,7 +414,7 @@ const View = computation => ({
 
   <p>
     Note that View doesn't technically obey associativity since the ordering of the nested <code>div</code>s are different.
-    This an artifact of React not allowing <a href=-"https://github.com/facebook/react/issues/2127">multiple elements from rendering</a>.
+    This an artifact of React not allowing <a href="https://github.com/facebook/react/issues/2127">multiple elements from rendering</a>.
     For now, let's just say that the <code>concat</code> ordering does not affect how UI appears to the user, even if the markup isn't
     exactly equivalent.
   </p>

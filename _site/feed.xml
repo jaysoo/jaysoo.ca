@@ -382,7 +382,7 @@ obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
 
   &lt;p&gt;
     Note that View doesn't technically obey associativity since the ordering of the nested &lt;code&gt;div&lt;/code&gt;s are different.
-    This an artifact of React not allowing &amp;lt;a href=-&quot;https://github.com/facebook/react/issues/2127&quot;&amp;gt;multiple elements from rendering&amp;lt;/a&amp;gt;.
+    This an artifact of React not allowing &lt;a href=&quot;https://github.com/facebook/react/issues/2127&quot;&gt;multiple elements from rendering&lt;/a&gt;.
     For now, let's just say that the &lt;code&gt;concat&lt;/code&gt; ordering does not affect how UI appears to the user, even if the markup isn't
     exactly equivalent.
   &lt;/p&gt;
