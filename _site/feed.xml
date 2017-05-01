@@ -268,7 +268,7 @@ This can be done by defining a nifty new function called &lt;code class=&quot;hi
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Note that with &lt;code class=&quot;highlighter-rouge&quot;&gt;map&lt;/code&gt; we call &lt;code class=&quot;highlighter-rouge&quot;&gt;f&lt;/code&gt; with the resulting value, but with &lt;code class=&quot;highlighter-rouge&quot;&gt;contramap&lt;/code&gt;
-we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the input props, and &lt;em&gt;then&lt;/em&gt; that result is passed to the computation as input.&lt;/p&gt;
+we call &lt;code class=&quot;highlighter-rouge&quot;&gt;g&lt;/code&gt; with the input props, and then &lt;em&gt;that&lt;/em&gt; result is passed to the computation as input.&lt;/p&gt;
 
 &lt;p&gt;So, with our new function, we can do the following.&lt;/p&gt;
 

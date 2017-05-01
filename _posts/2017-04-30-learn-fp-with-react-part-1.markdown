@@ -293,7 +293,7 @@ const View = computation => ({
 {% endhighlight %}
 
 Note that with `map` we call `f` with the resulting value, but with `contramap`
-we call `g` with the input props, and *then* that result is passed to the computation as input.
+we call `g` with the input props, and then *that* result is passed to the computation as input.
 
 So, with our new function, we can do the following.
 
