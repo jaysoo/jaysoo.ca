@@ -401,7 +401,7 @@ const View = computation => ({
 
 <div class="alert alert-info">
   <p><strong>A bit of theory:</strong>
-  The View is now also a <em>Semigroup</em>, which are objects that provide the <code>concat</code> function.
+    The View is now also a <em>Semigroup</em>, which are objects that provide the <code>concat</code> function.
   </p>
 
   <p>
@@ -410,6 +410,13 @@ const View = computation => ({
   <ol>
   <li>Associativity: <code>(a.concat(b)).concat(c) === a.concat(b.concat(c))</code></li>
   </ol>
+  </p>
+
+  <p>
+    Note that View doesn't technically obey associativity since the ordering of the nested <code>div</code>s are different.
+    This an artifact of React not allowing <a href=-"https://github.com/facebook/react/issues/2127">multiple elements from rendering</a>.
+    For now, let's just say that the <code>concat</code> ordering does not affect how UI appears to the user, even if the markup isn't
+    exactly equivalent.
   </p>
 </div>
 
