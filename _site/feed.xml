@@ -373,7 +373,7 @@ obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
   &lt;/p&gt;
 
   &lt;p&gt;
-  Semigroups have one law.
+  Semigroups have one law:
 
   &lt;ol&gt;
   &lt;li&gt;Associativity: &lt;code&gt;(a.concat(b)).concat(c) === a.concat(b.concat(c))&lt;/code&gt;&lt;/li&gt;

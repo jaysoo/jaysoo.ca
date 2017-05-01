@@ -405,7 +405,7 @@ const View = computation => ({
   </p>
 
   <p>
-  Semigroups have one law.
+  Semigroups have one law:
 
   <ol>
   <li>Associativity: <code>(a.concat(b)).concat(c) === a.concat(b.concat(c))</code></li>
