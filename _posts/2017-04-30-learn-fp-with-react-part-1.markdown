@@ -399,6 +399,19 @@ const View = computation => ({
 })
 {% endhighlight %}
 
+<div class="alert alert-info">
+  <p><strong>A bit of theory:</strong>
+  The View is now also a <em>Semigroup</em>, which are objects that provide the `concat` function.
+  </p>
+
+  <p>
+  Semigroups have one law.
+
+  <ol>
+  <li>Associativity: <code>(a.concat(b)).concat(c) === a.concat(b.concat(c))</code></li>
+  </ol>
+  </p>
+</div>
 
 And now we can `concat` like a boss!
 

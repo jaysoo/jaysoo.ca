@@ -512,6 +512,20 @@ obeys the functor laws – you can verify this for yourself!</p>
 </span>    <span class="p">))</span>
 <span class="p">})</span></code></pre></figure>
 
+<div class="alert alert-info">
+  <p><strong>A bit of theory:</strong>
+  The View is now also a <em>Semigroup</em>, which are objects that provide the `concat` function.
+  </p>
+
+  <p>
+  Semigroups have one law.
+
+  <ol>
+  <li>Associativity: <code>(a.concat(b)).concat(c) === a.concat(b.concat(c))</code></li>
+  </ol>
+  </p>
+</div>
+
 <p>And now we can <code class="highlighter-rouge">concat</code> like a boss!</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">header</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Awesome</span> <span class="nx">App</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span><span class="err">)

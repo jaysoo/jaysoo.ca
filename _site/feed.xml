@@ -367,6 +367,20 @@ obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
+&lt;div class=&quot;alert alert-info&quot;&gt;
+  &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt;
+  The View is now also a &lt;em&gt;Semigroup&lt;/em&gt;, which are objects that provide the `concat` function.
+  &lt;/p&gt;
+
+  &lt;p&gt;
+  Semigroups have one law.
+
+  &lt;ol&gt;
+  &lt;li&gt;Associativity: &lt;code&gt;(a.concat(b)).concat(c) === a.concat(b.concat(c))&lt;/code&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+
 &lt;p&gt;And now we can &lt;code class=&quot;highlighter-rouge&quot;&gt;concat&lt;/code&gt; like a boss!&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;h1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Awesome&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/h1&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
