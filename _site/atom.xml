@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-04-30T20:26:25-04:00</updated>
+ <updated>2017-04-30T23:44:51-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -378,7 +378,7 @@ obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt;
-  The View is now also a &lt;em&gt;Semigroup&lt;/em&gt;, which are objects that provide the `concat` function.
+  The View is now also a &lt;em&gt;Semigroup&lt;/em&gt;, which are objects that provide the &lt;code&gt;concat&lt;/code&gt; function.
   &lt;/p&gt;
 
   &lt;p&gt;

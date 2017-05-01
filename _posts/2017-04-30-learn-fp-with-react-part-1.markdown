@@ -401,7 +401,7 @@ const View = computation => ({
 
 <div class="alert alert-info">
   <p><strong>A bit of theory:</strong>
-  The View is now also a <em>Semigroup</em>, which are objects that provide the `concat` function.
+  The View is now also a <em>Semigroup</em>, which are objects that provide the <code>concat</code> function.
   </p>
 
   <p>

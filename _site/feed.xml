@@ -369,7 +369,7 @@ obeys the functor laws – you can verify this for yourself!&lt;/p&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
   &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt;
-  The View is now also a &lt;em&gt;Semigroup&lt;/em&gt;, which are objects that provide the `concat` function.
+  The View is now also a &lt;em&gt;Semigroup&lt;/em&gt;, which are objects that provide the &lt;code&gt;concat&lt;/code&gt; function.
   &lt;/p&gt;
 
   &lt;p&gt;
