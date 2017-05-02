@@ -563,6 +563,9 @@ View.empty = View.of(null)
 </p>
 </div>
 
+Remember that we filtered out any `null` values that result from the computation. Otherwise, the left
+and right identity wouldn't technically be true since React generates HTML comments for `null` children.
+
 ---
 
 ## Summary

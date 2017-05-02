@@ -516,6 +516,9 @@ always results in an array.&lt;/p&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
+&lt;p&gt;Remember that we filtered out any &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; values that result from the computation. Otherwise, the left
+and right identity wouldn’t technically be true since React generates HTML comments for &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; children.&lt;/p&gt;
+
 &lt;hr /&gt;
 
 &lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
