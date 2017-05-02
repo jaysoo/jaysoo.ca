@@ -422,7 +422,7 @@ const View = computation => ({
 
   <p>
     Note, that View doesn't <em>technically</em> obey the associativity law since the ordering of the nested <code>div</code>s are different.
-    We will correct this laterin this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
+    We will correct this later on in this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
   </p>
 </div>
 
@@ -462,7 +462,7 @@ const a = View.of(<a>A</a>)
 const b = View.of(<a>B</a>)
 const c = View.of(<a>C</a>)
 
-a.concat(b).concat(c).fold() // === <div><div><a>A</a><a>B</a></div><a>C</a></div>
+a.concat(b).concat(c).fold()   // === <div><div><a>A</a><a>B</a></div><a>C</a></div>
 a.concat(b.concat(c)).fold()   // === <div><a>A</a><div><a>B</a><a>C</a></div></div>
 {% endhighlight %}
 

@@ -535,7 +535,7 @@ obeys the functor laws – you can verify this for yourself!</p>
 
   <p>
     Note, that View doesn't <em>technically</em> obey the associativity law since the ordering of the nested <code>div</code>s are different.
-    We will correct this laterin this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
+    We will correct this later on in this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
   </p>
 </div>
 
@@ -572,7 +572,7 @@ generate the same markup as <code class="highlighter-rouge">a.concat(b.concat(c)
 </span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">B</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
 </span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">C</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
 </span>
-<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// === &lt;div&gt;&lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;/div&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;/div&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
 <span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;div&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</span></code></pre></figure>
 
 <p>We can fix this by making sure that the computation results in something that’s already a semigroup. In this case,
