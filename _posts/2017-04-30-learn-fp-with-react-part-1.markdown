@@ -10,16 +10,24 @@ image_caption: Photo by Mark Sebastian
 
 In this three-part series, I want to take a functional approach to building React applications.
 
+There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
+will pick up some useful techniques!
+
 **Series contents:**
 
 - Part 1 - Deconstructing the React Component
 - Part 2 - Read-only context with Reader monad
 - Part 3 - Functional state management with Reducer
 
-There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
-will pick up some useful techniques!
+Functional programming -- category theory in particular -- teaches us a lot about program construction.
+Much of the tools that functional programmers reach for are very generalized, and widely applicable to
+various domains. It is this *learn once, appy everywhere* idea that I think would appeal to many folks
+in the business of making software. (Not to mention that functional programming is fun!)
 
-Basic React knowledge is required to understand this post. I will discuss concepts such as 
+React has many patterns that grew out of the community. I want to take a step back
+and view these patterns from a new angle, and see if we can formalize them with mathematical theory.
+
+You wil need basic React knowledge in order to understand this series. I will discuss concepts such as 
 [components](https://facebook.github.io/react/docs/components-and-props.html), 
 [elements](https://facebook.github.io/react/docs/rendering-elements.html), and 
 [higher-order components](https://facebook.github.io/react/docs/higher-order-components.html) (HOC).
@@ -133,7 +141,7 @@ const View = computation => ({
   // I've shortened this since `props => computation(props)` is the same as `computation`
   fold: computation,
 
-  map: f => View(props => f(computation(props))
+  map: f => View(props => f(computation(props)))
 })
 {% endhighlight %}
 
@@ -285,7 +293,7 @@ const View = computation => ({
   fold: computation,
   
   map: f =>
-    View(props => f(computation(props))
+    View(props => f(computation(props)))
 
   contramap: g =>
     View(props => computation(g(props)))
@@ -382,7 +390,7 @@ const View = computation => ({
   fold: computation,
   
   map: f =>
-   View(props => f(computation(props))
+   View(props => f(computation(props)))
 
   contramap: g =>
    View(props => computation(g(props))),
@@ -414,9 +422,7 @@ const View = computation => ({
 
   <p>
     Note, that View doesn't <em>technically</em> obey the associativity law since the ordering of the nested <code>div</code>s are different.
-    This an artifact of React not allowing <a href="https://github.com/facebook/react/issues/2127">multiple elements from rendering</a>.
-    For now, let's just say that the <code>concat</code> ordering does not affect how UI appears to the user, even if the markup isn't
-    exactly equivalent.
+    We will correct this laterin this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
   </p>
 </div>
 
@@ -443,6 +449,99 @@ Yes, the `map` and `contramap` are a bit gratuitous... But, if you run the progr
 
 ![](/images/5-awesome-app.png)
 
+## Let's fix the associativity problem for semigroup
+
+Remember that our View currently doesn't obey associativity, because `(a.concat(b)).concat(c)` will not
+generate the same markup as `a.concat(b.concat(c))`.
+
+For example:
+
+{% highlight js %}
+// Given
+const a = View.of(<a>A</a>)
+const b = View.of(<a>B</a>)
+const c = View.of(<a>C</a>)
+
+a.concat(b).concat(c).fold() // === <div><div><a>A</a><a>B</a></div><a>C</a></div>
+a.concat(b.concat(c)).fold()   // === <div><a>A</a><div><a>B</a><a>C</a></div></div>
+{% endhighlight %}
+
+We can fix this by making sure that the computation results in something that's already a semigroup. In this case,
+we can use an array.
+
+Let's define a function that will adapt the result as an array if it isn't one already.
+
+{% highlight js %}
+const asArray = x => (Array.isArray(x) ? x : Array.of(x))
+{% endhighlight %}
+
+Now, we can compose the View with the new `asArray` function, thus guaranteeing that the computation
+always results in an array.
+
+{% highlight js %}
+// The `pipe` function here is the same as compose but composition is applied in reverse (left-to-right).
+const View = pipe(
+  x => compose(asArray, x),
+  computation => ({
+    // ...
+  })
+)
+{% endhighlight %}
+
+We also have to modify our previously defined functions slightly to work with an array rather than a single value.
+
+{% highlight js %}
+
+const View = pipe(
+  x => compose(asArray, x),
+  computation => ({
+    computation: computation, // Need this later on.
+
+    // Redefine `fold` to wrap multiple children in a parent <div>.
+    // However, if there is only one child, then just return it without wrapping.
+    fold: props => {
+      // Filter out nulls, which will come in handy soon!
+      const result = computation(props).filter(x => x !== null)
+
+      // If we only have one element to render, don't wrap it with div.
+      // This preserves the view's root element if it only has one root.
+      // e.g. View.of(<div/>).fold() is just <div/>
+      if (result.length === 1) {
+        return result[0]
+        // If the computation results in multiple items, then wrap it in a
+        // parent div. This is needed because React cannot render an array.
+        // See: https://github.com/facebook/react/issues/2127
+      } else {
+        return createElement('div', { children: result })
+      }
+    },
+
+    // Since the computation results in an array, we can map it with `f`.
+    map: f => View(x => computation(x).map(f)),
+
+
+    // Contramap is invoked on input props (not results),
+    // so we don't have to change anything.
+    contramap: g => View(x => computation(g(x))),
+
+    // Now our `concat` is just array concat. Simple!
+    concat: other =>
+      View(props => computation(props).concat(other.computation(props)))
+  })
+)
+{% endhighlight %}
+
+Indeed, we can verify that the associativity law now holds.
+
+{% highlight js %}
+const a = View.of(<div>a</div>)
+const b = View.of(<div>b</div>)
+const c = View.of(<div>c</div>)
+
+a.concat(b).concat(c).fold() // === <div><a>A</a><a>B</a><a>C</a></div>
+a.concat(b.concat(c)).fold()   // === <div><a>A</a><a>B</a><a>C</a></div>
+{% endhighlight %}
+
 ---
 
 Just for fun, we can also make View a *Monoid* by providing an `empty` function.
@@ -450,10 +549,6 @@ Just for fun, we can also make View a *Monoid* by providing an `empty` function.
 {% highlight js %}
 View.empty = View.of(null)
 {% endhighlight %}
-
-This way we can do `centered.concat(View.empty())` or `View.empty().concat(centered)`, and
-both would result in just `centered` again. (Okay, this isn't totally true due to the extra `div`s, but
-the rendered result *looks* the same).
 
 <div class="alert alert-info">
   <p><strong>A bit of theory:</strong> 
@@ -479,7 +574,7 @@ Phew! I think this is a good stopping point for this post. Let's see what we've 
 4. We added a `contramap` function that maps over the input in the box.
 5. We added a `concat` function that combines two boxes together.
 
-And along the way we learned about **Functors**, **Contravariants**, and **Semigroups**.
+And along the way we learned about **Functors**, **Contravariants**, **Semigroups**, and **Monoids**.
 
 But we are not done yet since our View still hasn't recreated two key features of React components:
 *context* and *state*.

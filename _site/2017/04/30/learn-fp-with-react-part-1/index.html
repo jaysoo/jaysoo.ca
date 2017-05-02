@@ -155,6 +155,9 @@
 
       <p>In this three-part series, I want to take a functional approach to building React applications.</p>
 
+<p>There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
+will pick up some useful techniques!</p>
+
 <p><strong>Series contents:</strong></p>
 
 <ul>
@@ -163,10 +166,15 @@
   <li>Part 3 - Functional state management with Reducer</li>
 </ul>
 
-<p>There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
-will pick up some useful techniques!</p>
+<p>Functional programming – category theory in particular – teaches us a lot about program construction.
+Much of the tools that functional programmers reach for are very generalized, and widely applicable to
+various domains. It is this <em>learn once, appy everywhere</em> idea that I think would appeal to many folks
+in the business of making software. (Not to mention that functional programming is fun!)</p>
 
-<p>Basic React knowledge is required to understand this post. I will discuss concepts such as 
+<p>React has many patterns that grew out of the community. I want to take a step back
+and view these patterns from a new angle, and see if we can formalize them with mathematical theory.</p>
+
+<p>You wil need basic React knowledge in order to understand this series. I will discuss concepts such as 
 <a href="https://facebook.github.io/react/docs/components-and-props.html">components</a>, 
 <a href="https://facebook.github.io/react/docs/rendering-elements.html">elements</a>, and 
 <a href="https://facebook.github.io/react/docs/higher-order-components.html">higher-order components</a> (HOC).</p>
@@ -269,7 +277,7 @@ via JSX <code class="highlighter-rouge">&lt;Greeting name="Alice"/&gt;</code>, b
   <span class="c1">// I've shortened this since `props =&gt; computation(props)` is the same as `computation`</span>
   <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
 
-  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">))</span>
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
 <span class="p">})</span></code></pre></figure>
 
 <p>The <code class="highlighter-rouge">map</code> function will return a brand-new box that runs the original computation
@@ -406,7 +414,7 @@ This can be done by defining a nifty new function called <code class="highlighte
   <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
   
   <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span>
-    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">))</span>
+    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
 
   <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span>
     <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
@@ -496,7 +504,7 @@ obeys the functor laws – you can verify this for yourself!</p>
   <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
   
   <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span>
-   <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">))</span>
+   <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
 
   <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span>
    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">props</span><span class="p">))),</span>
@@ -527,9 +535,7 @@ obeys the functor laws – you can verify this for yourself!</p>
 
   <p>
     Note, that View doesn't <em>technically</em> obey the associativity law since the ordering of the nested <code>div</code>s are different.
-    This an artifact of React not allowing <a href="https://github.com/facebook/react/issues/2127">multiple elements from rendering</a>.
-    For now, let's just say that the <code>concat</code> ordering does not affect how UI appears to the user, even if the markup isn't
-    exactly equivalent.
+    We will correct this laterin this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
   </p>
 </div>
 
@@ -554,15 +560,93 @@ obeys the functor laws – you can verify this for yourself!</p>
 
 <p><img src="/images/5-awesome-app.png" alt="" /></p>
 
+<h2 id="lets-fix-the-associativity-problem-for-semigroup">Let’s fix the associativity problem for semigroup</h2>
+
+<p>Remember that our View currently doesn’t obey associativity, because <code class="highlighter-rouge">(a.concat(b)).concat(c)</code> will not
+generate the same markup as <code class="highlighter-rouge">a.concat(b.concat(c))</code>.</p>
+
+<p>For example:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Given</span>
+<span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">A</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">B</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">C</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// === &lt;div&gt;&lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;/div&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;div&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<p>We can fix this by making sure that the computation results in something that’s already a semigroup. In this case,
+we can use an array.</p>
+
+<p>Let’s define a function that will adapt the result as an array if it isn’t one already.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">asArray</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">?</span> <span class="nx">x</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span></code></pre></figure>
+
+<p>Now, we can compose the View with the new <code class="highlighter-rouge">asArray</code> function, thus guaranteeing that the computation
+always results in an array.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// The `pipe` function here is the same as compose but composition is applied in reverse (left-to-right).</span>
+<span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">pipe</span><span class="p">(</span>
+  <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">asArray</span><span class="p">,</span> <span class="nx">x</span><span class="p">),</span>
+  <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="c1">// ...</span>
+  <span class="p">})</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>We also have to modify our previously defined functions slightly to work with an array rather than a single value.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">pipe</span><span class="p">(</span>
+  <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">asArray</span><span class="p">,</span> <span class="nx">x</span><span class="p">),</span>
+  <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="na">computation</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span> <span class="c1">// Need this later on.</span>
+
+    <span class="c1">// Redefine `fold` to wrap multiple children in a parent &lt;div&gt;.</span>
+    <span class="c1">// However, if there is only one child, then just return it without wrapping.</span>
+    <span class="na">fold</span><span class="p">:</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// Filter out nulls, which will come in handy soon!</span>
+      <span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span>
+
+      <span class="c1">// If we only have one element to render, don't wrap it with div.</span>
+      <span class="c1">// This preserves the view's root element if it only has one root.</span>
+      <span class="c1">// e.g. View.of(&lt;div/&gt;).fold() is just &lt;div/&gt;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">// If the computation results in multiple items, then wrap it in a</span>
+        <span class="c1">// parent div. This is needed because React cannot render an array.</span>
+        <span class="c1">// See: https://github.com/facebook/react/issues/2127</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">,</span> <span class="p">{</span> <span class="na">children</span><span class="p">:</span> <span class="nx">result</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Since the computation results in an array, we can map it with `f`.</span>
+    <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">x</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">f</span><span class="p">)),</span>
+
+
+    <span class="c1">// Contramap is invoked on input props (not results),</span>
+    <span class="c1">// so we don't have to change anything.</span>
+    <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">x</span><span class="p">))),</span>
+
+    <span class="c1">// Now our `concat` is just array concat. Simple!</span>
+    <span class="na">concat</span><span class="p">:</span> <span class="nx">other</span> <span class="o">=&gt;</span>
+      <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">other</span><span class="p">.</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+  <span class="p">})</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>Indeed, we can verify that the associativity law now holds.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">a</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">b</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">c</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span></code></pre></figure>
+
 <hr />
 
 <p>Just for fun, we can also make View a <em>Monoid</em> by providing an <code class="highlighter-rouge">empty</code> function.</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">View</span><span class="p">.</span><span class="nx">empty</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span></code></pre></figure>
-
-<p>This way we can do <code class="highlighter-rouge">centered.concat(View.empty())</code> or <code class="highlighter-rouge">View.empty().concat(centered)</code>, and
-both would result in just <code class="highlighter-rouge">centered</code> again. (Okay, this isn’t totally true due to the extra <code class="highlighter-rouge">div</code>s, but
-the rendered result <em>looks</em> the same).</p>
 
 <div class="alert alert-info">
   <p><strong>A bit of theory:</strong> 
@@ -590,7 +674,7 @@ the rendered result <em>looks</em> the same).</p>
   <li>We added a <code class="highlighter-rouge">concat</code> function that combines two boxes together.</li>
 </ol>
 
-<p>And along the way we learned about <strong>Functors</strong>, <strong>Contravariants</strong>, and <strong>Semigroups</strong>.</p>
+<p>And along the way we learned about <strong>Functors</strong>, <strong>Contravariants</strong>, <strong>Semigroups</strong>, and <strong>Monoids</strong>.</p>
 
 <p>But we are not done yet since our View still hasn’t recreated two key features of React components:
 <em>context</em> and <em>state</em>.</p>
