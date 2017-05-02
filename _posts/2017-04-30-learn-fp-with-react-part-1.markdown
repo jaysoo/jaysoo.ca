@@ -480,6 +480,7 @@ always results in an array.
 
 {% highlight js %}
 // The `pipe` function here is the same as compose but composition is applied in reverse (left-to-right).
+// You can find this function in your friendly Ramda module!
 const View = pipe(
   x => compose(asArray, x),
   computation => ({

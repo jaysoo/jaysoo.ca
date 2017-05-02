@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-05-01T22:06:52-04:00</updated>
+ <updated>2017-05-01T22:54:24-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -450,6 +450,7 @@ we can use an array.&lt;/p&gt;
 always results in an array.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// The `pipe` function here is the same as compose but composition is applied in reverse (left-to-right).&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// You can find this function in your friendly Ramda module!&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pipe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;compose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;asArray&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
   &lt;span class=&quot;nx&quot;&gt;computation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
