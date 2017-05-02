@@ -29,7 +29,7 @@ in the business of making software. (Not to mention that functional programming 
 &lt;p&gt;React has many patterns that grew out of the community. I want to take a step back
 and view these patterns from a new angle, and see if we can formalize them with mathematical theory.&lt;/p&gt;
 
-&lt;p&gt;You wil need basic React knowledge in order to understand this series. I will discuss concepts such as 
+&lt;p&gt;You will need basic React knowledge in order to understand this series. I will discuss concepts such as 
 &lt;a href=&quot;https://facebook.github.io/react/docs/components-and-props.html&quot;&gt;components&lt;/a&gt;, 
 &lt;a href=&quot;https://facebook.github.io/react/docs/rendering-elements.html&quot;&gt;elements&lt;/a&gt;, and 
 &lt;a href=&quot;https://facebook.github.io/react/docs/higher-order-components.html&quot;&gt;higher-order components&lt;/a&gt; (HOC).&lt;/p&gt;

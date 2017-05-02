@@ -27,7 +27,7 @@ in the business of making software. (Not to mention that functional programming 
 React has many patterns that grew out of the community. I want to take a step back
 and view these patterns from a new angle, and see if we can formalize them with mathematical theory.
 
-You wil need basic React knowledge in order to understand this series. I will discuss concepts such as 
+You will need basic React knowledge in order to understand this series. I will discuss concepts such as 
 [components](https://facebook.github.io/react/docs/components-and-props.html), 
 [elements](https://facebook.github.io/react/docs/rendering-elements.html), and 
 [higher-order components](https://facebook.github.io/react/docs/higher-order-components.html) (HOC).
