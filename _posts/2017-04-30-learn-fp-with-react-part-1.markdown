@@ -563,7 +563,7 @@ View.empty = View.of(null)
 </p>
 </div>
 
-Remember how we filtered out any `null` values that result from the computation? This is why the right
+Remember how we filtered out `null` values that result from the computation? This is why the right
 and left identity laws hold. Otherwise, React will generate HTML comments for `null` children, thus resulting
 in different markup.
 

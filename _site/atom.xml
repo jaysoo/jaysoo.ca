@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-05-01T22:58:00-04:00</updated>
+ <updated>2017-05-01T22:58:28-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -525,7 +525,7 @@ always results in an array.&lt;/p&gt;
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;p&gt;Remember how we filtered out any &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; values that result from the computation? This is why the right
+&lt;p&gt;Remember how we filtered out &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; values that result from the computation? This is why the right
 and left identity laws hold. Otherwise, React will generate HTML comments for &lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt; children, thus resulting
 in different markup.&lt;/p&gt;
 
