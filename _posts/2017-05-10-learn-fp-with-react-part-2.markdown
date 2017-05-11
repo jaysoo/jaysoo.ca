@@ -522,7 +522,7 @@ When we render the app, this will appear on the screen.
 
 ![](/images/4-reader-app.png)
 
-The runnable source code for hte full example can be found in this 
+The runnable source code for the full example can be found in this 
 [repository](https://github.com/jaysoo/example-functional-react/blob/master/src/examples/post-2/index.js).
 
 ---
