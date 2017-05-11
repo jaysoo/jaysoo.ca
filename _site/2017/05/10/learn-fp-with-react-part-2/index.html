@@ -558,7 +558,8 @@ that “Hello ___!” message.</p>
 <span class="kr">const</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">View</span><span class="p">(({</span> <span class="nx">message</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">message</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span><span class="se">)</span><span class="err">)
 </span>
 <span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">Monad</span><span class="p">.</span><span class="k">do</span><span class="p">(</span><span class="kd">function</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// Let's colorize our `header` shall we? (header and withColor were previously defined)</span>
+  <span class="c1">// Let's colorize our header shall we? </span>
+  <span class="c1">// Note: header and withColor were previously defined</span>
   <span class="kr">const</span> <span class="nx">headerView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">withColor</span><span class="p">.</span><span class="nx">ap</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span>
 
   <span class="c1">// This will translate our message!</span>
@@ -577,7 +578,7 @@ that “Hello ___!” message.</p>
     <span class="p">})</span>
   <span class="p">))</span>
 
-  <span class="kr">const</span> <span class="nx">footerView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">footer2</span> <span class="c1">// (`footer2` was previously defined)</span>
+  <span class="kr">const</span> <span class="nx">footerView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">footer2</span> <span class="c1">// Note: footer2 was previously defined)</span>
 
   <span class="c1">// Combine everything together, and we have our app!</span>
   <span class="k">return</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">headerView</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">messageView</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">footerView</span><span class="p">))</span>

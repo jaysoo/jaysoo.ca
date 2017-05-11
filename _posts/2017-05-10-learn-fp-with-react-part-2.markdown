@@ -465,7 +465,8 @@ Finally, we can build our entire app as follows.
 const message = Reader.of(View(({ message }) => <p>{message}</p>))
 
 const app = Monad.do(function*() {
-  // Let's colorize our `header` shall we? (header and withColor were previously defined)
+  // Let's colorize our header shall we? 
+  // Note: header and withColor were previously defined
   const headerView = yield withColor.ap(header)
 
   // This will translate our message!
@@ -484,7 +485,7 @@ const app = Monad.do(function*() {
     })
   ))
 
-  const footerView = yield footer2 // (`footer2` was previously defined)
+  const footerView = yield footer2 // Note: footer2 was previously defined)
 
   // Combine everything together, and we have our app!
   return Reader.of(headerView.concat(messageView).concat(footerView))
