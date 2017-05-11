@@ -187,7 +187,7 @@ x.runReader({
 <p><strong>A bit of theory:</strong> 
 The Reader is now an <em>Applicative</em> in addition to being a functor.</p>
 <p>
-  Applicatives <code>A</code> must obey the following laws.
+  An Applicative <code>A</code> must obey the following laws.
   <ol>
     <li>Identity: <code>A.of(x => x).ap(v) === v</code></li>
     <li>Homomorphism: <code>A.of(f).ap(A.of(x)) === A.of(f(x))</code></li>
@@ -306,7 +306,7 @@ combined2.runReader({
 <p><strong>A bit of theory:</strong> 
 The Reader is now a <em>Monad</em>.</p>
 <p>
-  A monad <code>M</code> must obey the following laws.
+  A Monad <code>M</code> must obey the following laws.
   <ol>
     <li>Left identity: <code>M.of(a).chain(f) === f(a)</code></li>
     <li>Right identity: <code>m.chain(M.of) === m</code></li>
@@ -324,7 +324,7 @@ We can verify that these laws do indeed hold in this <a target="_blank" href="ht
 
 ### But what is a monad exactly?
 
-You can think of a monad as any object that implements the `chain` function, and obeys the monad laws defined previously.
+You can think of a monad as any object that implements the `chain` function, and obeys the monad laws.
 
 Note that you may see `bind` or `flatMap` being used instead of `chain` in other libraries or articles. They are usually 
 the same as `chain`, and can be treated as aliases. You might also note a similarity between `chain` and the Promise
@@ -457,7 +457,7 @@ const uppercase = x => {% raw %}<span style={{ textTransform: 'uppercase' }}>{x}
 const emphasize = x => {% raw %}<span style={{ fontStyle: 'italic' }}>{x}</span>{% endraw %}
 {% endhighlight %}
 
-Finally, we can build our entire app as follows. (Pay close attention, it gets pretty dense)
+Finally, we can build our entire app as follows.
 
 
 {% highlight js %}
@@ -465,7 +465,7 @@ Finally, we can build our entire app as follows. (Pay close attention, it gets p
 const message = Reader.of(View(({ message }) => <p>{message}</p>))
 
 const app = Monad.do(function*() {
-  // Let's colorize our `header` shall we? (`header` was previously defined)
+  // Let's colorize our `header` shall we? (header and withColor were previously defined)
   const headerView = yield withColor.ap(header)
 
   // This will translate our message!

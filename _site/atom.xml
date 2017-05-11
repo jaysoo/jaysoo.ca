@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-05-10T23:47:45-04:00</updated>
+ <updated>2017-05-11T08:56:05-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -178,7 +178,7 @@ Reader. We can visualize this like so.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt; 
 The Reader is now an &lt;em&gt;Applicative&lt;/em&gt; in addition to being a functor.&lt;/p&gt;
 &lt;p&gt;
-  Applicatives &lt;code&gt;A&lt;/code&gt; must obey the following laws.
+  An Applicative &lt;code&gt;A&lt;/code&gt; must obey the following laws.
   &lt;ol&gt;
     &lt;li&gt;Identity: &lt;code&gt;A.of(x =&amp;gt; x).ap(v) === v&lt;/code&gt;&lt;/li&gt;
     &lt;li&gt;Homomorphism: &lt;code&gt;A.of(f).ap(A.of(x)) === A.of(f(x))&lt;/code&gt;&lt;/li&gt;
@@ -282,7 +282,7 @@ passed to all of the chained computations.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;A bit of theory:&lt;/strong&gt; 
 The Reader is now a &lt;em&gt;Monad&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;
-  A monad &lt;code&gt;M&lt;/code&gt; must obey the following laws.
+  A Monad &lt;code&gt;M&lt;/code&gt; must obey the following laws.
   &lt;ol&gt;
     &lt;li&gt;Left identity: &lt;code&gt;M.of(a).chain(f) === f(a)&lt;/code&gt;&lt;/li&gt;
     &lt;li&gt;Right identity: &lt;code&gt;m.chain(M.of) === m&lt;/code&gt;&lt;/li&gt;
@@ -299,7 +299,7 @@ We can verify that these laws do indeed hold in this &lt;a target=&quot;_blank&q
 
 &lt;h3 id=&quot;but-what-is-a-monad-exactly&quot;&gt;But what is a monad exactly?&lt;/h3&gt;
 
-&lt;p&gt;You can think of a monad as any object that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;chain&lt;/code&gt; function, and obeys the monad laws defined previously.&lt;/p&gt;
+&lt;p&gt;You can think of a monad as any object that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;chain&lt;/code&gt; function, and obeys the monad laws.&lt;/p&gt;
 
 &lt;p&gt;Note that you may see &lt;code class=&quot;highlighter-rouge&quot;&gt;bind&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;flatMap&lt;/code&gt; being used instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;chain&lt;/code&gt; in other libraries or articles. They are usually 
 the same as &lt;code class=&quot;highlighter-rouge&quot;&gt;chain&lt;/code&gt;, and can be treated as aliases. You might also note a similarity between &lt;code class=&quot;highlighter-rouge&quot;&gt;chain&lt;/code&gt; and the Promise
@@ -416,13 +416,13 @@ that “Hello ___!” message.&lt;/p&gt;
 &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;uppercase&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;textTransform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'uppercase'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
 &lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;emphasize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;fontStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'italic'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/span&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Finally, we can build our entire app as follows. (Pay close attention, it gets pretty dense)&lt;/p&gt;
+&lt;p&gt;Finally, we can build our entire app as follows.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// New context-aware view for displaying a message.&lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Reader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(({&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/p&amp;gt;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;)
 &lt;/span&gt;
 &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Monad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// Let's colorize our `header` shall we? (`header` was previously defined)&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Let's colorize our `header` shall we? (header and withColor were previously defined)&lt;/span&gt;
   &lt;span class=&quot;kr&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;headerView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;withColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
   &lt;span class=&quot;c1&quot;&gt;// This will translate our message!&lt;/span&gt;
