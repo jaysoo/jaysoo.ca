@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>The Reader monad and read-only context &mdash; Jack Hsu</title>
+    <meta name="description" content="A functional approach to building React applications.">
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="https://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link rel="stylesheet" href="/assets/application.css?v=1"/>
+
+    <meta content="The Reader monad and read-only context" property="og:title"/>
+    <meta content="Jack Hsu" property="og:site"/>
+   
+    <meta name="twitter:creator" content="@jay_soo">
+    <meta name="twitter:title" content="The Reader monad and read-only context"/>
+    <meta name="twitter:site" content="Jack Hsu"/>
+
+
+    
+      <meta property="og:description" content="A functional approach to building React applications."/>
+      <meta name="twitter:description" content="A functional approach to building React applications."/>
+    
+    
+    
+      <meta content="https://jaysoo.ca/images/21507878348_016775cf9b_z.jpg" property="og:image"/>
+
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="https://jaysoo.ca/images/21507878348_016775cf9b_z.jpg"/>
+    
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="https://jaysoo.ca/feed.xml">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    The Reader monad and read-only context
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      
+        <div class="byline">
+          A functional approach to building React applications.
+        </div>
+      
+
+      
+        <figure class="title-image">
+          <img src="/images/21507878348_016775cf9b_z.jpg" alt="" class="title-image__image"/>
+          
+            <figcaption class="title-image__caption">
+              Photo by Andrei Zverev
+            </figcaption>
+          
+        </figure>
+      
+
+      <p>In this three-part series, I want to take a functional approach to building React applications.</p>
+
+<p>There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
+will pick up some useful techniques!</p>
+
+<p><strong>Series contents:</strong></p>
+
+<ul>
+  <li><a href="/2017/04/30/learn-fp-with-react-part-1/">Part 1 - Deconstructing the React Component</a></li>
+  <li>Part 2 - The Reader monad and read-only context</li>
+  <li>Part 3 - Functional state management with Reducer</li>
+</ul>
+
+<hr />
+
+<p>In the <a href="(/2017/04/30/learn-fp-with-react-part-1/)">previous post</a>, we looked at React
+through a more functional lens and rebuilt parts of the React component by using a <em>View</em>
+box that contains the computation <code class="highlighter-rouge">Props -&gt; Element</code>.</p>
+
+<p>There are two remaining React component API that I want to replicate: <em>context</em> and <em>state</em>. And in this post
+we will learn how to add a <a href="https://facebook.github.io/react/docs/context.html"><strong>read-only context</strong></a> for 
+our application using yet another box object.</p>
+
+<p>So onwards and upwards!</p>
+
+<h2 id="motivation-behind-context">Motivation behind context</h2>
+
+<p>Say that we have a copyright notice View as follows.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">copyrightNotice</span> <span class="o">=</span> <span class="nx">View</span><span class="p">(({</span> <span class="nx">author</span><span class="p">,</span> <span class="nx">year</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="err">©</span> <span class="p">{</span><span class="nx">author</span><span class="p">}</span> <span class="p">{</span><span class="nx">year</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;
+</span><span class="p">))</span>
+
+<span class="nx">copyrightNotice</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span><span class="p">,</span> <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span> <span class="p">})</span> <span class="c1">// &lt;p&gt;© Bob McBob 2017&lt;/p&gt;</span></code></pre></figure>
+
+<p>In order for this View to be used in our application, we will need to pass the props <code class="highlighter-rouge">author</code> and <code class="highlighter-rouge">year</code> down from the root View.</p>
+
+<p><img src="/images/1-props-chaining.png" alt="" /></p>
+
+<p>As the number of props grow in the application, the more data we will have to manually pass down. Not only
+is this a tedious process, but it also means that the root View will need to take in every single prop as its
+own input just so they can be passed down to descendents.</p>
+
+<p>But wait, there is a better way!</p>
+
+<h2 id="meet-the-reader">Meet the Reader</h2>
+
+<p>Let’s start by defining a new <em>Reader</em> box that contains a computation of the type <code class="highlighter-rouge">Context -&gt; a</code>. What is <code class="highlighter-rouge">a</code> here?
+It really could be anything, but for now we can focus on computations that return a View.</p>
+
+<p>The Reader defines one function <code class="highlighter-rouge">runReader</code> that takes in the value of the context, and returns the result of the
+computation.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Reader</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">runReader</span><span class="p">:</span> <span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>Now, we can use the Reader like this.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">footer</span> <span class="o">=</span> <span class="nx">Reader</span><span class="p">(({</span> <span class="nx">author</span><span class="p">,</span> <span class="nx">year</span> <span class="p">})</span> <span class="o">=&gt;</span> 
+  <span class="nx">copyrightNotice</span><span class="p">.</span><span class="nx">contramap</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">author</span><span class="p">,</span> <span class="nx">year</span> <span class="p">}))</span>
+<span class="p">)</span>
+
+<span class="nx">footer</span>
+  <span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span> <span class="p">})</span>
+  <span class="p">.</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// &lt;p&gt;© Bob McBob 2017&lt;/p&gt;</span></code></pre></figure>
+
+<p>Here, the Reader’s computation returns a View, which is our previously defined <code class="highlighter-rouge">copyrightNotice</code>,
+that has its input props contramapped from the Reader context. So, when we run the reader with a context value,
+we get the value (View) out of the box, which we can fold down to get the final element.</p>
+
+<p>Take a moment to let that sink in.</p>
+
+<p>Now, just like we did with View previously, we can make the Reader a <em>pointed functor</em>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Reader</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">runReader</span><span class="p">:</span> <span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">),</span>
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)))</span>
+<span class="p">})</span>
+
+<span class="c1">// Running this reader will just return `x`.</span>
+<span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">)</span></code></pre></figure>
+
+<p>Then, we can use <code class="highlighter-rouge">map</code> to wrap the notice with a <code class="highlighter-rouge">&lt;footer&gt;</code> tag.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="p">{</span> <span class="nx">map</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'ramda'</span>
+
+<span class="c1">// We have to map twice since the first map is over the Reader,</span>
+<span class="c1">// and the second map is over the View.</span>
+<span class="kr">const</span> <span class="nx">footer2</span> <span class="o">=</span> <span class="nx">footer</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">map</span><span class="p">(</span><span class="nx">y</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">footer</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">y</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/footer&gt;</span><span class="se">)</span><span class="err">)
+</span>
+<span class="nx">footer2</span>
+ <span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span> <span class="p">})</span>
+ <span class="p">.</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// &lt;footer&gt;&lt;p&gt;© Bob McBob 2017&lt;/p&gt;&lt;/footer&gt;</span></code></pre></figure>
+
+<h2 id="but-what-else-can-reader-hold">But what else can Reader hold?</h2>
+
+<p>Remember that the Reader contains the computation <code class="highlighter-rouge">Context -&gt; a</code>, where <code class="highlighter-rouge">a</code> can be anything?</p>
+
+<p>So far we’ve returned a View from the computation, but it can really be <em>any</em> value, even a <em>function</em>!</p>
+
+<p>Let’s look at a function that changes the color of an element within a View.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">makeColor</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">color</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">view</span> <span class="o">=&gt;</span> <span class="nx">view</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">element</span> <span class="o">=&gt;</span> 
+  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="nx">color</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="p">)</span></code></pre></figure>
+
+<p>We can wrap this up in a Reader.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">withColor</span> <span class="o">=</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">makeColor</span><span class="p">)</span></code></pre></figure>
+
+<p>To use this Reader, we need to run it with a context, then apply it to an element in the View.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Get the color function inside withColor</span>
+<span class="kr">const</span> <span class="nx">colorize</span> <span class="o">=</span> <span class="nx">withColor</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span> <span class="p">})</span>
+
+<span class="c1">// Get the view inside footer2</span>
+<span class="kr">const</span> <span class="nx">footerView</span> <span class="o">=</span> <span class="nx">footer2</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span> <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span> <span class="p">})</span>
+
+<span class="c1">// Run the view through the function, which returns another view.</span>
+<span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">colorize</span><span class="p">(</span><span class="nx">footerView</span><span class="p">)</span>
+
+<span class="c1">// Fold to get the element out</span>
+<span class="nx">result</span><span class="p">.</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// &lt;div style={{ color: 'red' }}}&gt;&lt;footer&gt;&lt;p&gt;© Bob McBob 2017&lt;/p&gt;&lt;/footer&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<p>Rather tediously, we have to run both readers before can apply the <code class="highlighter-rouge">colorize</code> function to the footer view.</p>
+
+<p>Of course, there is a better way to do this. And that is with the <strong><code class="highlighter-rouge">ap</code></strong> function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Reader</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">runReader</span><span class="p">:</span> <span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">),</span>
+
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">))),</span>
+
+  <span class="na">ap</span><span class="p">:</span> <span class="nx">other</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">fn</span> <span class="o">=</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">fn</span><span class="p">(</span><span class="nx">other</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="nx">ctx</span><span class="p">))</span>
+  <span class="p">})</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">ap</code> of a Reader will call its resulting <em>function</em> with the resulting <em>value</em> of another
+Reader. We can visualize this like so.</p>
+
+<p><img src="/images/3-applicatives.png" alt="" /></p>
+
+<p>This means that we can simplify our usage of <code class="highlighter-rouge">withColor</code> to this.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Apply the result from footer2 to the result of withColor.</span>
+<span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">withColor</span><span class="p">.</span><span class="nx">ap</span><span class="p">(</span><span class="nx">footer2</span><span class="p">)</span>
+
+<span class="c1">// We only need to run the Reader once with a shared context.</span>
+<span class="nx">x</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span>
+  <span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">,</span>
+  <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span>
+<span class="p">}).</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// &lt;div style={{ color: 'red' }}}&gt;&lt;footer&gt;&lt;p&gt;© Bob McBob 2017&lt;/p&gt;&lt;/footer&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<div class="alert alert-info">
+<p><strong>A bit of theory:</strong> 
+The Reader is now an <em>Applicative</em> in addition to being a functor.</p>
+<p>
+  Applicatives <code>A</code> must obey the following laws.
+  <ol>
+    <li>Identity: <code>A.of(x =&gt; x).ap(v) === v</code></li>
+    <li>Homomorphism: <code>A.of(f).ap(A.of(x)) === A.of(f(x))</code></li>
+    <li>Interchange: <code>u.ap(A.of(y)) === A.of(f =&gt; f(y)).ap(u)</code></li>
+  </ol>
+</p>
+<p>
+For the Reader just substitute <code>A</code> with <code>Reader</code> in the above laws.
+</p>
+<p>
+We can verify that these laws do indeed hold in this <a target="_blank" href="https://github.com/jaysoo/example-functional-react/blob/ecc738b/src/monads/Reader.test.js#L45-L63">test</a>.
+</p>
+</div>
+
+<h2 id="chaining-the-reader-context">Chaining the Reader context</h2>
+
+<p>Let’s consider another view for displaying the page title.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">pageTitle</span> <span class="o">=</span> <span class="nx">View</span><span class="p">(({</span> <span class="nx">title</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">title</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span><span class="se">)</span></code></pre></figure>
+
+<p>Now, say we want to read the <code class="highlighter-rouge">title</code> from the context, just like we did for the copyright notice.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">header</span> <span class="o">=</span> <span class="nx">Reader</span><span class="p">(</span>
+  <span class="p">({</span> <span class="nx">title</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">pageTitle</span><span class="p">.</span><span class="nx">contramap</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">title</span> <span class="p">}))</span>
+<span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">header</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/header&gt; </span><span class="se">))</span><span class="sr"> /</span><span class="o">/</span> <span class="nx">Wrapping</span> <span class="nx">title</span> <span class="kd">with</span> <span class="o">&lt;</span><span class="nx">header</span><span class="o">&gt;</span>
+                                      <span class="c1">// Remember that we have to map twice,</span>
+                                      <span class="c1">// first over the Reader, then over the View.</span></code></pre></figure>
+
+<p>But, how can we use both the <code class="highlighter-rouge">header</code> and <code class="highlighter-rouge">footer2</code> together? Maybe we <code class="highlighter-rouge">map</code> over the View inside
+the <code class="highlighter-rouge">header</code>?</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">combined</span> <span class="o">=</span>
+  <span class="c1">// Map over the view inside header</span>
+  <span class="nx">header</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">headerView</span> <span class="o">=&gt;</span> <span class="p">(</span>
+    <span class="c1">// Then map over the view inside footer</span>
+    <span class="nx">footer2</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">footerView</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="c1">// Concat both views together</span>
+      <span class="nx">headerView</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">footerView</span><span class="p">)</span>
+    <span class="p">))</span>
+  <span class="p">))</span></code></pre></figure>
+
+<p>This solution works, but isn’t ideal since running <code class="highlighter-rouge">combined.runReader</code> returns yet another Reader.
+Therefore, in order to get the resulting element out we will have to run the Reader <em>twice</em>!</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">:</span> <span class="s1">'Awesome App'</span>
+<span class="p">}</span>
+<span class="nx">combined</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="nx">ctx</span><span class="p">).</span><span class="nx">runReader</span><span class="p">(</span><span class="nx">ctx</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span></code></pre></figure>
+
+<p>Imagine having to use invoke <code class="highlighter-rouge">runReader</code> once for each usage of the context. Such drudgery! Luckily
+for us, there is a <em>much better way</em> to do this. We need to add the <strong><code class="highlighter-rouge">chain</code></strong> function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Reader</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">runReader</span><span class="p">:</span> <span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">),</span>
+
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">))),</span>
+
+  <span class="na">chain</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">ctx</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// Get the result from original computation</span>
+      <span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+      
+      <span class="c1">// Now get the result from the computation</span>
+      <span class="c1">// inside the Reader `f(a)`.</span>
+      <span class="k">return</span> <span class="nx">f</span><span class="p">(</span><span class="nx">a</span><span class="p">).</span><span class="nx">runReader</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">chain</code> function takes in a function <code class="highlighter-rouge">f</code>, similar to <code class="highlighter-rouge">map</code>. However, <code class="highlighter-rouge">f</code> for <code class="highlighter-rouge">chain</code>
+is a function that takes the result from the previous computation as the <em>input</em>, then
+returns another Reader from it. And when the resulting Reader is run, the context will be
+passed to all of the chained computations.</p>
+
+<p>This allows us to easily combine the header and footer boxes.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Takes a view, then returns combined view in a Reader.</span>
+<span class="kr">const</span> <span class="nx">addFooter</span> <span class="o">=</span> <span class="nx">other</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="c1">// Map over the view inside Reader</span>
+  <span class="nx">footer2</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">footerView</span> <span class="o">=&gt;</span> <span class="p">(</span>
+    <span class="nx">other</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">footerView</span><span class="p">)</span>
+  <span class="p">))</span>
+<span class="p">)</span>
+
+<span class="c1">// We need to use chain here since the result of the function is another Reader.</span>
+<span class="kr">const</span> <span class="nx">combined2</span> <span class="o">=</span> <span class="nx">header</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">addFooter</span><span class="p">)</span></code></pre></figure>
+
+<p>Indeed, we now only need to run the Reader once.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">combined2</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span>
+  <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span><span class="p">,</span>
+  <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">:</span> <span class="s1">'Awesome App'</span>
+<span class="p">})</span></code></pre></figure>
+
+<p><img src="/images/2-combined.png" alt="" /></p>
+
+<div class="alert alert-info">
+<p><strong>A bit of theory:</strong> 
+The Reader is now a <em>Monad</em>.</p>
+<p>
+  A monad <code>M</code> must obey the following laws.
+  <ol>
+    <li>Left identity: <code>M.of(a).chain(f) === f(a)</code></li>
+    <li>Right identity: <code>m.chain(M.of) === m</code></li>
+    <li>Associativity: <code>m.chain(f).chain(g) === m.chain(x =&gt; f(x).chain(g))</code></li>
+  </ol>
+</p>
+<p>
+The <code>M</code> in our case is the Reader.
+</p>
+<p>
+We can verify that these laws do indeed hold in this <a target="_blank" href="https://github.com/jaysoo/example-functional-react/blob/ecc738b/src/monads/Reader.test.js#L65-L79">test</a>.
+</p>
+</div>
+
+<h3 id="but-what-is-a-monad-exactly">But what is a monad exactly?</h3>
+
+<p>You can think of a monad as any object that implements the <code class="highlighter-rouge">chain</code> function, and obeys the monad laws defined previously.</p>
+
+<p>Note that you may see <code class="highlighter-rouge">bind</code> or <code class="highlighter-rouge">flatMap</code> being used instead of <code class="highlighter-rouge">chain</code> in other libraries or articles. They are usually 
+the same as <code class="highlighter-rouge">chain</code>, and can be treated as aliases. You might also note a similarity between <code class="highlighter-rouge">chain</code> and the Promise
+<code class="highlighter-rouge">then</code> method. They are indeed almost the same. However, in the case of Promises, the computation is not lazy, and has
+an immediate effect when constructed, whereas the Reader does nothing until <code class="highlighter-rouge">runReader</code> is called.</p>
+
+<hr />
+
+<h2 id="why-didnt-you-just-ask">Why didn’t you just <em>ask</em>?</h2>
+
+<p>Let’s define a helper function for our Reader monad.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// When asked, just return the context as the result.</span>
+<span class="nx">Reader</span><span class="p">.</span><span class="nx">ask</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">)</span></code></pre></figure>
+
+<p>Now, we can start the chain by <em>asking</em> for the context.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">Reader</span>
+  <span class="p">.</span><span class="nx">ask</span><span class="p">()</span>
+  <span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">y</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">y</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">z</span> <span class="o">=&gt;</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="err">`</span><span class="nx">Got</span> <span class="nx">$</span><span class="p">{</span><span class="nx">z</span><span class="p">}</span><span class="o">!</span><span class="err">`</span><span class="p">))</span>
+
+<span class="nx">a</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 'Got 4!'</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// 'Got 2!'</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 'Got 0!'</span></code></pre></figure>
+
+<p>We will also add a helper for this dot-chain sytle of code using generator functions.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Adapted from https://github.com/DrBoolean/freeky/blob/master/monad.js</span>
+<span class="kr">const</span> <span class="nx">Monad</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">do</span><span class="p">:</span> <span class="nx">gen</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">gen</span><span class="p">()</span> <span class="c1">// Will need to re-bind generator when done.</span>
+    <span class="kr">const</span> <span class="nx">step</span> <span class="o">=</span> <span class="nx">value</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">g</span><span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">done</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">g</span> <span class="o">=</span> <span class="nx">gen</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">value</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">chain</span><span class="p">(</span><span class="nx">step</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">step</span><span class="p">()</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">Monad.do</code> function allows us to write “normal-looking” JavaScript code.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">Monad</span><span class="p">.</span><span class="k">do</span><span class="p">(</span><span class="kd">function</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">ask</span><span class="p">()</span> <span class="c1">// This will chain!</span>
+
+  <span class="c1">// Now this is just "normal" JS</span>
+  <span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">ctx</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="kr">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">*</span> <span class="mi">2</span>
+  <span class="kr">const</span> <span class="nx">z</span> <span class="o">=</span> <span class="err">`</span><span class="nx">Got</span> <span class="nx">$</span><span class="p">{</span><span class="nx">y</span><span class="p">}</span><span class="o">!</span><span class="err">`</span>
+
+  <span class="c1">// Return the final value in the chain</span>
+  <span class="k">return</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">z</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nx">b</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 'Got 4!'</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// 'Got 2!'</span>
+<span class="nx">b</span><span class="p">.</span><span class="nx">runReader</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 'Got 0!'</span></code></pre></figure>
+
+<h2 id="assembling-all-the-pieces">Assembling all the pieces</h2>
+
+<p>Recall that the app from the previous post rendered a <em>message</em> along with some header and footer content.</p>
+
+<p><img src="/images/5-awesome-app.png" alt="" /></p>
+
+<p>Let’s use our new friend, the <strong>Reader monad</strong>, and provide some <em>internationalization</em> (i18n) support for
+that “Hello ___!” message.</p>
+
+<p>We’ll start by defining a message bundle and a <code class="highlighter-rouge">formatMessage</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="nx">IntlMessageFormat</span> <span class="nx">from</span> <span class="s1">'intl-messageformat'</span>
+
+<span class="kr">const</span> <span class="nx">messages</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'en'</span><span class="p">:</span> <span class="p">{</span> <span class="na">hello</span><span class="p">:</span> <span class="s1">'Hello {name}!'</span> <span class="p">},</span>
+  <span class="s1">'es'</span><span class="p">:</span> <span class="p">{</span> <span class="na">hello</span><span class="p">:</span> <span class="s1">'Hola {name}!'</span> <span class="p">},</span>
+  <span class="s1">'fr'</span><span class="p">:</span> <span class="p">{</span> <span class="na">hello</span><span class="p">:</span> <span class="s1">'Bonjour {name}!'</span> <span class="p">},</span>
+  <span class="s1">'zh'</span><span class="p">:</span> <span class="p">{</span> <span class="na">hello</span><span class="p">:</span> <span class="s1">'你好{name}!'</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">formatMessage</span> <span class="o">=</span> <span class="nx">locale</span> <span class="o">=&gt;</span> <span class="nx">id</span> <span class="o">=&gt;</span> <span class="nx">values</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nx">IntlMessageFormat</span><span class="p">(</span><span class="nx">messages</span><span class="p">[</span><span class="nx">locale</span><span class="p">][</span><span class="nx">id</span><span class="p">],</span> <span class="nx">locale</span><span class="p">).</span><span class="nx">format</span><span class="p">(</span><span class="nx">values</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nx">formatMessage</span><span class="p">(</span><span class="s1">'fr'</span><span class="p">)(</span><span class="s1">'hello'</span><span class="p">)({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// 'Bonjour Alice!'</span></code></pre></figure>
+
+<p>Now, we can create context-aware functions using <code class="highlighter-rouge">formatMessage</code>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">formatWithLocale</span> <span class="o">=</span> <span class="nx">Monad</span><span class="p">.</span><span class="k">do</span><span class="p">(</span><span class="kd">function</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">locale</span> <span class="p">}</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">ask</span><span class="p">()</span> <span class="c1">// Read the locale from context</span>
+  <span class="k">return</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">formatMessage</span><span class="p">(</span><span class="nx">locale</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="c1">// Formatting "hello" is just applying the `id` 'hello' to `formatWithLocale`.</span>
+<span class="c1">// Of course, we'll need to wrap 'hello' in a Reader as well.</span>
+<span class="kr">const</span> <span class="nx">formatHello</span> <span class="o">=</span> <span class="nx">formatWithLocale</span><span class="p">.</span><span class="nx">ap</span><span class="p">(</span><span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">))</span> <span class="c1">// &lt;-- Remember this!</span>
+
+<span class="c1">// Usage</span>
+<span class="kr">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="nx">formatHello</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">locale</span><span class="p">:</span> <span class="s1">'fr'</span> <span class="p">})</span>
+<span class="kr">const</span> <span class="nx">g</span> <span class="o">=</span> <span class="nx">formatHello</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">locale</span><span class="p">:</span> <span class="s1">'zh'</span> <span class="p">})</span>
+<span class="kr">const</span> <span class="nx">h</span> <span class="o">=</span> <span class="nx">formatHello</span><span class="p">.</span><span class="nx">runReader</span><span class="p">({</span> <span class="na">locale</span><span class="p">:</span> <span class="s1">'es'</span> <span class="p">})</span>
+
+<span class="nx">f</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// 'Bonjour Alice!'</span>
+<span class="nx">g</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// '你好Alice!'</span>
+<span class="nx">h</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// 'Hola Alice!'</span></code></pre></figure>
+
+<p>Also, recall our three morpshisms on elements from the last post. We’ll use them in the app as well!</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">clap</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="err">👏</span> <span class="p">{</span><span class="nx">x</span><span class="p">}</span> <span class="err">👏</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="kr">const</span> <span class="nx">uppercase</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">textTransform</span><span class="p">:</span> <span class="s1">'uppercase'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="kr">const</span> <span class="nx">emphasize</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">fontStyle</span><span class="p">:</span> <span class="s1">'italic'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span&gt;</span></code></pre></figure>
+
+<p>Finally, we can build our entire app as follows. (Pay close attention, it gets pretty dense)</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// New context-aware view for displaying a message.</span>
+<span class="kr">const</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">View</span><span class="p">(({</span> <span class="nx">message</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">message</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p&gt;</span><span class="se">)</span><span class="err">)
+</span>
+<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">Monad</span><span class="p">.</span><span class="k">do</span><span class="p">(</span><span class="kd">function</span><span class="o">*</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Let's colorize our `header` shall we? (`header` was previously defined)</span>
+  <span class="kr">const</span> <span class="nx">headerView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">withColor</span><span class="p">.</span><span class="nx">ap</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span>
+
+  <span class="c1">// This will translate our message!</span>
+  <span class="kr">const</span> <span class="nx">sayHello</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">formatHello</span>
+
+  <span class="c1">// The message needs to be mapped using the context-aware `sayHello` function.</span>
+  <span class="kr">const</span> <span class="nx">messageView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">message</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span>
+    <span class="c1">// The `name` prop will be provided when we `fold` the view.</span>
+    <span class="nx">x</span><span class="p">.</span><span class="nx">contramap</span><span class="p">(({</span> <span class="nx">name</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">({</span>
+      <span class="na">message</span><span class="p">:</span> <span class="nx">compose</span><span class="p">(</span>
+        <span class="nx">clap</span><span class="p">,</span>
+        <span class="nx">emphasize</span><span class="p">,</span>
+        <span class="nx">uppercase</span><span class="p">,</span>
+        <span class="nx">sayHello</span> <span class="c1">// &lt;-- run the function and get a translated message back</span>
+      <span class="p">)({</span> <span class="nx">name</span> <span class="p">})</span>
+    <span class="p">})</span>
+  <span class="p">))</span>
+
+  <span class="kr">const</span> <span class="nx">footerView</span> <span class="o">=</span> <span class="k">yield</span> <span class="nx">footer2</span> <span class="c1">// (`footer2` was previously defined)</span>
+
+  <span class="c1">// Combine everything together, and we have our app!</span>
+  <span class="k">return</span> <span class="nx">Reader</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">headerView</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">messageView</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">footerView</span><span class="p">))</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>While we’re at it, let’s crank it <em>up to eleven</em> by styling the app.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Again, we're mapping over the Reader, then mapping over the View.</span>
+<span class="kr">const</span> <span class="nx">styledApp</span> <span class="o">=</span> <span class="nx">app</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span>
+  <span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">fontFamily</span><span class="p">:</span> <span class="s1">'Helvetica'</span><span class="p">,</span> <span class="na">textAlign</span><span class="p">:</span> <span class="s1">'center'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="p">))</span>
+<span class="p">)</span>
+
+<span class="c1">// Now we can render it by providing the context and props.</span>
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="nx">styledApp</span>
+    <span class="c1">// Execute reader computation with context.</span>
+    <span class="p">.</span><span class="nx">runReader</span><span class="p">({</span>
+      <span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">,</span>
+      <span class="na">locale</span><span class="p">:</span> <span class="s1">'zh'</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">:</span> <span class="s1">'Awesome App'</span><span class="p">,</span>
+      <span class="na">author</span><span class="p">:</span> <span class="s1">'Bob McBob'</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">:</span> <span class="mi">2017</span>
+    <span class="p">})</span>
+    <span class="c1">// Pass props to resulting view.</span>
+    <span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">}),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="err">'#</span><span class="nx">root</span><span class="p">)</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>When we render the app, this will appear on the screen.</p>
+
+<p><img src="/images/4-reader-app.png" alt="" /></p>
+
+<p>The runnable source code for hte full example can be found in this 
+<a href="https://github.com/jaysoo/example-functional-react/blob/master/src/examples/post-2/index.js">repository</a>.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>In this post, we learned about <em>Applicatives</em> and <em>Monads</em> and created the Reader to provide read-only
+context for our application.</p>
+
+<p>In the <strong>next post</strong> we will wrap up this series by adding support for <strong>stateful computations</strong>. So stay tuned!</p>
+
+<p>If you want additional resources on Monads, I recommend these.</p>
+
+<ul>
+  <li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, And Monads In Pictures</a></li>
+  <li><a href="http://learnyouahaskell.com/a-fistful-of-monads">A Fistful of Monads</a></li>
+  <li><a href="https://www.youtube.com/watch?v=ZhuHCtR3xq8">Don’t Fear the Monad</a></li>
+</ul>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2017/04/30/learn-fp-with-react-part-1/" title="Deconstructing the React Component">&larr; Previous</a></li>
+      
+        <li><a href="/archive">Archive</a></li>
+      
+        <li class="next disabled"><a>Next &rarr;</a>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2017/05/10/learn-fp-with-react-part-2/'.replace(/\/$/, '');
+    var disqus_url = 'https://jaysoo.ca/2017/05/10/learn-fp-with-react-part-2/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="//disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>10 May 2017</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags#programming-ref">programming <span>11</span></a></li>
+     
+    	<li><a href="/tags#javascript-ref">javascript <span>37</span></a></li>
+     
+    	<li><a href="/tags#react-ref">react <span>9</span></a></li>
+     
+    	<li><a href="/tags#functional programming-ref">functional programming <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=https://jaysoo.ca/2017/05/10/learn-fp-with-react-part-2/&amp;text=The%20Reader%20monad%20and%20read-only%20context&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2017/04/30/learn-fp-with-react-part-1/">Deconstructing the React Component</a></li>
+      
+      <li><a href="/2017/01/24/dont-fear-the-type-system/">Don't Fear the Type System</a></li>
+      
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/">Additional Guidelines For (Redux) Project Structure</a></li>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Three Rules For Structuring (Redux) Applications</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2016</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

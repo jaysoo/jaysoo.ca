@@ -11,6 +11,7 @@ https://jaysoo.ca/2014/03/20/i18n-with-es6-template-strings/
 https://jaysoo.ca/2015/03/13/different-approach-to-angular-directives/
 https://jaysoo.ca/2016/02/28/organizing-redux-application/
 
+https://jaysoo.ca/2017/05/10/learn-fp-with-react-part-2/
 https://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/
 https://jaysoo.ca/2017/01/24/dont-fear-the-type-system/
 https://jaysoo.ca/2016/12/12/additional-guidelines-for-project-structure/

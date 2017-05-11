@@ -16,7 +16,7 @@ will pick up some useful techniques!
 **Series contents:**
 
 - Part 1 - Deconstructing the React Component
-- Part 2 - Read-only context with Reader monad
+- [Part 2 - The Reader monad and read-only context]({% post_url 2017-05-10-learn-fp-with-react-part-2 %})
 - Part 3 - Functional state management with Reducer
 
 Functional programming -- category theory in particular -- teaches us a lot about program construction.
