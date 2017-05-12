@@ -199,10 +199,14 @@ are pure because they do not have any observable side-effects – just <em>data 
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">uppercase</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
   <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">textTransform</span><span class="p">:</span> <span class="s1">'uppercase'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
-</span>
-<span class="kr">const</span> <span class="nx">clap</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="err">👏</span> <span class="p">{</span><span class="nx">element</span><span class="p">}</span> <span class="err">👏</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
-</span>
-<span class="kr">const</span> <span class="nx">emphasize</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">fontStyle</span><span class="p">:</span> <span class="s1">'italic'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">clap</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="err">👏</span> <span class="p">{</span><span class="nx">element</span><span class="p">}</span> <span class="err">👏</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">emphasize</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">fontStyle</span><span class="p">:</span> <span class="s1">'italic'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
 </span><span class="p">)</span></code></pre></figure>
 
 <div class="alert alert-info">

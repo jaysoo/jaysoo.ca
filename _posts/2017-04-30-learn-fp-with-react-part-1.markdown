@@ -55,10 +55,14 @@ are pure because they do not have any observable side-effects -- just *data in*,
 {% highlight js %}
 const uppercase = element => (
   {% raw %}<span style={{ textTransform: 'uppercase' }}>{element}</span>{% endraw %}
+)
 
-const clap = element => <span>👏 {element} 👏</span>
+const clap = element => (
+  <span>👏 {element} 👏</span>
+)
 
-const emphasize = element => {% raw %}<span style={{ fontStyle: 'italic' }}>{element}</span>{% endraw %}
+const emphasize = element => (
+  {% raw %}<span style={{ fontStyle: 'italic' }}>{element}</span>{% endraw %}
 )
 {% endhighlight %}
 
