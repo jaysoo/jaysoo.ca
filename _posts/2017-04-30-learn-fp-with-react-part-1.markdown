@@ -101,7 +101,7 @@ function contrivedEx(name) {
   return d
 }
 
-render(contrivedEx('alice'), document.querySelector('#root'))
+ReactDOM.render(contrivedEx('alice'), document.querySelector('#root'))
 {% endhighlight %}
 
 This will render "*👏 HELLO ALICE! 👏*" on the screen.
