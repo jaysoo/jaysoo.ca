@@ -12,9 +12,6 @@ several times throughout our career, but the skill to learn new abilities will a
 In this post, I want to look at what it takes to be a good learner, as well as some techniques we
 can employ to help us along the way.
 
-*I'd like to thank [Chris Wu](http://lexiconnoisseur.com)
-for his help editing this post and the suggestion to include deliberate practice.*
-
 ## The Purpose Of Learning
 
 We face many problems everyday. Some problems are technical in nature, while others could
@@ -243,7 +240,10 @@ in your learning sessions.
 
 I hope this post has been helpful to you. Have fun learning!
 
-## References and Further Materials
+*I'd like to thank [Chris Wu](http://lexiconnoisseur.com)
+for his help editing this post and the suggestion to include deliberate practice.*
+
+## References and Resources
 
 - [1] Dweck, Carol and Leggett, Ellen L. (1988). [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657
