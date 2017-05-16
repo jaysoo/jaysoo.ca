@@ -3,6 +3,8 @@ created_at: 2015-06-25 22:35Z
 layout: post
 title: When Learning, Attitude and Approach Matter
 tags: [learning]
+image: /images/problem-vs-solution-space.svg
+description: In this post, I want to look at what it takes to be a good learner, as well as some techniques we can employ to help us along the way.
 ---
 
 As programmers, one of the most important skills to have is being able to learn quickly. It doesn't
