@@ -4,6 +4,7 @@ layout: post
 title: When Learning, Attitude and Approach Matter
 tags: [learning]
 image: /images/7123750893_8f294501c9_c.jpg
+description: Tools and techniques for the art for learning.
 ---
 
 As programmers, one of the most important skills to have is being able to learn quickly. It doesn't
