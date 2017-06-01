@@ -588,9 +588,9 @@ And along the way we learned about **Functors**, **Contravariants**, **Semigroup
 But we are not done yet since our View still hasn't recreated two key features of React components:
 *context* and *state*.
 
-In the next post, we will replicate the React context using the Reader monad. So stay tuned!
+In the [next post]({% post_url 2017-05-10-learn-fp-with-react-part-2 %}), we will replicate the React context using the Reader monad.
 
-But you're dying for more functional programming content like this, I can recommend the following:
+For more resources on related functional programming topics, I recommend the following:
 
 - [Functional Programming Jargon](https://github.com/hemanth/functional-programming-jargon)
 - [Functors, Applicatives, And Monads In Pictures](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html) by Aditya Bhargava

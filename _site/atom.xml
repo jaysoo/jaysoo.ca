@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-05-16T09:02:30-04:00</updated>
+ <updated>2017-05-31T21:56:42-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -1039,9 +1039,9 @@ in different markup.&lt;/p&gt;
 &lt;p&gt;But we are not done yet since our View still hasn’t recreated two key features of React components:
 &lt;em&gt;context&lt;/em&gt; and &lt;em&gt;state&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;In the next post, we will replicate the React context using the Reader monad. So stay tuned!&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;/2017/05/10/learn-fp-with-react-part-2/&quot;&gt;next post&lt;/a&gt;, we will replicate the React context using the Reader monad.&lt;/p&gt;
 
-&lt;p&gt;But you’re dying for more functional programming content like this, I can recommend the following:&lt;/p&gt;
+&lt;p&gt;For more resources on related functional programming topics, I recommend the following:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/hemanth/functional-programming-jargon&quot;&gt;Functional Programming Jargon&lt;/a&gt;&lt;/li&gt;
