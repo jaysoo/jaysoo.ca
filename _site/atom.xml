@@ -4,7 +4,7 @@
  <title>Jack Hsu</title>
  <link href="https://jaysoo.ca/atom.xml" rel="self"/>
  <link href="https://jaysoo.ca"/>
- <updated>2017-06-19T21:36:19-04:00</updated>
+ <updated>2017-10-12T23:20:18-04:00</updated>
  <id>https://jaysoo.ca</id>
  <author>
    <name>Jack Hsu</name>
@@ -3862,7 +3862,7 @@ some familiarity with React.&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;alert alert-info&quot;&gt;
-  &lt;strong&gt;Update (2016-03-28):&lt;/strong&gt; I've updated the &lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript&quot;&gt;code&lt;/a&gt; to use TypeScript 1.8.9, ReactJS 0.14.7, and Redux 3.0.6. It now uses &lt;a href=&quot;https://github.com/typings/typings/&quot;&gt;&lt;code&gt;typings&lt;/code&gt;&lt;/a&gt; as opposed to &lt;code&gt;tsd&lt;/code&gt;, which is the direction the community is moving towards.
+  &lt;strong&gt;Update (2017-10-12):&lt;/strong&gt; I've updated the &lt;a href=&quot;https://github.com/jaysoo/todomvc-redux-react-typescript&quot;&gt;code&lt;/a&gt; to use TypeScript 2.5.3, ReactJS 16.0.0, and Redux 3.7.2. It now uses &lt;a href=&quot;https://github.com/typings/typings/&quot;&gt;&lt;code&gt;typings&lt;/code&gt;&lt;/a&gt; as opposed to &lt;code&gt;tsd&lt;/code&gt;, which is the direction the community has adopted.
 &lt;/div&gt;
 
 &lt;h2 id=&quot;types-are-good-for-you&quot;&gt;Types are good for you&lt;/h2&gt;
