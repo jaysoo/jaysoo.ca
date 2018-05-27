@@ -255,8 +255,8 @@ function* requestProject(id) {
 }
 
 // Using thunks
-const requestProject = async (id) => {
-  return (dispatch) => {
+const requestProject = (id) => {
+  return async (dispatch) => {
     const response = await fetch(`/projects/${id}`)
 
     // Dispatch events to both todos and projects module so we can store the normalized data.

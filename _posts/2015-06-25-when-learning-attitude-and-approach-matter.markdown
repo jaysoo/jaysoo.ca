@@ -3,6 +3,8 @@ created_at: 2015-06-25 22:35Z
 layout: post
 title: When Learning, Attitude and Approach Matter
 tags: [learning]
+image: /images/7123750893_8f294501c9_c.jpg
+description: Tools and techniques for continued learning.
 ---
 
 As programmers, one of the most important skills to have is being able to learn quickly. It doesn't
@@ -11,9 +13,6 @@ several times throughout our career, but the skill to learn new abilities will a
 
 In this post, I want to look at what it takes to be a good learner, as well as some techniques we
 can employ to help us along the way.
-
-*I'd like to thank [Chris Wu](http://lexiconnoisseur.com)
-for his help editing this post and the suggestion to include deliberate practice.*
 
 ## The Purpose Of Learning
 
@@ -243,7 +242,10 @@ in your learning sessions.
 
 I hope this post has been helpful to you. Have fun learning!
 
-## References and Further Materials
+*I'd like to thank [Chris Wu](http://lexiconnoisseur.com)
+for his help editing this post and the suggestion to include deliberate practice.*
+
+## References and Resources
 
 - [1] Dweck, Carol and Leggett, Ellen L. (1988). [A Social-Cognitive Approach to Motivation and Personality](http://web.stanford.edu/dept/psychology/cgi-bin/drupalm/system/files/A%20social-cognitive%20approach_0.pdf)
 - [2] Spitzer, H. F. (1939). Studies in retention. Journal of Educational Psychology, 30, 641–657

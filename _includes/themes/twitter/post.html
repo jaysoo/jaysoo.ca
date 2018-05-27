@@ -10,6 +10,23 @@
 <div class="row">
   <div class="span8">
     <div class="post-body">
+      {% if page.description %}
+        <div class="byline">
+          {{ page.description }}
+        </div>
+      {% endif %}
+
+      {% if page.image %}
+        <figure class="title-image">
+          <img src="{{ page.image }}" alt="" class="title-image__image"/>
+          {% if page.image_caption %}
+            <figcaption class="title-image__caption">
+              {{ page.image_caption }}
+            </figcaption>
+          {% endif %}
+        </figure>
+      {% endif %}
+
       {{ content }}
     </div>
     <hr>

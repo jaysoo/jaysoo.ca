@@ -1,0 +1,856 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Deconstructing the React Component &mdash; Jack Hsu</title>
+    <meta name="description" content="A functional approach to building React applications.">
+    <meta name="author" content="Jack Hsu">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <link rel="shortcut icon" href="/images/profile-2.jpg">
+    <link rel="apple-touch-icon" href="/images/profile-2.jpg">
+
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="https://jaysoo.ca/feed.xml">
+
+
+    <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
+
+    <script src="https://use.fontawesome.com/98868726f0.js"></script>
+
+    <link rel="stylesheet" href="/assets/application.css?v=1"/>
+
+    <meta content="Deconstructing the React Component" property="og:title"/>
+    <meta content="Jack Hsu" property="og:site"/>
+   
+    <meta name="twitter:creator" content="@jay_soo">
+    <meta name="twitter:title" content="Deconstructing the React Component"/>
+    <meta name="twitter:site" content="Jack Hsu"/>
+
+
+    
+      <meta property="og:description" content="A functional approach to building React applications."/>
+      <meta name="twitter:description" content="A functional approach to building React applications."/>
+    
+    
+    
+      <meta content="https://jaysoo.ca/images/5386093672_e14ef0a6df_z.jpg" property="og:image"/>
+
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="https://jaysoo.ca/images/5386093672_e14ef0a6df_z.jpg"/>
+    
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=152515241476494";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+    <nav class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="brand" >
+            <img src="/images/profile-2.jpg" alt="" />
+            <a href="/">
+              Jack Hsu
+            </a>
+          </div>
+          <div class="twitter-follow">
+            <a href="https://twitter.com/jay_soo" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @jay_soo</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            <a class="github-button" href="https://github.com/jaysoo" data-count-href="/jaysoo/followers" data-count-api="/users/jaysoo#followers" data-count-aria-label="# followers on GitHub" aria-label="Follow @jaysoo on GitHub">Follow @jaysoo</a>
+            <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+          </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              
+              
+
+
+  
+    
+    	
+    	<li><a href="/archive/">Archive</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+    	
+    	<li><a href="/tags/">Tags</a></li>
+    	
+    
+  
+    
+  
+    
+  
+    
+  
+
+
+
+              <li>
+                <a href="https://jaysoo.ca/feed.xml">
+                  <i class="fa fa-rss"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div id="main">
+      <div class="container-fluid">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Deconstructing the React Component
+    
+</h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    <div class="post-body">
+      
+        <div class="byline">
+          A functional approach to building React applications.
+        </div>
+      
+
+      
+        <figure class="title-image">
+          <img src="/images/5386093672_e14ef0a6df_z.jpg" alt="" class="title-image__image"/>
+          
+            <figcaption class="title-image__caption">
+              Photo by Mark Sebastian
+            </figcaption>
+          
+        </figure>
+      
+
+      <p>In this three-part series, I want to take a functional approach to building React applications.</p>
+
+<p>There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
+will pick up some useful techniques!</p>
+
+<p><strong>Series contents:</strong></p>
+
+<ul>
+  <li>Part 1 - Deconstructing the React Component</li>
+  <li><a href="/2017/05/10/learn-fp-with-react-part-2/">Part 2 - The Reader monad and read-only context</a></li>
+  <li>Part 3 - Functional state management with Reducer</li>
+</ul>
+
+<p>Functional programming – category theory in particular – teaches us a lot about program construction.
+Much of the tools that functional programmers reach for are very generalized, and widely applicable to
+various domains. It is this <em>learn once, appy everywhere</em> idea that I think would appeal to many folks
+in the business of making software. (Not to mention that functional programming is fun!)</p>
+
+<p>React has many patterns that grew out of the community. I want to take a step back
+and view these patterns from a new angle, and see if we can formalize them with mathematical theory.</p>
+
+<p>You will need basic React knowledge in order to understand this series. I will discuss concepts such as 
+<a href="https://facebook.github.io/react/docs/components-and-props.html">components</a>, 
+<a href="https://facebook.github.io/react/docs/rendering-elements.html">elements</a>, and 
+<a href="https://facebook.github.io/react/docs/higher-order-components.html">higher-order components</a> (HOC).</p>
+
+<p>If you want to jump ahead a bit, the repository with the final, full examples are on 
+<a href="https://github.com/jaysoo/example-functional-react">GitHub</a>. Word of warning though, there isn’t much documentation,
+so it’s probably easier to read the posts. ;)</p>
+
+<p>So let’s get started!</p>
+
+<h2 id="react-from-first-principles">React from first principles</h2>
+
+<p>An <strong>element</strong> in React describes what should be rendered in the UI.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">World</span><span class="o">!&lt;</span><span class="sr">/span&gt;</span></code></pre></figure>
+
+<p>These elements are <strong>immutable</strong> since you cannot modify them after they are created. So what can you do
+with immutable elements? Pass them to functions of course!</p>
+
+<p>Let’s look at three <strong>pure</strong> functions that take in an element and outputs another element. We say that these functions
+are pure because they do not have any observable side-effects – just <em>data in</em>, and <em>data out</em>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">uppercase</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">textTransform</span><span class="p">:</span> <span class="s1">'uppercase'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">clap</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="err">👏</span> <span class="p">{</span><span class="nx">element</span><span class="p">}</span> <span class="err">👏</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">emphasize</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">fontStyle</span><span class="p">:</span> <span class="s1">'italic'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">element</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span></code></pre></figure>
+
+<div class="alert alert-info">
+<p><strong>A bit of theory:</strong> 
+
+The type for an element is <code>React.Element</code>, which are <em>objects</em> in category theory.
+Other examples of objects are <code>String</code>, <code>Boolean</code>, etc.</p>
+
+<p>The pure functions <code>uppercase</code>, <code>clap</code>,
+and <code>emphasize</code> are <em>morphisms</em> in category theory. A morphism is a mapping between two objects --
+in this case <code>React.Element -&gt; React.Element</code>.
+</p>
+</div>
+
+<p>We can also create computations that allows us to capture data in our elements.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Greeting</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">name</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!&lt;</span><span class="sr">/span&gt;</span></code></pre></figure>
+
+<p>Nothing fancy here. Just a plain old <em>functional component</em> in React. You could render it
+via JSX <code class="highlighter-rouge">&lt;Greeting name="Alice"/&gt;</code>, but I prefer to treat it as a normal function for now
+ – <code class="highlighter-rouge">Greet({ name: 'Alice' })</code>.</p>
+
+<p>Now we’re ready for our first contrived example!</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">import</span> <span class="nx">ReactDOM</span> <span class="nx">from</span> <span class="s1">'react-dom'</span>
+
+<span class="kd">function</span> <span class="nx">contrivedEx</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">Greeting</span><span class="p">({</span> <span class="nx">name</span> <span class="p">})</span>
+  <span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">uppercase</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">emphasize</span><span class="p">(</span><span class="nx">b</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">clap</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">d</span>
+<span class="p">}</span>
+
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="nx">contrivedEx</span><span class="p">(</span><span class="s1">'alice'</span><span class="p">),</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#root'</span><span class="p">))</span></code></pre></figure>
+
+<p>This will render “<em>👏 HELLO ALICE! 👏</em>” on the screen.</p>
+
+<p>The function <code class="highlighter-rouge">contrivedEx</code> has two responsibilities:</p>
+
+<ol>
+  <li><strong>Run</strong> the computation <code class="highlighter-rouge">Greeting</code> to get an element out.</li>
+  <li><strong>Map</strong> the resulting element through multiple functions, then returning the final result.</li>
+</ol>
+
+<p>Let’s formalize these two concepts.</p>
+
+<h2 id="look-at-my-shiny-new-box">Look at my shiny new box!</h2>
+
+<p>We can wrap the original <code class="highlighter-rouge">Greeting</code> computation in a box, which I will call <strong>View</strong>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">fold</span><span class="p">:</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="c1">// Throw in some computation, and now we have a boxed value`.</span>
+<span class="kr">const</span> <span class="nx">greeting</span> <span class="o">=</span> <span class="nx">View</span><span class="p">(({</span> <span class="nx">name</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!&lt;</span><span class="sr">/span&gt;</span><span class="se">)</span></code></pre></figure>
+
+<p>To get the value out of the box, we just need to <em>fold</em> it.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">greeting</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// &lt;span&gt;Hello Alice!&lt;/span&gt;</span></code></pre></figure>
+
+<p>As you can see, the <code class="highlighter-rouge">fold</code> function let’s us extract the value out of the box.</p>
+
+<p>Hmm, but now when we want to map over our elements, we have to keep folding it down.</p>
+
+<p><img src="/images/1-view-fold.png" alt="" /></p>
+
+<p>This is very tedious, so let’s define a mapping function that can operate on the values within our boxes.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="c1">// I've shortened this since `props =&gt; computation(props)` is the same as `computation`</span>
+  <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
+
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">map</code> function will return a brand-new box that runs the original computation
+through the provided function <code class="highlighter-rouge">f</code>. Note that <code class="highlighter-rouge">map</code> is pure a function, and we 
+can still maintain a reference to the original box.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">superGreeting</span> <span class="o">=</span> <span class="nx">greeting</span>
+  <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">uppercase</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">emphasize</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">clap</span><span class="p">)</span>
+
+<span class="nx">superGreeting</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">//  &lt;span&gt;👏 &lt;span style={{ fontStyle: 'italic' }}&gt;&lt;span style={{ textTransform: 'uppercase' }}&gt;&lt;span&gt;Hello Alice!&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; 👏&lt;/span&gt;</span>
+
+<span class="c1">// Our original box is unmodified.</span>
+<span class="nx">greeting</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})</span> <span class="c1">// &lt;span&gt;Hello Alice!&lt;/span&gt;</span></code></pre></figure>
+
+<p>All <strong>computations are delayed</strong> until we call the <code class="highlighter-rouge">fold</code> function. This is a really useful property since we 
+can perform multiple transformations without needing to work with concrete values.</p>
+
+<p>We can visualize <code class="highlighter-rouge">map</code> as follows.</p>
+
+<p><img src="/images/2-view-map.png" alt="" /></p>
+
+<p>The morphisms can operate on values (elements), or we can bring them into the world of boxes (Views)
+and map from box to box. You can extract an element at any point by folding it down, but now
+we don’t have to until we really need it!</p>
+
+<div class="alert alert-info">
+<p><strong>A bit of theory:</strong>
+The View box that we just create is called a <em>Functor</em> in category theory. You can think of
+functors as any object that provides the <code>map</code> function.
+</p>
+
+<p>
+There are two mathematical laws that functors must obey:
+
+<ol>
+<li>Identity: <code>a.map(x =&gt; x) === a</code></li>
+<li>Composition: <code>a.map(x =&gt; f(g(x)) === a.map(g).map(f)</code></li>
+</ol>
+</p>
+
+<p>
+We can use these laws to our advantage when composing applications. For example,
+our previous <code>superGreeting</code> view can be optimized by calling <code>map</code>
+only once, using the composition <code>compose(clap, emphasize, uppercase)</code>.
+</p>
+<p>
+Because of the composition law, we know that <code>Greeting.map(uppercase).map(emphasize).map(clap)</code>
+is identical to <code>Greeting.map(compose(clap, emphasize, uppercase))</code>.
+</p>
+</div>
+
+<p>While we’re at it, let’s also make the View a <em>Pointed Functor</em> by allowing us to make a <em>single value</em> into
+a View using the <code class="highlighter-rouge">View.of</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">View</span><span class="p">.</span><span class="nx">of</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="nx">x</span><span class="p">)</span>
+
+<span class="c1">// Folding the view back down from a `View.of` just returns the original element.</span>
+<span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="sr">/span&gt;</span><span class="se">)</span><span class="sr">.fold</span><span class="se">()</span><span class="sr"> /</span><span class="o">/</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="o">&lt;</span><span class="sr">/span&gt;</span></code></pre></figure>
+
+<hr />
+
+<p>A quick aside on <code class="highlighter-rouge">compose</code>. I’m using a library called <a href="ramdajs.com/docs">Ramda</a> that provides a lot of
+utilities for functional programming, include <code class="highlighter-rouge">compose</code>. The composition is applied from right-to-left,
+so <code class="highlighter-rouge">f(g(x))</code> is the same as <code class="highlighter-rouge">compose(f, g)(x)</code>. The mathematical symbol “∘” also denotes a composition –
+.e.g. <code class="highlighter-rouge">f ∘ g === compose(f, g)</code>.</p>
+
+<hr />
+
+<p>Okay, moving on!</p>
+
+<h2 id="formalizing-higher-order-component-concepts">Formalizing higher-order component concepts</h2>
+
+<p>So, isn’t the <code class="highlighter-rouge">View</code> box kind of like higher-order components (HOC)? Which we already have in “normal” React.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Normal React HOC</span>
+<span class="kr">const</span> <span class="nx">red</span> <span class="o">=</span> <span class="nx">Component</span> <span class="o">=&gt;</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span> <span class="p">}}</span><span class="o">&gt;&lt;</span><span class="nx">Component</span><span class="o">/&gt;&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>
+<span class="c1">// A map in our view</span>
+<span class="kr">const</span> <span class="nx">red2</span> <span class="o">=</span> <span class="nx">view</span> <span class="o">=&gt;</span> <span class="nx">view</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span&gt;</span><span class="se">)</span></code></pre></figure>
+
+<p>Here, we have two functions that when given a component or view,
+returns something that is like the original input, but in red.</p>
+
+<p>The difference between the HOC and the View is that the latter formalizes the concept of
+mapping its value through the <code class="highlighter-rouge">map</code> function.</p>
+
+<p>But wait, there is something that HOCs can do that Views cannot (yet).</p>
+
+<p>For example,</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">withColor</span> <span class="o">=</span> <span class="nx">color</span> <span class="o">=&gt;</span> <span class="nx">Component</span> <span class="o">=&gt;</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">Component</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span> <span class="nx">color</span><span class="o">=</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span><span class="p">)</span></code></pre></figure>
+
+<p>The <code class="highlighter-rouge">withColor</code> HOC takes a color (e.g. <code class="highlighter-rouge">red</code>, <code class="highlighter-rouge">#fff</code>, <code class="highlighter-rouge">rgb(0,0,0)</code>, etc.), <em>then</em> a component
+that uses the <code class="highlighter-rouge">color</code> prop, and <em>then</em> returns a component that is the original, but with the
+<code class="highlighter-rouge">color</code> prop already provided.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">Color</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">color</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="nx">color</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">)</span>
+<span class="kr">const</span> <span class="nx">Red</span> <span class="o">=</span> <span class="nx">withColor</span><span class="p">(</span><span class="s1">'red'</span><span class="p">)(</span><span class="nx">Color</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="nx">Red</span><span class="o">/&gt;</span> <span class="c1">// &lt;span style={{ color: 'red' }}&gt;red&lt;/span&gt;</span></code></pre></figure>
+
+<p>Whereas the <code class="highlighter-rouge">red</code> HOC is mapping over the resulting <em>value</em>, the <code class="highlighter-rouge">withColor</code> HOC is mapping
+over the <em>input</em> props. And since <code class="highlighter-rouge">view.map</code> maps over the value (element), there is no chance for us
+to map over the original input to a view’s computation.</p>
+
+<p>So is there anything we can do?</p>
+
+<p>Of course! We just need to formalize this new concept.</p>
+
+<h2 id="mapping-over-inputs">Mapping over inputs</h2>
+
+<p>Remember that the View wraps a computation defined as <code class="highlighter-rouge">Props -&gt; Element</code>.  Let’s take a look
+at a concrete example with our previous color computation.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">color</span> <span class="o">=</span> <span class="nx">View</span><span class="p">(({</span> <span class="nx">color</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="nx">color</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">color</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span><span class="p">))</span>
+
+<span class="nx">color</span><span class="p">.</span><span class="nx">fold</span><span class="p">({</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span> <span class="p">})</span> <span class="c1">// &lt;span style={{ color: 'blue' }}&gt;blue&lt;/span&gt;</span></code></pre></figure>
+
+<p>Here, we have <code class="highlighter-rouge">Props</code> that is some data that contains color, and <code class="highlighter-rouge">Element</code> is the
+resulting <code class="highlighter-rouge">&lt;span&gt;</code> based on the color passed in.</p>
+
+<p>What we want to do now, is to map over the input props before passing them into the computation.
+This can be done by defining a nifty new function called <code class="highlighter-rouge">contramap</code>.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
+  
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span>
+    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+
+  <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span>
+    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+<span class="p">})</span></code></pre></figure>
+
+<p>Note that with <code class="highlighter-rouge">map</code> we call <code class="highlighter-rouge">f</code> with the resulting value, but with <code class="highlighter-rouge">contramap</code>
+we call <code class="highlighter-rouge">g</code> with the input props, and then <em>that</em> result is passed to the computation as input.</p>
+
+<p>So, with our new function, we can do the following.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">blue</span> <span class="o">=</span> <span class="nx">color</span><span class="p">.</span><span class="nx">contramap</span><span class="p">((</span><span class="nx">props</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="p">...</span><span class="nx">props</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span> <span class="p">}))</span>
+
+<span class="nx">blue</span><span class="p">.</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// &lt;span style={{ color: 'blue' }}&gt;blue&lt;/span&gt;</span></code></pre></figure>
+
+<p>Awesome! We can now map over results and contramap over inputs!</p>
+
+<div class="alert alert-info">
+  <p><strong>A bit of theory:</strong>
+  The View is now also a <em>Contravariant</em>, in addition to being a functor. You can think of
+  contravariants as any object that provides the <code>contramap</code> function.
+  </p>
+
+  <p>
+  And just like functors, contravariants also have similar mathematical laws:
+
+  <ol>
+  <li>Identity: <code>a.contramap(x =&gt; x) === a</code></li>
+  <li>Composition: <code>a.contramap(x =&gt; f(g(x)) === a.contramap(f).contramap(g)</code></li>
+  </ol>
+  </p>
+
+  <p>
+  The main difference between <code>map</code> and <code>contramap</code> is that composition
+  with the latter is reversed. We can visualize the difference with these two pictures</p>
+
+  <div style="display: flex; justify-content: center; align-items: center; text-align: center">
+    <p style="flex: 1">
+    <strong>Functor composition</strong><br />
+    <img src="/images/3-map-composition.png" />
+    </p>
+    <p style="flex: 1">
+    <strong>Contravariant composition</strong><br />
+    <img src="/images/4-contramap-composition.png" />
+    </p>
+  </div>
+</div>
+
+<h3 id="no-need-for-hocs">No need for HOCs</h3>
+
+<p>Now that we’ve captured both <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">contramap</code> use cases of HOCs, we no longer need them! We only need to consider
+whether we are mapping over result or input to decide whether we want <code class="highlighter-rouge">map</code> or <code class="highlighter-rouge">contramap</code>.</p>
+
+<p>By formalizing these concepts we can be more explicit and precise about <em>what</em> we are mapping over, and <em>how</em> we are mapping.
+Additionally, we have mathematical laws to help us compose our program, which is awesome!</p>
+
+<h2 id="quick-recap">Quick Recap</h2>
+
+<p>So far we’ve seen how we can:</p>
+
+<ol>
+  <li>Put a computation of the form <code class="highlighter-rouge">Props -&gt; Element</code> into a box (View).</li>
+  <li>Take the value out via <code class="highlighter-rouge">fold</code>.</li>
+  <li>Map over the resulting element via <code class="highlighter-rouge">map</code>.</li>
+  <li>Map over the input props via <code class="highlighter-rouge">contramap</code>.</li>
+</ol>
+
+<p>But what if we want to combine multiple Views together?</p>
+
+<h2 id="combining-multiple-boxes">Combining multiple boxes</h2>
+
+<p>Let’s step back from the world of React for a bit and consider an array.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span></code></pre></figure>
+
+<p>We can see that arrays are functors since they implement a <code class="highlighter-rouge">map</code> function that
+obeys the functor laws – you can verify this for yourself!</p>
+
+<p>But arrays have something our View does not: a way to combine two arrays into a new array.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="c1">// [1, 2, 3]</span></code></pre></figure>
+
+<p>So let’s add this <code class="highlighter-rouge">concat</code> function to our View.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">fold</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span>
+  
+  <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span>
+   <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">f</span><span class="p">(</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+
+  <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span>
+   <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">props</span><span class="p">))),</span>
+
+  <span class="c1">// Borrowed from Brian Lonsdord's talk Oh Composable World</span>
+  <span class="c1">// See: https://youtu.be/SfWR3dKnFIo?t=21m51s</span>
+  <span class="na">concat</span><span class="p">:</span> <span class="nx">other</span> <span class="o">=&gt;</span>
+    <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)}</span>
+        <span class="p">{</span><span class="nx">other</span><span class="p">.</span><span class="nx">fold</span><span class="p">(</span><span class="nx">props</span><span class="p">)}</span>
+      <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="p">))</span>
+<span class="p">})</span></code></pre></figure>
+
+<div class="alert alert-info">
+  <p><strong>A bit of theory:</strong>
+    The View is now also a <em>Semigroup</em>, which are objects that provide the <code>concat</code> function.
+  </p>
+
+  <p>
+  Semigroups have one law:
+
+  <ol>
+  <li>Associativity: <code>(a.concat(b)).concat(c) === a.concat(b.concat(c))</code></li>
+  </ol>
+  </p>
+
+  <p>
+    Note, that View doesn't <em>technically</em> obey the associativity law since the ordering of the nested <code>div</code>s are different.
+    We will correct this later on in this post, but for now let's say that <code>concat</code> ordering is not affecting how the combined View <em>appears</em> on the screen.
+  </p>
+</div>
+
+<p>And now we can <code class="highlighter-rouge">concat</code> like a boss!</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">header</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Awesome</span> <span class="nx">App</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">greeting</span> <span class="o">=</span> <span class="nx">View</span><span class="p">(({</span> <span class="nx">name</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="p">{</span><span class="nx">name</span><span class="p">}</span><span class="o">!&lt;</span><span class="sr">/p&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">footer</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="err">©</span> <span class="nx">Bob</span> <span class="nx">McBob</span> <span class="mi">2017</span><span class="o">&lt;</span><span class="sr">/p&gt;</span><span class="err">)
+</span>
+<span class="kr">const</span> <span class="nx">main</span> <span class="o">=</span> <span class="nx">header</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">header</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/header&gt;</span><span class="err">)
+</span>  <span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">greeting</span><span class="p">.</span><span class="nx">contramap</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'Alice'</span> <span class="p">})))</span>
+  <span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">footer</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">footer</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/footer&gt;</span><span class="se">)</span><span class="err">)
+</span>
+<span class="kr">const</span> <span class="nx">centered</span> <span class="o">=</span> <span class="nx">main</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">textAlign</span><span class="p">:</span> <span class="s1">'center'</span> <span class="p">}}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">x</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span>
+<span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+  <span class="nx">centered</span><span class="p">.</span><span class="nx">fold</span><span class="p">(),</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#root'</span><span class="p">)</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>Yes, the <code class="highlighter-rouge">map</code> and <code class="highlighter-rouge">contramap</code> are a bit gratuitous… But, if you run the program, you should see this.</p>
+
+<p><img src="/images/5-awesome-app.png" alt="" /></p>
+
+<h2 id="lets-fix-the-associativity-problem-for-semigroup">Let’s fix the associativity problem for semigroup</h2>
+
+<p>Remember that our View currently doesn’t obey associativity, because <code class="highlighter-rouge">(a.concat(b)).concat(c)</code> will not
+generate the same markup as <code class="highlighter-rouge">a.concat(b.concat(c))</code>.</p>
+
+<p>For example:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// Given</span>
+<span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">A</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">B</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">a</span><span class="o">&gt;</span><span class="nx">C</span><span class="o">&lt;</span><span class="sr">/a&gt;</span><span class="err">)
+</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;/div&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;div&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<p>We can fix this by making sure that the computation results in something that’s already a semigroup. In this case,
+we can use an array.</p>
+
+<p>Let’s define a function that will adapt the result as an array if it isn’t one already.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">asArray</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">?</span> <span class="nx">x</span> <span class="p">:</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span></code></pre></figure>
+
+<p>Now, we can compose the View with the new <code class="highlighter-rouge">asArray</code> function, thus guaranteeing that the computation
+always results in an array.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">// The `pipe` function here is the same as compose but composition is applied in reverse (left-to-right).</span>
+<span class="c1">// You can find this function in your friendly Ramda module!</span>
+<span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">pipe</span><span class="p">(</span>
+  <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">asArray</span><span class="p">,</span> <span class="nx">x</span><span class="p">),</span>
+  <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="c1">// ...</span>
+  <span class="p">})</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>We also have to modify our previously defined functions slightly to work with an array rather than a single value.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">View</span> <span class="o">=</span> <span class="nx">pipe</span><span class="p">(</span>
+  <span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">asArray</span><span class="p">,</span> <span class="nx">x</span><span class="p">),</span>
+  <span class="nx">computation</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="na">computation</span><span class="p">:</span> <span class="nx">computation</span><span class="p">,</span> <span class="c1">// Need this later on.</span>
+
+    <span class="c1">// Redefine `fold` to wrap multiple children in a parent &lt;div&gt;.</span>
+    <span class="c1">// However, if there is only one child, then just return it without wrapping.</span>
+    <span class="na">fold</span><span class="p">:</span> <span class="nx">props</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// Filter out nulls, which will come in handy soon!</span>
+      <span class="kr">const</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">).</span><span class="nx">filter</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">!==</span> <span class="kc">null</span><span class="p">)</span>
+
+      <span class="c1">// If we only have one element to render, don't wrap it with div.</span>
+      <span class="c1">// This preserves the view's root element if it only has one root.</span>
+      <span class="c1">// e.g. View.of(&lt;div/&gt;).fold() is just &lt;div/&gt;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">result</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">// If the computation results in multiple items, then wrap it in a</span>
+        <span class="c1">// parent div. This is needed because React cannot render an array.</span>
+        <span class="c1">// See: https://github.com/facebook/react/issues/2127</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">,</span> <span class="p">{</span> <span class="na">children</span><span class="p">:</span> <span class="nx">result</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Since the computation results in an array, we can map it with `f`.</span>
+    <span class="na">map</span><span class="p">:</span> <span class="nx">f</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">x</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="nx">f</span><span class="p">)),</span>
+
+
+    <span class="c1">// Contramap is invoked on input props (not results),</span>
+    <span class="c1">// so we don't have to change anything.</span>
+    <span class="na">contramap</span><span class="p">:</span> <span class="nx">g</span> <span class="o">=&gt;</span> <span class="nx">View</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">g</span><span class="p">(</span><span class="nx">x</span><span class="p">))),</span>
+
+    <span class="c1">// Now our `concat` is just array concat. Simple!</span>
+    <span class="na">concat</span><span class="p">:</span> <span class="nx">other</span> <span class="o">=&gt;</span>
+      <span class="nx">View</span><span class="p">(</span><span class="nx">props</span> <span class="o">=&gt;</span> <span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">other</span><span class="p">.</span><span class="nx">computation</span><span class="p">(</span><span class="nx">props</span><span class="p">)))</span>
+  <span class="p">})</span>
+<span class="p">)</span></code></pre></figure>
+
+<p>Indeed, we can verify that the associativity law now holds.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">a</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">b</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">c</span><span class="o">&lt;</span><span class="sr">/div&gt;</span><span class="err">)
+</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nx">fold</span><span class="p">()</span> <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">c</span><span class="p">)).</span><span class="nx">fold</span><span class="p">()</span>   <span class="c1">// === &lt;div&gt;&lt;a&gt;A&lt;/a&gt;&lt;a&gt;B&lt;/a&gt;&lt;a&gt;C&lt;/a&gt;&lt;/div&gt;</span></code></pre></figure>
+
+<hr />
+
+<p>Just for fun, we can also make View a <em>Monoid</em> by providing an <code class="highlighter-rouge">empty</code> function.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">View</span><span class="p">.</span><span class="nx">empty</span> <span class="o">=</span> <span class="nx">View</span><span class="p">.</span><span class="nx">of</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span></code></pre></figure>
+
+<div class="alert alert-info">
+  <p><strong>A bit of theory:</strong> 
+  The View is now a <em>Monoid</em>, and it provides the <code>View.empty</code> function that has the 
+  following laws.
+
+  <ol>
+  <li>Right identity: <code>a.concat(A.empty()) === a</code></li>
+  <li>Left identity: <code>A.empty().concat(a) === a</code></li>
+  </ol>
+</p>
+</div>
+
+<p>Remember how we filtered out <code class="highlighter-rouge">null</code> values that result from the computation? This is why the right
+and left identity laws hold. Otherwise, React will generate HTML comments for <code class="highlighter-rouge">null</code> children, thus resulting
+in different markup.</p>
+
+<hr />
+
+<h2 id="summary">Summary</h2>
+
+<p>Phew! I think this is a good stopping point for this post. Let’s see what we’ve done so far.</p>
+
+<ol>
+  <li>We added a new “box” called View that holds a computation to generate a React element.</li>
+  <li>We added a <code class="highlighter-rouge">fold</code> function that extracts a value out of the box.</li>
+  <li>We added a <code class="highlighter-rouge">map</code> function that maps over the value in the box.</li>
+  <li>We added a <code class="highlighter-rouge">contramap</code> function that maps over the input in the box.</li>
+  <li>We added a <code class="highlighter-rouge">concat</code> function that combines two boxes together.</li>
+</ol>
+
+<p>And along the way we learned about <strong>Functors</strong>, <strong>Contravariants</strong>, <strong>Semigroups</strong>, and <strong>Monoids</strong>.</p>
+
+<p>But we are not done yet since our View still hasn’t recreated two key features of React components:
+<em>context</em> and <em>state</em>.</p>
+
+<p>In the <a href="/2017/05/10/learn-fp-with-react-part-2/">next post</a>, we will replicate the React context using the Reader monad.</p>
+
+<p>For more resources on related functional programming topics, I recommend the following:</p>
+
+<ul>
+  <li><a href="https://github.com/hemanth/functional-programming-jargon">Functional Programming Jargon</a></li>
+  <li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, And Monads In Pictures</a> by Aditya Bhargava</li>
+  <li><a href="https://www.youtube.com/watch?v=SfWR3dKnFIo">Oh Composable World!</a> (video) by Brian Lonsdorf</li>
+  <li><a href="https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript">Professor Frisby Introduces Composable Functional JavaScript</a> (course) by Brian Lonsdorf</li>
+  <li>Brian Lonsdorf on <a href="https://medium.com/@drboolean">Medium</a> and <a href="https://twitter.com/drboolean">Twitter</a></li>
+</ul>
+
+    </div>
+    <hr>
+    <div class="pagination">
+      <ul>
+      
+        <li class="prev"><a href="/2017/01/24/dont-fear-the-type-system/" title="Don't Fear the Type System">&larr; Previous</a></li>
+      
+        <li><a href="/archive">Archive</a></li>
+      
+        <li class="next"><a href="/2017/05/10/learn-fp-with-react-part-2/" title="The Reader monad and read-only context">Next &rarr;</a></li>
+      
+      </ul>
+    </div>
+    <hr>
+    
+
+
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_developer = 1;
+    var disqus_shortname = 'jaysoo';
+    var disqus_identifier = '/2017/04/30/learn-fp-with-react-part-1/'.replace(/\/$/, '');
+    var disqus_url = 'https://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/';
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="//disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+
+  </div>
+
+  <aside class="span4">
+    <h4>Published</h4>
+    <div class="box date"><span>30 April 2017</span></div>
+
+  
+    <h4>Tags</h4>
+    <ul class="box tag_box">
+    
+    
+
+
+  
+     
+    	<li><a href="/tags#programming-ref">programming <span>11</span></a></li>
+     
+    	<li><a href="/tags#javascript-ref">javascript <span>37</span></a></li>
+     
+    	<li><a href="/tags#react-ref">react <span>9</span></a></li>
+     
+    	<li><a href="/tags#functional programming-ref">functional programming <span>3</span></a></li>
+    
+  
+
+
+
+    </ul>
+  
+
+    <h4>Share</h4>
+    <div class="box">
+      <a href="https://twitter.com/share?url=https://jaysoo.ca/2017/04/30/learn-fp-with-react-part-1/&amp;text=Deconstructing%20the%20React%20Component&amp;via=jay_soo" class="twitter-share-button"{count} data-via="jay_soo" data-size="large">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+
+    <h4>Related Posts</h4>
+    <ul>
+      
+      <li><a href="/2017/05/10/learn-fp-with-react-part-2/">The Reader monad and read-only context</a></li>
+      
+      <li><a href="/2017/01/24/dont-fear-the-type-system/">Don't Fear the Type System</a></li>
+      
+      <li><a href="/2016/12/12/additional-guidelines-for-project-structure/">Additional Guidelines For (Redux) Project Structure</a></li>
+      
+      <li><a href="/2016/08/23/why-you-need-types/">Why You Need Types</a></li>
+      
+      <li><a href="/2016/02/28/organizing-redux-application/">Three Rules For Structuring (Redux) Applications</a></li>
+      
+    </ul>
+  </aside>
+</div>
+
+
+        </div>
+      </div>
+    </div> <!-- /#main -->
+
+    <footer class="page-footer">
+      <div class="container-fluid">
+        <h3>About Jack <i class="fa fa-asterisk"></i></h3>
+
+        <p>
+          I am a Toronto-based software engineer. My interests are in client-side
+          applications, Functional Programming, and Reactive Systems.
+          You may reach me via email at jack.hsu@gmail.com.
+        </p>
+
+        <ul class="social-links">
+          <li>
+            <a href="https://twitter.com/jay_soo"><i class="fa fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="https://github.com/jaysoo"><i class="fa fa-github"></i></a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/jackhsu83"><i class="fa fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="https://plus.google.com/+JackHsu83/"><i class="fa fa-google-plus"></i></a>
+          </li>
+          <li>
+            <a href="https://stackoverflow.com/users/70871/jay-soo"><i class="fa fa-stack-overflow"></i></a>
+          </li>
+          <li>
+            <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
+          </li>
+        </ul>
+        <p class="info"><small>&copy; Jack Hsu 2017</p>
+      </div>
+    </footer>
+
+    
+
+
+  <script>
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300789-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+
+
+
+    <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    
+  </body>
+</html>
+

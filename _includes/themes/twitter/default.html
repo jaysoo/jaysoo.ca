@@ -11,14 +11,34 @@
     <link rel="shortcut icon" href="/images/profile-2.jpg">
     <link rel="apple-touch-icon" href="/images/profile-2.jpg">
 
-    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="http://jaysoo.ca/feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="Jack Hsu's Blog" href="https://jaysoo.ca/feed.xml">
 
 
     <link href='https://fonts.googleapis.com/css?family=Crimson+Text:400,600,400italic|Raleway:400' rel='stylesheet' type='text/css'>
 
     <script src="https://use.fontawesome.com/98868726f0.js"></script>
 
-    {% stylesheet application %}
+    <link rel="stylesheet" href="/assets/application.css?v=1"/>
+
+    <meta content="{{ page.title }}" property="og:title"/>
+    <meta content="{{ site.title }}" property="og:site"/>
+   
+    <meta name="twitter:creator" content="@jay_soo">
+    <meta name="twitter:title" content="{{ page.title }}"/>
+    <meta name="twitter:site" content="{{ site.title }}"/>
+
+
+    {% if page.image %}
+      <meta property="og:description" content="{{ page.description }}"/>
+      <meta name="twitter:description" content="{{ page.description }}"/>
+    {% endif %}
+    
+    {% if page.image %}
+      <meta content="{{ site.url }}{{ page.image }}" property="og:image"/>
+
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="{{ site.url }}{{ page.image }}"/>
+    {% endif %}
   </head>
   <body>
     <div id="fb-root"></div>
@@ -55,7 +75,7 @@
               {% assign group = 'navigation' %}
               {% include JB/pages_list %}
               <li>
-                <a href="http://feeds.feedburner.com/jaysoo/Trwf">
+                <a href="https://jaysoo.ca/feed.xml">
                   <i class="fa fa-rss"></i>
                 </a>
               </li>
@@ -103,7 +123,7 @@
             <a href="http://instagram.com/jaysoo3"><i class="fa fa-instagram"></i></a>
           </li>
         </ul>
-        <p class="info"><small>&copy; Jack Hsu 2016</p>
+        <p class="info"><small>&copy; Jack Hsu 2017</p>
       </div>
     </footer>
 

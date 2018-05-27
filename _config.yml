@@ -25,7 +25,7 @@ author :
 
 name: Jack Hsu
 description: Web developer blogging about technology
-url: http://jaysoo.ca
+url: https://jaysoo.ca
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt
@@ -35,7 +35,7 @@ url: http://jaysoo.ca
 # Else if you are pushing to username.github.com, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://jaysoo.ca
+production_url : https://jaysoo.ca
 
 assets :
   dirname: assets
@@ -57,7 +57,7 @@ JB :
   # Leave this blank if you have defined a CNAME for your site (pages.github.com)
   # NOTE: When in localhost, your site will run from root "/" regardless of BASE_PATH
   #
-  BASE_PATH : "http://jaysoo.ca"
+  BASE_PATH : "https://jaysoo.ca"
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
