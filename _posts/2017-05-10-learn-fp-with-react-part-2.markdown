@@ -8,7 +8,7 @@ image: /images/21507878348_016775cf9b_z.jpg
 image_caption: Photo by Andrei Zverev
 ---
 
-In this three-part series, I want to take a functional approach to building React applications.
+In this two-part series, I want to take a functional approach to building React applications.
 
 There will be mathematical theory sprinkled throughout the series, and hopefully by the end of it you
 will pick up some useful techniques!
@@ -17,7 +17,6 @@ will pick up some useful techniques!
 
 - [Part 1 - Deconstructing the React Component]({% post_url 2017-04-30-learn-fp-with-react-part-1 %})
 - Part 2 - The Reader monad and read-only context
-- Part 3 - Functional state management with Reducer
 
 ---
 
